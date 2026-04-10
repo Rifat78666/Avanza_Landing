@@ -128,6 +128,38 @@ const Profile = ({ displayName, profileImageUrl, fullProfile, onNameUpdate, onIm
         navigate('/');
     };
 
+    const handleDeleteAccount = async () => {
+        if (!window.confirm("ARE YOU SURE? This will permanently delete your profile, degree info, and saved journey data. This CANNOT be undone.")) {
+            return;
+        }
+
+        setSaving(true);
+        setError('');
+        setSuccess('');
+
+        try {
+            const token = stytch.session.getTokens()?.session_token;
+            const resp = await fetch(`${API_BASE_URL}/api/user`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+
+            if (resp.ok) {
+                // Success! Logout and redirect
+                stytch.session.logout();
+                navigate('/');
+            } else {
+                const errData = await resp.json().catch(() => ({}));
+                setError(errData.detail || "Failed to delete account data.");
+                setSaving(false);
+            }
+        } catch (err) {
+            console.error("Delete error:", err);
+            setError("Something went wrong during deletion.");
+            setSaving(false);
+        }
+    };
+
     if (loading) {
         return <div className="container" style={{ padding: '4rem', textAlign: 'center' }}>Loading...</div>;
     }
@@ -217,8 +249,17 @@ const Profile = ({ displayName, profileImageUrl, fullProfile, onNameUpdate, onIm
 
                     <div style={{ background: 'rgba(255, 68, 68, 0.05)', padding: '1.5rem', borderRadius: '12px', border: '1px solid rgba(255, 68, 68, 0.1)' }}>
                         <h4 style={{ color: '#ff4444', marginTop: 0, marginBottom: '0.5rem' }}>Danger Zone</h4>
-                        <button style={{ background: 'none', border: 'none', color: '#ff4444', textDecoration: 'underline', padding: 0, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                            <Trash2 size={16} /> {t('deleteAccount')}
+                        <button 
+                            onClick={handleDeleteAccount}
+                            disabled={saving}
+                            style={{ 
+                                background: 'none', border: 'none', color: '#ff4444', 
+                                textDecoration: 'underline', padding: 0, cursor: 'pointer', 
+                                display: 'flex', alignItems: 'center', gap: '0.5rem',
+                                opacity: saving ? 0.5 : 1
+                            }}
+                        >
+                            <Trash2 size={16} /> {saving ? "Deleting..." : t('deleteAccount')}
                         </button>
                     </div>
                 </div>

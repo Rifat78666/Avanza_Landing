@@ -78,6 +78,17 @@ async def supabase_upsert(table: str, data: dict):
         return resp.json()
 
 
+async def supabase_delete(table: str, filters: str):
+    """DELETE rows from a Supabase table via REST."""
+    url = f"{SUPABASE_URL}/rest/v1/{table}?{filters}"
+    async with httpx.AsyncClient() as client:
+        resp = await client.delete(url, headers=SUPABASE_HEADERS)
+        if resp.status_code >= 400:
+            print(f"Supabase DELETE error: {resp.status_code} {resp.text}")
+            return False
+        return True
+
+
 # --- Auth Dependency ---
 async def verify_stytch_session(authorization: Optional[str] = Header(None)):
     """Verifies the Stytch session token from the Authorization header."""
@@ -208,6 +219,21 @@ async def save_onboarding_profile(data: Dict[str, Any], user_id: str = Depends(v
         raise HTTPException(status_code=500, detail="Failed to save onboarding profile.")
 
     return {"status": "success"}
+
+
+@app.delete("/api/user")
+async def delete_user_account(user_id: str = Depends(verify_stytch_session)):
+    """Permanently deletes the user's data from the database."""
+    # 1. Delete from onboarding_profiles
+    p_deleted = await supabase_delete("onboarding_profiles", f"user_id=eq.{user_id}")
+    
+    # 2. Delete from users table
+    u_deleted = await supabase_delete("users", f"user_id=eq.{user_id}")
+    
+    if not u_deleted:
+        raise HTTPException(status_code=500, detail="Failed to delete user record.")
+        
+    return {"status": "success", "message": "User data deleted successfully."}
 
 
 @app.post("/api/user/image")
