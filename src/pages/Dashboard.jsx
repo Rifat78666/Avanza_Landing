@@ -127,16 +127,15 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
         }
     }, [stytch]);
 
-    // Break the loop: only refresh profile IF it's null.
+    // Fetch recommendations only once when profile data is available
     useEffect(() => {
-        if (fullProfile) {
+        if (fullProfile && profile === null) {
             setProfile(fullProfile.profile);
             fetchRecommendations();
-        } else if (user && refreshProfile) {
-            // ONLY call if we don't have profile yet
+        } else if (user && !fullProfile && refreshProfile) {
             refreshProfile();
         }
-    }, [user]); // Only depend on identity. fullProfile changes will re-render component naturally.
+    }, [fullProfile, user, refreshProfile, fetchRecommendations, profile]);
 
     if (!profile || loadingData) {
         return (
