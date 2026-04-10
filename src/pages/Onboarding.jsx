@@ -6,7 +6,7 @@ import { useLanguage } from '../LanguageContext';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
-const Onboarding = () => {
+const Onboarding = ({ refreshProfile }) => {
     const { user } = useStytchUser();
     const stytch = useStytch();
     const navigate = useNavigate();
@@ -77,7 +77,7 @@ const Onboarding = () => {
             try {
                 const token = stytch.session.getTokens()?.session_token;
                 if (token) {
-                    await fetch(`${API_BASE_URL}/api/onboarding`, {
+                    const resp = await fetch(`${API_BASE_URL}/api/onboarding`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -85,6 +85,12 @@ const Onboarding = () => {
                         },
                         body: JSON.stringify(profileData)
                     });
+                    
+                    if (resp.ok && refreshProfile) {
+                        // CRITICAL: Refresh the global user profile in App.jsx 
+                        // before moving to the dashboard
+                        await refreshProfile();
+                    }
                 }
             } catch (err) {
                  console.error("Backend error:", err);

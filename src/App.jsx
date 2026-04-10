@@ -282,7 +282,7 @@ function AppContent() {
           <Route path="/" element={<LandingPage onGetStarted={openAuth} />} />
           <Route path="/onboarding" element={
               <ProtectedRoute>
-                  <Onboarding />
+                  <Onboarding refreshProfile={fetchUserProfile} />
               </ProtectedRoute>
           } />
           <Route path="/dashboard" element={
