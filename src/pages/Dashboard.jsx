@@ -117,7 +117,6 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
             });
             if (res.ok) {
                 const data = await res.json();
-                // If backend provides real data, use it. Otherwise keep our placeholders.
                 if (data.jobs && data.jobs.length > 0) setJobs(data.jobs);
                 if (data.training && data.training.length > 0) setTrainingItems(data.training);
             }
@@ -128,14 +127,16 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
         }
     }, [stytch]);
 
+    // Break the loop: only refresh profile IF it's null.
     useEffect(() => {
         if (fullProfile) {
             setProfile(fullProfile.profile);
             fetchRecommendations();
         } else if (user && refreshProfile) {
+            // ONLY call if we don't have profile yet
             refreshProfile();
         }
-    }, [fullProfile, user, refreshProfile, fetchRecommendations]);
+    }, [user]); // Only depend on identity. fullProfile changes will re-render component naturally.
 
     if (!profile || loadingData) {
         return (
@@ -159,7 +160,7 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
 
     return (
         <div className="container" style={{ paddingBottom: '5rem' }}>
-            {/* Header */}
+            {/* Header section with profile name */}
             <div style={{ marginBottom: '3rem', paddingTop: '2.5rem' }}>
                 <h1 style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '1rem', letterSpacing: '-1.5px' }}>
                     {t('hello')}, <span style={{ color: '#C8F135' }}>{username}</span>
@@ -169,186 +170,148 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
                 </p>
             </div>
 
-            {/* PANEL 1: Situation at a Glance */}
-            <div className="card-hover" style={{ 
-                background: 'var(--surface-color)', 
-                padding: '2rem', 
-                borderRadius: '16px', 
-                border: '1px solid var(--border-color)',
-                borderLeft: '4px solid #C8F135',
-                marginBottom: '2.5rem'
+            {/* DASHBOARD 4-PANEL GRID */}
+            <div style={{ 
+                display: 'grid', 
+                gridTemplateColumns: 'repeat(auto-fit, minmax(450px, 1fr))', 
+                gap: '2.5rem',
+                marginBottom: '4rem'
             }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
-                    <Sparkles color="#C8F135" size={24} />
-                    <div>
-                        <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>{t('situationTitle')}</h2>
-                        <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>{t('situationSub')}</p>
+                
+                {/* PANEL 1: Situation at a Glance */}
+                <div className="card-hover" style={{ 
+                    background: 'var(--surface-color)', 
+                    padding: '2.5rem', 
+                    borderRadius: '24px', 
+                    border: '1px solid var(--border-color)',
+                    borderLeft: '4px solid #C8F135',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '1.5rem'
+                }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                        <div style={{ background: 'rgba(200, 241, 53, 0.1)', padding: '0.75rem', borderRadius: '12px' }}>
+                            <Sparkles color="#C8F135" size={24} />
+                        </div>
+                        <div>
+                            <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>{t('situationTitle')}</h2>
+                            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>{t('situationSub')}</p>
+                        </div>
                     </div>
+                    <p style={{ fontSize: '1.15rem', lineHeight: '1.8', color: 'var(--text-main)', opacity: 0.9 }}>
+                        {isRegulated 
+                            ? t('regulatedProfessionMsg').replace(/{degree_level}/g, levelLabel).replace(/{degree_field}/g, fieldLabel).replace(/{degree_country}/g, countryLabel)
+                            : t('unregulatedProfessionMsg').replace(/{degree_level}/g, levelLabel).replace(/{degree_field}/g, fieldLabel).replace(/{degree_country}/g, countryLabel)
+                        }
+                    </p>
                 </div>
-                <p style={{ fontSize: '1.1rem', lineHeight: '1.7', color: 'var(--text-main)' }}>
-                    {isRegulated 
-                        ? t('summaryRegulated').replace(/{degree_level}/g, levelLabel).replace(/{degree_field}/g, fieldLabel).replace(/{degree_country}/g, countryLabel)
-                        : t('summaryUnregulated').replace(/{degree_level}/g, levelLabel).replace(/{degree_field}/g, fieldLabel).replace(/{degree_country}/g, countryLabel)
-                    }
-                </p>
-            </div>
 
-            {/* PANEL 2: Recognition Pathway */}
-            <div style={{ marginBottom: '4rem' }}>
-                <h2 style={{ fontSize: '1.8rem', fontWeight: 'bold', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                    <Map size={24} color="#C8F135" /> {t('recognitionPathway')}
-                </h2>
+                {/* PANEL 2: Recognition Pathway */}
+                <div className="card-hover" style={{ 
+                    background: 'var(--surface-color)', 
+                    padding: '2.5rem', 
+                    borderRadius: '24px', 
+                    border: '1px solid var(--border-color)',
+                }}>
+                    <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                        <Map size={24} color="#C8F135" /> {t('recognitionPathway')}
+                    </h2>
 
-                {!isRegulated ? (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                        <div style={{ 
-                            background: 'rgba(200, 241, 53, 0.05)', 
-                            border: '1px solid rgba(200, 241, 53, 0.2)', 
-                            padding: '1.5rem', 
-                            borderRadius: '12px',
-                            display: 'flex',
-                            gap: '1rem',
-                            alignItems: 'flex-start'
-                        }}>
-                            <CheckCircle color="#C8F135" size={24} style={{ flexShrink: 0 }} />
-                            <p style={{ color: '#C8F135', fontWeight: '500' }}>
-                                {t('unregulatedProfessionMsg').replace(/{field}/g, fieldLabel)}
-                            </p>
-                        </div>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>
-                            <div className="card-hover" style={{ background: 'var(--surface-color)', padding: '1.5rem', borderRadius: '12px', border: '1px solid var(--border-color)' }}>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
-                                    <span style={{ background: '#C8F135', color: '#0F0F0F', padding: '0.2rem 0.6rem', borderRadius: '20px', fontSize: '0.8rem', fontWeight: 'bold' }}>1</span>
-                                    <div style={{ display: 'flex', gap: '0.5rem' }}>
-                                        <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', background: 'rgba(255,255,255,0.05)', padding: '0.2rem 0.5rem', borderRadius: '4px' }}>~1 week</span>
-                                        <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', background: 'rgba(255,255,255,0.05)', padding: '0.2rem 0.5rem', borderRadius: '4px' }}>€0</span>
-                                    </div>
-                                </div>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <div>
-                                        <h4 style={{ fontWeight: 'bold', marginBottom: '0.5rem' }}>Verify with employer</h4>
-                                        <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Ask potential employers if they require recognition.</p>
-                                    </div>
-                                    <button className="btn-outline" style={{ fontSize: '0.8rem', borderColor: '#C8F135', color: '#C8F135' }}>Mark as done</button>
-                                </div>
-                            </div>
-                            <div className="card-hover" style={{ background: 'var(--surface-color)', padding: '1.5rem', borderRadius: '12px', border: '1px solid var(--border-color)' }}>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
-                                    <span style={{ background: '#C8F135', color: '#0F0F0F', padding: '0.2rem 0.6rem', borderRadius: '20px', fontSize: '0.8rem', fontWeight: 'bold' }}>2</span>
-                                    <div style={{ display: 'flex', gap: '0.5rem' }}>
-                                        <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', background: 'rgba(255,255,255,0.05)', padding: '0.2rem 0.5rem', borderRadius: '4px' }}>~4 weeks</span>
-                                        <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', background: 'rgba(255,255,255,0.05)', padding: '0.2rem 0.5rem', borderRadius: '4px' }}>€150</span>
-                                    </div>
-                                </div>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <div>
-                                        <h4 style={{ fontWeight: 'bold', marginBottom: '0.5rem' }}>Optional: CIMEA Statement</h4>
-                                        <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Get a statement of comparability for negotiating salary.</p>
-                                    </div>
-                                    <button className="btn-outline" style={{ fontSize: '0.8rem', borderColor: '#C8F135', color: '#C8F135' }}>Mark as done</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                ) : (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                        {[
-                            { id: 1, title: t('pathwayStep1Title'), desc: t('pathwayStep1Desc'), time: '3-8 weeks', cost: 'Varies' },
-                            { id: 2, title: t('pathwayStep2Title'), desc: t('pathwayStep2Desc'), time: '1 week', cost: '€80-150' },
-                            { id: 3, title: t('pathwayStep3Title'), desc: t('pathwayStep3Desc'), time: '6-18 months', cost: '€0' },
-                            { id: 4, title: t('pathwayStep4Title'), desc: t('pathwayStep4Desc'), time: 'Ongoing', cost: '€0' }
-                        ].map(step => (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                        {(isRegulated ? [
+                            { id: 1, title: t('pathwayStep1Title'), desc: t('pathwayStep1Sub') || 'Embassy Apostille', time: '4w', cost: '€50' },
+                            { id: 2, title: t('pathwayStep2Title'), desc: t('pathwayStep2Sub') || 'CIMEA Equivalency', time: '2w', cost: '€150' },
+                            { id: 3, title: t('pathwayStep3Title'), desc: t('pathwayStep3Sub') || 'MUR Application', time: '6m', cost: '€0' }
+                        ] : [
+                            { id: 1, title: 'Employer Verification', desc: 'Confirm recognition needs', time: '1w', cost: '€0' },
+                            { id: 2, title: 'Direct Job Application', desc: 'Focus on your CV', time: 'Ongoing', cost: '€0' }
+                        ]).map(step => (
                             <div key={step.id} style={{ 
-                                display: 'flex', gap: '1.5rem', alignItems: 'center', 
-                                background: 'var(--surface-color)', padding: '1.5rem', 
-                                borderRadius: '12px', border: '1px solid var(--border-color)' 
+                                display: 'flex', gap: '1.25rem', alignItems: 'center', 
+                                background: 'rgba(255,255,255,0.02)', padding: '1rem', 
+                                borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)' 
                             }}>
                                 <div style={{ 
-                                    width: '32px', height: '32px', borderRadius: '50%', background: '#C8F135', 
-                                    color: '#0F0F0F', display: 'flex', alignItems: 'center', justifyContent: 'center', 
-                                    fontWeight: 'bold', flexShrink: 0 
+                                    width: '28px', height: '28px', borderRadius: '50%', background: '#C8F135', 
+                                    color: '#0F0F0F', border: '2px solid #C8F135',
+                                    display: 'flex', alignItems: 'center', justifyContent: 'center', 
+                                    fontWeight: 'bold', flexShrink: 0, fontSize: '0.8rem'
                                 }}>{step.id}</div>
                                 <div style={{ flex: 1 }}>
-                                    <h4 style={{ fontWeight: 'bold' }}>{step.title}</h4>
-                                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>{step.desc}</p>
+                                    <h4 style={{ fontWeight: 'bold', fontSize: '1rem' }}>{step.title}</h4>
+                                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.8rem' }}>{step.desc}</p>
                                 </div>
-                                <div style={{ display: 'flex', gap: '0.5rem', fontSize: '0.8rem' }}>
-                                    <span style={{ padding: '0.3rem 0.6rem', borderRadius: '4px', background: 'rgba(255,255,255,0.05)', color: 'var(--text-secondary)' }}>{step.time}</span>
-                                    <span style={{ padding: '0.3rem 0.6rem', borderRadius: '4px', background: 'rgba(255,255,255,0.05)', color: 'var(--text-secondary)' }}>{step.cost}</span>
-                                </div>
-                                <button className="btn-outline" style={{ fontSize: '0.8rem', padding: '0.4rem 0.8rem' }}>{t('markAsDone')}</button>
+                                <button className="btn-outline" style={{ fontSize: '0.75rem', padding: '0.3rem 0.6rem', borderColor: 'rgba(200, 241, 53, 0.4)', color: '#C8F135' }}>{t('markAsDone')}</button>
                             </div>
                         ))}
                     </div>
-                )}
-            </div>
-
-            {/* PANEL 3: Free Training */}
-            <div style={{ marginBottom: '4rem' }}>
-                <h2 style={{ fontSize: '1.8rem', fontWeight: 'bold', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                    <BookOpen size={24} color="#C8F135" /> {t('freeTraining')}
-                </h2>
-                <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem' }}>{t('freeTrainingSub')}</p>
-                
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.5rem' }}>
-                    {trainingItems.map((course, idx) => (
-                        <div key={idx} className="card-hover" style={{ 
-                            background: 'var(--surface-color)', padding: '1.5rem', 
-                            borderRadius: '16px', border: '1px solid var(--border-color)',
-                            display: 'flex', flexDirection: 'column', gap: '1rem'
-                        }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                                <span style={{ background: 'rgba(200, 241, 53, 0.1)', color: '#C8F135', padding: '0.2rem 0.6rem', borderRadius: '4px', fontSize: '0.75rem', fontWeight: 'bold' }}>FREE</span>
-                                <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>{course.duration}</span>
-                            </div>
-                            <h4 style={{ fontWeight: 'bold', fontSize: '1.1rem', lineHeight: '1.4' }}>{course.title}</h4>
-                            <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>{course.provider}</p>
-                            <div style={{ marginTop: 'auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <span style={{ fontSize: '0.8rem', background: 'rgba(255,255,255,0.05)', padding: '0.2rem 0.5rem', borderRadius: '4px' }}>{course.lang}</span>
-                                <button style={{ background: 'transparent', border: 'none', color: '#C8F135', cursor: 'pointer', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                                    {t('viewCourse')} <ChevronRight size={16} />
-                                </button>
-                            </div>
-                        </div>
-                    ))}
                 </div>
-            </div>
 
-            {/* PANEL 4: Available Jobs */}
-            <div style={{ marginBottom: '5rem' }}>
-                <h2 style={{ fontSize: '1.8rem', fontWeight: 'bold', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                    <Briefcase size={24} color="#C8F135" /> {t('jobsTitle')}
-                </h2>
-                <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem' }}>{t('jobsSub')}</p>
-
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.5rem' }}>
-                    {jobs.map((job, idx) => (
-                        <div key={idx} className="card-hover" style={{ 
-                            background: 'var(--surface-color)', padding: '1.5rem', 
-                            borderRadius: '16px', border: '1px solid var(--border-color)',
-                            display: 'flex', flexDirection: 'column', gap: '1rem'
-                        }}>
-                            <div>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.5rem' }}>
-                                    <h4 style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{job.title}</h4>
-                                    <span style={{ border: '1px solid #C8F135', color: '#C8F135', padding: '0.1rem 0.4rem', borderRadius: '4px', fontSize: '0.7rem' }}>N/A required</span>
+                {/* PANEL 3: Free Training */}
+                <div className="card-hover" style={{ 
+                    background: 'var(--surface-color)', 
+                    padding: '2.5rem', 
+                    borderRadius: '24px', 
+                    border: '1px solid var(--border-color)',
+                }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+                        <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                            <BookOpen size={24} color="#C8F135" /> {t('freeTraining')}
+                        </h2>
+                        <span style={{ fontSize: '0.8rem', color: '#C8F135', fontWeight: 'bold' }}>{trainingItems.length} COURSES</span>
+                    </div>
+                    
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                        {trainingItems.slice(0, 3).map((course, idx) => (
+                            <div key={idx} style={{ 
+                                background: 'rgba(255,255,255,0.02)', padding: '1.25rem', 
+                                borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)',
+                                display: 'flex', justifyContent: 'space-between', alignItems: 'center'
+                            }}>
+                                <div>
+                                    <h4 style={{ fontWeight: 'bold', fontSize: '0.95rem', marginBottom: '0.25rem' }}>{course.title}</h4>
+                                    <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>{course.provider} • {course.duration}</p>
                                 </div>
-                                <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>{job.company} • {job.location}</p>
+                                <ChevronRight size={18} color="rgba(255,255,255,0.3)" />
                             </div>
-                            <div style={{ background: 'rgba(255,255,255,0.03)', padding: '0.75rem', borderRadius: '8px', fontSize: '0.85rem' }}>
-                                <p style={{ color: '#C8F135', fontWeight: 'bold', marginBottom: '0.25rem' }}>{job.salary || 'Competitive'}</p>
-                                <div style={{ background: 'rgba(200, 241, 53, 0.1)', color: '#C8F135', padding: '0.2rem 0.5rem', borderRadius: '4px', fontSize: '0.75rem', fontWeight: 'bold', display: 'inline-block', marginBottom: '0.5rem' }}>
-                                    No recognition required
-                                </div>
-                                <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>{job.match}</p>
-                            </div>
-                            <button className="btn-outline" style={{ width: '100%', marginTop: '0.5rem', borderColor: '#C8F135', color: '#C8F135' }}>View Job →</button>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
+
+                {/* PANEL 4: Jobs Matching */}
+                <div className="card-hover" style={{ 
+                    background: 'var(--surface-color)', 
+                    padding: '2.5rem', 
+                    borderRadius: '24px', 
+                    border: '1px solid var(--border-color)',
+                }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+                        <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                            <Briefcase size={24} color="#C8F135" /> {t('jobsTitle')}
+                        </h2>
+                    </div>
+
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                        {jobs.slice(0, 3).map((job, idx) => (
+                            <div key={idx} style={{ 
+                                background: 'rgba(255,255,255,0.02)', padding: '1.25rem', 
+                                borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)',
+                                display: 'flex', flexDirection: 'column', gap: '0.5rem'
+                            }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                    <h4 style={{ fontWeight: 'bold', fontSize: '1rem' }}>{job.title}</h4>
+                                    <span style={{ fontSize: '0.8rem', color: '#C8F135' }}>{job.match.split(' ')[0]} match</span>
+                                </div>
+                                <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>{job.company}</p>
+                            </div>
+                        ))}
+                    </div>
+                    <button className="btn-primary" style={{ width: '100%', marginTop: '1.5rem', padding: '0.75rem' }}>Explore all 40+ Matches</button>
+                </div>
+
             </div>
 
-            {/* SECTION: Upload Your Documents */}
+            {/* AI Career Tools Section */}
             <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '4rem' }}>
                 <div style={{ marginBottom: '2.5rem' }}>
                     <h2 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>{t('uploadDocumentsTitle')}</h2>
@@ -358,7 +321,7 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem' }}>
                     <div className="card-hover" style={{ 
                         background: 'var(--surface-color)', padding: '2.5rem', 
-                        borderRadius: '20px', border: '1px solid var(--border-color)',
+                        borderRadius: '24px', border: '1px solid var(--border-color)',
                         cursor: 'pointer', display: 'flex', flexDirection: 'column', gap: '1.5rem'
                     }} onClick={() => navigate('/upload-cv')}>
                         <div style={{ color: '#C8F135', width: '48px', height: '48px', background: 'rgba(200, 241, 53, 0.1)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -375,9 +338,9 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
 
                     <div className="card-hover" style={{ 
                         background: 'var(--surface-color)', padding: '2.5rem', 
-                        borderRadius: '20px', border: '1px solid var(--border-color)',
+                        borderRadius: '24px', border: '1px solid var(--border-color)',
                         cursor: 'pointer', display: 'flex', flexDirection: 'column', gap: '1.5rem'
-                    }} onClick={() => navigate('/generate-cv')}>
+                    }} onClick={() => navigate('/cv-generator')}>
                         <div style={{ color: '#C8F135', width: '48px', height: '48px', background: 'rgba(200, 241, 53, 0.1)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             <Sparkles size={24} />
                         </div>

@@ -241,8 +241,11 @@ function AppContent() {
                   {t('logout')}
               </button>
             </div>
-          ) : authStatus === 'authenticating' ? (
-            <span style={{ color: 'var(--text-secondary)' }}>Verifying...</span>
+          ) : (authStatus === 'authenticating' || authStatus === 'loading') ? (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-secondary)' }}>
+                <div className="mini-spinner" style={{ width: '14px', height: '14px', border: '2px solid rgba(255,255,255,0.1)', borderTopColor: 'var(--accent-color)', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
+                <span style={{ fontSize: '0.9rem' }}>Verifying...</span>
+            </div>
           ) : (
             <>
               <button className="btn-outline" onClick={() => openAuth('login')}>{t('loginBtn')}</button>
