@@ -32,7 +32,7 @@ function AppContent() {
   
   const { language, setLanguage, t, isRTL } = useLanguage();
   const stytch = useStytch();
-  const { user } = useStytchUser();
+  const { user, isLoaded } = useStytchUser();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -113,13 +113,19 @@ function AppContent() {
 
   // When user session exists, fetch their profile from the backend
   useEffect(() => {
-    if (user && authStatus !== 'authenticated') {
-      console.log("App: User session detected. API URL:", API_BASE_URL);
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setAuthStatus('authenticated');
-      fetchUserProfile();
+    if (isLoaded) {
+      if (user) {
+        if (authStatus !== 'authenticated') {
+          console.log("App: User session detected. API URL:", API_BASE_URL);
+          setAuthStatus('authenticated');
+          fetchUserProfile();
+        }
+      } else {
+        // No user session found and Stytch is through checking
+        setAuthStatus('idle');
+      }
     }
-  }, [user, API_BASE_URL, authStatus, fetchUserProfile]);
+  }, [user, isLoaded, API_BASE_URL, authStatus, fetchUserProfile]);
 
   const handleNameSaved = async (name) => {
     setDisplayName(name);
