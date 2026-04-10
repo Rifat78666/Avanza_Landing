@@ -47,14 +47,14 @@ const Features = () => {
             transition: 'transform 0.3s ease, border-color 0.3s ease',
             cursor: 'default'
           }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'translateY(-5px)';
-            e.currentTarget.style.borderColor = 'rgba(209, 247, 39, 0.3)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.borderColor = 'var(--border-color)';
-          }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-5px)';
+              e.currentTarget.style.borderColor = 'rgba(209, 247, 39, 0.3)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.borderColor = 'var(--border-color)';
+            }}
           >
             <div style={{ fontSize: '3rem', marginBottom: '1.5rem' }}>{step.icon}</div>
             <h3 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: 'var(--accent-color)' }}>

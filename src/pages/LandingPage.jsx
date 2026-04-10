@@ -7,9 +7,9 @@ import Partners from '../components/Partners';
 const LandingPage = ({ onGetStarted, isLoggedIn, userName, onboardingCompleted }) => {
   return (
     <>
-      <Hero 
-        onGetStarted={onGetStarted} 
-        isLoggedIn={isLoggedIn} 
+      <Hero
+        onGetStarted={onGetStarted}
+        isLoggedIn={isLoggedIn}
         userName={userName}
         onboardingCompleted={onboardingCompleted}
       />

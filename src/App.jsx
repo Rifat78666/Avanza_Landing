@@ -19,6 +19,8 @@ import UploadCV from './pages/UploadCV';
 import Profile from './pages/Profile';
 import ProtectedRoute from './components/ProtectedRoute';
 
+import Footer from './components/Footer';
+
 function AppContent() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authMode, setAuthMode] = useState('login');
@@ -339,22 +341,7 @@ function AppContent() {
         </Routes>
       </main>
 
-      <footer className="container" style={{
-        textAlign: 'center',
-        padding: '3rem 0',
-        marginTop: '2rem',
-        borderTop: '1px solid var(--border-color)',
-        position: 'relative',
-        zIndex: 10
-      }}>
-        <p style={{
-          fontSize: '1.25rem',
-          fontStyle: 'italic',
-          color: 'var(--text-secondary)',
-        }}>
-          {t('quote')}
-        </p>
-      </footer>
+      <Footer />
 
       <AuthModal 
         isOpen={isAuthModalOpen} 
