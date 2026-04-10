@@ -7,6 +7,7 @@ const NameCollection = ({ onNameSaved }) => {
     const [firstName, setFirstName] = useState('');
     const [error, setError] = useState('');
     const [saving, setSaving] = useState(false);
+    const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
     const stytch = useStytch();
     const navigate = useNavigate();
     const { t } = useLanguage();
@@ -33,7 +34,7 @@ const NameCollection = ({ onNameSaved }) => {
                 return;
             }
 
-            const resp = await fetch('http://localhost:8000/api/user/name', {
+            const resp = await fetch(`${API_BASE_URL}/api/user/name`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

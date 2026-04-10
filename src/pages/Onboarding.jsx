@@ -4,6 +4,8 @@ import { useStytchUser, useStytch } from '@stytch/react';
 import { CheckCircle } from 'lucide-react';
 import { useLanguage } from '../LanguageContext';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+
 const Onboarding = () => {
     const { user } = useStytchUser();
     const stytch = useStytch();
@@ -75,7 +77,7 @@ const Onboarding = () => {
             try {
                 const token = stytch.session.getTokens()?.session_token;
                 if (token) {
-                    await fetch('http://localhost:8000/api/onboarding', {
+                    await fetch(`${API_BASE_URL}/api/onboarding`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

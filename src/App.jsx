@@ -69,7 +69,7 @@ function AppContent() {
       const token = stytch.session.getTokens()?.session_token;
       if (!token) return;
 
-      const resp = await fetch('http://localhost:8000/api/user/full-profile', {
+      const resp = await fetch(`${API_BASE_URL}/api/user/full-profile`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 
@@ -121,7 +121,7 @@ function AppContent() {
       const token = stytch.session.getTokens()?.session_token;
       if (!token) return;
 
-      const resp = await fetch('http://localhost:8000/api/user/profile', {
+      const resp = await fetch(`${API_BASE_URL}/api/user/profile`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await resp.json();

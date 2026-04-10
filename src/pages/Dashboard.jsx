@@ -4,6 +4,8 @@ import { UploadCloud, FileText, Sparkles, Map, BookOpen, Briefcase, CheckCircle 
 import { useStytchUser, useStytch } from '@stytch/react';
 import { useLanguage } from '../LanguageContext';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+
 const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
     const { user } = useStytchUser();
     const stytch = useStytch();
@@ -38,7 +40,7 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
             const token = stytch.session.getTokens()?.session_token;
             if (!token) return;
 
-            const res = await fetch('http://localhost:8000/api/dashboard/recommendations', {
+            const res = await fetch(`${API_BASE_URL}/api/dashboard/recommendations`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (res.ok) {

@@ -11,10 +11,13 @@ load_dotenv()
 
 app = FastAPI(title="Avanza Pathfinders API")
 
-# Configure CORS for React frontend
+# Configure CORS for React frontend (Production + Local)
+allowed_origins_raw = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173,http://localhost:5174,http://127.0.0.1:5173,http://127.0.0.1:5174")
+allowed_origins = [origin.strip() for origin in allowed_origins_raw.split(",")]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5174", "http://localhost:5173", "http://127.0.0.1:5173", "http://127.0.0.1:5174"],
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

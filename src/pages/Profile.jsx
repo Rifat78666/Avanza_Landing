@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { User, Camera, LogOut, ChevronRight, AlertCircle, CheckCircle, Trash2 } from 'lucide-react';
 import { useLanguage } from '../LanguageContext';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+
 const Profile = ({ displayName, profileImageUrl, fullProfile, onNameUpdate, onImageUpdate }) => {
     const { user } = useStytchUser();
     const stytch = useStytch();
@@ -70,7 +72,7 @@ const Profile = ({ displayName, profileImageUrl, fullProfile, onNameUpdate, onIm
             const formData = new FormData();
             formData.append('file', file);
 
-            const resp = await fetch('http://localhost:8000/api/user/image', {
+            const resp = await fetch(`${API_BASE_URL}/api/user/image`, {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${token}` },
                 body: formData
@@ -98,7 +100,7 @@ const Profile = ({ displayName, profileImageUrl, fullProfile, onNameUpdate, onIm
 
         try {
             const token = stytch.session.getTokens()?.session_token;
-            const resp = await fetch('http://localhost:8000/api/user/name', {
+            const resp = await fetch(`${API_BASE_URL}/api/user/name`, {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json',
