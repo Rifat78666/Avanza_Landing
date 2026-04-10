@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { useLanguage } from '../LanguageContext';
 import { useStytch } from '@stytch/react';
 
-const AuthModal = ({ isOpen, onClose, initialMode = 'login' }) => {
+const AuthModal = ({ isOpen, onClose, initialMode = 'login', initialEmail = '' }) => {
   const { t } = useLanguage();
   const stytch = useStytch();
 
   const [mode, setMode] = useState(initialMode); 
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(initialEmail);
   const [status, setStatus] = useState('idle'); 
 
   if (!isOpen) return null;

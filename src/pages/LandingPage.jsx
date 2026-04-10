@@ -4,10 +4,10 @@ import Features from '../components/Features';
 import TargetAudience from '../components/TargetAudience';
 import Partners from '../components/Partners';
 
-const LandingPage = () => {
+const LandingPage = ({ onGetStarted }) => {
   return (
     <>
-      <Hero />
+      <Hero onGetStarted={onGetStarted} />
       <Features />
       <TargetAudience />
       <Partners />

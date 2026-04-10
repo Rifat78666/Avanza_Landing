@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLanguage } from '../LanguageContext';
 
-const Hero = () => {
+const Hero = ({ onGetStarted }) => {
   const { t } = useLanguage();
+  const [email, setEmail] = useState('');
 
   return (
     <section className="section container" style={{ 
@@ -49,6 +50,8 @@ const Hero = () => {
         <input 
           type="email" 
           placeholder={t('emailPlaceholder')}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           style={{
             flex: 1,
             padding: '1rem 1.5rem',
@@ -60,7 +63,11 @@ const Hero = () => {
             outline: 'none',
           }}
         />
-        <button className="btn-primary" style={{ whiteSpace: 'nowrap' }}>
+        <button 
+          className="btn-primary" 
+          style={{ whiteSpace: 'nowrap' }}
+          onClick={() => onGetStarted('register', email)}
+        >
           {t('getGuide')}
         </button>
       </div>

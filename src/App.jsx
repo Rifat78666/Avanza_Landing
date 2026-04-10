@@ -136,8 +136,11 @@ function AppContent() {
     }
   };
 
-  const openAuth = (mode) => {
+  const [authEmail, setAuthEmail] = useState('');
+  
+  const openAuth = (mode, email = '') => {
     setAuthMode(mode);
+    setAuthEmail(email);
     setIsAuthModalOpen(true);
   };
 
@@ -238,7 +241,7 @@ function AppContent() {
       
       <main style={{ position: 'relative', zIndex: 1, minHeight: '60vh' }}>
         <Routes>
-          <Route path="/" element={<LandingPage />} />
+          <Route path="/" element={<LandingPage onGetStarted={openAuth} />} />
           <Route path="/onboarding" element={
               <ProtectedRoute>
                   <Onboarding />
@@ -304,6 +307,7 @@ function AppContent() {
         isOpen={isAuthModalOpen} 
         onClose={() => setIsAuthModalOpen(false)} 
         initialMode={authMode}
+        initialEmail={authEmail}
       />
     </div>
   );
