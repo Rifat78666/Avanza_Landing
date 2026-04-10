@@ -113,6 +113,13 @@ function AppContent() {
 
   // When user session exists, fetch their profile from the backend
   useEffect(() => {
+    // Safety timeout: if Stytch takes too long (>3s), assume guest or error
+    const timer = setTimeout(() => {
+      if (authStatus === 'loading' || authStatus === 'authenticating') {
+        setAuthStatus('idle');
+      }
+    }, 3000);
+
     if (isLoaded) {
       if (user) {
         if (authStatus !== 'authenticated') {
@@ -121,10 +128,19 @@ function AppContent() {
           fetchUserProfile();
         }
       } else {
-        // No user session found and Stytch is through checking
-        setAuthStatus('idle');
+        // No user found, definitely idle
+        if (authStatus !== 'idle') setAuthStatus('idle');
       }
+    } else {
+        // If not loaded yet, we can show a brief 'authenticating' state
+        // but since we default to idle, we only set it if we expect a user
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('token')) {
+            setAuthStatus('authenticating');
+        }
     }
+    
+    return () => clearTimeout(timer);
   }, [user, isLoaded, API_BASE_URL, authStatus, fetchUserProfile]);
 
   const handleNameSaved = async (name) => {
