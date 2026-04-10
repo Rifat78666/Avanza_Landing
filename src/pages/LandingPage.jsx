@@ -4,10 +4,15 @@ import Features from '../components/Features';
 import TargetAudience from '../components/TargetAudience';
 import Partners from '../components/Partners';
 
-const LandingPage = ({ onGetStarted }) => {
+const LandingPage = ({ onGetStarted, isLoggedIn, userName, onboardingCompleted }) => {
   return (
     <>
-      <Hero onGetStarted={onGetStarted} />
+      <Hero 
+        onGetStarted={onGetStarted} 
+        isLoggedIn={isLoggedIn} 
+        userName={userName}
+        onboardingCompleted={onboardingCompleted}
+      />
       <Features />
       <TargetAudience />
       <Partners />

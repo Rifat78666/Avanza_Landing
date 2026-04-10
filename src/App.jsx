@@ -284,7 +284,14 @@ function AppContent() {
       
       <main style={{ position: 'relative', zIndex: 1, minHeight: '60vh' }}>
         <Routes>
-          <Route path="/" element={<LandingPage onGetStarted={openAuth} />} />
+          <Route path="/" element={
+            <LandingPage 
+              onGetStarted={openAuth} 
+              isLoggedIn={authStatus === 'authenticated'} 
+              userName={displayName}
+              onboardingCompleted={fullProfileData?.onboarding_completed}
+            />
+          } />
           <Route path="/onboarding" element={
               <ProtectedRoute>
                   <Onboarding 
