@@ -99,6 +99,8 @@ function AppContent() {
     if (token && tokenType === 'magic_links' && authStatus !== 'authenticating') {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setAuthStatus('authenticating');
+      stytch.magicLinks.authenticate(token, {
+        session_duration_minutes: 60
       }).then(() => {
         setAuthStatus('authenticated');
         setShowSuccessOverlay(true);
