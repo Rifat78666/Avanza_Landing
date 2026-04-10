@@ -23,6 +23,14 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
     const [trainingItems, setTrainingItems] = useState([]);
     const [loadingData, setLoadingData] = useState(true);
 
+    // Safety: Force clear the loading screen after 2.5s no matter what
+    useEffect(() => {
+        const forceClear = setTimeout(() => {
+            if (loadingData) setLoadingData(false);
+        }, 2500);
+        return () => clearTimeout(forceClear);
+    }, [loadingData]);
+
     const username = displayName || fullProfile?.first_name || 'there';
 
     // Industry Detection Logic
