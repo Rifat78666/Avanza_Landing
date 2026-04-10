@@ -155,7 +155,7 @@ const Profile = ({ displayName, profileImageUrl, fullProfile, onNameUpdate, onIm
             }
         } catch (err) {
             console.error("Delete error:", err);
-            setError("Something went wrong during deletion.");
+            setError(`Deletion failed: ${err.message || 'Check network connection'}`);
             setSaving(false);
         }
     };
