@@ -307,8 +307,10 @@ async def upload_profile_image(file: UploadFile = File(...), user_id: str = Depe
 @app.get("/api/dashboard/recommendations")
 async def get_dashboard_recommendations(user_id: str = Depends(verify_stytch_session)):
     """Simulates job matching and training suggestions in a single call."""
-    profile = await get_onboarding_profile(user_id)
-    field = (profile.get("profile", {}).get("degree_field") or "General").lower()
+    profile_resp = await get_onboarding_profile(user_id)
+    # Safety: Ensure we don't crash if profile is None (e.g. after deletion)
+    profile_data = profile_resp.get("profile") or {}
+    field = (profile_data.get("degree_field") or "General").lower()
     
     jobs = []
     training = []
