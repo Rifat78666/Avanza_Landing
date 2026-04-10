@@ -128,6 +128,9 @@ function AppContent() {
       });
       const data = await resp.json();
 
+      // IMPORTANT: Refresh full profile so App state is ready for Dashboard
+      await fetchUserProfile();
+
       if (data.onboarding_completed) {
         navigate('/dashboard');
       } else {
