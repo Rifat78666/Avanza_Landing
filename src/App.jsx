@@ -29,45 +29,12 @@ function AppContent() {
   const [displayName, setDisplayName] = useState('');
   const [profileImageUrl, setProfileImageUrl] = useState(null);
   const [showNameCollection, setShowNameCollection] = useState(false);
-  const [profileChecked, setProfileChecked] = useState(false);
   
   const { language, setLanguage, t, isRTL } = useLanguage();
   const stytch = useStytch();
   const { user } = useStytchUser();
   const navigate = useNavigate();
   const location = useLocation();
-
-  // Handle Magic Link redirect
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const token = params.get('token');
-    const tokenType = params.get('stytch_token_type');
-
-    if (token && tokenType === 'magic_links') {
-      setAuthStatus('authenticating');
-      stytch.magicLinks.authenticate(token, {
-        session_duration_minutes: 60
-      }).then(() => {
-        setAuthStatus('authenticated');
-        window.history.replaceState({}, document.title, window.location.pathname);
-        // Promptly fetch profile to trigger name collection if needed
-        fetchUserProfile();
-      }).catch((err) => {
-        console.error('Magic Link authentication failed:', err);
-        setAuthStatus('idle');
-        window.history.replaceState({}, document.title, window.location.pathname);
-      });
-    }
-  }, [stytch]);
-
-  // When user session exists, fetch their profile from the backend
-  useEffect(() => {
-    if (user) {
-      console.log("App: User session detected. API URL:", API_BASE_URL);
-      setAuthStatus('authenticated');
-      fetchUserProfile();
-    }
-  }, [user]);
 
   const fetchUserProfile = async () => {
     try {
@@ -107,15 +74,45 @@ function AppContent() {
             }
           }
         }
-      } else {
-        navigate('/onboarding');
       }
-      setProfileChecked(true);
     } catch (err) {
       console.error('Profile fetch error:', err);
-      setProfileChecked(true);
     }
   };
+
+  // Handle Magic Link redirect
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('token');
+    const tokenType = params.get('stytch_token_type');
+
+    if (token && tokenType === 'magic_links' && authStatus !== 'authenticating') {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setAuthStatus('authenticating');
+      stytch.magicLinks.authenticate(token, {
+        session_duration_minutes: 60
+      }).then(() => {
+        setAuthStatus('authenticated');
+        window.history.replaceState({}, document.title, window.location.pathname);
+        // Promptly fetch profile to trigger name collection if needed
+        fetchUserProfile();
+      }).catch((err) => {
+        console.error('Magic Link authentication failed:', err);
+        setAuthStatus('idle');
+        window.history.replaceState({}, document.title, window.location.pathname);
+      });
+    }
+  }, [stytch]);
+
+  // When user session exists, fetch their profile from the backend
+  useEffect(() => {
+    if (user && authStatus !== 'authenticated') {
+      console.log("App: User session detected. API URL:", API_BASE_URL);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setAuthStatus('authenticated');
+      fetchUserProfile();
+    }
+  }, [user]);
 
   const handleNameSaved = async (name) => {
     setDisplayName(name);
@@ -137,6 +134,7 @@ function AppContent() {
         navigate('/onboarding');
       }
     } catch (err) {
+      console.error('handleNameSaved error:', err);
       navigate('/onboarding');
     }
   };
@@ -155,7 +153,7 @@ function AppContent() {
     setDisplayName('');
     setProfileImageUrl(null);
     setShowNameCollection(false);
-    setProfileChecked(false);
+    // setProfileChecked(false);
     navigate('/');
   };
 
@@ -203,7 +201,7 @@ function AppContent() {
 
           {authStatus === 'authenticated' && user ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-              <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center', display: window.innerWidth > 768 ? 'flex' : 'none' }}>
+              <div style={{ gap: '1.5rem', alignItems: 'center', display: window.innerWidth > 768 ? 'flex' : 'none' }}>
                  <span style={{ cursor: 'pointer', color: location.pathname === '/dashboard' ? 'var(--accent-color)' : 'var(--text-secondary)', fontWeight: location.pathname === '/dashboard' ? 'bold' : 'normal' }} onClick={() => navigate('/dashboard')}>{t('dashboard')}</span>
                  <span style={{ cursor: 'pointer', color: location.pathname === '/profile' ? 'var(--accent-color)' : 'var(--text-secondary)', fontWeight: location.pathname === '/profile' ? 'bold' : 'normal' }} onClick={() => navigate('/profile')}>{t('myProfile')}</span>
                  <span style={{ cursor: 'pointer', color: location.pathname === '/settings' ? 'var(--accent-color)' : 'var(--text-secondary)', fontWeight: location.pathname === '/settings' ? 'bold' : 'normal' }} onClick={() => navigate('/settings')}>{t('settings')}</span>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useStytch, useStytchUser } from '@stytch/react';
+
+import { useStytch } from '@stytch/react';
 import { useLanguage } from '../LanguageContext';
 
 const NameCollection = ({ onNameSaved }) => {
@@ -9,7 +9,7 @@ const NameCollection = ({ onNameSaved }) => {
     const [saving, setSaving] = useState(false);
     const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
     const stytch = useStytch();
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const { t } = useLanguage();
 
     const handleSubmit = async () => {

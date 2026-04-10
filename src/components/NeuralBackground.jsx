@@ -1,5 +1,63 @@
 import React, { useRef, useEffect } from 'react';
 
+// Particle class moved outside hook to satisfy React best practices
+class Particle {
+  constructor(canvas) {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 1.5 + 0.5;
+    this.speedX = (Math.random() * 1 - 0.5) * 1.5;
+    this.speedY = (Math.random() * 1 - 0.5) * 1.5;
+    this.color = `rgba(255, 255, 255, ${Math.random() * 0.5 + 0.2})`;
+    
+    // Randomly assign vibrant color to some nodes
+    this.isSpecial = Math.random() > 0.85;
+  }
+  
+  update(canvas, mouse) {
+    // Move
+    this.x += this.speedX;
+    this.y += this.speedY;
+
+    // Bounce
+    if (this.x > canvas.width || this.x < 0) this.speedX = -this.speedX;
+    if (this.y > canvas.height || this.y < 0) this.speedY = -this.speedY;
+
+    // Mouse interaction - gentle attraction
+    if (mouse.x != null && mouse.y != null) {
+      let dx = mouse.x - this.x;
+      let dy = mouse.y - this.y;
+      let distance = Math.sqrt(dx * dx + dy * dy);
+      if (distance < mouse.radius) {
+        const forceDirectionX = dx / distance;
+        const forceDirectionY = dy / distance;
+        const force = (mouse.radius - distance) / mouse.radius;
+        const ease = 0.05; // Make the movement smooth not jerky
+        
+        this.x += forceDirectionX * force * ease * 10;
+        this.y += forceDirectionY * force * ease * 10;
+      }
+    }
+  }
+  
+  draw(ctx) {
+    ctx.fillStyle = this.isSpecial ? 'rgba(209, 247, 39, 0.8)' : this.color;
+    
+    if (this.isSpecial) {
+       // Glow effect for special nodes
+       ctx.shadowBlur = 10;
+       ctx.shadowColor = 'rgba(209, 247, 39, 0.5)';
+    } else {
+       ctx.shadowBlur = 0;
+    }
+
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.shadowBlur = 0; // reset
+  }
+}
+
 const NeuralBackground = () => {
   const canvasRef = useRef(null);
 
@@ -38,67 +96,10 @@ const NeuralBackground = () => {
     const particleCount = typeof window !== 'undefined' && window.innerWidth < 768 ? 50 : 100;
     const connectionRadius = 140;
 
-    class Particle {
-      constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 1.5 + 0.5;
-        this.speedX = (Math.random() * 1 - 0.5) * 1.5;
-        this.speedY = (Math.random() * 1 - 0.5) * 1.5;
-        this.color = `rgba(255, 255, 255, ${Math.random() * 0.5 + 0.2})`;
-        
-        // Randomly assign vibrant color to some nodes
-        this.isSpecial = Math.random() > 0.85;
-      }
-      
-      update() {
-        // Move
-        this.x += this.speedX;
-        this.y += this.speedY;
-
-        // Bounce
-        if (this.x > canvas.width || this.x < 0) this.speedX = -this.speedX;
-        if (this.y > canvas.height || this.y < 0) this.speedY = -this.speedY;
-
-        // Mouse interaction - gentle attraction
-        if (mouse.x != null && mouse.y != null) {
-          let dx = mouse.x - this.x;
-          let dy = mouse.y - this.y;
-          let distance = Math.sqrt(dx * dx + dy * dy);
-          if (distance < mouse.radius) {
-            const forceDirectionX = dx / distance;
-            const forceDirectionY = dy / distance;
-            const force = (mouse.radius - distance) / mouse.radius;
-            const ease = 0.05; // Make the movement smooth not jerky
-            
-            this.x += forceDirectionX * force * ease * 10;
-            this.y += forceDirectionY * force * ease * 10;
-          }
-        }
-      }
-      
-      draw() {
-        ctx.fillStyle = this.isSpecial ? 'rgba(209, 247, 39, 0.8)' : this.color;
-        
-        if (this.isSpecial) {
-           // Glow effect for special nodes
-           ctx.shadowBlur = 10;
-           ctx.shadowColor = 'rgba(209, 247, 39, 0.5)';
-        } else {
-           ctx.shadowBlur = 0;
-        }
-
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.shadowBlur = 0; // reset
-      }
-    }
-
     const init = () => {
       particles = [];
       for (let i = 0; i < particleCount; i++) {
-        particles.push(new Particle());
+        particles.push(new Particle(canvas));
       }
     };
 
@@ -106,8 +107,8 @@ const NeuralBackground = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
       for (let i = 0; i < particles.length; i++) {
-        particles[i].update();
-        particles[i].draw();
+        particles[i].update(canvas, mouse);
+        particles[i].draw(ctx);
         
         // Check connections
         for (let j = i; j < particles.length; j++) {

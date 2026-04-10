@@ -1,0 +1,48 @@
+﻿
+> avanza-landing@0.0.0 lint
+> eslint .
+
+
+C:\Users\rifat\.gemini\antigravity\scratch\avanza-landing\src\App.jsx
+   90:7  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  88 |
+  89 |     if (token && tokenType === 'magic_links' && authStatus !== 'authenticating') {
+> 90 |       setAuthStatus('authenticating');
+     |       ^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  91 |       stytch.magicLinks.authenticate(token, {
+  92 |         session_duration_minutes: 60
+  93 |       }).then(() => {  react-hooks/set-state-in-effect
+  104:6  warning  React Hook useEffect has missing dependencies: 'authStatus' and 'fetchUserProfile'. Either include them or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         react-hooks/exhaustive-deps
+  110:7  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  108 |     if (user && authStatus !== 'authenticated') {
+  109 |       console.log("App: User session detected. API URL:", API_BASE_URL);
+> 110 |       setAuthStatus('authenticated');
+      |       ^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  111 |       fetchUserProfile();
+  112 |     }
+  113 |   }, [user]);               react-hooks/set-state-in-effect
+  113:6  warning  React Hook useEffect has missing dependencies: 'API_BASE_URL', 'authStatus', and 'fetchUserProfile'. Either include them or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        react-hooks/exhaustive-deps
+  154:5  error    'setProfileChecked' is not defined                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             no-undef
+
+C:\Users\rifat\.gemini\antigravity\scratch\avanza-landing\src\pages\Dashboard.jsx
+  43:8  warning  React Hook useEffect has missing dependencies: 'fetchRecommendations' and 'refreshProfile'. Either include them or remove the dependency array. If 'refreshProfile' changes too often, find the parent component that defines it and wrap that definition in useCallback  react-hooks/exhaustive-deps
+
+C:\Users\rifat\.gemini\antigravity\scratch\avanza-landing\src\pages\Profile.jsx
+  44:8  warning  React Hook useEffect has missing dependencies: 'localName' and 'photoPreview'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+
+Γ£û 7 problems (3 errors, 4 warnings)
+

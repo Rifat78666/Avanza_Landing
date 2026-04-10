@@ -171,9 +171,6 @@ const translations = {
     invalidImage: "Please upload a valid image (JPG, PNG).",
     imageTooLarge: "Image is too large. Max 2MB.",
     loading: "Loading",
-    viewCourse: "View Details",
-    jobsTitle: "Opportunities for You",
-    jobsSub: "Based on your background, these roles in Italy don't always require formal recognition.",
   },
   ES: {
     heroTitle: "Haz que tu título extranjero funcione en Italia",
@@ -329,9 +326,6 @@ const translations = {
     invalidImage: "Por favor, sube una imagen válida (JPG, PNG).",
     imageTooLarge: "La imagen es demasiado grande. Máx. 2MB.",
     loading: "Cargando",
-    viewCourse: "Ver Detalles",
-    jobsTitle: "Oportunidades para ti",
-    jobsSub: "Basado en tu perfil, estos roles en Italia no siempre requieren reconocimiento formal.",
   },
   IT: {
     heroTitle: "Fai valere la tua laurea straniera in Italia",

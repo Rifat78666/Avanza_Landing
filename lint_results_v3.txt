@@ -1,0 +1,48 @@
+﻿
+> avanza-landing@0.0.0 lint
+> eslint .
+
+
+C:\Users\rifat\.gemini\antigravity\scratch\avanza-landing\src\App.jsx
+   32:10  error    'profileChecked' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              no-unused-vars
+   95:7   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  93 |
+  94 |     if (token && tokenType === 'magic_links') {
+> 95 |       setAuthStatus('authenticating');
+     |       ^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  96 |       stytch.magicLinks.authenticate(token, {
+  97 |         session_duration_minutes: 60
+  98 |       }).then(() => {  react-hooks/set-state-in-effect
+  109:6   warning  React Hook useEffect has a missing dependency: 'fetchUserProfile'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         react-hooks/exhaustive-deps
+  115:7   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  113 |     if (user) {
+  114 |       console.log("App: User session detected. API URL:", API_BASE_URL);
+> 115 |       setAuthStatus('authenticated');
+      |       ^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  116 |       fetchUserProfile();
+  117 |     }
+  118 |   }, [user]);              react-hooks/set-state-in-effect
+  118:6   warning  React Hook useEffect has missing dependencies: 'API_BASE_URL' and 'fetchUserProfile'. Either include them or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    react-hooks/exhaustive-deps
+
+C:\Users\rifat\.gemini\antigravity\scratch\avanza-landing\src\pages\Dashboard.jsx
+  43:8  warning  React Hook useEffect has missing dependencies: 'fetchRecommendations' and 'refreshProfile'. Either include them or remove the dependency array. If 'refreshProfile' changes too often, find the parent component that defines it and wrap that definition in useCallback  react-hooks/exhaustive-deps
+
+C:\Users\rifat\.gemini\antigravity\scratch\avanza-landing\src\pages\Profile.jsx
+  44:8  warning  React Hook useEffect has missing dependencies: 'localName' and 'photoPreview'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+
+Γ£û 7 problems (3 errors, 4 warnings)
+

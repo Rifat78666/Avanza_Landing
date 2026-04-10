@@ -10,7 +10,7 @@ const Onboarding = () => {
     const { user } = useStytchUser();
     const stytch = useStytch();
     const navigate = useNavigate();
-    const { t } = useLanguage();
+    const { t, setLanguage } = useLanguage();
     
     const [step, setStep] = useState(1);
     const [isProcessing, setIsProcessing] = useState(false);

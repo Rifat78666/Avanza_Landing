@@ -116,6 +116,7 @@ const Profile = ({ displayName, profileImageUrl, fullProfile, onNameUpdate, onIm
                 setError("Failed to save name.");
             }
         } catch (err) {
+            console.error("Save error:", err);
             setError("Something went wrong.");
         } finally {
             setSaving(false);

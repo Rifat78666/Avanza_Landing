@@ -1,0 +1,82 @@
+﻿
+> avanza-landing@0.0.0 lint
+> eslint .
+
+
+C:\Users\rifat\.gemini\antigravity\scratch\avanza-landing\src\App.jsx
+   32:10  error    'profileChecked' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 no-unused-vars
+   54:9   error    Error: Cannot access variable before it is declared
+
+`fetchUserProfile` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+  52 |         window.history.replaceState({}, document.title, window.location.pathname);
+  53 |         // Promptly fetch profile to trigger name collection if needed
+> 54 |         fetchUserProfile();
+     |         ^^^^^^^^^^^^^^^^ `fetchUserProfile` accessed before it is declared
+  55 |       }).catch((err) => {
+  56 |         console.error('Magic Link authentication failed:', err);
+  57 |         setAuthStatus('idle');
+
+   70 |   }, [user]);
+   71 |
+>  72 |   const fetchUserProfile = async () => {
+      |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  73 |     try {
+      | ^^^^^^^^^
+>  74 |       const token = stytch.session.getTokens()?.session_token;
+      ΓÇª
+      | ^^^^^^^^^
+> 117 |     }
+      | ^^^^^^^^^
+> 118 |   };
+      | ^^^^^ `fetchUserProfile` is declared here
+  119 |
+  120 |   const handleNameSaved = async (name) => {
+  121 |     setDisplayName(name);  react-hooks/immutability
+   61:6   warning  React Hook useEffect has a missing dependency: 'fetchUserProfile'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            react-hooks/exhaustive-deps
+   70:6   warning  React Hook useEffect has missing dependencies: 'API_BASE_URL' and 'fetchUserProfile'. Either include them or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       react-hooks/exhaustive-deps
+  139:14  error    'err' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                no-unused-vars
+  206:83  error    Duplicate key 'display'                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        no-dupe-keys
+
+C:\Users\rifat\.gemini\antigravity\scratch\avanza-landing\src\LanguageContext.jsx
+  25:14  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\rifat\.gemini\antigravity\scratch\avanza-landing\src\components\CVResult.jsx
+  2:10  error  'useNavigate' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+C:\Users\rifat\.gemini\antigravity\scratch\avanza-landing\src\components\NeuralBackground.jsx
+  41:5  warning  Compilation Skipped: Inline `class` declarations are not supported
+
+Move class declarations outside of components/hooks.
+
+  39 |     const connectionRadius = 140;
+  40 |
+> 41 |     class Particle {
+     |     ^^^^^^^^^^^^^^^^
+> 42 |       constructor() {
+     | ^^^^^^^^^^^^^^^^^^^^^
+> 43 |         this.x = Math.random() * canvas.width;
+     ΓÇª
+     | ^^^^^^^^^^^^^^^^^^^^^
+> 95 |       }
+     | ^^^^^^^^^^^^^^^^^^^^^
+> 96 |     }
+     | ^^^^^^ Inline `class` declarations are not supported
+  97 |
+  98 |     const init = () => {
+  99 |       particles = [];
+
+  react-hooks/unsupported-syntax
+
+C:\Users\rifat\.gemini\antigravity\scratch\avanza-landing\src\pages\Dashboard.jsx
+  43:8  warning  React Hook useEffect has missing dependencies: 'fetchRecommendations' and 'refreshProfile'. Either include them or remove the dependency array. If 'refreshProfile' changes too often, find the parent component that defines it and wrap that definition in useCallback  react-hooks/exhaustive-deps
+
+C:\Users\rifat\.gemini\antigravity\scratch\avanza-landing\src\pages\NameCollection.jsx
+   3:21  error  'useStytchUser' is defined but never used. Allowed unused vars must match /^[A-Z_]/u      no-unused-vars
+  12:11  error  'navigate' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+C:\Users\rifat\.gemini\antigravity\scratch\avanza-landing\src\pages\Profile.jsx
+  44:8  warning  React Hook useEffect has missing dependencies: 'localName' and 'photoPreview'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+
+Γ£û 13 problems (8 errors, 5 warnings)
+
