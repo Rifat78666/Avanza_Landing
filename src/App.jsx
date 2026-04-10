@@ -66,6 +66,13 @@ function AppContent() {
           setShowNameCollection(true);
         } else {
           setShowNameCollection(false);
+          
+          // Safety: If user is on dashboard but onboarding is incomplete, redirect them
+          if (location.pathname === '/dashboard' && !data.onboarding_completed) {
+            navigate('/onboarding');
+            return;
+          }
+
           if (location.pathname === '/' || location.pathname === '') {
             if (data.onboarding_completed) {
               navigate('/dashboard');

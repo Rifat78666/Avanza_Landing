@@ -124,7 +124,7 @@ const Profile = ({ displayName, profileImageUrl, fullProfile, onNameUpdate, onIm
     };
 
     const handleLogout = () => {
-        stytch.session.logout();
+        stytch.session.revoke();
         navigate('/');
     };
 
@@ -146,7 +146,7 @@ const Profile = ({ displayName, profileImageUrl, fullProfile, onNameUpdate, onIm
 
             if (resp.ok) {
                 // Success! Logout and redirect
-                stytch.session.logout();
+                stytch.session.revoke();
                 navigate('/');
             } else {
                 const errData = await resp.json().catch(() => ({}));
