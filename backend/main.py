@@ -386,3 +386,20 @@ async def match_jobs(target_role: str, location: str = "Italy", skills: List[str
         {"title": "Clinical Care Specialist", "location": "Rome, IT", "match": "88%"}
     ]
     return {"status": "success", "matches": mock_jobs}
+
+
+@app.delete("/api/user")
+async def delete_user_account(user_id: str = Depends(verify_stytch_session)):
+    """Wipes the user's data from the system for a total reset."""
+    try:
+        # 1. Delete from onboarding_profiles
+        await supabase_delete("onboarding_profiles", f"user_id=eq.{user_id}")
+        
+        # 2. Delete from users table (total reset)
+        await supabase_delete("users", f"user_id=eq.{user_id}")
+        
+        print(f"Deep clean completed for user: {user_id}")
+        return {"status": "success", "message": "Account data fully wiped"}
+    except Exception as e:
+        print(f"Deletion error: {str(e)}")
+        raise HTTPException(status_code=500, detail="Failed to delete account data.")
