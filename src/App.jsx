@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import './index.css';
-import { User } from 'lucide-react';
+import { User, CheckCircle } from 'lucide-react';
 
 import NeuralBackground from './components/NeuralBackground';
 import AuthModal from './components/AuthModal';
@@ -30,6 +30,7 @@ function AppContent() {
   const [profileImageUrl, setProfileImageUrl] = useState(null);
   const [showNameCollection, setShowNameCollection] = useState(false);
   const [onboardingJustFinished, setOnboardingJustFinished] = useState(false);
+  const [showSuccessOverlay, setShowSuccessOverlay] = useState(false);
   
   const { language, setLanguage, t, isRTL } = useLanguage();
   const stytch = useStytch();
@@ -98,10 +99,10 @@ function AppContent() {
     if (token && tokenType === 'magic_links' && authStatus !== 'authenticating') {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setAuthStatus('authenticating');
-      stytch.magicLinks.authenticate(token, {
-        session_duration_minutes: 60
       }).then(() => {
         setAuthStatus('authenticated');
+        setShowSuccessOverlay(true);
+        setTimeout(() => setShowSuccessOverlay(false), 3500);
         window.history.replaceState({}, document.title, window.location.pathname);
         // Promptly fetch profile to trigger name collection if needed
         fetchUserProfile();
@@ -352,6 +353,31 @@ function AppContent() {
         initialMode={authMode}
         initialEmail={authEmail}
       />
+
+      {/* Success Overlay Celebration */}
+      {showSuccessOverlay && (
+        <div style={{
+          position: 'fixed', inset: 0, zIndex: 99999, background: 'rgba(8,10,15,0.92)',
+          display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+          backdropFilter: 'blur(12px)', animation: 'fadeIn 0.4s ease-out forwards', padding: '2rem'
+        }}>
+          <div style={{ animation: 'popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.25) forwards' }}>
+            <div style={{ 
+              width: '120px', height: '120px', borderRadius: '50%', background: 'rgba(200, 241, 53, 0.1)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', border: '4px solid #C8F135',
+              marginBottom: '2.5rem', boxShadow: '0 0 60px rgba(200, 241, 53, 0.25)'
+            }}>
+              <CheckCircle size={64} color="#C8F135" />
+            </div>
+          </div>
+          <h1 style={{ fontSize: '4rem', fontWeight: '900', color: '#FFFFFF', marginBottom: '1.25rem', textAlign: 'center', letterSpacing: '-2px' }}>
+            Congratulations!
+          </h1>
+          <p style={{ fontSize: '1.6rem', color: 'rgba(255,255,255,0.7)', textAlign: 'center', maxWidth: '600px', fontWeight: '500' }}>
+            Welcome back to <span style={{ color: '#C8F135', fontWeight: '800' }}>AVANZA</span>. <br/>You are now securely logged in.
+          </p>
+        </div>
+      )}
     </div>
   );
 }
