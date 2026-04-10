@@ -171,40 +171,40 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
     const levelLabel = profile.degree_level || 'degree';
 
     return (
-        <div className="container" style={{ paddingBottom: '5rem' }}>
+        <div className="container" style={{ paddingBottom: '7rem' }}>
             {/* Header section with profile name */}
-            <div style={{ marginBottom: '3.5rem', paddingTop: '3rem' }}>
-                <h1 style={{ fontSize: '4rem', fontWeight: '800', marginBottom: '1.25rem', letterSpacing: '-2.5px', lineHeight: '1' }}>
+            <div style={{ marginBottom: '4rem', paddingTop: '3.5rem' }}>
+                <h1 style={{ fontSize: '4.5rem', fontWeight: '900', marginBottom: '1.25rem', letterSpacing: '-3px', lineHeight: '0.95' }}>
                     {t('welcomeBack')}, <span style={{ color: '#C8F135' }}>{username}!</span>
                 </h1>
-                <p style={{ fontSize: '1.6rem', color: 'var(--text-secondary)', maxWidth: '800px', fontWeight: '500', opacity: 0.8 }}>
+                <p style={{ fontSize: '1.75rem', color: 'rgba(255,255,255,0.6)', maxWidth: '900px', fontWeight: '500' }}>
                     {t('journeyStart')}
                 </p>
             </div>
 
-            {/* FULL-WIDTH SITUATION CARD (Strict Photo Match) */}
+            {/* SECTION 1: YOUR SITUATION (Full-Width Photo Match) */}
             <div style={{ 
                 background: '#121212', 
-                padding: '3rem', 
-                borderRadius: '28px', 
+                padding: '3.5rem', 
+                borderRadius: '32px', 
                 border: '1px solid rgba(255,255,255,0.08)',
-                borderLeft: '10px solid #C8F135',
-                marginBottom: '4rem',
+                borderLeft: '12px solid #C8F135',
+                marginBottom: '5rem',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '2rem',
-                boxShadow: '0 30px 60px rgba(0,0,0,0.5)'
+                gap: '2.5rem',
+                boxShadow: '0 40px 80px rgba(0,0,0,0.6)'
             }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-                    <div style={{ background: 'rgba(200, 241, 53, 0.15)', padding: '1rem', borderRadius: '16px' }}>
-                        <Sparkles color="#C8F135" size={32} />
+                    <div style={{ background: 'rgba(200, 241, 53, 0.15)', padding: '1.2rem', borderRadius: '18px' }}>
+                        <Sparkles color="#C8F135" size={36} />
                     </div>
                     <div>
-                        <h2 style={{ fontSize: '1.8rem', fontWeight: 'bold', color: '#FFFFFF' }}>{t('situationTitle')}</h2>
-                        <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '1rem' }}>{t('situationSub')}</p>
+                        <h2 style={{ fontSize: '2.2rem', fontWeight: 'bold', color: '#FFFFFF' }}>{t('situationTitle')}</h2>
+                        <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '1.1rem' }}>{t('situationSub')}</p>
                     </div>
                 </div>
-                <p style={{ fontSize: '1.35rem', lineHeight: '1.7', color: '#FFFFFF', fontWeight: '400', opacity: 0.95 }}>
+                <p style={{ fontSize: '1.5rem', lineHeight: '1.7', color: '#FFFFFF', fontWeight: '300', opacity: 0.9 }}>
                     {isRegulated 
                         ? t('regulatedProfessionMsg').replace(/{degree_level}/g, levelLabel).replace(/{degree_field}/g, fieldLabel).replace(/{degree_country}/g, countryLabel)
                         : t('unregulatedProfessionMsg').replace(/{degree_level}/g, levelLabel).replace(/{degree_field}/g, fieldLabel).replace(/{degree_country}/g, countryLabel)
@@ -212,117 +212,158 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
                 </p>
             </div>
 
-            {/* DASHBOARD GRID FOR OTHER TOOLS */}
+            {/* SECTION 2: RECOGNITION PATHWAY (Full-Width Photo Match) */}
             <div style={{ 
-                display: 'grid', 
-                gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', 
-                gap: '2.5rem',
-                marginBottom: '4rem'
+                background: '#121212', 
+                padding: '3.5rem', 
+                borderRadius: '32px', 
+                border: '1px solid rgba(255,255,255,0.08)',
+                marginBottom: '5rem'
             }}>
-
-                {/* PANEL 2: Recognition Pathway */}
-                <div className="card-hover" style={{ 
-                    background: 'var(--surface-color)', 
-                    padding: '2.5rem', 
-                    borderRadius: '24px', 
-                    border: '1px solid var(--border-color)',
-                }}>
-                    <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                        <Map size={24} color="#C8F135" /> {t('recognitionPathway')}
-                    </h2>
-
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                        {(isRegulated ? [
-                            { id: 1, title: t('pathwayStep1Title'), desc: t('pathwayStep1Desc'), time: '4w', cost: '€50' },
-                            { id: 2, title: t('pathwayStep2Title'), desc: t('pathwayStep2Desc'), time: '2w', cost: '€150' },
-                            { id: 3, title: t('pathwayStep3Title'), desc: t('pathwayStep3Desc'), time: '6m', cost: '€0' }
-                        ] : [
-                            { id: 1, title: 'Employer Verification', desc: 'Confirm recognition needs', time: '1w', cost: '€0' },
-                            { id: 2, title: 'Direct Job Application', desc: 'Focus on your CV', time: 'Ongoing', cost: '€0' }
-                        ]).map(step => (
-                            <div key={step.id} style={{ 
-                                display: 'flex', gap: '1.25rem', alignItems: 'center', 
-                                background: 'rgba(255,255,255,0.02)', padding: '1rem', 
-                                borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)' 
-                            }}>
-                                <div style={{ 
-                                    width: '28px', height: '28px', borderRadius: '50%', background: '#C8F135', 
-                                    color: '#0F0F0F', border: '2px solid #C8F135',
-                                    display: 'flex', alignItems: 'center', justifyContent: 'center', 
-                                    fontWeight: 'bold', flexShrink: 0, fontSize: '0.8rem'
-                                }}>{step.id}</div>
-                                <div style={{ flex: 1 }}>
-                                    <h4 style={{ fontWeight: 'bold', fontSize: '1rem' }}>{step.title}</h4>
-                                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.8rem' }}>{step.desc}</p>
-                                </div>
-                                <button className="btn-outline" style={{ fontSize: '0.75rem', padding: '0.3rem 0.6rem', borderColor: 'rgba(200, 241, 53, 0.4)', color: '#C8F135' }}>{t('markAsDone')}</button>
-                            </div>
-                        ))}
-                    </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2.5rem' }}>
+                    <Map size={32} color="#C8F135" />
+                    <h2 style={{ fontSize: '2rem', fontWeight: 'bold' }}>{t('recognitionPathway')}</h2>
                 </div>
 
-                {/* PANEL 3: Free Training */}
-                <div className="card-hover" style={{ 
-                    background: 'var(--surface-color)', 
-                    padding: '2.5rem', 
-                    borderRadius: '24px', 
-                    border: '1px solid var(--border-color)',
-                }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-                        <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                            <BookOpen size={24} color="#C8F135" /> {t('freeTraining')}
-                        </h2>
-                        <span style={{ fontSize: '0.8rem', color: '#C8F135', fontWeight: 'bold' }}>{trainingItems.length} COURSES</span>
+                {/* Good News Alert Box (Only for unregulated) */}
+                {!isRegulated && (
+                    <div style={{ 
+                        background: 'rgba(200, 241, 53, 0.05)', 
+                        border: '2px solid #C8F135', 
+                        borderRadius: '20px', 
+                        padding: '1.75rem 2.5rem',
+                        marginBottom: '3rem',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '1.5rem'
+                    }}>
+                        <CheckCircle color="#C8F135" size={28} />
+                        <p style={{ color: '#FFFFFF', fontSize: '1.2rem', lineHeight: '1.5', fontWeight: '500' }}>
+                           {t('pathwayGoodNews').replace(/{degree_field}/g, fieldLabel)}
+                        </p>
                     </div>
-                    
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                        {trainingItems.slice(0, 3).map((course, idx) => (
-                            <div key={idx} style={{ 
-                                background: 'rgba(255,255,255,0.02)', padding: '1.25rem', 
-                                borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)',
-                                display: 'flex', justifyContent: 'space-between', alignItems: 'center'
-                            }}>
-                                <div>
-                                    <h4 style={{ fontWeight: 'bold', fontSize: '0.95rem', marginBottom: '0.25rem' }}>{course.title}</h4>
-                                    <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>{course.provider} • {course.duration}</p>
-                                </div>
-                                <ChevronRight size={18} color="rgba(255,255,255,0.3)" />
+                )}
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                    {(isRegulated ? [
+                        { id: 1, title: t('pathwayStep1Title'), desc: t('pathwayStep1Desc'), time: '~4 weeks', cost: '€50' },
+                        { id: 2, title: t('pathwayStep2Title'), desc: t('pathwayStep2Desc'), time: '~2 weeks', cost: '€150' },
+                        { id: 3, title: t('pathwayStep3Title'), desc: t('pathwayStep3Desc'), time: '~6 months', cost: '€0' }
+                    ] : [
+                        { id: 1, title: t('verifyEmployer'), desc: t('verifyEmployerDesc'), time: '~1 week', cost: '€0' },
+                        { id: 2, title: t('optionalCIMEA'), desc: t('optionalCIMEADesc'), time: '~4 weeks', cost: '€150' }
+                    ]).map(step => (
+                        <div key={step.id} style={{ 
+                            display: 'flex', gap: '2rem', alignItems: 'center', 
+                            background: 'rgba(255,255,255,0.03)', padding: '1.75rem 2rem', 
+                            borderRadius: '24px', border: '1px solid rgba(255,255,255,0.05)' 
+                        }}>
+                            <div style={{ 
+                                width: '36px', height: '36px', borderRadius: '50%', background: '#C8F135', 
+                                color: '#0F0F0F', border: '2px solid #C8F135',
+                                display: 'flex', alignItems: 'center', justifyContent: 'center', 
+                                fontWeight: 'bold', flexShrink: 0, fontSize: '1.1rem'
+                            }}>{step.id}</div>
+                            <div style={{ flex: 1 }}>
+                                <h4 style={{ fontWeight: 'bold', fontSize: '1.25rem', marginBottom: '0.25rem' }}>{step.title}</h4>
+                                <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '1rem' }}>{step.desc}</p>
                             </div>
-                        ))}
+                            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+                                <span style={{ background: 'rgba(255,255,255,0.1)', padding: '0.5rem 0.8rem', borderRadius: '8px', fontSize: '0.9rem' }}>{step.time}</span>
+                                <span style={{ background: 'rgba(255,255,255,0.1)', padding: '0.5rem 0.8rem', borderRadius: '8px', fontSize: '0.9rem' }}>{step.cost}</span>
+                            </div>
+                            <button className="btn-outline" style={{ borderColor: '#C8F135', color: '#C8F135', fontWeight: 'bold', padding: '0.6rem 1.2rem', borderRadius: '10px' }}>{t('markAsDone')}</button>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* SECTION 3: FREE TRAINING (Full-Width Photo Match) */}
+            <div style={{ 
+                background: '#121212', 
+                padding: '3.5rem', 
+                borderRadius: '32px', 
+                border: '1px solid rgba(255,255,255,0.08)',
+                marginBottom: '5rem'
+            }}>
+                <div style={{ marginBottom: '3rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.5rem' }}>
+                        <BookOpen size={32} color="#C8F135" />
+                        <h2 style={{ fontSize: '2rem', fontWeight: 'bold' }}>{t('freeTraining')}</h2>
                     </div>
+                    <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '1.1rem' }}>{t('freeTrainingSub')}</p>
                 </div>
 
-                {/* PANEL 4: Jobs Matching */}
-                <div className="card-hover" style={{ 
-                    background: 'var(--surface-color)', 
-                    padding: '2.5rem', 
-                    borderRadius: '24px', 
-                    border: '1px solid var(--border-color)',
-                }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-                        <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                            <Briefcase size={24} color="#C8F135" /> {t('jobsTitle')}
-                        </h2>
-                    </div>
-
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                        {jobs.slice(0, 3).map((job, idx) => (
-                            <div key={idx} style={{ 
-                                background: 'rgba(255,255,255,0.02)', padding: '1.25rem', 
-                                borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)',
-                                display: 'flex', flexDirection: 'column', gap: '0.5rem'
-                            }}>
-                                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                    <h4 style={{ fontWeight: 'bold', fontSize: '1rem' }}>{job.title}</h4>
-                                    <span style={{ fontSize: '0.8rem', color: '#C8F135' }}>{job.match.split(' ')[0]} match</span>
-                                </div>
-                                <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>{job.company}</p>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem' }}>
+                    {trainingItems.map((course, idx) => (
+                        <div key={idx} style={{ 
+                            background: '#1A1A1A', 
+                            padding: '2.5rem', 
+                            borderRadius: '24px', 
+                            border: '1px solid rgba(255,255,255,0.05)',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '1.5rem',
+                            height: '100%'
+                        }}>
+                            <div style={{ flex: 1 }}>
+                                <h4 style={{ fontSize: '1.4rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>{course.title}</h4>
+                                <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '1rem' }}>{course.provider}</p>
                             </div>
-                        ))}
+                            <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+                                <span style={{ background: 'rgba(255,255,255,0.1)', padding: '0.4rem 0.75rem', borderRadius: '8px', fontSize: '0.85rem' }}>{course.duration}</span>
+                                <span style={{ background: '#C8F135', color: '#000', padding: '0.4rem 0.75rem', borderRadius: '8px', fontSize: '0.85rem', fontWeight: '800' }}>{t('free')}</span>
+                                <span style={{ background: 'rgba(255,255,255,0.1)', padding: '0.4rem 0.75rem', borderRadius: '8px', fontSize: '0.85rem' }}>{course.lang === 'IT' ? 'Italian' : 'English'}</span>
+                            </div>
+                            <button className="btn-outline" style={{ width: '100%', padding: '0.75rem', fontWeight: 'bold', borderColor: 'rgba(255,255,255,0.2)', color: '#FFFFFF' }}>View Course →</button>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* SECTION 4: JOBS (Full-Width Photo Match) */}
+            <div style={{ 
+                background: '#121212', 
+                padding: '3.5rem', 
+                borderRadius: '32px', 
+                border: '1px solid rgba(255,255,255,0.08)',
+                marginBottom: '5rem'
+            }}>
+                <div style={{ marginBottom: '3rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.5rem' }}>
+                        <Briefcase size={32} color="#C8F135" />
+                        <h2 style={{ fontSize: '2rem', fontWeight: 'bold' }}>{t('jobsTitle')}</h2>
                     </div>
-                    <button className="btn-primary" style={{ width: '100%', marginTop: '1.5rem', padding: '0.75rem' }}>Explore all 40+ Matches</button>
+                    <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '1.1rem' }}>{t('jobsSub')}</p>
                 </div>
 
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem' }}>
+                    {jobs.map((job, idx) => (
+                        <div key={idx} style={{ 
+                            background: '#1A1A1A', 
+                            padding: '2.5rem', 
+                            borderRadius: '24px', 
+                            border: '1px solid rgba(255,255,255,0.05)',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '1.5rem',
+                            height: '100%'
+                        }}>
+                            <div style={{ flex: 1 }}>
+                                <h4 style={{ fontSize: '1.4rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>{job.title}</h4>
+                                <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '1rem' }}>{job.company}</p>
+                            </div>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                                <span style={{ color: '#C8F135', fontSize: '1.3rem', fontWeight: 'bold' }}>{job.salary}</span>
+                                <div style={{ alignSelf: 'flex-start', background: 'rgba(200, 241, 53, 0.1)', color: '#C8F135', padding: '0.4rem 0.75rem', borderRadius: '8px', fontSize: '0.85rem', fontWeight: 'bold', border: '1px solid rgba(200, 241, 53, 0.4)' }}>
+                                    {t('noRecognition')}
+                                </div>
+                                <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.9rem' }}>{job.match}</p>
+                            </div>
+                            <button className="btn-outline" style={{ width: '100%', padding: '0.75rem', fontWeight: 'bold', borderColor: 'rgba(255,255,255,0.2)', color: '#FFFFFF' }}>View Job →</button>
+                        </div>
+                    ))}
+                </div>
             </div>
 
             {/* AI Career Tools Section */}
