@@ -127,22 +127,22 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
         }
     }, [stytch]);
 
-    // Fetch recommendations only once when profile data is available
+    // Sync local profile state with fullProfile prop
     useEffect(() => {
-        if (fullProfile && profile === null) {
+        if (fullProfile?.profile) {
             setProfile(fullProfile.profile);
-            fetchRecommendations();
+            if (loadingData) {
+                fetchRecommendations();
+            }
+        } else if (fullProfile && !fullProfile.profile && !loadingData) {
+            // Profile is explicitly missing after a load attempt
+            navigate('/onboarding');
         } else if (user && !fullProfile && refreshProfile) {
             refreshProfile();
         }
-    }, [fullProfile, user, refreshProfile, fetchRecommendations, profile]);
+    }, [fullProfile, user, refreshProfile, fetchRecommendations, loadingData, navigate]);
 
-    if (profile === null && !loadingData) {
-        navigate('/onboarding');
-        return null;
-    }
-
-    if (!profile || loadingData) {
+    if (!fullProfile || (fullProfile.profile && loadingData)) {
         return (
             <div className="container" style={{ paddingTop: '10rem', textAlign: 'center', minHeight: '80vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <div className="loading-spinner" style={{ 

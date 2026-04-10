@@ -4,7 +4,7 @@ import { useStytchUser, useStytch } from '@stytch/react';
 import { CheckCircle } from 'lucide-react';
 import { useLanguage } from '../LanguageContext';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://avanza-backend-h0pm.onrender.com';
 
 const Onboarding = ({ refreshProfile }) => {
     const { user } = useStytchUser();
