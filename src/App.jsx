@@ -325,6 +325,7 @@ function AppContent() {
                       setProfileImageUrl(url);
                       fetchUserProfile();
                     }}
+                    onLogout={handleLogout}
                   />
               </ProtectedRoute>
           } />

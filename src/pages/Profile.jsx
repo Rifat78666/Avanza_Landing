@@ -6,7 +6,7 @@ import { useLanguage } from '../LanguageContext';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
-const Profile = ({ displayName, profileImageUrl, fullProfile, onNameUpdate, onImageUpdate }) => {
+const Profile = ({ displayName, profileImageUrl, fullProfile, onNameUpdate, onImageUpdate, onLogout }) => {
     const { user } = useStytchUser();
     const stytch = useStytch();
     const navigate = useNavigate();
@@ -124,8 +124,7 @@ const Profile = ({ displayName, profileImageUrl, fullProfile, onNameUpdate, onIm
     };
 
     const handleLogout = () => {
-        stytch.session.revoke();
-        navigate('/');
+        if (onLogout) onLogout();
     };
 
     const handleDeleteAccount = async () => {
@@ -145,9 +144,8 @@ const Profile = ({ displayName, profileImageUrl, fullProfile, onNameUpdate, onIm
             });
 
             if (resp.ok) {
-                // Success! Logout and redirect
-                stytch.session.revoke();
-                navigate('/');
+                // Success! Use global logout to clear App state
+                if (onLogout) onLogout();
             } else {
                 const errData = await resp.json().catch(() => ({}));
                 setError(errData.detail || "Failed to delete account data.");
