@@ -4,7 +4,7 @@ import { UploadCloud, FileText, Sparkles, Map, BookOpen, Briefcase, CheckCircle 
 import { useStytchUser, useStytch } from '@stytch/react';
 import { useLanguage } from '../LanguageContext';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://avanza-backend-h0pm.onrender.com';
 
 const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
     const { user } = useStytchUser();

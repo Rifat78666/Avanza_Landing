@@ -24,7 +24,7 @@ function AppContent() {
   const [authMode, setAuthMode] = useState('login');
   const [authStatus, setAuthStatus] = useState('loading'); // 'idle' | 'authenticating' | 'authenticated' | 'loading'
   
-  const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+  const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://avanza-backend-h0pm.onrender.com';
   const [fullProfileData, setFullProfileData] = useState(null);
   const [displayName, setDisplayName] = useState('');
   const [profileImageUrl, setProfileImageUrl] = useState(null);
