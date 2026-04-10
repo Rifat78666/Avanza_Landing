@@ -113,12 +113,12 @@ function AppContent() {
 
   // When user session exists, fetch their profile from the backend
   useEffect(() => {
-    // Safety timeout: if Stytch takes too long (>3s), assume guest or error
+    // Safety timeout: if Stytch takes too long (>800ms), assume guest or error
     const timer = setTimeout(() => {
       if (authStatus === 'loading' || authStatus === 'authenticating') {
         setAuthStatus('idle');
       }
-    }, 3000);
+    }, 800);
 
     if (isLoaded) {
       if (user) {
