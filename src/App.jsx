@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import './index.css';
 import { User } from 'lucide-react';
@@ -36,7 +36,7 @@ function AppContent() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const fetchUserProfile = async () => {
+  const fetchUserProfile = useCallback(async () => {
     try {
       const token = stytch.session.getTokens()?.session_token;
       if (!token) return;
@@ -78,7 +78,7 @@ function AppContent() {
     } catch (err) {
       console.error('Profile fetch error:', err);
     }
-  };
+  }, [stytch, API_BASE_URL, navigate, location.pathname]);
 
   // Handle Magic Link redirect
   useEffect(() => {
@@ -102,7 +102,7 @@ function AppContent() {
         window.history.replaceState({}, document.title, window.location.pathname);
       });
     }
-  }, [stytch]);
+  }, [stytch, authStatus, fetchUserProfile]);
 
   // When user session exists, fetch their profile from the backend
   useEffect(() => {
@@ -112,7 +112,7 @@ function AppContent() {
       setAuthStatus('authenticated');
       fetchUserProfile();
     }
-  }, [user]);
+  }, [user, API_BASE_URL, authStatus, fetchUserProfile]);
 
   const handleNameSaved = async (name) => {
     setDisplayName(name);

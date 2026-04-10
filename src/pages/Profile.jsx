@@ -41,7 +41,7 @@ const Profile = ({ displayName, profileImageUrl, fullProfile, onNameUpdate, onIm
             
             setLoading(false);
         }
-    }, [fullProfile]);
+    }, [fullProfile, localName, photoPreview]);
 
     const handlePhotoUpload = async (e) => {
         const file = e.target.files[0];

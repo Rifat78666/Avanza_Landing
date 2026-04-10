@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UploadCloud, FileText, Sparkles, Map, BookOpen, Briefcase, CheckCircle } from 'lucide-react';
 import { useStytchUser, useStytch } from '@stytch/react';
@@ -40,9 +40,9 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
             console.log("Dashboard: profile missing, triggering refresh...");
             refreshProfile();
         }
-    }, [fullProfile, user]);
+    }, [fullProfile, user, refreshProfile, fetchRecommendations]);
 
-    const fetchRecommendations = async () => {
+    const fetchRecommendations = useCallback(async () => {
         try {
             const token = stytch.session.getTokens()?.session_token;
             if (!token) return;
@@ -60,7 +60,7 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
         } finally {
             setLoadingData(false);
         }
-    };
+    }, [stytch]);
 
     if (!profile) {
         return (
