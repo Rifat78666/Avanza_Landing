@@ -29,6 +29,7 @@ function AppContent() {
   const [displayName, setDisplayName] = useState('');
   const [profileImageUrl, setProfileImageUrl] = useState(null);
   const [showNameCollection, setShowNameCollection] = useState(false);
+  const [onboardingJustFinished, setOnboardingJustFinished] = useState(false);
   
   const { language, setLanguage, t, isRTL } = useLanguage();
   const stytch = useStytch();
@@ -68,7 +69,8 @@ function AppContent() {
           setShowNameCollection(false);
           
           // Safety: If user is on dashboard but onboarding is incomplete, redirect them
-          if (location.pathname === '/dashboard' && !data.onboarding_completed) {
+          // EXCEPT if they just finished it (bypass loop)
+          if (location.pathname === '/dashboard' && !data.onboarding_completed && !onboardingJustFinished) {
             navigate('/onboarding');
             return;
           }
@@ -242,13 +244,13 @@ function AppContent() {
                  )}
                  <div style={{ borderLeft: '1px solid var(--border-color)', height: '20px' }}></div>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--accent-color)', fontWeight: 'bold' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#C8F135', fontWeight: '800', fontSize: '1.1rem' }}>
                   {profileImageUrl ? (
-                      <img src={profileImageUrl} alt="Profile" style={{ width: '32px', height: '32px', borderRadius: '50%', objectFit: 'cover', border: '1px solid var(--accent-color)' }} />
+                      <img src={profileImageUrl} alt="Profile" style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #C8F135' }} />
                   ) : (
-                      <User size={20} />
+                      <User size={22} color="#C8F135" />
                   )}
-                  <span style={{ marginRight: '1rem' }}>{displayName}</span>
+                  <span style={{ marginLeft: '0.25rem', letterSpacing: '-0.5px' }}>{displayName}</span>
               </div>
               <button 
                 onClick={handleLogout} 
@@ -282,7 +284,10 @@ function AppContent() {
           <Route path="/" element={<LandingPage onGetStarted={openAuth} />} />
           <Route path="/onboarding" element={
               <ProtectedRoute>
-                  <Onboarding refreshProfile={fetchUserProfile} />
+                  <Onboarding 
+                    refreshProfile={fetchUserProfile} 
+                    setOnboardingJustFinished={setOnboardingJustFinished}
+                  />
               </ProtectedRoute>
           } />
           <Route path="/dashboard" element={

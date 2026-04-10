@@ -173,50 +173,52 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
     return (
         <div className="container" style={{ paddingBottom: '5rem' }}>
             {/* Header section with profile name */}
-            <div style={{ marginBottom: '3rem', paddingTop: '2.5rem' }}>
-                <h1 style={{ fontSize: '3.5rem', fontWeight: 'bold', marginBottom: '1rem', letterSpacing: '-2px', lineHeight: '1.1' }}>
+            <div style={{ marginBottom: '3.5rem', paddingTop: '3rem' }}>
+                <h1 style={{ fontSize: '4rem', fontWeight: '800', marginBottom: '1.25rem', letterSpacing: '-2.5px', lineHeight: '1' }}>
                     {t('welcomeBack')}, <span style={{ color: '#C8F135' }}>{username}!</span>
                 </h1>
-                <p style={{ fontSize: '1.4rem', color: 'var(--text-secondary)', maxWidth: '700px', fontWeight: '500' }}>
+                <p style={{ fontSize: '1.6rem', color: 'var(--text-secondary)', maxWidth: '800px', fontWeight: '500', opacity: 0.8 }}>
                     {t('journeyStart')}
                 </p>
             </div>
 
-            {/* DASHBOARD 4-PANEL GRID */}
+            {/* FULL-WIDTH SITUATION CARD (Strict Photo Match) */}
+            <div style={{ 
+                background: '#121212', 
+                padding: '3rem', 
+                borderRadius: '28px', 
+                border: '1px solid rgba(255,255,255,0.08)',
+                borderLeft: '10px solid #C8F135',
+                marginBottom: '4rem',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '2rem',
+                boxShadow: '0 30px 60px rgba(0,0,0,0.5)'
+            }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+                    <div style={{ background: 'rgba(200, 241, 53, 0.15)', padding: '1rem', borderRadius: '16px' }}>
+                        <Sparkles color="#C8F135" size={32} />
+                    </div>
+                    <div>
+                        <h2 style={{ fontSize: '1.8rem', fontWeight: 'bold', color: '#FFFFFF' }}>{t('situationTitle')}</h2>
+                        <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '1rem' }}>{t('situationSub')}</p>
+                    </div>
+                </div>
+                <p style={{ fontSize: '1.35rem', lineHeight: '1.7', color: '#FFFFFF', fontWeight: '400', opacity: 0.95 }}>
+                    {isRegulated 
+                        ? t('regulatedProfessionMsg').replace(/{degree_level}/g, levelLabel).replace(/{degree_field}/g, fieldLabel).replace(/{degree_country}/g, countryLabel)
+                        : t('unregulatedProfessionMsg').replace(/{degree_level}/g, levelLabel).replace(/{degree_field}/g, fieldLabel).replace(/{degree_country}/g, countryLabel)
+                    }
+                </p>
+            </div>
+
+            {/* DASHBOARD GRID FOR OTHER TOOLS */}
             <div style={{ 
                 display: 'grid', 
-                gridTemplateColumns: 'repeat(auto-fit, minmax(450px, 1fr))', 
+                gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', 
                 gap: '2.5rem',
                 marginBottom: '4rem'
             }}>
-                
-                {/* PANEL 1: Situation at a Glance */}
-                <div className="card-hover" style={{ 
-                    background: 'var(--surface-color)', 
-                    padding: '2.5rem', 
-                    borderRadius: '24px', 
-                    border: '1px solid var(--border-color)',
-                    borderLeft: '4px solid #C8F135',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '1.5rem'
-                }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                        <div style={{ background: 'rgba(200, 241, 53, 0.1)', padding: '0.75rem', borderRadius: '12px' }}>
-                            <Sparkles color="#C8F135" size={24} />
-                        </div>
-                        <div>
-                            <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>{t('situationTitle')}</h2>
-                            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>{t('situationSub')}</p>
-                        </div>
-                    </div>
-                    <p style={{ fontSize: '1.15rem', lineHeight: '1.8', color: 'var(--text-main)', opacity: 0.9 }}>
-                        {isRegulated 
-                            ? t('regulatedProfessionMsg').replace(/{degree_level}/g, levelLabel).replace(/{degree_field}/g, fieldLabel).replace(/{degree_country}/g, countryLabel)
-                            : t('unregulatedProfessionMsg').replace(/{degree_level}/g, levelLabel).replace(/{degree_field}/g, fieldLabel).replace(/{degree_country}/g, countryLabel)
-                        }
-                    </p>
-                </div>
 
                 {/* PANEL 2: Recognition Pathway */}
                 <div className="card-hover" style={{ 

@@ -89,6 +89,7 @@ const Onboarding = ({ refreshProfile }) => {
                     if (resp.ok && refreshProfile) {
                         // CRITICAL: Refresh the global user profile in App.jsx 
                         // before moving to the dashboard
+                        if (setOnboardingJustFinished) setOnboardingJustFinished(true);
                         await refreshProfile();
                     }
                 }
