@@ -86,3 +86,31 @@ button:disabled {
 .section {
   padding: 6rem 0;
 }
+
+.input-field {
+  width: 100%;
+  padding: 0.85rem 1.2rem;
+  background-color: #080a0f;
+  border: 1px solid #2a2e3d;
+  border-radius: 10px;
+  color: #FFFFFF;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.input-field:focus {
+  border-color: var(--accent-color);
+  outline: none;
+  background-color: #0c0f17;
+  box-shadow: 0 0 0 2px rgba(209, 247, 39, 0.1);
+}
+
+select.input-field {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='white' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: calc(100% - 1.2rem) center;
+  padding-right: 3rem;
+  cursor: pointer;
+}

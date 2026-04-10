@@ -201,7 +201,6 @@ const Onboarding = ({ refreshProfile }) => {
                                     className="input-field" 
                                     value={profileData.degree_level} 
                                     onChange={e => setProfileData({...profileData, degree_level: e.target.value})}
-                                    style={{ background: 'var(--background)', outline: 'none' }}
                                 >
                                     <option value="">Select Level</option>
                                     <option value="Bachelor's">Bachelor's</option>
