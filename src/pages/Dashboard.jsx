@@ -84,10 +84,10 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
         let jobList = [];
         if (lowerField.includes('tech') || lowerField.includes('computer')) {
             jobList = [
-                { title: 'Junior Web Developer', company: 'Accenture Italia', salary: '€28k - €32k', match: 'Matches your CS background' },
-                { title: 'Technical Support Specialist', company: 'Teleperformace', salary: '€24k - €27k', match: 'Perfect for entry-level tech' },
-                { title: 'Data Entry Analyst', company: 'Reply S.p.A', salary: '€22k - €25k', match: 'Uses your analytical skills' },
-                { title: 'Quality Assurance Tester', company: 'Ubisoft Milan', salary: '€26k - €30k', match: 'Matches your testing profile' }
+                { title: 'Frontend Developer', company: 'Bending Spoons — Milano (Hybrid)', salary: '€40k - €50k', match: 'Matches your IT background' },
+                { title: 'Data Analyst', company: 'Satispay — Milano', salary: '€35k - €45k', match: 'Matches your Business/Tech profile' },
+                { title: 'Junior Software Engineer', company: 'Reply — Turín', salary: '€30k - €38k', match: 'Matches your IT background' },
+                { title: 'IT Support Specialist', company: 'Enel — Rome', salary: '€28k - €35k', match: 'Immediate start available' }
             ];
         } else if (lowerField.includes('nurse') || lowerField.includes('healthcare')) {
             jobList = [
@@ -219,18 +219,34 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
                             <div className="card-hover" style={{ background: 'var(--surface-color)', padding: '1.5rem', borderRadius: '12px', border: '1px solid var(--border-color)' }}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
                                     <span style={{ background: '#C8F135', color: '#0F0F0F', padding: '0.2rem 0.6rem', borderRadius: '20px', fontSize: '0.8rem', fontWeight: 'bold' }}>1</span>
-                                    <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>~1-2 weeks</span>
+                                    <div style={{ display: 'flex', gap: '0.5rem' }}>
+                                        <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', background: 'rgba(255,255,255,0.05)', padding: '0.2rem 0.5rem', borderRadius: '4px' }}>~1 week</span>
+                                        <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', background: 'rgba(255,255,255,0.05)', padding: '0.2rem 0.5rem', borderRadius: '4px' }}>€0</span>
+                                    </div>
                                 </div>
-                                <h4 style={{ fontWeight: 'bold', marginBottom: '0.5rem' }}>Verify with employer</h4>
-                                <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Check if your specific employer requires a CIMEA statement.</p>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <div>
+                                        <h4 style={{ fontWeight: 'bold', marginBottom: '0.5rem' }}>Verify with employer</h4>
+                                        <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Ask potential employers if they require recognition.</p>
+                                    </div>
+                                    <button className="btn-outline" style={{ fontSize: '0.8rem', borderColor: '#C8F135', color: '#C8F135' }}>Mark as done</button>
+                                </div>
                             </div>
                             <div className="card-hover" style={{ background: 'var(--surface-color)', padding: '1.5rem', borderRadius: '12px', border: '1px solid var(--border-color)' }}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
                                     <span style={{ background: '#C8F135', color: '#0F0F0F', padding: '0.2rem 0.6rem', borderRadius: '20px', fontSize: '0.8rem', fontWeight: 'bold' }}>2</span>
-                                    <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>~4 weeks</span>
+                                    <div style={{ display: 'flex', gap: '0.5rem' }}>
+                                        <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', background: 'rgba(255,255,255,0.05)', padding: '0.2rem 0.5rem', borderRadius: '4px' }}>~4 weeks</span>
+                                        <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', background: 'rgba(255,255,255,0.05)', padding: '0.2rem 0.5rem', borderRadius: '4px' }}>€150</span>
+                                    </div>
                                 </div>
-                                <h4 style={{ fontWeight: 'bold', marginBottom: '0.5rem' }}>Optional: CIMEA Statement</h4>
-                                <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Get a statement of comparability for negotiating higher salary scales.</p>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <div>
+                                        <h4 style={{ fontWeight: 'bold', marginBottom: '0.5rem' }}>Optional: CIMEA Statement</h4>
+                                        <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Get a statement of comparability for negotiating salary.</p>
+                                    </div>
+                                    <button className="btn-outline" style={{ fontSize: '0.8rem', borderColor: '#C8F135', color: '#C8F135' }}>Mark as done</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -320,10 +336,13 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
                                 <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>{job.company} • {job.location}</p>
                             </div>
                             <div style={{ background: 'rgba(255,255,255,0.03)', padding: '0.75rem', borderRadius: '8px', fontSize: '0.85rem' }}>
-                                <p style={{ fontWeight: 'bold', color: 'var(--text-secondary)', fontSize: '0.75rem', marginBottom: '0.25rem', textTransform: 'uppercase' }}>Salary / Match</p>
-                                <p>{job.salary || 'Competitive'} • {job.match}</p>
+                                <p style={{ color: '#C8F135', fontWeight: 'bold', marginBottom: '0.25rem' }}>{job.salary || 'Competitive'}</p>
+                                <div style={{ background: 'rgba(200, 241, 53, 0.1)', color: '#C8F135', padding: '0.2rem 0.5rem', borderRadius: '4px', fontSize: '0.75rem', fontWeight: 'bold', display: 'inline-block', marginBottom: '0.5rem' }}>
+                                    No recognition required
+                                </div>
+                                <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>{job.match}</p>
                             </div>
-                            <button className="btn-outline" style={{ width: '100%', marginTop: '0.5rem' }}>Apply Now</button>
+                            <button className="btn-outline" style={{ width: '100%', marginTop: '0.5rem', borderColor: '#C8F135', color: '#C8F135' }}>View Job →</button>
                         </div>
                     ))}
                 </div>
