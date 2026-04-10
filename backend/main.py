@@ -15,6 +15,16 @@ app = FastAPI(title="Avanza Pathfinders API")
 allowed_origins_raw = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173,http://localhost:5174,http://127.0.0.1:5173,http://127.0.0.1:5174")
 allowed_origins = [origin.strip() for origin in allowed_origins_raw.split(",")]
 
+# Safeguard: Explicitly add production domains
+production_domains = [
+    "https://avanza.it.com",
+    "https://www.avanza.it.com",
+    "https://avanza-landing.vercel.app"
+]
+for domain in production_domains:
+    if domain not in allowed_origins:
+        allowed_origins.append(domain)
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,

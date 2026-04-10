@@ -63,6 +63,7 @@ function AppContent() {
   // When user session exists, fetch their profile from the backend
   useEffect(() => {
     if (user) {
+      console.log("App: User session detected. API URL:", API_BASE_URL);
       setAuthStatus('authenticated');
       fetchUserProfile();
     }

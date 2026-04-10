@@ -24,6 +24,9 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
     const username = displayName || fullProfile?.first_name || 'there';
 
     useEffect(() => {
+        // Log API URL for debugging production connectivity
+        console.log("Dashboard: API_BASE_URL is", API_BASE_URL);
+
         if (fullProfile) {
             setProfile(fullProfile.profile);
             if (fullProfile.profile) {
@@ -32,8 +35,12 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
                 setIsRegulated(regulatedKeywords.some(keyword => field.includes(keyword)));
             }
             fetchRecommendations();
+        } else if (user && refreshProfile) {
+            // Fallback: If page is loaded directly and App.jsx hasn't finished fetching yet
+            console.log("Dashboard: profile missing, triggering refresh...");
+            refreshProfile();
         }
-    }, [fullProfile]);
+    }, [fullProfile, user]);
 
     const fetchRecommendations = async () => {
         try {
