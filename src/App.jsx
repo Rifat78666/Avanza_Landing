@@ -17,9 +17,8 @@ import NameCollection from './pages/NameCollection';
 import CVGenerator from './pages/CVGenerator';
 import UploadCV from './pages/UploadCV';
 import Profile from './pages/Profile';
-import ProtectedRoute from './components/ProtectedRoute';
-
 import Footer from './components/Footer';
+import SocialContact from './components/SocialContact';
 
 function AppContent() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
@@ -341,6 +340,7 @@ function AppContent() {
         </Routes>
       </main>
 
+      <SocialContact />
       <Footer />
 
       <AuthModal 
