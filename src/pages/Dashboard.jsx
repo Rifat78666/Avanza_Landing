@@ -137,6 +137,11 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
         }
     }, [fullProfile, user, refreshProfile, fetchRecommendations, profile]);
 
+    if (profile === null && !loadingData) {
+        navigate('/onboarding');
+        return null;
+    }
+
     if (!profile || loadingData) {
         return (
             <div className="container" style={{ paddingTop: '10rem', textAlign: 'center', minHeight: '80vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
