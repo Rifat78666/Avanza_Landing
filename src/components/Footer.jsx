@@ -14,7 +14,7 @@ const Footer = () => {
     }}>
       <div className="container" style={{ 
         display: 'flex',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         alignItems: 'center',
         flexWrap: 'wrap',
         gap: '1rem'
@@ -22,9 +22,6 @@ const Footer = () => {
         <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.85rem' }}>
           &copy; {new Date().getFullYear()} AVANZA. All rights reserved. Registered In Italy.
         </p>
-        <div style={{ display: 'flex', gap: '1.5rem', fontStyle: 'italic', color: 'rgba(255,255,255,0.3)', fontSize: '0.85rem' }}>
-          {t('quote')}
-        </div>
       </div>
     </footer>
   );

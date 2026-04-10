@@ -13,9 +13,56 @@ const LandingPage = ({ onGetStarted, isLoggedIn, userName, onboardingCompleted }
         userName={userName}
         onboardingCompleted={onboardingCompleted}
       />
-      <Features />
-      <TargetAudience />
-      <Partners />
+      <div id="features">
+        <Features 
+          isLoggedIn={isLoggedIn} 
+          onGetStarted={onGetStarted} 
+        />
+      </div>
+      <div id="target-audience">
+        <TargetAudience />
+      </div>
+      
+      {/* Premium Mission Slogan Section */}
+      <section style={{
+        padding: '6rem 1.5rem',
+        textAlign: 'center',
+        background: 'radial-gradient(circle at center, rgba(200, 241, 53, 0.03) 0%, transparent 70%)',
+        position: 'relative'
+      }}>
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+          <div style={{
+            width: '40px',
+            height: '2px',
+            background: '#C8F135',
+            margin: '0 auto 2rem',
+            opacity: 0.5
+          }}></div>
+          <h2 style={{
+            fontSize: '2.5rem',
+            fontWeight: '300',
+            fontStyle: 'italic',
+            color: '#FFFFFF',
+            lineHeight: '1.4',
+            maxWidth: '1000px',
+            margin: '0 auto',
+            letterSpacing: '-1px'
+          }}>
+            "{t('quote')}"
+          </h2>
+          <div style={{
+            width: '40px',
+            height: '2px',
+            background: '#C8F135',
+            margin: '2rem auto 0',
+            opacity: 0.5
+          }}></div>
+        </div>
+      </section>
+
+      <div id="partners">
+        <Partners />
+      </div>
     </>
   );
 };
