@@ -174,11 +174,11 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
         <div className="container" style={{ paddingBottom: '5rem' }}>
             {/* Header section with profile name */}
             <div style={{ marginBottom: '3rem', paddingTop: '2.5rem' }}>
-                <h1 style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '1rem', letterSpacing: '-1.5px' }}>
-                    {t('hello')}, <span style={{ color: '#C8F135' }}>{username}</span>
+                <h1 style={{ fontSize: '3.5rem', fontWeight: 'bold', marginBottom: '1rem', letterSpacing: '-2px', lineHeight: '1.1' }}>
+                    {t('welcomeBack')}, <span style={{ color: '#C8F135' }}>{username}!</span>
                 </h1>
-                <p style={{ fontSize: '1.25rem', color: 'var(--text-secondary)', maxWidth: '600px' }}>
-                    {t('dashboardIntro')}
+                <p style={{ fontSize: '1.4rem', color: 'var(--text-secondary)', maxWidth: '700px', fontWeight: '500' }}>
+                    {t('journeyStart')}
                 </p>
             </div>
 
@@ -231,9 +231,9 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
 
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
                         {(isRegulated ? [
-                            { id: 1, title: t('pathwayStep1Title'), desc: t('pathwayStep1Sub') || 'Embassy Apostille', time: '4w', cost: '€50' },
-                            { id: 2, title: t('pathwayStep2Title'), desc: t('pathwayStep2Sub') || 'CIMEA Equivalency', time: '2w', cost: '€150' },
-                            { id: 3, title: t('pathwayStep3Title'), desc: t('pathwayStep3Sub') || 'MUR Application', time: '6m', cost: '€0' }
+                            { id: 1, title: t('pathwayStep1Title'), desc: t('pathwayStep1Desc'), time: '4w', cost: '€50' },
+                            { id: 2, title: t('pathwayStep2Title'), desc: t('pathwayStep2Desc'), time: '2w', cost: '€150' },
+                            { id: 3, title: t('pathwayStep3Title'), desc: t('pathwayStep3Desc'), time: '6m', cost: '€0' }
                         ] : [
                             { id: 1, title: 'Employer Verification', desc: 'Confirm recognition needs', time: '1w', cost: '€0' },
                             { id: 2, title: 'Direct Job Application', desc: 'Focus on your CV', time: 'Ongoing', cost: '€0' }
