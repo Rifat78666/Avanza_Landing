@@ -3,8 +3,10 @@ import Hero from '../components/Hero';
 import Features from '../components/Features';
 import TargetAudience from '../components/TargetAudience';
 import Partners from '../components/Partners';
+import { useLanguage } from '../LanguageContext';
 
 const LandingPage = ({ onGetStarted, isLoggedIn, userName, onboardingCompleted }) => {
+  const { t } = useLanguage();
   return (
     <>
       <Hero
