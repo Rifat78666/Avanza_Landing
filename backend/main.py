@@ -268,52 +268,70 @@ async def upload_profile_image(file: UploadFile = File(...), user_id: str = Depe
         return {"status": "success", "profile_image_url": public_url}
 
 
-@app.get("/api/dashboard/jobs")
-async def get_dashboard_jobs(user_id: str = Depends(verify_stytch_session)):
-    """Simulates job matching based on user profile."""
+@app.get("/api/dashboard/recommendations")
+async def get_dashboard_recommendations(user_id: str = Depends(verify_stytch_session)):
+    """Simulates job matching and training suggestions in a single call."""
     profile = await get_onboarding_profile(user_id)
     field = (profile.get("profile", {}).get("degree_field") or "General").lower()
     
-    # Simple semantic matching
+    jobs = []
+    training = []
+
+    # Simple semantic matching logic
     if "nurs" in field or "medic" in field or "health" in field:
-        return [
-            {"id": "j1", "title": "Registered Nurse", "company": "Ospedale San Raffaele", "location": "Milan, Italy", "match": "98%", "tags": ["Full-time", "Hybrid Recognition"]},
-            {"id": "j2", "title": "Health Care Assistant", "company": "Villa Salus", "location": "Rome, Italy", "match": "92%", "tags": ["Immediate Hire"]},
-            {"id": "j3", "title": "Clinical Research Coordinator", "company": "HealthFirst IT", "location": "Turin, Italy", "match": "85%", "tags": ["English Required"]},
+        jobs = [
+            {"id": "j1", "title": "Registered Nurse", "company": "Ospedale San Raffaele", "location": "Milan, Italy", "match": "98%", "tags": ["Full-time", "No recognition required"]},
+            {"id": "j2", "title": "Clinical Care Specialist", "company": "Humanitas Research Hospital", "location": "Rozzano, Italy", "match": "92%", "tags": ["Immediate Hire", "No recognition required"]},
         ]
-    elif "it" in field or "software" in field or "compute" in field or "engineer" in field:
-        return [
-            {"id": "j4", "title": "Full Stack Developer", "company": "TechItalia", "location": "Milan, Italy", "match": "95%", "tags": ["Remote", "Visa Support"]},
-            {"id": "j5", "title": "Database Administrator", "company": "DataFlow Turin", "location": "Turin, Italy", "match": "89%", "tags": ["Contract"]},
-            {"id": "j6", "title": "IT Project Manager", "company": "Global Connect", "location": "Rome, Italy", "match": "82%", "tags": ["Management"]},
+        training = [
+            {"id": "t1", "title": "Italian for Medical Professionals (C1/B2)", "provider": "Università di Bologna", "duration": "4 Months", "price": "FREE", "type": "Language"},
+            {"id": "t2", "title": "The Italian National Health System (SSN) Basics", "provider": "Regione Lombardia", "duration": "20 Hours", "price": "FREE", "type": "Regulations"},
+        ]
+    elif "it" in field or "software" in field or "compute" in field or "data" in field:
+        jobs = [
+            {"id": "j4", "title": "Full Stack Developer", "company": "TechItalia Solutions", "location": "Milan, Italy", "match": "95%", "tags": ["Remote", "No recognition required"]},
+            {"id": "j5", "title": "Data Analyst", "company": "Fintech Milano", "location": "Milan, Italy", "match": "89%", "tags": ["Hybrid", "No recognition required"]},
+        ]
+        training = [
+            {"id": "t3", "title": "Sviluppo Web Full Stack", "provider": "AFOL Metropolitana", "duration": "12 Weeks", "price": "FREE", "type": "Technical"},
+            {"id": "t4", "title": "Google IT Support Certificate", "provider": "Google Activate", "duration": "6 Months", "price": "FREE", "type": "Technical"},
+        ]
+    elif "engineer" in field or "architect" in field:
+        jobs = [
+            {"id": "j6", "title": "Junior Civil Engineer", "company": "EdilNord", "location": "Turin, Italy", "match": "90%", "tags": ["No recognition required"]},
+            {"id": "j7", "title": "CAD Technician", "company": "Arch Studio Milan", "location": "Milan, Italy", "match": "85%", "tags": ["No recognition required"]},
+        ]
+        training = [
+            {"id": "t5", "title": "Progettazione CAD 3D", "provider": "AFOL", "duration": "8 Weeks", "price": "FREE", "type": "Technical"},
+            {"id": "t6", "title": "AutoCAD Fundamentals", "provider": "Coursera", "duration": "Self-paced", "price": "FREE", "type": "Technical"},
         ]
     else:
-        return [
-            {"id": "j7", "title": "Professional Services Associate", "company": "Consult IT", "location": "Milan, Italy", "match": "90%", "tags": ["Entry Level"]},
-            {"id": "j8", "title": "Customer Success Representative", "company": "ServiceHub", "location": "Smart Working", "match": "85%", "tags": ["Remote"]},
+        # Business / Others
+        jobs = [
+            {"id": "j8", "title": "Digital Marketing Associate", "company": "Creative Hub Italy", "location": "Rome, Italy", "match": "90%", "tags": ["No recognition required"]},
+            {"id": "j9", "title": "Customer Success Representative", "company": "ServicePlus", "location": "Remote", "match": "85%", "tags": ["No recognition required"]},
         ]
+        training = [
+            {"id": "t7", "title": "Digital Marketing Certificate", "provider": "Google Activate", "duration": "3 Months", "price": "FREE", "type": "Business"},
+            {"id": "t8", "title": "Excel e Analisi Dati", "provider": "AFOL", "duration": "4 Weeks", "price": "FREE", "type": "Business"},
+        ]
+
+    return {
+        "jobs": jobs,
+        "training": training
+    }
+
+@app.get("/api/dashboard/jobs")
+async def get_dashboard_jobs(user_id: str = Depends(verify_stytch_session)):
+    # Keep for compatibility or remove later
+    res = await get_dashboard_recommendations(user_id)
+    return res["jobs"]
 
 @app.get("/api/dashboard/training")
 async def get_dashboard_training(user_id: str = Depends(verify_stytch_session)):
-    """Simulates training suggestions based on user profile."""
-    profile = await get_onboarding_profile(user_id)
-    field = (profile.get("profile", {}).get("degree_field") or "General").lower()
-    
-    if "nurs" in field or "medic" in field or "health" in field:
-        return [
-            {"id": "t1", "title": "Italian for Medical Professionals (C1/B2)", "provider": "Università di Bologna", "duration": "4 Months", "price": "Free", "type": "Language"},
-            {"id": "t2", "title": "The Italian National Health System (SSN) Basics", "provider": "Regione Lombardia", "duration": "20 Hours", "price": "€50", "type": "Regulations"},
-        ]
-    elif "it" in field or "software" in field or "compute" in field or "engineer" in field:
-        return [
-            {"id": "t3", "title": "Cloud Architecture (AWS/Azure) Certification", "provider": "Politecnico di Milano", "duration": "6 Months", "price": "Free (Regional Fund)", "type": "Technical"},
-            {"id": "t4", "title": "Agile Methodologies in Italian Enterprise", "provider": "Milan Startup Hub", "duration": "2 Weeks", "price": "€150", "type": "Process"},
-        ]
-    else:
-        return [
-            {"id": "t5", "title": "Business Italian Intermediate", "provider": "Istituto Dante Alighieri", "duration": "3 Months", "price": "Free", "type": "Language"},
-            {"id": "t6", "title": "Digital Skills for the Italian Workforce", "provider": "Google Career Certificates", "duration": "Flexible", "price": "Free", "type": "Digital"},
-        ]
+    # Keep for compatibility or remove later
+    res = await get_dashboard_recommendations(user_id)
+    return res["training"]
 
 
 @app.post("/api/cv/upload")

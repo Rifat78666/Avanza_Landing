@@ -35,7 +35,7 @@ const Onboarding = () => {
                     const token = stytch.session.getTokens()?.session_token;
                     if (!token) return;
 
-                    const resp = await fetch('http://localhost:8000/api/user/profile', {
+                    const resp = await fetch(`${API_BASE_URL}/api/user/profile`, {
                         headers: { 'Authorization': `Bearer ${token}` }
                     });
                     if (resp.ok) {
@@ -98,9 +98,15 @@ const Onboarding = () => {
             
             if (currentStep >= 4) {
                 clearInterval(interval);
+                
+                // Link language preference to app state
+                if (profileData.language_preference) {
+                    setLanguage(profileData.language_preference);
+                }
+
                 setTimeout(() => {
                     navigate('/dashboard');
-                }, 2000);
+                }, 1000);
             }
         }, 2000);
     };

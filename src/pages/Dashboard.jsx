@@ -97,21 +97,14 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
                         </div>
                     </div>
                     <p style={{ color: 'var(--text-primary)', lineHeight: '1.6', fontSize: '1.1rem' }}>
-                        {isRegulated ? (
-                            t('summaryRegulated')
-                                .replace('{degree_level}', profile.degree_level)
-                                .replace('{degree_field}', profile.degree_field)
-                                .replace('{degree_country}', profile.degree_country)
-                                .replaceAll('{degree_field}', profile.degree_field)
-                        ) : profile.degree_level && profile.degree_field ? (
-                            t('summaryUnregulated')
-                                .replace('{degree_level}', profile.degree_level)
-                                .replace('{degree_field}', profile.degree_field)
-                                .replace('{degree_country}', profile.degree_country)
-                                .replaceAll('{degree_field}', profile.degree_field)
-                        ) : (
-                            t('summaryGeneric')
-                        )}
+                        {(() => {
+                            let template = isRegulated ? t('summaryRegulated') : (profile.degree_level && profile.degree_field ? t('summaryUnregulated') : t('summaryGeneric'));
+                            return template
+                                .replace('{degree_level}', profile.degree_level || 'degree')
+                                .replace('{degree_field}', profile.degree_field || 'your field')
+                                .replace('{degree_country}', profile.degree_country || 'your country')
+                                .replaceAll('{degree_field}', profile.degree_field || 'your field');
+                        })()}
                     </p>
                 </div>
 

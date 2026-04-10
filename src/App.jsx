@@ -23,6 +23,8 @@ function AppContent() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authMode, setAuthMode] = useState('login');
   const [authStatus, setAuthStatus] = useState('loading'); // 'idle' | 'authenticating' | 'authenticated' | 'loading'
+  
+  const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
   const [fullProfileData, setFullProfileData] = useState(null);
   const [displayName, setDisplayName] = useState('');
   const [profileImageUrl, setProfileImageUrl] = useState(null);
@@ -48,6 +50,8 @@ function AppContent() {
       }).then(() => {
         setAuthStatus('authenticated');
         window.history.replaceState({}, document.title, window.location.pathname);
+        // Promptly fetch profile to trigger name collection if needed
+        fetchUserProfile();
       }).catch((err) => {
         console.error('Magic Link authentication failed:', err);
         setAuthStatus('idle');

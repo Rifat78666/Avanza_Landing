@@ -93,7 +93,7 @@ const translations = {
     situationSummary: "AI-Generated Situation Summary",
     summaryRegulated: "You have a {degree_level} in {degree_field} from {degree_country}. In Italy, {degree_field} is a regulated profession requiring formal recognition through the Ministry of University and Research (MUR). We will guide you through each step of the process.",
     summaryUnregulated: "You have a {degree_level} in {degree_field} from {degree_country}. In Italy, {degree_field} is typically an unregulated profession — you may not need formal degree recognition to work in the private sector. Your fastest path is applying to companies directly while we help you find the right roles and any skill gaps.",
-    summaryGeneric: "Based on your goals, we have identified the most relevant pathways for you in the Italian job market. Explore your personalised steps below.",
+    summaryGeneric: "You have a {degree_level} in {degree_field} from {degree_country}. Based on your goals, we have identified the most relevant pathways for you in the Italian job market. Explore your personalised steps below.",
     recognitionPathway: "Your Recognition Pathway",
     freeTraining: "Free Training Courses for You",
     freeTrainingSub: "Government-funded courses matched to your profile — no cost to you",
