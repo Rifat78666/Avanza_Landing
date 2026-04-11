@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile, File, HTTPException, Header, Depends
+from fastapi import FastAPI, UploadFile, File, HTTPException, Header, Depends, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional, Dict, Any
@@ -6,6 +6,8 @@ import os
 import httpx
 import stytch
 from dotenv import load_dotenv
+from fpdf import FPDF
+from io import BytesIO
 
 load_dotenv()
 
@@ -97,6 +99,13 @@ async def verify_stytch_session(authorization: Optional[str] = Header(None)):
 
     token = authorization.split(" ")[1]
 
+async def verify_stytch_session(authorization: Optional[str] = Header(None)):
+    """Verifies the Stytch session token from the Authorization header."""
+    if not authorization or not authorization.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Unauthorized: Missing or invalid token format.")
+
+    token = authorization.split(" ")[1]
+
     try:
         resp = stytch_client.sessions.authenticate(session_token=token)
         if hasattr(resp, "session") and resp.session:
@@ -105,6 +114,28 @@ async def verify_stytch_session(authorization: Optional[str] = Header(None)):
     except Exception as e:
         print(f"Stytch Auth Error: {e}")
         raise HTTPException(status_code=401, detail="Unauthorized: Session verification failed.")
+
+
+async def verify_admin_session(user_id: str = Depends(verify_stytch_session)):
+    """Dependency that ensures the current user is an authorized admin."""
+    admin_emails_raw = os.getenv("ADMIN_EMAILS", "")
+    admin_emails = [e.strip() for e in admin_emails_raw.split(",") if e.strip()]
+    
+    try:
+        user_resp = stytch_client.users.get(user_id=user_id)
+        user_email = ""
+        for email_obj in user_resp.emails:
+            if email_obj.email:
+                user_email = email_obj.email
+                break
+        
+        if user_email in admin_emails:
+            return user_id
+            
+        raise HTTPException(status_code=403, detail="Forbidden: You do not have administrative privileges.")
+    except Exception as e:
+        print(f"Admin Verification Error: {e}")
+        raise HTTPException(status_code=403, detail="Forbidden: Admin verification failed.")
 
 
 # --- Endpoints ---
@@ -359,18 +390,133 @@ async def get_dashboard_recommendations(user_id: str = Depends(verify_stytch_ses
         "training": training
     }
 
-@app.get("/api/dashboard/jobs")
-async def get_dashboard_jobs(user_id: str = Depends(verify_stytch_session)):
-    # Keep for compatibility or remove later
-    res = await get_dashboard_recommendations(user_id)
-    return res["jobs"]
+# --- Recognition Journey Endpoints ---
 
-@app.get("/api/dashboard/training")
-async def get_dashboard_training(user_id: str = Depends(verify_stytch_session)):
-    # Keep for compatibility or remove later
-    res = await get_dashboard_recommendations(user_id)
-    return res["training"]
+@app.get("/api/recognition/journey")
+async def get_recognition_journey(user_id: str = Depends(verify_stytch_session)):
+    """Fetches the user's recognition journey steps."""
+    journey = await supabase_select("recognition_journey", f"user_id=eq.{user_id}&select=*")
+    return journey
 
+@app.patch("/api/recognition/journey")
+async def update_recognition_step(data: Dict[str, Any], user_id: str = Depends(verify_stytch_session)):
+    """Updates the status of a specific recognition step."""
+    step_key = data.get("step_key")
+    status = data.get("status") # 'not_started', 'in_progress', 'completed'
+    
+    if not step_key or not status:
+        raise HTTPException(status_code=400, detail="step_key and status are required.")
+    
+    result = await supabase_upsert("recognition_journey", {
+        "user_id": user_id,
+        "step_key": step_key,
+        "status": status,
+        "updated_at": "now()"
+    })
+    
+    if result is None:
+        raise HTTPException(status_code=500, detail="Failed to update recognition step.")
+    
+    return {"status": "success", "step": result[0] if result else None}
+
+# --- Document Vault Endpoints ---
+
+@app.get("/api/vault/documents")
+async def get_vault_documents(user_id: str = Depends(verify_stytch_session)):
+    """Fetches all documents in the user's vault."""
+    docs = await supabase_select("document_vault", f"user_id=eq.{user_id}&select=*&order=created_at.desc")
+    return docs
+
+@app.post("/api/vault/upload")
+async def upload_vault_document(
+    doc_type: str, 
+    file: UploadFile = File(...), 
+    user_id: str = Depends(verify_stytch_session)
+):
+    """Uploads a document to Supabase Storage and records it in the vault table."""
+    # Validate file type
+    allowed_types = [
+        "application/pdf", 
+        "image/jpeg", 
+        "image/png", 
+        "application/msword", 
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    ]
+    if file.content_type not in allowed_types:
+        raise HTTPException(status_code=400, detail="Invalid file type. Support PDF, JPG, PNG, and Word.")
+
+    contents = await file.read()
+    if len(contents) > 5 * 1024 * 1024:
+        raise HTTPException(status_code=400, detail="File too large. Max 5MB.")
+
+    import time
+    timestamp = int(time.time())
+    safe_name = "".join([c if c.isalnum() else "_" for c in file.filename])
+    filename = f"docs/{user_id}/{timestamp}_{safe_name}"
+    bucket = "vault"
+    url = f"{SUPABASE_URL}/storage/v1/object/{bucket}/{filename}"
+    
+    headers = {
+        "apikey": SUPABASE_KEY,
+        "Authorization": f"Bearer {SUPABASE_KEY}",
+        "Content-Type": file.content_type,
+        "x-upsert": "true"
+    }
+    
+    async with httpx.AsyncClient() as client:
+        # 1. Upload to Storage
+        upload_resp = await client.post(url, content=contents, headers=headers)
+        
+        if upload_resp.status_code == 404:
+            # Create bucket if not exists
+            create_bucket_url = f"{SUPABASE_URL}/storage/v1/buckets"
+            await client.post(create_bucket_url, json={"name": bucket, "public": False}, headers=headers)
+            upload_resp = await client.post(url, content=contents, headers=headers)
+
+        if upload_resp.status_code >= 400:
+            raise HTTPException(status_code=500, detail=f"Storage Error: {upload_resp.text}")
+        
+        # 2. Record in database
+        # Note: We use the private URL because these are sensitive documents
+        clean_url = f"{SUPABASE_URL}/storage/v1/object/authenticated/{bucket}/{filename}"
+        
+        doc_record = {
+            "user_id": user_id,
+            "doc_type": doc_type,
+            "file_name": file.filename,
+            "file_url": clean_url,
+            "metadata": {"content_type": file.content_type, "size": len(contents)}
+        }
+        
+        result = await supabase_upsert("document_vault", doc_record)
+        return {"status": "success", "document": result[0] if result else None}
+
+@app.delete("/api/vault/documents/{doc_id}")
+async def delete_vault_document(doc_id: str, user_id: str = Depends(verify_stytch_session)):
+    """Deletes a document from the vault."""
+    # Verifying ownership first
+    docs = await supabase_select("document_vault", f"id=eq.{doc_id}&user_id=eq.{user_id}")
+    if not docs:
+        raise HTTPException(status_code=404, detail="Document not found.")
+    
+    # Delete from DB
+    await supabase_delete("document_vault", f"id=eq.{doc_id}")
+    return {"status": "success"}
+
+@app.get("/api/partners/translators")
+async def get_translators(city: Optional[str] = None):
+    """Returns a curated list of sworn translators."""
+    # Mock database for translators
+    translators = [
+        {"name": "Studio Traduzione Milano", "city": "Milano", "specialties": ["English", "Arabic", "French"], "verified": True, "contact": "info@traduzionimilano.it"},
+        {"name": "Global Lex Roma", "city": "Roma", "specialties": ["Spanish", "Hindi", "Bengali"], "verified": True, "contact": "roma@globallex.com"},
+        {"name": "Anna Rossi - Perito Giurato", "city": "Torino", "specialties": ["English", "Spanish"], "verified": True, "contact": "anna.rossi@giurato.it"},
+        {"name": "Mediterranean Links", "city": "Napoli", "specialties": ["Arabic", "French"], "verified": True, "contact": "service@medlinks.it"}
+    ]
+    
+    if city:
+        return [t for t in translators if t["city"].lower() == city.lower()]
+    return translators
 
 @app.post("/api/cv/upload")
 async def upload_cv(file: UploadFile = File(...)):
@@ -390,18 +536,154 @@ async def match_jobs(target_role: str, location: str = "Italy", skills: List[str
     return {"status": "success", "matches": mock_jobs}
 
 
-@app.delete("/api/user")
-async def delete_user_account(user_id: str = Depends(verify_stytch_session)):
-    """Wipes the user's data from the system for a total reset."""
-    try:
-        # 1. Delete from onboarding_profiles
-        await supabase_delete("onboarding_profiles", f"user_id=eq.{user_id}")
+@app.get("/api/recognition/dossier")
+async def get_recognition_dossier(user_id: str = Depends(verify_stytch_session)):
+    """Generates a professional PDF dossier for degree recognition."""
+    # 1. Fetch data
+    full_profile = await get_full_profile(user_id)
+    profile = full_profile.get("profile")
+    first_name = full_profile.get("first_name", "User")
+    
+    if not profile:
+        raise HTTPException(status_code=400, detail="Profile not found. Please complete onboarding first.")
+
+    # 2. Setup PDF
+    pdf = FPDF()
+    pdf.add_page()
+    
+    # Header
+    pdf.set_fill_color(20, 20, 20) # Sleek Dark Header
+    pdf.rect(0, 0, 210, 40, 'F')
+    
+    pdf.set_font("helvetica", "B", 24)
+    pdf.set_text_color(200, 241, 53) # Avanza Accent Color
+    pdf.set_xy(15, 12)
+    pdf.cell(0, 10, "AVANZA PATHFINDERS", ln=True)
+    
+    pdf.set_font("helvetica", "", 12)
+    pdf.set_text_color(255, 255, 255)
+    pdf.set_xy(15, 22)
+    pdf.cell(0, 10, "Personalized Degree Recognition Dossier", ln=True)
+    
+    # Body
+    pdf.set_text_color(0, 0, 0)
+    pdf.set_xy(15, 50)
+    
+    # Section: Candidate Profile
+    pdf.set_font("helvetica", "B", 16)
+    pdf.cell(0, 10, "1. Candidate Profile", ln=True)
+    pdf.line(15, 60, 195, 60)
+    pdf.ln(5)
+    
+    pdf.set_font("helvetica", "", 11)
+    data = [
+        ["Full Name", first_name],
+        ["Degree Level", profile.get("degree_level", "N/A")],
+        ["Field of Study", profile.get("degree_field", "N/A")],
+        ["Country of Issue", profile.get("degree_country", "N/A")],
+        ["University", profile.get("university", "Refer to Vault")],
+    ]
+    
+    for label, value in data:
+        pdf.set_font("helvetica", "B", 11)
+        pdf.cell(50, 8, f"{label}:", 0)
+        pdf.set_font("helvetica", "", 11)
+        pdf.cell(0, 8, str(value), 0, 1)
+    
+    pdf.ln(10)
+    
+    # Section: Eligibility Analysis
+    pdf.set_font("helvetica", "B", 16)
+    pdf.cell(0, 10, "2. Eligibility & Pathway Summary", ln=True)
+    pdf.line(15, 110, 195, 110)
+    pdf.ln(5)
+    
+    field = profile.get("degree_field", "").lower()
+    regulated_keywords = ['medicine', 'doctor', 'nurse', 'engineer', 'architect', 'teacher']
+    is_regulated = any(k in field for k in regulated_keywords)
+    
+    pdf.set_font("helvetica", "I", 11)
+    if is_regulated:
+        status_text = f"The profession of {field} is REGULATED in Italy. You must obtain formal recognition from the Ministry of University and Research (MUR) or Health."
+    else:
+        status_text = f"The profession of {field} is UNREGULATED in Italy. You can typically apply for private sector roles without formal degree recognition."
+    
+    pdf.multi_cell(0, 8, status_text)
+    pdf.ln(5)
+    
+    # Section: Official Steps
+    pdf.set_font("helvetica", "B", 14)
+    pdf.cell(0, 10, "Required Actions (Bilingual Guide)", ln=True)
+    pdf.ln(2)
+    
+    steps = [
+        ("Apostille / Legalization", "Required from your country's Ministry or Consulate."),
+        ("Sworn Translation (Traduzione Giurata)", "Must be performed by a translator registered with an Italian court."),
+        ("CIMEA / Statement of Comparability", "Recommended for unregulated; mandatory for some universities.")
+    ]
+    
+    for i, (title, desc) in enumerate(steps, 1):
+        pdf.set_font("helvetica", "B", 11)
+        pdf.cell(0, 8, f"Step {i}: {title}", ln=True)
+        pdf.set_font("helvetica", "", 10)
+        pdf.multi_cell(0, 6, desc)
+        pdf.ln(2)
+    
+    # Footer
+    pdf.set_y(-30)
+    pdf.set_font("helvetica", "I", 8)
+    pdf.set_text_color(150, 150, 150)
+    pdf.cell(0, 10, "This document is an informational helper generated by the Avanza Platform. It is not an official certificate.", align='C')
+    pdf.ln(4)
+    pdf.cell(0, 10, "Verify status at cimea-diplome.it", align='C')
+
+# --- Admin Portal Endpoints ---
+
+@app.get("/api/admin/users")
+async def admin_get_users(admin_id: str = Depends(verify_admin_session)):
+    """Fetches all users and their onboarding profiles for admin review."""
+    users = await supabase_select("users", "select=*&order=created_at.desc")
+    # Join with profiles manually (REST doesn't support complex joins easily)
+    profiles = await supabase_select("onboarding_profiles", "select=*")
+    
+    # Create a map for quick lookup
+    profile_map = {p['user_id']: p for p in profiles}
+    
+    combined = []
+    for u in users:
+        u_id = u['user_id']
+        combined.append({
+            **u,
+            "profile": profile_map.get(u_id)
+        })
+    
+    return combined
+
+@app.get("/api/admin/documents")
+async def admin_get_all_documents(admin_id: str = Depends(verify_admin_session)):
+    """Fetches all uploaded documents across all users."""
+    docs = await supabase_select("document_vault", "select=*,users(first_name)&order=created_at.desc")
+    return docs
+
+@app.patch("/api/admin/documents/{doc_id}")
+async def admin_update_document_status(
+    doc_id: str, 
+    data: Dict[str, Any], 
+    admin_id: str = Depends(verify_admin_session)
+):
+    """Updates the verification status of a user document."""
+    status = data.get("verification_status") # 'pending', 'verified', 'rejected'
+    notes = data.get("admin_notes")
+    
+    if not status:
+        raise HTTPException(status_code=400, detail="verification_status is required.")
         
-        # 2. Delete from users table (total reset)
-        await supabase_delete("users", f"user_id=eq.{user_id}")
+    update_data = {"id": doc_id, "verification_status": status}
+    if notes is not None:
+        update_data["admin_notes"] = notes
         
-        print(f"Deep clean completed for user: {user_id}")
-        return {"status": "success", "message": "Account data fully wiped"}
-    except Exception as e:
-        print(f"Deletion error: {str(e)}")
-        raise HTTPException(status_code=500, detail="Failed to delete account data.")
+    result = await supabase_upsert("document_vault", update_data)
+    if not result:
+        raise HTTPException(status_code=500, detail="Failed to update document status.")
+        
+    return {"status": "success", "document": result[0]}

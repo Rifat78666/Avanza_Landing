@@ -135,6 +135,80 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
         }
     }, [stytch]);
 
+    const [journeySteps, setJourneySteps] = useState([]);
+    
+    const fetchJourney = useCallback(async () => {
+        try {
+            const token = stytch.session.getTokens()?.session_token;
+            if (!token) return;
+
+            const res = await fetch(`${API_BASE_URL}/api/recognition/journey`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (res.ok) {
+                const data = await res.json();
+                setJourneySteps(data);
+            }
+        } catch (err) {
+            console.error("Journey fetch error", err);
+        }
+    }, [stytch]);
+
+    const toggleStep = async (stepKey, status) => {
+        try {
+            const token = stytch.session.getTokens()?.session_token;
+            if (!token) return;
+
+            const res = await fetch(`${API_BASE_URL}/api/recognition/journey`, {
+                method: 'PATCH',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` 
+                },
+                body: JSON.stringify({ step_key: stepKey, status: status })
+            });
+
+            if (res.ok) {
+                fetchJourney();
+            }
+        } catch (err) {
+            console.error("Toggle step error", err);
+        }
+    };
+
+    const handleDownloadDossier = async () => {
+        try {
+            const token = stytch.session.getTokens()?.session_token;
+            if (!token) return;
+
+            const res = await fetch(`${API_BASE_URL}/api/recognition/dossier`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            
+            if (res.ok) {
+                const blob = await res.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `Avanza_Dossier_${username}.pdf`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+            } else {
+                console.error("Dossier generation failed");
+            }
+        } catch (err) {
+            console.error("Dossier error", err);
+        }
+    };
+
+    // Initial load
+    useEffect(() => {
+        if (user) {
+            fetchJourney();
+        }
+    }, [user, fetchJourney]);
+
     // Sync local profile state with fullProfile prop
     useEffect(() => {
         if (fullProfile?.profile) {
@@ -220,9 +294,47 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
                 border: '1px solid rgba(255,255,255,0.08)',
                 marginBottom: '3.5rem'
             }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2rem' }}>
-                    <Map size={28} color="#C8F135" />
-                    <h2 style={{ fontSize: '1.6rem', fontWeight: 'bold' }}>{t('recognitionPathway')}</h2>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                        <Map size={28} color="#C8F135" />
+                        <h2 style={{ fontSize: '1.6rem', fontWeight: 'bold' }}>{t('recognitionPathway')}</h2>
+                    </div>
+                    <div style={{ display: 'flex', gap: '1rem' }}>
+                        <button 
+                            onClick={handleDownloadDossier}
+                            style={{
+                                background: 'rgba(255, 255, 255, 0.05)',
+                                color: '#FFFFFF',
+                                border: '1px solid rgba(255, 255, 255, 0.1)',
+                                padding: '0.6rem 1.2rem',
+                                borderRadius: '12px',
+                                fontWeight: 'bold',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '0.5rem'
+                            }}
+                        >
+                            <FileText size={18} /> Download Dossier (PDF)
+                        </button>
+                        <button 
+                            onClick={() => navigate('/vault')}
+                            style={{
+                                background: 'rgba(200, 241, 53, 0.1)',
+                                color: '#C8F135',
+                                border: '1px solid rgba(200, 241, 53, 0.2)',
+                                padding: '0.6rem 1.2rem',
+                                borderRadius: '12px',
+                                fontWeight: 'bold',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '0.5rem'
+                            }}
+                        >
+                            <UploadCloud size={18} /> {t('uploadDocumentsTitle')}
+                        </button>
+                    </div>
                 </div>
 
                 {/* Good News Alert Box (Only for unregulated) */}
@@ -246,35 +358,56 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
                     {(isRegulated ? [
-                        { id: 1, title: t('pathwayStep1Title'), desc: t('pathwayStep1Desc'), time: '~4 weeks', cost: '€50' },
-                        { id: 2, title: t('pathwayStep2Title'), desc: t('pathwayStep2Desc'), time: '~2 weeks', cost: '€150' },
-                        { id: 3, title: t('pathwayStep3Title'), desc: t('pathwayStep3Desc'), time: '~6 months', cost: '€0' }
+                        { id: 1, key: 'apostille', title: t('pathwayStep1Title'), desc: t('pathwayStep1Desc'), time: '~4 weeks', cost: '€50' },
+                        { id: 2, key: 'translation', title: t('pathwayStep2Title'), desc: t('pathwayStep2Desc'), time: '~2 weeks', cost: '€150' },
+                        { id: 3, key: 'cimea_submission', title: t('pathwayStep3Title'), desc: t('pathwayStep3Desc'), time: '~6 months', cost: '€0' }
                     ] : [
-                        { id: 1, title: t('verifyEmployer'), desc: t('verifyEmployerDesc'), time: '~1 week', cost: '€0' },
-                        { id: 2, title: t('optionalCIMEA'), desc: t('optionalCIMEADesc'), time: '~4 weeks', cost: '€150' }
-                    ]).map(step => (
-                        <div key={step.id} style={{ 
-                            display: 'flex', gap: '1.5rem', alignItems: 'center', 
-                            background: 'rgba(255,255,255,0.03)', padding: '1.25rem 1.8rem', 
-                            borderRadius: '20px', border: '1px solid rgba(255,255,255,0.05)' 
-                        }}>
-                            <div style={{ 
-                                width: '32px', height: '32px', borderRadius: '50%', background: '#C8F135', 
-                                color: '#0F0F0F', border: '2px solid #C8F135',
-                                display: 'flex', alignItems: 'center', justifyContent: 'center', 
-                                fontWeight: 'bold', flexShrink: 0, fontSize: '0.95rem'
-                            }}>{step.id}</div>
-                            <div style={{ flex: 1 }}>
-                                <h4 style={{ fontWeight: 'bold', fontSize: '1.1rem', marginBottom: '0.15rem' }}>{step.title}</h4>
-                                <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.9rem' }}>{step.desc}</p>
+                        { id: 1, key: 'employer_verify', title: t('verifyEmployer'), desc: t('verifyEmployerDesc'), time: '~1 week', cost: '€0' },
+                        { id: 2, key: 'cimea_optional', title: t('optionalCIMEA'), desc: t('optionalCIMEADesc'), time: '~4 weeks', cost: '€150' }
+                    ]).map(step => {
+                        const isDone = journeySteps.some(js => js.step_key === step.key && js.status === 'completed');
+                        return (
+                            <div key={step.id} style={{ 
+                                display: 'flex', gap: '1.5rem', alignItems: 'center', 
+                                background: isDone ? 'rgba(200, 241, 53, 0.03)' : 'rgba(255,255,255,0.03)', 
+                                padding: '1.25rem 1.8rem', 
+                                borderRadius: '20px', 
+                                border: `1px solid ${isDone ? 'rgba(200, 241, 53, 0.2)' : 'rgba(255,255,255,0.05)'}`,
+                                opacity: isDone ? 0.8 : 1
+                            }}>
+                                <div style={{ 
+                                    width: '32px', height: '32px', borderRadius: '50%', 
+                                    background: isDone ? '#C8F135' : 'transparent', 
+                                    color: isDone ? '#0F0F0F' : '#C8F135', 
+                                    border: '2px solid #C8F135',
+                                    display: 'flex', alignItems: 'center', justifyContent: 'center', 
+                                    fontWeight: 'bold', flexShrink: 0, fontSize: '0.95rem'
+                                }}>
+                                    {isDone ? <CheckCircle size={18} /> : step.id}
+                                </div>
+                                <div style={{ flex: 1 }}>
+                                    <h4 style={{ fontWeight: 'bold', fontSize: '1.1rem', marginBottom: '0.15rem', color: isDone ? 'rgba(255,255,255,0.6)' : '#fff' }}>{step.title}</h4>
+                                    <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.9rem' }}>{step.desc}</p>
+                                </div>
+                                <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                                    <span style={{ background: 'rgba(255,255,255,0.1)', padding: '0.4rem 0.6rem', borderRadius: '6px', fontSize: '0.8rem' }}>{step.time}</span>
+                                </div>
+                                <button 
+                                    onClick={() => toggleStep(step.key, isDone ? 'not_started' : 'completed')}
+                                    className="btn-outline" 
+                                    style={{ 
+                                        borderColor: isDone ? 'rgba(255,255,255,0.2)' : '#C8F135', 
+                                        color: isDone ? 'rgba(255,255,255,0.5)' : '#C8F135', 
+                                        fontSize: '0.9rem', 
+                                        padding: '0.4rem 0.8rem', 
+                                        borderRadius: '8px' 
+                                    }}
+                                >
+                                    {isDone ? t('done') : t('markAsDone')}
+                                </button>
                             </div>
-                            <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                                <span style={{ background: 'rgba(255,255,255,0.1)', padding: '0.4rem 0.6rem', borderRadius: '6px', fontSize: '0.8rem' }}>{step.time}</span>
-                                <span style={{ background: 'rgba(255,255,255,0.1)', padding: '0.4rem 0.6rem', borderRadius: '6px', fontSize: '0.8rem' }}>{step.cost}</span>
-                            </div>
-                            <button className="btn-outline" style={{ borderColor: '#C8F135', color: '#C8F135', fontSize: '0.9rem', padding: '0.4rem 0.8rem', borderRadius: '8px' }}>{t('markAsDone')}</button>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             </div>
 

@@ -17,6 +17,8 @@ import NameCollection from './pages/NameCollection';
 import CVGenerator from './pages/CVGenerator';
 import UploadCV from './pages/UploadCV';
 import Profile from './pages/Profile';
+import DocumentVault from './pages/DocumentVault';
+import AdminPortal from './pages/AdminPortal';
 import ProtectedRoute from './components/ProtectedRoute';
 import Footer from './components/Footer';
 import SocialContact from './components/SocialContact';
@@ -244,7 +246,7 @@ function AppContent() {
                  <span style={{ cursor: 'pointer', color: location.pathname === '/dashboard' ? 'var(--accent-color)' : 'var(--text-secondary)', fontWeight: location.pathname === '/dashboard' ? 'bold' : 'normal' }} onClick={() => navigate('/dashboard')}>{t('dashboard')}</span>
                  <span style={{ cursor: 'pointer', color: location.pathname === '/profile' ? 'var(--accent-color)' : 'var(--text-secondary)', fontWeight: location.pathname === '/profile' ? 'bold' : 'normal' }} onClick={() => navigate('/profile')}>{t('myProfile')}</span>
                  <span style={{ cursor: 'pointer', color: location.pathname === '/settings' ? 'var(--accent-color)' : 'var(--text-secondary)', fontWeight: location.pathname === '/settings' ? 'bold' : 'normal' }} onClick={() => navigate('/settings')}>{t('settings')}</span>
-                 {user?.emails?.[0]?.email && user.emails[0].email === import.meta.env.VITE_ADMIN_EMAIL && (
+                 {user?.emails?.[0]?.email && (import.meta.env.VITE_ADMIN_EMAILS || '').split(',').includes(user.emails[0].email) && (
                      <span style={{ cursor: 'pointer', color: 'var(--accent-color)', fontWeight: 'bold' }} onClick={() => navigate('/admin')}>{t('admin')}</span>
                  )}
                  <div style={{ borderLeft: '1px solid var(--border-color)', height: '20px' }}></div>
@@ -337,6 +339,23 @@ function AppContent() {
           <Route path="/upload-cv" element={
               <ProtectedRoute>
                   <UploadCV />
+              </ProtectedRoute>
+          } />
+          <Route path="/vault" element={
+              <ProtectedRoute>
+                  <DocumentVault user_id={user?.id} />
+              </ProtectedRoute>
+          } />
+          <Route path="/admin" element={
+              <ProtectedRoute>
+                  {user?.emails?.[0]?.email && (import.meta.env.VITE_ADMIN_EMAILS || '').split(',').includes(user.emails[0].email) ? (
+                      <AdminPortal />
+                  ) : (
+                      <div className="container" style={{ paddingTop: '10rem', textAlign: 'center' }}>
+                          <h1 style={{ color: '#FF5555' }}>Access Denied</h1>
+                          <p style={{ color: 'var(--text-secondary)' }}>You do not have administrative privileges to access this page.</p>
+                      </div>
+                  )}
               </ProtectedRoute>
           } />
         </Routes>
