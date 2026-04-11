@@ -77,7 +77,7 @@ const SocialContact = () => {
           <h3 style={columnTitleStyle}>{t('footerContact')}</h3>
           <div style={contactItemStyle}>
             <Mail size={18} color="#C8F135" />
-            <a href="mailto:info@avanza.it" style={contactLinkStyle}>info@avanza.it</a>
+            <a href="mailto:info@avanza.it.com" style={contactLinkStyle}>info@avanza.it.com</a>
           </div>
           <div style={contactItemStyle}>
             <Phone size={18} color="#C8F135" />
