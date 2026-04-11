@@ -165,6 +165,7 @@ const AdminPortal = () => {
                 )}
             </div>
 
+            {activeTab === 'users' ? (
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '1.5rem' }}>
                     {users.filter(u => 
                         (u.first_name || '').toLowerCase().includes(searchQuery.toLowerCase()) || 
