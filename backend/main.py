@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile, File, HTTPException, Header, Depends, Response
+from fastapi import FastAPI, UploadFile, File, HTTPException, Header, Depends, Response, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional, Dict, Any
@@ -91,14 +91,38 @@ async def supabase_delete(table: str, filters: str):
         return True
 
 
+# --- Email Notifications (SendGrid) ---
+async def send_notification_email(user_email: str, subject: str, html_content: str):
+    """Sends a transactional email via SendGrid v3 API."""
+    api_key = os.getenv("SENDGRID_API_KEY")
+    sender = os.getenv("SENDGRID_SENDER_EMAIL", "info@avanza.it.com")
+    
+    if not api_key or "placeholder" in api_key:
+        print(f"Skipping email to {user_email}: SendGrid API Key not configured.")
+        return
+
+    payload = {
+        "personalizations": [{"to": [{"email": user_email}]}],
+        "from": {"email": sender, "name": "Avanza Pathfinders"},
+        "subject": subject,
+        "content": [{"type": "text/html", "value": html_content}]
+    }
+    
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json"
+    }
+    
+    async with httpx.AsyncClient() as client:
+        try:
+            resp = await client.post("https://api.sendgrid.com/v3/mail/send", json=payload, headers=headers)
+            if resp.status_code >= 400:
+                print(f"SendGrid Error: {resp.status_code} {resp.text}")
+        except Exception as e:
+            print(f"Email Dispatch failed: {str(e)}")
+
+
 # --- Auth Dependency ---
-async def verify_stytch_session(authorization: Optional[str] = Header(None)):
-    """Verifies the Stytch session token from the Authorization header."""
-    if not authorization or not authorization.startswith("Bearer "):
-        raise HTTPException(status_code=401, detail="Unauthorized: Missing or invalid token format.")
-
-    token = authorization.split(" ")[1]
-
 async def verify_stytch_session(authorization: Optional[str] = Header(None)):
     """Verifies the Stytch session token from the Authorization header."""
     if not authorization or not authorization.startswith("Bearer "):
@@ -669,15 +693,17 @@ async def admin_get_all_documents(admin_id: str = Depends(verify_admin_session))
 async def admin_update_document_status(
     doc_id: str, 
     data: Dict[str, Any], 
+    background_tasks: BackgroundTasks,
     admin_id: str = Depends(verify_admin_session)
 ):
-    """Updates the verification status of a user document."""
+    """Updates the verification status of a user document and notifies the user."""
     status = data.get("verification_status") # 'pending', 'verified', 'rejected'
     notes = data.get("admin_notes")
     
     if not status:
         raise HTTPException(status_code=400, detail="verification_status is required.")
-        
+    
+    # 1. Update the database
     update_data = {"id": doc_id, "verification_status": status}
     if notes is not None:
         update_data["admin_notes"] = notes
@@ -685,5 +711,44 @@ async def admin_update_document_status(
     result = await supabase_upsert("document_vault", update_data)
     if not result:
         raise HTTPException(status_code=500, detail="Failed to update document status.")
+    
+    updated_doc = result[0]
+    user_id = updated_doc.get("user_id")
+    file_name = updated_doc.get("file_name")
+
+    # 2. Fetch User Email from Stytch and send notification
+    if user_id:
+        try:
+            user_resp = stytch_client.users.get(user_id=user_id)
+            user_email = next((e.email for e in user_resp.emails if e.email), None)
+            
+            if user_email:
+                subject = f"Avanza Update: Document {status.capitalize()}"
+                
+                if status == 'verified':
+                    html = f"""
+                    <div style="font-family: sans-serif; padding: 20px; color: #333;">
+                        <h2 style="color: #2e7d32;">Great news!</h2>
+                        <p>Your document <strong>{file_name}</strong> has been successfully verified.</p>
+                        <p>You can now proceed to the next steps in your recognition journey on your dashboard.</p>
+                        <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
+                        <p style="font-size: 12px; color: #666;">Sent by Avanza Pathfinders Team</p>
+                    </div>
+                    """
+                else: # rejected
+                    html = f"""
+                    <div style="font-family: sans-serif; padding: 20px; color: #333;">
+                        <h2 style="color: #d32f2f;">Action Required</h2>
+                        <p>Your document <strong>{file_name}</strong> requires attention and has been marked as rejected.</p>
+                        <p><strong>Admin Note:</strong> {notes or 'No specific notes provided.'}</p>
+                        <p>Please log in to your vault to re-upload the correct document.</p>
+                        <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
+                        <p style="font-size: 12px; color: #666;">Sent by Avanza Pathfinders Team</p>
+                    </div>
+                    """
+                
+                background_tasks.add_task(send_notification_email, user_email, subject, html)
+        except Exception as e:
+            print(f"Failed to trigger notification flow: {str(e)}")
         
-    return {"status": "success", "document": result[0]}
+    return {"status": "success", "document": updated_doc}
