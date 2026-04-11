@@ -488,17 +488,30 @@ async def upload_vault_document(
     }
     
     async with httpx.AsyncClient() as client:
-        # 1. Upload to Storage
+        # 1. Attempt Upload
         upload_resp = await client.post(url, content=contents, headers=headers)
         
+        # 2. Heal if Bucket Not Found
         if upload_resp.status_code == 404:
-            # Create bucket if not exists
-            create_bucket_url = f"{SUPABASE_URL}/storage/v1/buckets"
-            await client.post(create_bucket_url, json={"name": bucket, "public": False}, headers=headers)
+            # We need JSON headers for the bucket creation step
+            mgmt_headers = {**headers, "Content-Type": "application/json"}
+            create_bucket_url = f"{SUPABASE_URL}/storage/v1/bucket" # Try /bucket first
+            
+            # Create bucket
+            bucket_resp = await client.post(f"{SUPABASE_URL}/storage/v1/bucket", json={"id": bucket, "name": bucket, "public": False}, headers=mgmt_headers)
+            
+            # If that failed, try with 's' (some versions differ)
+            if bucket_resp.status_code >= 400:
+                await client.post(f"{SUPABASE_URL}/storage/v1/buckets", json={"id": bucket, "name": bucket, "public": False}, headers=mgmt_headers)
+            
+            # Retry original upload
             upload_resp = await client.post(url, content=contents, headers=headers)
 
         if upload_resp.status_code >= 400:
-            raise HTTPException(status_code=500, detail=f"Storage Error: {upload_resp.text}")
+            error_msg = f"Storage Error: {upload_resp.text}"
+            if "Bucket not found" in upload_resp.text:
+                error_msg = "Critical: 'vault' bucket not found. Please create it manually in your Supabase Dashboard -> Storage."
+            raise HTTPException(status_code=500, detail=error_msg)
         
         # 2. Record in database
         # Note: We use the private URL because these are sensitive documents
