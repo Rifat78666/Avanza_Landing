@@ -23,6 +23,21 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
     const [trainingItems, setTrainingItems] = useState([]);
     const [loadingData, setLoadingData] = useState(true);
 
+    const fieldLabel = profile?.degree_field || 'your field';
+    const countryLabel = profile?.degree_country || 'your country';
+    const levelLabel = profile?.degree_level || 'degree';
+
+    // Helper for safe translation replacement
+    const getSummaryText = (key) => {
+        let text = t(key);
+        if (typeof text !== 'string') return '';
+        return text
+            .replace(/{degree_level}/g, levelLabel)
+            .replace(/{degree_field}/g, fieldLabel)
+            .replace(/{field}/g, fieldLabel) // Handle Italian 'field' placeholder
+            .replace(/{degree_country}/g, countryLabel);
+    };
+
     // Safety: Force clear the loading screen after 2.5s no matter what
     useEffect(() => {
         const forceClear = setTimeout(() => {
@@ -217,14 +232,14 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
                 fetchRecommendations();
             }
         } else if (fullProfile && !fullProfile.profile && !loadingData) {
-            // Profile is explicitly missing after a load attempt
+            // Check if we are recently finished with onboarding
             navigate('/onboarding');
         } else if (user && !fullProfile && refreshProfile) {
             refreshProfile();
         }
     }, [fullProfile, user, refreshProfile, fetchRecommendations, loadingData, navigate]);
 
-    if (!fullProfile || (fullProfile.profile && loadingData)) {
+    if (!fullProfile || !profile || loadingData) {
         return (
             <div className="container" style={{ paddingTop: '10rem', textAlign: 'center', minHeight: '80vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <div className="loading-spinner" style={{ 
@@ -280,8 +295,8 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
                 </div>
                 <p style={{ fontSize: '1.2rem', lineHeight: '1.7', color: '#FFFFFF', fontWeight: '400', opacity: 0.9 }}>
                     {isRegulated 
-                        ? t('regulatedProfessionMsg').replace(/{degree_level}/g, levelLabel).replace(/{degree_field}/g, fieldLabel).replace(/{degree_country}/g, countryLabel)
-                        : t('unregulatedProfessionMsg').replace(/{degree_level}/g, levelLabel).replace(/{degree_field}/g, fieldLabel).replace(/{degree_country}/g, countryLabel)
+                        ? getSummaryText('regulatedProfessionMsg')
+                        : getSummaryText('unregulatedProfessionMsg')
                     }
                 </p>
             </div>
@@ -351,7 +366,7 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
                     }}>
                         <CheckCircle color="#C8F135" size={24} />
                         <p style={{ color: '#FFFFFF', fontSize: '1.1rem', lineHeight: '1.4', fontWeight: '500' }}>
-                           {t('pathwayGoodNews').replace(/{degree_field}/g, fieldLabel)}
+                           {getSummaryText('pathwayGoodNews')}
                         </p>
                     </div>
                 )}
