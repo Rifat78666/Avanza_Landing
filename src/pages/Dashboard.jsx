@@ -255,9 +255,6 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
         );
     }
 
-    const fieldLabel = profile.degree_field || 'your field';
-    const countryLabel = profile.degree_country || 'your country';
-    const levelLabel = profile.degree_level || 'degree';
 
     return (
         <div className="container" style={{ paddingBottom: '5rem' }}>
