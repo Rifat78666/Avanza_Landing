@@ -571,95 +571,134 @@ async def get_recognition_dossier(user_id: str = Depends(verify_stytch_session))
     if not profile:
         raise HTTPException(status_code=400, detail="Profile not found. Please complete onboarding first.")
 
-    # 2. Setup PDF
-    pdf = FPDF()
+    # 2. Setup PDF Class with branding
+    class AvanzaPDF(FPDF):
+        def header(self):
+            # Professional Header Bar
+            self.set_fill_color(15, 18, 25) # Dark Blue-Black
+            self.rect(0, 0, 210, 45, 'F')
+            
+            # Stylized Logo Circle
+            self.set_fill_color(200, 241, 53) # Lime Accent
+            self.circle(20, 22, 12, 'F')
+            self.set_font("helvetica", "B", 18)
+            self.set_text_color(15, 18, 25)
+            self.set_xy(16.5, 18)
+            self.cell(10, 10, "A", align='C')
+            
+            # Brand Name
+            self.set_font("helvetica", "B", 26)
+            self.set_text_color(255, 255, 255)
+            self.set_xy(35, 15)
+            self.cell(0, 10, "AVANZA PATHFINDERS", ln=True)
+            
+            self.set_font("helvetica", "I", 10)
+            self.set_text_color(200, 241, 53)
+            self.set_xy(35, 26)
+            self.cell(0, 10, "Your Official Recognition Roadmap & Professional Dossier", ln=True)
+            
+            self.ln(25)
+
+        def footer(self):
+            self.set_y(-25)
+            self.set_font("helvetica", "I", 8)
+            self.set_text_color(120, 120, 120)
+            self.line(10, self.get_y(), 200, self.get_y())
+            self.cell(0, 10, f"Page {self.page_no()} | Dossier ID: AV-{user_id[:8].upper()}-{int(time.time())}", align='L')
+            self.cell(0, 10, "avanza.it.com | Official Institutional Guide", align='R')
+
+    pdf = AvanzaPDF()
     pdf.add_page()
+    pdf.set_auto_page_break(auto=True, margin=30)
     
-    # Header
-    pdf.set_fill_color(20, 20, 20) # Sleek Dark Header
-    pdf.rect(0, 0, 210, 40, 'F')
+    # Body Styling
+    pdf.set_text_color(40, 40, 40)
+    pdf.set_xy(15, 55)
     
-    pdf.set_font("helvetica", "B", 24)
-    pdf.set_text_color(200, 241, 53) # Avanza Accent Color
-    pdf.set_xy(15, 12)
-    pdf.cell(0, 10, "AVANZA PATHFINDERS", ln=True)
+    # SECTION 1: CANDIDATE
+    pdf.set_font("helvetica", "B", 16)
+    pdf.set_text_color(15, 18, 25)
+    pdf.cell(0, 10, "1. CANDIDATE PROFILE", ln=True)
+    pdf.set_draw_color(200, 241, 53)
+    pdf.set_line_width(0.8)
+    pdf.line(15, 66, 70, 66)
+    pdf.ln(8)
     
     pdf.set_font("helvetica", "", 12)
-    pdf.set_text_color(255, 255, 255)
-    pdf.set_xy(15, 22)
-    pdf.cell(0, 10, "Personalized Degree Recognition Dossier", ln=True)
+    pdf.set_text_color(60, 60, 60)
     
-    # Body
-    pdf.set_text_color(0, 0, 0)
-    pdf.set_xy(15, 50)
-    
-    # Section: Candidate Profile
-    pdf.set_font("helvetica", "B", 16)
-    pdf.cell(0, 10, "1. Candidate Profile", ln=True)
-    pdf.line(15, 60, 195, 60)
-    pdf.ln(5)
-    
-    pdf.set_font("helvetica", "", 11)
-    data = [
-        ["Full Name", first_name],
-        ["Degree Level", profile.get("degree_level", "N/A")],
-        ["Field of Study", profile.get("degree_field", "N/A")],
-        ["Country of Issue", profile.get("degree_country", "N/A")],
-        ["University", profile.get("university", "Refer to Vault")],
+    details = [
+        ("Candidate Name", first_name),
+        ("Academic Level", profile.get("degree_level", "N/A")),
+        ("Discipline", profile.get("degree_field", "N/A")),
+        ("Source Country", profile.get("degree_country", "N/A")),
+        ("Issuing University", profile.get("university", "Refer to verified vault items")),
     ]
     
-    for label, value in data:
+    for label, val in details:
         pdf.set_font("helvetica", "B", 11)
-        pdf.cell(50, 8, f"{label}:", 0)
+        pdf.cell(60, 9, f"{label}:", 0)
         pdf.set_font("helvetica", "", 11)
-        pdf.cell(0, 8, str(value), 0, 1)
+        pdf.cell(0, 9, str(val), 0, 1)
     
     pdf.ln(10)
     
-    # Section: Eligibility Analysis
+    # SECTION 2: REGULATION
     pdf.set_font("helvetica", "B", 16)
-    pdf.cell(0, 10, "2. Eligibility & Pathway Summary", ln=True)
-    pdf.line(15, 110, 195, 110)
-    pdf.ln(5)
+    pdf.cell(0, 10, "2. REGULATORY STATUS", ln=True)
+    pdf.line(15, 125, 75, 125)
+    pdf.ln(8)
     
     field = profile.get("degree_field", "").lower()
-    regulated_keywords = ['medicine', 'doctor', 'nurse', 'engineer', 'architect', 'teacher']
+    regulated_keywords = ['medicine', 'doctor', 'nurse', 'engineer', 'architect', 'teacher', 'lawyer', 'psycholog']
     is_regulated = any(k in field for k in regulated_keywords)
     
-    pdf.set_font("helvetica", "I", 11)
     if is_regulated:
-        status_text = f"The profession of {field} is REGULATED in Italy. You must obtain formal recognition from the Ministry of University and Research (MUR) or Health."
+        status = "REGULATED PROFESSION"
+        color = (200, 0, 0)
+        advice = f"Your degree in {field} requires formal recognition (Riconoscimento Professionale) from the relevant Italian Ministry. You cannot practice without this authorization."
     else:
-        status_text = f"The profession of {field} is UNREGULATED in Italy. You can typically apply for private sector roles without formal degree recognition."
+        status = "UNREGULATED PROFESSION"
+        color = (0, 100, 0)
+        advice = f"Degrees in {field} are generally considered 'Non-Regulated' in Italy. You may access the labor market directly, though a 'Declarations of Value' is recommended for credibility."
+
+    pdf.set_font("helvetica", "B", 12)
+    pdf.set_text_color(*color)
+    pdf.cell(0, 10, f"STATUS: {status}", ln=True)
     
-    pdf.multi_cell(0, 8, status_text)
-    pdf.ln(5)
+    pdf.set_font("helvetica", "", 11)
+    pdf.set_text_color(60, 60, 60)
+    pdf.multi_cell(0, 7, advice)
+    pdf.ln(10)
     
-    # Section: Official Steps
-    pdf.set_font("helvetica", "B", 14)
-    pdf.cell(0, 10, "Required Actions (Bilingual Guide)", ln=True)
-    pdf.ln(2)
+    # SECTION 3: ROADMAP
+    pdf.set_font("helvetica", "B", 16)
+    pdf.set_text_color(15, 18, 25)
+    pdf.cell(0, 10, "3. OFFICIAL RECOGNITION ROADMAP", ln=True)
+    pdf.line(15, 185, 110, 185)
+    pdf.ln(8)
     
-    steps = [
-        ("Apostille / Legalization", "Required from your country's Ministry or Consulate."),
-        ("Sworn Translation (Traduzione Giurata)", "Must be performed by a translator registered with an Italian court."),
-        ("CIMEA / Statement of Comparability", "Recommended for unregulated; mandatory for some universities.")
+    pdf.set_font("helvetica", "", 10)
+    
+    roadmap = [
+        ("Phase 1: Legalization", "Apostille must be applied by the competent authority in the country of origin."),
+        ("Phase 2: Sworn Translation", "Documents must be translated by a court-certified ('Giurato') translator in Italy."),
+        ("Phase 3: Cimēa Certification", "Apply for the Statement of Comparability via the official CIMEA portal."),
+        ("Phase 4: Final Submission", "Submit the complete dossier to the Ministry or prospective employer.")
     ]
     
-    for i, (title, desc) in enumerate(steps, 1):
+    for i, (title, desc) in enumerate(roadmap, 1):
         pdf.set_font("helvetica", "B", 11)
-        pdf.cell(0, 8, f"Step {i}: {title}", ln=True)
+        pdf.cell(0, 7, f"Step {i} | {title}", ln=True)
         pdf.set_font("helvetica", "", 10)
         pdf.multi_cell(0, 6, desc)
-        pdf.ln(2)
-    
-    # Footer
-    pdf.set_y(-30)
-    pdf.set_font("helvetica", "I", 8)
-    pdf.set_text_color(150, 150, 150)
-    pdf.cell(0, 10, "This document is an informational helper generated by the Avanza Platform. It is not an official certificate.", align='C')
-    pdf.ln(4)
-    pdf.cell(0, 10, "Verify status at cimea-diplome.it", align='C')
+        pdf.ln(3)
+
+    return Response(
+        content=pdf.output(), 
+        media_type="application/pdf", 
+        headers={"Content-Disposition": f"attachment; filename=Avanza_Dossier_{first_name}.pdf"}
+    )
 
 # --- Admin Portal Endpoints ---
 

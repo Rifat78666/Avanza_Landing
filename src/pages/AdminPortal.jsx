@@ -165,9 +165,11 @@ const AdminPortal = () => {
                 )}
             </div>
 
-            {activeTab === 'users' ? (
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '1.5rem' }}>
-                    {users.filter(u => u.first_name?.toLowerCase().includes(searchQuery.toLowerCase())).map(user => (
+                    {users.filter(u => 
+                        (u.first_name || '').toLowerCase().includes(searchQuery.toLowerCase()) || 
+                        (u.email || '').toLowerCase().includes(searchQuery.toLowerCase())
+                    ).map(user => (
                         <div key={user.user_id} className="card-hover" style={{ 
                             background: 'rgba(255,255,255,0.03)', padding: '1.8rem', 
                             borderRadius: '24px', border: '1px solid var(--border-color)',
@@ -179,7 +181,7 @@ const AdminPortal = () => {
                                 </div>
                                 <div style={{ flex: 1 }}>
                                     <h3 style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{user.first_name || 'Anonymous User'}</h3>
-                                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>{user.user_id}</p>
+                                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>{user.email || user.user_id}</p>
                                 </div>
                                 {user.onboarding_completed ? (
                                     <span style={{ fontSize: '0.7rem', background: 'rgba(200, 241, 53, 0.1)', color: '#C8F135', padding: '0.3rem 0.6rem', borderRadius: '6px', fontWeight: 'bold' }}>ACTIVE</span>
@@ -225,14 +227,19 @@ const AdminPortal = () => {
                             </div>
 
                             <div style={{ flex: 1 }}>
-                                <div style={{ display: 'flex', gap: '0.6rem', alignItems: 'center', marginBottom: '0.2rem' }}>
+                                <div style={{ display: 'flex', gap: '0.6rem', alignItems: 'center', marginBottom: '0.25rem' }}>
                                     <h4 style={{ fontWeight: 'bold', fontSize: '1.05rem' }}>{doc.file_name}</h4>
                                     <span style={{ fontSize: '0.75rem', background: 'rgba(255,255,255,0.1)', padding: '0.2rem 0.5rem', borderRadius: '4px', textTransform: 'uppercase' }}>{doc.doc_type}</span>
                                 </div>
-                                <div style={{ display: 'flex', gap: '1rem', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+                                <div style={{ display: 'flex', gap: '1rem', fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>
                                     <span>Owner: <strong>{doc.users?.first_name || 'User'}</strong></span>
                                     <span>Uploaded: {new Date(doc.created_at).toLocaleDateString()}</span>
                                 </div>
+                                {doc.admin_notes && (
+                                    <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)', fontStyle: 'italic', borderLeft: '2px solid rgba(255,255,255,0.1)', paddingLeft: '0.5rem' }}>
+                                        Note: {doc.admin_notes}
+                                    </div>
+                                )}
                             </div>
 
                             <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
@@ -263,7 +270,10 @@ const AdminPortal = () => {
                                         Approve
                                     </button>
                                     <button 
-                                        onClick={() => updateDocStatus(doc.id, 'rejected')}
+                                        onClick={() => {
+                                            const reason = window.prompt("Reason for rejection (will be sent to user):", "Scan quality is poor");
+                                            if (reason !== null) updateDocStatus(doc.id, 'rejected', reason);
+                                        }}
                                         disabled={doc.verification_status === 'rejected'}
                                         style={{ background: 'rgba(255,0,0,0.1)', color: '#FF5555', border: '1px solid rgba(255,0,0,0.2)', padding: '0.5rem 1rem', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', opacity: doc.verification_status === 'rejected' ? 0.4 : 1 }}
                                     >

@@ -280,23 +280,57 @@ const DocumentVault = () => {
                                     }}>
                                         {docTypes.find(t => t.id === doc.doc_type)?.icon || '📄'}
                                     </div>
-                                    <div style={{ flex: 1 }}>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.25rem' }}>
+                                     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                                             <h4 style={{ margin: 0, fontSize: '1.1rem' }}>{doc.file_name}</h4>
                                             <span style={{ 
                                                 fontSize: '0.7rem', 
                                                 textTransform: 'uppercase', 
                                                 letterSpacing: '1px', 
-                                                background: 'rgba(200, 241, 53, 0.1)', 
-                                                color: '#C8F135', 
+                                                background: 'rgba(255, 255, 255, 0.05)', 
+                                                color: 'var(--text-secondary)', 
                                                 padding: '2px 8px', 
                                                 borderRadius: '4px',
                                                 fontWeight: 'bold'
                                             }}>{doc.doc_type}</span>
+                                            
+                                            {/* Final Verification Status Badge */}
+                                            <div style={{ 
+                                                fontSize: '0.7rem',
+                                                padding: '2px 10px',
+                                                borderRadius: '20px',
+                                                fontWeight: '900',
+                                                letterSpacing: '0.5px',
+                                                textTransform: 'uppercase',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: '0.25rem',
+                                                background: doc.verification_status === 'verified' ? 'rgba(200, 241, 53, 0.15)' : (doc.verification_status === 'rejected' ? 'rgba(255, 85, 85, 0.15)' : 'rgba(255, 170, 0, 0.1)'),
+                                                color: doc.verification_status === 'verified' ? '#C8F135' : (doc.verification_status === 'rejected' ? '#FF5555' : '#FFAA00'),
+                                                border: `1px solid ${doc.verification_status === 'verified' ? 'rgba(200, 241, 53, 0.3)' : (doc.verification_status === 'rejected' ? 'rgba(255, 85, 85, 0.3)' : 'rgba(255, 170, 0, 0.2)')}`
+                                            }}>
+                                                {doc.verification_status === 'verified' && <CheckCircle size={10} />}
+                                                {doc.verification_status === 'rejected' && <XCircle size={10} />}
+                                                {doc.verification_status === 'pending' && <Clock size={10} />}
+                                                {doc.verification_status || 'pending'}
+                                            </div>
                                         </div>
                                         <p style={{ margin: 0, fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
                                             Added on {new Date(doc.created_at).toLocaleDateString()} • {(doc.metadata?.size / 1024 / 1024).toFixed(2)} MB
                                         </p>
+                                        {doc.admin_notes && (
+                                            <div style={{ 
+                                                background: doc.verification_status === 'rejected' ? 'rgba(255, 85, 85, 0.05)' : 'rgba(255, 255, 255, 0.03)', 
+                                                padding: '0.5rem 0.75rem', 
+                                                borderRadius: '8px',
+                                                fontSize: '0.85rem',
+                                                color: doc.verification_status === 'rejected' ? '#FF5555' : 'var(--text-secondary)',
+                                                borderLeft: `3px solid ${doc.verification_status === 'rejected' ? '#FF5555' : 'var(--border-color)'}`,
+                                                marginTop: '0.25rem'
+                                            }}>
+                                                <strong>Note:</strong> {doc.admin_notes}
+                                            </div>
+                                        )}
                                     </div>
                                     <div style={{ display: 'flex', gap: '0.5rem' }}>
                                         <a href={doc.file_url} target="_blank" rel="noreferrer" style={{ 
