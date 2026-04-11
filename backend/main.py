@@ -19,8 +19,8 @@ allowed_origins = [origin.strip() for origin in allowed_origins_raw.split(",")]
 
 # Safeguard: Explicitly add production domains
 production_domains = [
-    "https://avanza.it.com",
-    "https://www.avanza.it.com",
+    "https://avanza.it",
+    "https://www.avanza.it",
     "https://avanza-landing.vercel.app"
 ]
 for domain in production_domains:
@@ -95,7 +95,7 @@ async def supabase_delete(table: str, filters: str):
 async def send_notification_email(user_email: str, subject: str, html_content: str):
     """Sends a transactional email via SendGrid v3 API."""
     api_key = os.getenv("SENDGRID_API_KEY")
-    sender = os.getenv("SENDGRID_SENDER_EMAIL", "info@avanza.it.com")
+    sender = os.getenv("SENDGRID_SENDER_EMAIL", "info@avanza.it")
     
     if not api_key or "placeholder" in api_key:
         print(f"Skipping email to {user_email}: SendGrid API Key not configured.")
