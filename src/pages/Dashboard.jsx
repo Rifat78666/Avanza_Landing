@@ -16,29 +16,13 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
     const { t } = useLanguage();
     
     const [profile, setProfile] = useState(fullProfile?.profile || null);
-    const [isRegulated, setIsRegulated] = useState(false);
     
     // Dynamic Data States
     const [jobs, setJobs] = useState([]);
     const [trainingItems, setTrainingItems] = useState([]);
     const [loadingData, setLoadingData] = useState(true);
 
-    const fieldLabel = profile?.degree_field || 'your field';
-    const countryLabel = profile?.degree_country || 'your country';
-    const levelLabel = profile?.degree_level || 'degree';
-
-    // Helper for safe translation replacement
-    const getSummaryText = (key) => {
-        let text = t(key);
-        if (typeof text !== 'string') return '';
-        return text
-            .replace(/{degree_level}/g, levelLabel)
-            .replace(/{degree_field}/g, fieldLabel)
-            .replace(/{field}/g, fieldLabel) // Handle Italian 'field' placeholder
-            .replace(/{degree_country}/g, countryLabel);
-    };
-
-    // Safety: Force clear the loading screen after 2.5s no matter what
+    // Force clear the loading screen after 2.5s no matter what
     useEffect(() => {
         const forceClear = setTimeout(() => {
             if (loadingData) setLoadingData(false);
@@ -62,7 +46,6 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
             if (res.ok) {
                 const data = await res.json();
                 setRoadmap(data);
-                setIsRegulated(data.is_regulated);
             }
         } catch (err) {
             console.error("Roadmap fetch error", err);

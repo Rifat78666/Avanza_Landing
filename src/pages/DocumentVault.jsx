@@ -5,13 +5,11 @@ import {
     Plus, ChevronRight
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useLanguage } from '../LanguageContext';
 import { useStytchUser, useStytch } from '@stytch/react';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://avanza-backend-h0pm.onrender.com';
 
 const DocumentVault = () => {
-    const { t } = useLanguage();
     const { user } = useStytchUser();
     const stytch = useStytch();
     const navigate = useNavigate();
@@ -115,7 +113,7 @@ const DocumentVault = () => {
                 const errData = await resp.json();
                 setError(errData.detail || "Upload failed.");
             }
-        } catch (err) {
+        } catch {
             setError("Network error. Please try again.");
         } finally {
             setUploading(false);

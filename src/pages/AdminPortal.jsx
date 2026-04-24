@@ -5,13 +5,11 @@ import {
     ChevronRight, ExternalLink, Mail, MapPin
 } from 'lucide-react';
 import { useStytch } from '@stytch/react';
-import { useLanguage } from '../LanguageContext';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://avanza-backend-h0pm.onrender.com';
 
 const AdminPortal = () => {
     const stytch = useStytch();
-    const { t } = useLanguage();
     
     const [activeTab, setActiveTab] = useState('documents'); // 'users' | 'documents'
     const [users, setUsers] = useState([]);

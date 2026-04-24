@@ -1,8 +1,6 @@
 import React from 'react';
-import { useLanguage } from '../LanguageContext';
 
 const Footer = () => {
-  const { t } = useLanguage();
 
   return (
     <footer style={{

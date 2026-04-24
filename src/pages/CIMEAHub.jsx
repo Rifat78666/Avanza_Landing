@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useStytchUser, useStytch } from '@stytch/react';
+import { useStytch } from '@stytch/react';
 import { 
     CheckCircle, Clock, ExternalLink, Globe, 
     FileText, ShieldCheck, ArrowRight, AlertCircle
 } from 'lucide-react';
-import { useLanguage } from '../LanguageContext';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://avanza-backend-h0pm.onrender.com';
 

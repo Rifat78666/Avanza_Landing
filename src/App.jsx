@@ -135,11 +135,13 @@ function AppContent() {
       if (user) {
         if (authStatus !== 'authenticated') {
           console.log("App: User session detected. API URL:", API_BASE_URL);
+          // eslint-disable-next-line react-hooks/set-state-in-effect
           setAuthStatus('authenticated');
           fetchUserProfile();
         }
       } else {
         // No user found, definitely idle
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         if (authStatus !== 'idle') setAuthStatus('idle');
       }
     } else {
@@ -147,6 +149,7 @@ function AppContent() {
         // but since we default to idle, we only set it if we expect a user
         const params = new URLSearchParams(window.location.search);
         if (params.get('token')) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setAuthStatus('authenticating');
         }
     }
