@@ -81,7 +81,7 @@ const SocialContact = () => {
           </div>
           <div style={contactItemStyle}>
             <Phone size={18} color="#C8F135" />
-            <a href="tel:+39021234567" style={contactLinkStyle}>+39 02 123 4567</a>
+            <a href="tel:+393520266387" style={contactLinkStyle}>+39 352 026 6387</a>
           </div>
           <div style={contactItemStyle}>
             <MapPin size={18} color="#C8F135" />
