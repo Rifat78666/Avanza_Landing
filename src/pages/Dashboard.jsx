@@ -48,87 +48,26 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
 
     const username = displayName || fullProfile?.first_name || 'there';
 
-    // Industry Detection Logic
-    useEffect(() => {
-        if (profile) {
-            const field = (profile.degree_field || '').toLowerCase();
-            const regulatedKeywords = [
-                'medicine', 'medic', 'doctor', 'nurse', 'nurs', 'law', 'legal', 
-                'engineer', 'architect', 'psycholog', 'pharmacist', 'vet', 
-                'dentist', 'teacher', 'accountant'
-            ];
-            const isReg = regulatedKeywords.some(keyword => field.includes(keyword));
-            setIsRegulated(isReg);
-            
-            // Generate field-specific placeholder data
-            generatePlaceholders(field);
-        }
-    }, [profile]);
+    const [roadmap, setRoadmap] = useState(null);
 
-    const generatePlaceholders = (field) => {
-        const lowerField = field.toLowerCase();
-        
-        // Example logic for Courses
-        let courses = [];
-        if (lowerField.includes('tech') || lowerField.includes('computer') || lowerField.includes('software')) {
-            courses = [
-                { title: 'Sviluppo Web Full Stack', provider: 'AFOL Metropolitana', duration: '12 weeks', lang: 'IT' },
-                { title: 'Google IT Support Certificate', provider: 'Google Activate', duration: '6 months', lang: 'EN' },
-                { title: 'Cybersecurity Fundamentals', provider: 'Lombardia Plus', duration: '8 weeks', lang: 'IT' },
-                { title: 'Python for Data Science', provider: 'IBM / Coursera', duration: '10 weeks', lang: 'EN' }
-            ];
-        } else if (lowerField.includes('engineer')) {
-            courses = [
-                { title: 'Progettazione CAD 3D', provider: 'AFOL Metropolitana', duration: '8 weeks', lang: 'IT' },
-                { title: 'AutoCAD Fundamentals', provider: 'Coursera audit', duration: 'Self-paced', lang: 'EN' },
-                { title: 'BIM Management', provider: 'Ordine Ingegneri', duration: '4 weeks', lang: 'IT' },
-                { title: 'Sustainability in Construction', provider: 'Politecnico', duration: '6 weeks', lang: 'EN' }
-            ];
-        } else if (lowerField.includes('nurse') || lowerField.includes('medicine') || lowerField.includes('healthcare')) {
-            courses = [
-                { title: 'Assistente di Studio Odontoiatrico', provider: 'AFOL', duration: '16 weeks', lang: 'IT' },
-                { title: 'Healthcare Fundamentals', provider: 'Coursera audit', duration: 'Self-paced', lang: 'EN' },
-                { title: 'Primo Soccorso Avanzato', provider: 'Croce Rossa', duration: '2 weeks', lang: 'IT' },
-                { title: 'Medical English for Staff', provider: 'British Council', duration: '4 weeks', lang: 'EN' }
-            ];
-        } else {
-            courses = [
-                { title: 'Digital Marketing Certificate', provider: 'Google Activate', duration: '3 months', lang: 'EN' },
-                { title: 'Excel e Analisi Dati', provider: 'AFOL Metropolitana', duration: '4 weeks', lang: 'IT' },
-                { title: 'Project Management Basics', provider: 'Regione Lombardia', duration: '6 weeks', lang: 'IT' },
-                { title: 'Business Communication', provider: 'LinkedIn Learn', duration: '3 weeks', lang: 'EN' }
-            ];
-        }
-        setTrainingItems(courses);
+    // Initial load for roadmap
+    const fetchRoadmap = useCallback(async () => {
+        try {
+            const token = stytch.session.getTokens()?.session_token;
+            if (!token) return;
 
-        // Example logic for Jobs
-        const location = "Milano / Remote";
-        const noRecog = "No recognition required";
-        let jobList = [];
-        if (lowerField.includes('tech') || lowerField.includes('computer')) {
-            jobList = [
-                { title: 'Frontend Developer', company: 'Bending Spoons — Milano (Hybrid)', salary: '€40k - €50k', match: 'Matches your IT background' },
-                { title: 'Data Analyst', company: 'Satispay — Milano', salary: '€35k - €45k', match: 'Matches your Business/Tech profile' },
-                { title: 'Junior Software Engineer', company: 'Reply — Turín', salary: '€30k - €38k', match: 'Matches your IT background' },
-                { title: 'IT Support Specialist', company: 'Enel — Rome', salary: '€28k - €35k', match: 'Immediate start available' }
-            ];
-        } else if (lowerField.includes('nurse') || lowerField.includes('healthcare')) {
-            jobList = [
-                { title: 'Private Care Assistant', company: 'PrivatAssistenza', salary: '€20k - €24k', match: 'Uses clinical experience' },
-                { title: 'Health Admin Coordinator', company: 'Gruppo San Donato', salary: '€25k - €29k', match: 'Matches medical background' },
-                { title: 'Pharmacy Assistant', company: 'LloydsFarmacia', salary: '€21k - €25k', match: 'Related healthcare role' },
-                { title: 'Medical Sales Rep', company: 'Novartis Italia', salary: '€35k + commission', match: 'Leverages medical knowledge' }
-            ];
-        } else {
-            jobList = [
-                { title: 'Operations Associate', company: 'Amazon Italia', salary: '€24k - €28k', match: 'Matches your business profile' },
-                { title: 'Customer Success Rep', company: 'Salesforce Milan', salary: '€30k - €34k', match: 'Uses communication skills' },
-                { title: 'Junior Accountant (Admin)', company: 'PwC Italia', salary: '€27k - €31k', match: 'Matches financial degree' },
-                { title: 'Sales Assistant', company: 'Zara / Inditex', salary: '€19k - €22k', match: 'Immediate start available' }
-            ];
+            const res = await fetch(`${API_BASE_URL}/api/validation/roadmap`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (res.ok) {
+                const data = await res.json();
+                setRoadmap(data);
+                setIsRegulated(data.is_regulated);
+            }
+        } catch (err) {
+            console.error("Roadmap fetch error", err);
         }
-        setJobs(jobList.map(j => ({ ...j, location, badge: noRecog })));
-    };
+    }, [stytch]);
 
     const fetchRecommendations = useCallback(async () => {
         try {
@@ -221,8 +160,9 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
     useEffect(() => {
         if (user) {
             fetchJourney();
+            fetchRoadmap();
         }
-    }, [user, fetchJourney]);
+    }, [user, fetchJourney, fetchRoadmap]);
 
     // Sync local profile state with fullProfile prop
     useEffect(() => {
@@ -268,13 +208,13 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
                 </p>
             </div>
 
-            {/* SECTION 1: YOUR SITUATION (Full-Width Photo Match) */}
+            {/* SECTION 1: YOUR SITUATION (Validation Status) */}
             <div style={{ 
                 background: '#121212', 
                 padding: '2.2rem 2.8rem', 
                 borderRadius: '24px', 
                 border: '1px solid rgba(255,255,255,0.08)',
-                borderLeft: '8px solid #C8F135',
+                borderLeft: roadmap?.is_regulated ? '8px solid #FF5252' : '8px solid #C8F135',
                 marginBottom: '3.5rem',
                 display: 'flex',
                 flexDirection: 'column',
@@ -282,23 +222,33 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
                 boxShadow: '0 30px 60px rgba(0,0,0,0.5)'
             }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1.2rem' }}>
-                    <div style={{ background: 'rgba(200, 241, 53, 0.12)', padding: '0.8rem', borderRadius: '14px' }}>
-                        <Sparkles color="#C8F135" size={28} />
+                    <div style={{ background: roadmap?.is_regulated ? 'rgba(255, 82, 82, 0.12)' : 'rgba(200, 241, 53, 0.12)', padding: '0.8rem', borderRadius: '14px' }}>
+                        <Sparkles color={roadmap?.is_regulated ? "#FF5252" : "#C8F135"} size={28} />
                     </div>
                     <div>
-                        <h2 style={{ fontSize: '1.6rem', fontWeight: 'bold', color: '#FFFFFF' }}>{t('situationTitle')}</h2>
-                        <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.95rem' }}>{t('situationSub')}</p>
+                        <h2 style={{ fontSize: '1.6rem', fontWeight: 'bold', color: '#FFFFFF' }}>{roadmap?.is_regulated ? "Formal Recognition Required" : "Labor Market Access Ready"}</h2>
+                        <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.95rem' }}>Based on your {roadmap?.degree_field} degree from {roadmap?.country}</p>
                     </div>
                 </div>
                 <p style={{ fontSize: '1.2rem', lineHeight: '1.7', color: '#FFFFFF', fontWeight: '400', opacity: 0.9 }}>
-                    {isRegulated 
-                        ? getSummaryText('regulatedProfessionMsg')
-                        : getSummaryText('unregulatedProfessionMsg')
-                    }
+                    {roadmap?.profession_notes}
                 </p>
+                {roadmap?.is_regulated && (
+                   <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginTop: '0.5rem' }}>
+                       <span style={{ background: 'rgba(255,255,255,0.1)', padding: '0.5rem 1rem', borderRadius: '8px', fontSize: '0.9rem' }}>
+                           <strong>Ministry:</strong> {roadmap.competent_ministry}
+                       </span>
+                       <span style={{ background: 'rgba(255,255,255,0.1)', padding: '0.5rem 1rem', borderRadius: '8px', fontSize: '0.9rem' }}>
+                           <strong>Albo:</strong> {roadmap.professional_board || 'N/A'}
+                       </span>
+                       <span style={{ background: 'rgba(255,255,255,0.1)', padding: '0.5rem 1rem', borderRadius: '8px', fontSize: '0.9rem' }}>
+                           <strong>Language:</strong> {roadmap.language_requirement || 'Not specified'}
+                       </span>
+                   </div>
+                )}
             </div>
 
-            {/* SECTION 2: RECOGNITION PATHWAY (Full-Width Photo Match) */}
+            {/* SECTION 2: DYNAMIC RECOGNITION PATHWAY */}
             <div style={{ 
                 background: '#121212', 
                 padding: '2.5rem 2.8rem', 
@@ -309,7 +259,7 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                         <Map size={28} color="#C8F135" />
-                        <h2 style={{ fontSize: '1.6rem', fontWeight: 'bold' }}>{t('recognitionPathway')}</h2>
+                        <h2 style={{ fontSize: '1.6rem', fontWeight: 'bold' }}>Your Personalized Validation Roadmap</h2>
                     </div>
                     <div style={{ display: 'flex', gap: '1rem' }}>
                         <button 
@@ -349,37 +299,11 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
                     </div>
                 </div>
 
-                {/* Good News Alert Box (Only for unregulated) */}
-                {!isRegulated && (
-                    <div style={{ 
-                        background: 'rgba(200, 241, 53, 0.05)', 
-                        border: '1.5px solid #C8F135', 
-                        borderRadius: '16px', 
-                        padding: '1.25rem 2rem',
-                        marginBottom: '2rem',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '1.2rem'
-                    }}>
-                        <CheckCircle color="#C8F135" size={24} />
-                        <p style={{ color: '#FFFFFF', fontSize: '1.1rem', lineHeight: '1.4', fontWeight: '500' }}>
-                           {getSummaryText('pathwayGoodNews')}
-                        </p>
-                    </div>
-                )}
-
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                    {(isRegulated ? [
-                        { id: 1, key: 'apostille', title: t('pathwayStep1Title'), desc: t('pathwayStep1Desc'), time: '~4 weeks', cost: '€50' },
-                        { id: 2, key: 'translation', title: t('pathwayStep2Title'), desc: t('pathwayStep2Desc'), time: '~2 weeks', cost: '€150' },
-                        { id: 3, key: 'cimea_submission', title: t('pathwayStep3Title'), desc: t('pathwayStep3Desc'), time: '~6 months', cost: '€0' }
-                    ] : [
-                        { id: 1, key: 'employer_verify', title: t('verifyEmployer'), desc: t('verifyEmployerDesc'), time: '~1 week', cost: '€0' },
-                        { id: 2, key: 'cimea_optional', title: t('optionalCIMEA'), desc: t('optionalCIMEADesc'), time: '~4 weeks', cost: '€150' }
-                    ]).map(step => {
+                    {roadmap?.steps?.map(step => {
                         const isDone = journeySteps.some(js => js.step_key === step.key && js.status === 'completed');
                         return (
-                            <div key={step.id} style={{ 
+                            <div key={step.step_number} style={{ 
                                 display: 'flex', gap: '1.5rem', alignItems: 'center', 
                                 background: isDone ? 'rgba(200, 241, 53, 0.03)' : 'rgba(255,255,255,0.03)', 
                                 padding: '1.25rem 1.8rem', 
@@ -395,14 +319,38 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
                                     display: 'flex', alignItems: 'center', justifyContent: 'center', 
                                     fontWeight: 'bold', flexShrink: 0, fontSize: '0.95rem'
                                 }}>
-                                    {isDone ? <CheckCircle size={18} /> : step.id}
+                                    {isDone ? <CheckCircle size={18} /> : step.step_number}
                                 </div>
                                 <div style={{ flex: 1 }}>
                                     <h4 style={{ fontWeight: 'bold', fontSize: '1.1rem', marginBottom: '0.15rem', color: isDone ? 'rgba(255,255,255,0.6)' : '#fff' }}>{step.title}</h4>
-                                    <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.9rem' }}>{step.desc}</p>
+                                    <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.9rem' }}>{step.description}</p>
+                                    
+                                    {step.action_url && !isDone && (
+                                        <button 
+                                            onClick={() => {
+                                                if (step.action_url.startsWith('/')) navigate(step.action_url);
+                                                else window.open(step.action_url, '_blank');
+                                            }}
+                                            style={{
+                                                background: 'transparent',
+                                                border: 'none',
+                                                color: '#C8F135',
+                                                fontSize: '0.85rem',
+                                                marginTop: '0.5rem',
+                                                padding: '0',
+                                                cursor: 'pointer',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: '0.2rem'
+                                            }}
+                                        >
+                                            {step.action_label} <ChevronRight size={14} />
+                                        </button>
+                                    )}
                                 </div>
                                 <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                                    <span style={{ background: 'rgba(255,255,255,0.1)', padding: '0.4rem 0.6rem', borderRadius: '6px', fontSize: '0.8rem' }}>{step.time}</span>
+                                    <span style={{ background: 'rgba(255,255,255,0.1)', padding: '0.4rem 0.6rem', borderRadius: '6px', fontSize: '0.8rem' }}>{step.estimated_time}</span>
+                                    <span style={{ background: 'rgba(255,255,255,0.1)', padding: '0.4rem 0.6rem', borderRadius: '6px', fontSize: '0.8rem' }}>{step.estimated_cost}</span>
                                 </div>
                                 <button 
                                     onClick={() => toggleStep(step.key, isDone ? 'not_started' : 'completed')}
@@ -495,19 +443,33 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
                             height: '100%'
                         }}>
                             <div style={{ flex: 1 }}>
-                                <h4 style={{ fontSize: '1.15rem', fontWeight: 'bold', marginBottom: '0.4rem' }}>{job.title}</h4>
-                                <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.85rem' }}>{job.company}</p>
+                                <h4 style={{ fontSize: '1.15rem', fontWeight: 'bold', marginBottom: '0.4rem' }}>{job.title || "Job Title"}</h4>
+                                <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.85rem' }}>{job.company || "Company"} • {job.location || "Location"}</p>
                             </div>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                                 <span style={{ color: '#C8F135', fontSize: '1.1rem', fontWeight: 'bold' }}>{job.salary}</span>
-                                <div style={{ alignSelf: 'flex-start', background: 'rgba(200, 241, 53, 0.1)', color: '#C8F135', padding: '0.3rem 0.5rem', borderRadius: '6px', fontSize: '0.75rem', fontWeight: 'bold', border: '1px solid rgba(200, 241, 53, 0.3)' }}>
-                                    {t('noRecognition')}
-                                </div>
+                                {job.tags && job.tags.map(tag => (
+                                    <div key={tag} style={{ alignSelf: 'flex-start', background: 'rgba(200, 241, 53, 0.1)', color: '#C8F135', padding: '0.3rem 0.5rem', borderRadius: '6px', fontSize: '0.75rem', fontWeight: 'bold', border: '1px solid rgba(200, 241, 53, 0.3)' }}>
+                                        {tag}
+                                    </div>
+                                ))}
                                 <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.8rem' }}>{job.match}</p>
                             </div>
-                            <button className="btn-outline" style={{ width: '100%', padding: '0.6rem', fontSize: '0.9rem', fontWeight: 'bold', borderColor: 'rgba(255,255,255,0.15)', color: '#FFFFFF' }}>View Job →</button>
+                            {job.url ? (
+                                <a href={job.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                                    <button className="btn-outline" style={{ width: '100%', padding: '0.6rem', fontSize: '0.9rem', fontWeight: 'bold', borderColor: 'rgba(255,255,255,0.15)', color: '#FFFFFF', cursor: 'pointer' }}>View Job →</button>
+                                </a>
+                            ) : (
+                                <button className="btn-outline" style={{ width: '100%', padding: '0.6rem', fontSize: '0.9rem', fontWeight: 'bold', borderColor: 'rgba(255,255,255,0.15)', color: '#FFFFFF', cursor: 'pointer' }}>View Job →</button>
+                            )}
                         </div>
                     ))}
+                </div>
+                
+                <div style={{ marginTop: '2rem', textAlign: 'right' }}>
+                    <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.8rem' }}>
+                        Job listings provided by <a href="https://www.adzuna.it" target="_blank" rel="noopener noreferrer" style={{ color: "rgba(255,255,255,0.6)", textDecoration: "underline" }}>Adzuna</a>
+                    </p>
                 </div>
             </div>
 

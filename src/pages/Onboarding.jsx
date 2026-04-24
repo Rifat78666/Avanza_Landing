@@ -6,7 +6,7 @@ import { useLanguage } from '../LanguageContext';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://avanza-backend-h0pm.onrender.com';
 
-const Onboarding = ({ refreshProfile }) => {
+const Onboarding = ({ refreshProfile, setOnboardingJustFinished }) => {
     const { user } = useStytchUser();
     const stytch = useStytch();
     const navigate = useNavigate();

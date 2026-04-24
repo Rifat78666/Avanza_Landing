@@ -3,11 +3,14 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional, Dict, Any
 import os
+import json
 import httpx
 import stytch
 from dotenv import load_dotenv
 from fpdf import FPDF
 from io import BytesIO
+from openai import AsyncOpenAI
+from validation_engine import generate_validation_roadmap
 
 load_dotenv()
 
@@ -40,6 +43,11 @@ SUPABASE_URL = os.getenv("SUPABASE_URL", "")
 SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
 STYTCH_PROJECT_ID = os.getenv("STYTCH_PROJECT_ID", "")
 STYTCH_SECRET = os.getenv("STYTCH_SECRET", "")
+
+# AI & Job API Keys
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
+ADZUNA_APP_ID = os.getenv("ADZUNA_APP_ID", "")
+ADZUNA_APP_KEY = os.getenv("ADZUNA_APP_KEY", "")
 
 # Stytch Client
 stytch_client = stytch.Client(
@@ -359,51 +367,122 @@ async def upload_profile_image(file: UploadFile = File(...), user_id: str = Depe
         return {"status": "success", "profile_image_url": public_url}
 
 
+@app.get("/api/validation/roadmap")
+async def get_validation_roadmap(user_id: str = Depends(verify_stytch_session)):
+    """Returns the personalized validation roadmap based on onboarding data."""
+    profile_resp = await get_onboarding_profile(user_id)
+    profile_data = profile_resp.get("profile") or {}
+    
+    country = profile_data.get("degree_country") or "Unknown"
+    field = profile_data.get("degree_field") or "General"
+    level = profile_data.get("degree_level") or "Bachelor's"
+    
+    roadmap = generate_validation_roadmap(country, field, level)
+    return roadmap
+
+async def fetch_adzuna_jobs(query, location="Italy"):
+    if not ADZUNA_APP_ID or not ADZUNA_APP_KEY:
+        return None
+    url = f"https://api.adzuna.com/v1/api/jobs/it/search/1"
+    params = {
+        "app_id": ADZUNA_APP_ID,
+        "app_key": ADZUNA_APP_KEY,
+        "what": query,
+        "where": location,
+        "results_per_page": 4
+    }
+    try:
+        async with httpx.AsyncClient() as client:
+            resp = await client.get(url, params=params)
+            if resp.status_code == 200:
+                data = resp.json()
+                results = data.get("results", [])
+                jobs = []
+                for r in results:
+                    salary_min = r.get('salary_min')
+                    salary_max = r.get('salary_max')
+                    salary_str = "Competitive"
+                    if salary_min and salary_max:
+                        salary_str = f"€{int(salary_min)} - €{int(salary_max)}"
+                    elif salary_min:
+                        salary_str = f"€{int(salary_min)}"
+                    
+                    jobs.append({
+                        "id": str(r.get('id', '')),
+                        "title": r.get('title', ''),
+                        "company": r.get('company', {}).get('display_name', ''),
+                        "location": r.get('location', {}).get('display_name', ''),
+                        "match": "Live match",
+                        "tags": ["Adzuna Listing"],
+                        "url": r.get('redirect_url', ''),
+                        "salary": salary_str
+                    })
+                return jobs
+    except Exception as e:
+        print(f"Adzuna Error: {e}")
+    return None
+
 @app.get("/api/dashboard/recommendations")
 async def get_dashboard_recommendations(user_id: str = Depends(verify_stytch_session)):
-    """Simulates job matching and training suggestions in a single call."""
+    """Simulates job matching and training suggestions, using Adzuna if possible."""
     profile_resp = await get_onboarding_profile(user_id)
-    # Safety: Ensure we don't crash if profile is None (e.g. after deletion)
     profile_data = profile_resp.get("profile") or {}
     field = (profile_data.get("degree_field") or "General").lower()
     
-    jobs = []
-    training = []
+    # 1. Ask Validation Engine if regulated
+    country = profile_data.get("degree_country") or "Unknown"
+    level = profile_data.get("degree_level") or "Bachelor's"
+    roadmap = generate_validation_roadmap(country, field, level)
+    
+    search_query = field
+    if roadmap["is_regulated"]:
+        # Look for assistant/bridge roles
+        search_query = f"{field} assistant OR associate"
+    
+    # Try Adzuna first
+    jobs = await fetch_adzuna_jobs(search_query)
+    
+    if jobs is None or len(jobs) == 0:
+        # Fallback to Curated Mock Data
+        if "nurs" in field or "medic" in field or "health" in field:
+            jobs = [
+                {"id": "j1", "title": "Registered Nurse", "company": "Ospedale San Raffaele", "location": "Milan, Italy", "match": "98%", "tags": ["Full-time", "No recognition required"], "salary": "Competitive"},
+                {"id": "j2", "title": "Clinical Care Specialist", "company": "Humanitas Research", "location": "Rozzano, Italy", "match": "92%", "tags": ["Immediate Hire"], "salary": "Competitive"},
+            ]
+        elif "it" in field or "software" in field or "compute" in field or "data" in field:
+            jobs = [
+                {"id": "j4", "title": "Full Stack Developer", "company": "TechItalia Solutions", "location": "Milan, Italy", "match": "95%", "tags": ["Remote"], "salary": "Competitive"},
+                {"id": "j5", "title": "Data Analyst", "company": "Fintech Milano", "location": "Milan, Italy", "match": "89%", "tags": ["Hybrid"], "salary": "Competitive"},
+            ]
+        elif "engineer" in field or "architect" in field:
+            jobs = [
+                {"id": "j6", "title": "Junior Civil Engineer", "company": "EdilNord", "location": "Turin, Italy", "match": "90%", "tags": [], "salary": "Competitive"},
+                {"id": "j7", "title": "CAD Technician", "company": "Arch Studio Milan", "location": "Milan, Italy", "match": "85%", "tags": [], "salary": "Competitive"},
+            ]
+        else:
+            jobs = [
+                {"id": "j8", "title": "Digital Marketing Associate", "company": "Creative Hub Italy", "location": "Rome, Italy", "match": "90%", "tags": [], "salary": "Competitive"},
+                {"id": "j9", "title": "Customer Success Representative", "company": "ServicePlus", "location": "Remote", "match": "85%", "tags": [], "salary": "Competitive"},
+            ]
 
-    # Simple semantic matching logic
+    # Pre-curated free training lists
+    training = []
     if "nurs" in field or "medic" in field or "health" in field:
-        jobs = [
-            {"id": "j1", "title": "Registered Nurse", "company": "Ospedale San Raffaele", "location": "Milan, Italy", "match": "98%", "tags": ["Full-time", "No recognition required"]},
-            {"id": "j2", "title": "Clinical Care Specialist", "company": "Humanitas Research Hospital", "location": "Rozzano, Italy", "match": "92%", "tags": ["Immediate Hire", "No recognition required"]},
-        ]
         training = [
             {"id": "t1", "title": "Italian for Medical Professionals (C1/B2)", "provider": "Università di Bologna", "duration": "4 Months", "price": "FREE", "type": "Language"},
             {"id": "t2", "title": "The Italian National Health System (SSN) Basics", "provider": "Regione Lombardia", "duration": "20 Hours", "price": "FREE", "type": "Regulations"},
         ]
     elif "it" in field or "software" in field or "compute" in field or "data" in field:
-        jobs = [
-            {"id": "j4", "title": "Full Stack Developer", "company": "TechItalia Solutions", "location": "Milan, Italy", "match": "95%", "tags": ["Remote", "No recognition required"]},
-            {"id": "j5", "title": "Data Analyst", "company": "Fintech Milano", "location": "Milan, Italy", "match": "89%", "tags": ["Hybrid", "No recognition required"]},
-        ]
-        training = [
+         training = [
             {"id": "t3", "title": "Sviluppo Web Full Stack", "provider": "AFOL Metropolitana", "duration": "12 Weeks", "price": "FREE", "type": "Technical"},
             {"id": "t4", "title": "Google IT Support Certificate", "provider": "Google Activate", "duration": "6 Months", "price": "FREE", "type": "Technical"},
         ]
     elif "engineer" in field or "architect" in field:
-        jobs = [
-            {"id": "j6", "title": "Junior Civil Engineer", "company": "EdilNord", "location": "Turin, Italy", "match": "90%", "tags": ["No recognition required"]},
-            {"id": "j7", "title": "CAD Technician", "company": "Arch Studio Milan", "location": "Milan, Italy", "match": "85%", "tags": ["No recognition required"]},
-        ]
-        training = [
+         training = [
             {"id": "t5", "title": "Progettazione CAD 3D", "provider": "AFOL", "duration": "8 Weeks", "price": "FREE", "type": "Technical"},
             {"id": "t6", "title": "AutoCAD Fundamentals", "provider": "Coursera", "duration": "Self-paced", "price": "FREE", "type": "Technical"},
         ]
     else:
-        # Business / Others
-        jobs = [
-            {"id": "j8", "title": "Digital Marketing Associate", "company": "Creative Hub Italy", "location": "Rome, Italy", "match": "90%", "tags": ["No recognition required"]},
-            {"id": "j9", "title": "Customer Success Representative", "company": "ServicePlus", "location": "Remote", "match": "85%", "tags": ["No recognition required"]},
-        ]
         training = [
             {"id": "t7", "title": "Digital Marketing Certificate", "provider": "Google Activate", "duration": "3 Months", "price": "FREE", "type": "Business"},
             {"id": "t8", "title": "Excel e Analisi Dati", "provider": "AFOL", "duration": "4 Weeks", "price": "FREE", "type": "Business"},
@@ -542,35 +621,132 @@ async def delete_vault_document(doc_id: str, user_id: str = Depends(verify_stytc
 
 @app.get("/api/partners/translators")
 async def get_translators(city: Optional[str] = None):
-    """Returns a curated list of sworn translators."""
-    # Mock database for translators
-    translators = [
-        {"name": "Studio Traduzione Milano", "city": "Milano", "specialties": ["English", "Arabic", "French"], "verified": True, "contact": "info@traduzionimilano.it"},
-        {"name": "Global Lex Roma", "city": "Roma", "specialties": ["Spanish", "Hindi", "Bengali"], "verified": True, "contact": "roma@globallex.com"},
-        {"name": "Anna Rossi - Perito Giurato", "city": "Torino", "specialties": ["English", "Spanish"], "verified": True, "contact": "anna.rossi@giurato.it"},
-        {"name": "Mediterranean Links", "city": "Napoli", "specialties": ["Arabic", "French"], "verified": True, "contact": "service@medlinks.it"}
-    ]
-    
+    """Returns translators from the database."""
+    query = "select=*"
     if city:
-        return [t for t in translators if t["city"].lower() == city.lower()]
+        query += f"&city=eq.{city}"
+    
+    translators = await supabase_select("partner_translators", query)
     return translators
 
-@app.post("/api/cv/upload")
-async def upload_cv(file: UploadFile = File(...)):
-    """Placeholder CV Upload."""
-    if file.content_type not in ["application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"]:
-        raise HTTPException(status_code=400, detail="Invalid file type. Only PDF and Word docs are supported.")
-    return {"filename": file.filename, "status": "Uploaded successfully to backend memory."}
+@app.post("/api/admin/partners")
+async def admin_add_translator(data: Dict[str, Any], admin_id: str = Depends(verify_admin_session)):
+    """Adds a new translator to the directory."""
+    result = await supabase_upsert("partner_translators", data)
+    if result is None:
+        raise HTTPException(status_code=500, detail="Failed to add translator.")
+    return {"status": "success", "translator": result[0] if result else None}
 
+@app.delete("/api/admin/partners/{id}")
+async def admin_delete_translator(id: str, admin_id: str = Depends(verify_admin_session)):
+    """Deletes a translator from the directory."""
+    await supabase_delete("partner_translators", f"id=eq.{id}")
+    return {"status": "success"}
 
-@app.post("/api/jobs/match")
-async def match_jobs(target_role: str, location: str = "Italy", skills: List[str] = []):
-    """Placeholder Job Matcher."""
-    mock_jobs = [
-        {"title": "Registered Nurse", "location": "Milan, IT", "match": "95%"},
-        {"title": "Clinical Care Specialist", "location": "Rome, IT", "match": "88%"}
-    ]
-    return {"status": "success", "matches": mock_jobs}
+@app.patch("/api/user/cimea-status")
+async def update_cimea_status(data: Dict[str, Any], user_id: str = Depends(verify_stytch_session)):
+    status = data.get("cimea_status")
+    if not status:
+        raise HTTPException(status_code=400, detail="cimea_status is required.")
+    
+    result = await supabase_upsert("onboarding_profiles", {"user_id": user_id, "cimea_status": status})
+    if result is None:
+        raise HTTPException(status_code=500, detail="Failed to update status.")
+    return {"status": "success"}
+
+@app.get("/api/user/cimea-status")
+async def get_cimea_status(user_id: str = Depends(verify_stytch_session)):
+    profiles = await supabase_select("onboarding_profiles", f"user_id=eq.{user_id}&select=cimea_status")
+    if len(profiles) == 0:
+        return {"cimea_status": "not_started"}
+    return {"cimea_status": profiles[0].get("cimea_status") or "not_started"}
+
+@app.post("/api/cv/generate")
+async def generate_cv(data: Dict[str, Any], user_id: str = Depends(verify_stytch_session)):
+    if not OPENAI_API_KEY:
+        raise HTTPException(status_code=500, detail="OpenAI API key missing.")
+        
+    client = AsyncOpenAI(api_key=OPENAI_API_KEY)
+    
+    prompt = f"""
+    You are an expert Italian career coach. Rewrite the following CV details into a professional, European-format CV tailored for the Italian job market.
+    Personal Details: {data.get("personal", {})}
+    Education: {data.get("education", [])}
+    Experience: {data.get("experience", [])}
+    Goals: {data.get("goals", "")}
+    
+    Return ONLY a JSON object with the following keys:
+    "professional_summary" (String, rewritten to highlight their suitability for Italy),
+    "experience" (List of objects, each with "title", "company", "dates", and a rewritten "description" that highlights achievements),
+    "skills" (List of strings, tailored to the Italian market).
+    """
+    
+    try:
+        response = await client.chat.completions.create(
+            model="gpt-4o-mini",
+            response_format={ "type": "json_object" },
+            messages=[
+                {"role": "system", "content": "You output JSON only."},
+                {"role": "user", "content": prompt}
+            ]
+        )
+        content = response.choices[0].message.content
+        return json.loads(content)
+    except Exception as e:
+        print(f"OpenAI error: {e}")
+        raise HTTPException(status_code=500, detail="Failed to generate CV.")
+
+@app.post("/api/cv/download-pdf")
+async def download_cv_pdf(data: Dict[str, Any], user_id: str = Depends(verify_stytch_session)):
+    # Simple FPDF generation for CV
+    class CVPDF(FPDF):
+        def header(self):
+            pass
+            
+    pdf = CVPDF()
+    pdf.add_page()
+    pdf.set_font("helvetica", "B", 16)
+    
+    personal = data.get("personal", {})
+    name = f"{personal.get('firstName', '')} {personal.get('lastName', '')}"
+    pdf.cell(0, 10, name, ln=True)
+    
+    pdf.set_font("helvetica", "", 12)
+    pdf.cell(0, 6, personal.get("email", ""), ln=True)
+    pdf.cell(0, 6, personal.get("phone", ""), ln=True)
+    pdf.ln(10)
+    
+    pdf.set_font("helvetica", "B", 14)
+    pdf.cell(0, 8, "Professional Summary", ln=True)
+    pdf.set_font("helvetica", "", 11)
+    
+    # We must substitute characters to avoid encoding issues with FPDF (latin-1)
+    summary = data.get("professional_summary", "").encode('latin-1', 'replace').decode('latin-1')
+    pdf.multi_cell(0, 6, summary)
+    pdf.ln(5)
+    
+    pdf.set_font("helvetica", "B", 14)
+    pdf.cell(0, 8, "Experience", ln=True)
+    for exp in data.get("experience", []):
+        pdf.set_font("helvetica", "B", 12)
+        title_company = f"{exp.get('title', '')} at {exp.get('company', '')}".encode('latin-1', 'replace').decode('latin-1')
+        pdf.cell(0, 6, title_company, ln=True)
+        
+        pdf.set_font("helvetica", "I", 11)
+        dates = str(exp.get('dates', '')).encode('latin-1', 'replace').decode('latin-1')
+        pdf.cell(0, 6, dates, ln=True)
+        
+        pdf.set_font("helvetica", "", 11)
+        desc = exp.get("description", "").encode('latin-1', 'replace').decode('latin-1')
+        pdf.multi_cell(0, 6, desc)
+        pdf.ln(3)
+        
+    return Response(
+        content=pdf.output(), 
+        media_type="application/pdf", 
+        headers={"Content-Disposition": f"attachment; filename=CV_{name}.pdf"}
+    )
+
 
 
 @app.get("/api/recognition/dossier")

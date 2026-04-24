@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
-import { useStytchUser } from '@stytch/react';
-import { ArrowLeft, ArrowRight, CheckCircle } from 'lucide-react';
+import { useStytchUser, useStytch } from '@stytch/react';
+import { ArrowLeft, ArrowRight, CheckCircle, Loader } from 'lucide-react';
 import CVResult from '../components/CVResult';
 import { useLanguage } from '../LanguageContext';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://avanza-backend-h0pm.onrender.com';
+
 const CVGenerator = () => {
     const { user } = useStytchUser();
+    const stytch = useStytch();
     const { t } = useLanguage();
     const defaultEmail = user?.emails?.[0]?.email || '';
 
     const [step, setStep] = useState(1);
     const [isFinished, setIsFinished] = useState(false);
+    const [isGenerating, setIsGenerating] = useState(false);
+    const [generatedCV, setGeneratedCV] = useState(null);
 
     // Form Data State spanning all 4 steps
     const [formData, setFormData] = useState({
@@ -27,9 +32,35 @@ const CVGenerator = () => {
         }));
     };
 
+    const submitToAI = async () => {
+        setIsGenerating(true);
+        try {
+            const token = stytch.session.getTokens()?.session_token;
+            const res = await fetch(`${API_BASE_URL}/api/cv/generate`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(formData)
+            });
+            if (res.ok) {
+                const data = await res.json();
+                setGeneratedCV(data);
+                setIsFinished(true);
+            } else {
+                console.error("AI Generation failed");
+            }
+        } catch (error) {
+            console.error("Error generating CV:", error);
+        } finally {
+            setIsGenerating(false);
+        }
+    };
+
     const nextStep = () => {
         if (step < 4) setStep(step + 1);
-        else setIsFinished(true); // Final submission triggers view switch
+        else submitToAI();
     };
 
     const prevStep = () => {
@@ -250,15 +281,25 @@ const CVGenerator = () => {
         }
     };
 
-    // If Finished, render the composed result instead!
-    if (isFinished) {
+    // If Finished, render the composed result
+    if (isFinished && generatedCV) {
         return (
              <div className="container" style={{ padding: '3rem 1.5rem' }}>
                  <button onClick={() => setIsFinished(false)} style={{ background: 'transparent', border: 'none', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', marginBottom: '2rem' }}>
                      <ArrowLeft size={16} /> {t('backToEditor')}
                  </button>
-                 <CVResult data={formData} onEdit={() => { setIsFinished(false); setStep(1); }} />
+                 <CVResult formData={formData} aiData={generatedCV} onEdit={() => { setIsFinished(false); setStep(1); }} />
              </div>
+        );
+    }
+
+    if (isGenerating) {
+        return (
+            <div className="container" style={{ padding: '5rem 1.5rem', textAlign: 'center', minHeight: '60vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                <Loader size={64} color="var(--accent-color)" style={{ animation: 'spin 2s linear infinite', marginBottom: '2rem' }} />
+                <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Structuring your CV...</h2>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '1.2rem' }}>Our AI is translating and formatting your experience for the European market.</p>
+            </div>
         );
     }
 

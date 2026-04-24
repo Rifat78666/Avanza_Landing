@@ -19,6 +19,8 @@ import UploadCV from './pages/UploadCV';
 import Profile from './pages/Profile';
 import DocumentVault from './pages/DocumentVault';
 import AdminPortal from './pages/AdminPortal';
+import TranslatorDirectory from './pages/TranslatorDirectory';
+import CIMEAHub from './pages/CIMEAHub';
 import ProtectedRoute from './components/ProtectedRoute';
 import Footer from './components/Footer';
 import SocialContact from './components/SocialContact';
@@ -344,6 +346,16 @@ function AppContent() {
           <Route path="/vault" element={
               <ProtectedRoute>
                   <DocumentVault user_id={user?.id} />
+              </ProtectedRoute>
+          } />
+          <Route path="/translators" element={
+              <ProtectedRoute>
+                  <TranslatorDirectory />
+              </ProtectedRoute>
+          } />
+          <Route path="/cimea" element={
+              <ProtectedRoute>
+                  <CIMEAHub />
               </ProtectedRoute>
           } />
           <Route path="/admin" element={
