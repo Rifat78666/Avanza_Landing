@@ -27,7 +27,7 @@ const LandingPage = ({ onGetStarted, isLoggedIn, userName, onboardingCompleted }
       
       {/* Premium Mission Slogan Section */}
       <section style={{
-        padding: '6rem 1.5rem',
+        padding: '3rem 1.5rem',
         textAlign: 'center',
         background: 'radial-gradient(circle at center, rgba(200, 241, 53, 0.03) 0%, transparent 70%)',
         position: 'relative'

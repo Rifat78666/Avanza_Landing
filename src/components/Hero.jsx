@@ -21,9 +21,10 @@ const Hero = ({ onGetStarted, isLoggedIn, userName, onboardingCompleted }) => {
       flexDirection: 'column', 
       alignItems: 'center', 
       textAlign: 'center', 
-      minHeight: '80vh',
+      minHeight: '60vh',
       justifyContent: 'center',
-      marginTop: '-5rem'
+      paddingTop: '4rem',
+      paddingBottom: '2rem'
     }}>
       <h1 style={{
         fontSize: 'clamp(3rem, 5vw, 4.5rem)',
