@@ -83,10 +83,6 @@ const SocialContact = () => {
             <Phone size={18} color="#C8F135" />
             <a href="tel:+393520266387" style={contactLinkStyle}>+39 352 026 6387</a>
           </div>
-          <div style={contactItemStyle}>
-            <MapPin size={18} color="#C8F135" />
-            <span style={contactLinkStyle}>Via Hoepli, 5, 20121 Milano, Italy</span>
-          </div>
         </div>
 
         {/* Column 3: Quick Links */}
