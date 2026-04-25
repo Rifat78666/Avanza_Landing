@@ -1,5 +1,6 @@
 import React from 'react';
 import Hero from '../components/Hero';
+import AboutSummary from '../components/AboutSummary';
 import Features from '../components/Features';
 import TargetAudience from '../components/TargetAudience';
 import { useLanguage } from '../LanguageContext';
@@ -14,6 +15,9 @@ const LandingPage = ({ onGetStarted, isLoggedIn, userName, onboardingCompleted }
         userName={userName}
         onboardingCompleted={onboardingCompleted}
       />
+      
+      <AboutSummary />
+
       <div id="features">
         <Features 
           isLoggedIn={isLoggedIn} 
