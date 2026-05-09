@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import './index.css';
-import { User, CheckCircle, Moon, Sun } from 'lucide-react';
+import { User, CheckCircle } from 'lucide-react';
 
 import NeuralBackground from './components/NeuralBackground';
 import AuthModal from './components/AuthModal';
@@ -29,14 +29,6 @@ function AppContent() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authMode, setAuthMode] = useState('login');
   const [authStatus, setAuthStatus] = useState('loading'); // 'idle' | 'authenticating' | 'authenticated' | 'loading'
-  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark');
-
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
-  }, [theme]);
-
-  const toggleTheme = () => setTheme(prev => prev === 'dark' ? 'light' : 'dark');
   
   const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://avanza-backend-h0pm.onrender.com';
   const [fullProfileData, setFullProfileData] = useState(null);
@@ -232,27 +224,6 @@ function AppContent() {
           AVANZA
         </div>
         <nav style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
-          <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', marginRight: '0.5rem' }}>
-            <button 
-                onClick={toggleTheme}
-                style={{
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                width: '44px', height: '44px', borderRadius: '50%',
-                backgroundColor: theme === 'dark' ? '#EAE5E0' : '#121620', 
-                border: 'none', cursor: 'pointer',
-                transition: 'transform 0.2s ease',
-            }} onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'} onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}>
-                {theme === 'dark' ? <Moon size={22} color="#1A1A1A" strokeWidth={2} /> : <Sun size={22} color="#F8F9FA" strokeWidth={2} />}
-            </button>
-            <button style={{
-                padding: '0.6rem 1.5rem', borderRadius: '9999px',
-                border: '1px solid #DC7532', backgroundColor: '#E2D3C5',
-                color: '#DC7532', fontWeight: '600', cursor: 'pointer',
-                fontSize: '1rem', transition: 'all 0.2s ease'
-            }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#D4C3B3'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#E2D3C5'}>
-                Let's talk
-            </button>
-          </div>
           <select 
             value={language}
             onChange={(e) => setLanguage(e.target.value)}

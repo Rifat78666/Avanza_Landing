@@ -13,19 +13,6 @@
   --gradient-glow: radial-gradient(circle at center, rgba(209, 247, 39, 0.15) 0%, rgba(8, 10, 15, 0) 70%);
 }
 
-:root[data-theme="light"] {
-  --bg-color: #f5f5f7;
-  --surface-color: #ffffff;
-  --accent-color: #b0d413;
-  --accent-hover: #9abc0f;
-  --text-primary: #121620;
-  --text-secondary: #4a4a5a;
-  --border-color: #d1d1db;
-  --error-color: #e63946;
-  
-  --gradient-glow: radial-gradient(circle at center, rgba(176, 212, 19, 0.15) 0%, rgba(245, 245, 247, 0) 70%);
-}
-
 * {
   box-sizing: border-box;
   margin: 0;
