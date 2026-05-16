@@ -41,16 +41,16 @@ const TargetAudience = () => {
             {priorityRoles.map((role) => (
               <div key={role.name} style={{
                 padding: '1.5rem 3rem',
-                background: 'rgba(200, 241, 53, 0.1)',
-                border: '2px solid #C8F135',
+                background: 'var(--surface-color)',
+                border: '2px solid var(--accent-color)',
                 borderRadius: '16px',
-                color: '#FFFFFF',
+                color: 'var(--text-primary)',
                 fontSize: '1.5rem',
-                fontWeight: '700',
+                fontWeight: '800',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '1rem',
-                boxShadow: '0 10px 30px rgba(200, 241, 53, 0.15)',
+                boxShadow: '0 10px 25px rgba(0, 0, 0, 0.05)',
                 transition: 'transform 0.3s ease'
               }}>
                 <span style={{ fontSize: '2rem' }}>{role.icon}</span>
