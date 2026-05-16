@@ -334,7 +334,10 @@ const PublicQuiz = () => {
                     </div>
                 )}
 
-                <div style={{ marginTop: '2.5rem', display: 'flex', justifyContent: 'flex-end' }}>
+                <div style={{ marginTop: '2.5rem', display: 'flex', justifyContent: 'space-between' }}>
+                    {step > 1 ? (
+                        <button className="btn-outline" onClick={handleBack} style={{ padding: '0.8rem 2rem' }}>Back</button>
+                    ) : <div></div>}
                     {step < 8 && (
                         <button className="btn-primary" onClick={handleNext} style={{ padding: '0.8rem 2rem' }}>Next</button>
                     )}
