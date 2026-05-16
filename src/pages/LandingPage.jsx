@@ -45,9 +45,9 @@ const LandingPage = ({ onGetStarted, isLoggedIn, userName, onboardingCompleted }
           }}></div>
           <h2 style={{
             fontSize: '2.5rem',
-            fontWeight: '300',
+            fontWeight: '400',
             fontStyle: 'italic',
-            color: '#FFFFFF',
+            color: 'var(--text-primary)',
             lineHeight: '1.4',
             maxWidth: '1000px',
             margin: '0 auto',

@@ -278,11 +278,11 @@ function AppContent() {
                  )}
                  <div style={{ borderLeft: '1px solid var(--border-color)', height: '20px' }}></div>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#C8F135', fontWeight: '800', fontSize: '1.1rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--accent-color)', fontWeight: '800', fontSize: '1.1rem' }}>
                   {profileImageUrl ? (
-                      <img src={profileImageUrl} alt="Profile" style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #C8F135' }} />
+                      <img src={profileImageUrl} alt="Profile" style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--accent-color)' }} />
                   ) : (
-                      <User size={22} color="#C8F135" />
+                      <User size={22} color="var(--accent-color)" />
                   )}
                   <span style={{ marginLeft: '0.25rem', letterSpacing: '-0.5px' }}>{displayName}</span>
               </div>
@@ -301,7 +301,7 @@ function AppContent() {
             </div>
           ) : (authStatus === 'authenticating' || authStatus === 'loading') ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-secondary)' }}>
-                <div className="mini-spinner" style={{ width: '14px', height: '14px', border: '2px solid rgba(255,255,255,0.1)', borderTopColor: 'var(--accent-color)', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
+                <div className="mini-spinner" style={{ width: '14px', height: '14px', border: '2px solid rgba(0,0,0,0.1)', borderTopColor: 'var(--accent-color)', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
                 <span style={{ fontSize: '0.9rem' }}>Verifying...</span>
             </div>
           ) : (

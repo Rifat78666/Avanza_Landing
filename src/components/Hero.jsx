@@ -28,14 +28,12 @@ const Hero = ({ onGetStarted, isLoggedIn, userName, onboardingCompleted }) => {
     }}>
       <h1 style={{
         fontSize: 'clamp(3rem, 5vw, 4.5rem)',
-        fontWeight: '700',
+        fontWeight: '800',
         lineHeight: '1.1',
         marginBottom: '1.5rem',
         maxWidth: '850px',
         letterSpacing: '-0.02em',
-        background: 'linear-gradient(to right, #fff, #a1a6b4)',
-        WebkitBackgroundClip: 'text',
-        WebkitTextFillColor: 'transparent',
+        color: 'var(--text-primary)'
       }}>
         {isLoggedIn ? t('heroAuthTitle').replace('{{name}}', userName || '') : t('heroTitle')}
       </h1>
@@ -83,7 +81,7 @@ const Hero = ({ onGetStarted, isLoggedIn, userName, onboardingCompleted }) => {
               padding: '1rem 2rem',
               fontSize: '1.1rem',
               textDecoration: 'none',
-              color: '#000',
+              color: '#FFFFFF',
               borderRadius: '8px'
             }}>
               <Phone size={20} />
