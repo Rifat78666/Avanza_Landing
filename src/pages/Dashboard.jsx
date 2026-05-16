@@ -32,20 +32,36 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
 
     const username = displayName || fullProfile?.first_name || 'there';
 
+    const [activeCase, setActiveCase] = useState(null);
     const [roadmap, setRoadmap] = useState(null);
 
-    // Initial load for roadmap
+    // Initial load for active case and roadmap
     const fetchRoadmap = useCallback(async () => {
         try {
             const token = stytch.session.getTokens()?.session_token;
             if (!token) return;
 
-            const res = await fetch(`${API_BASE_URL}/api/validation/roadmap`, {
+            // 1. Fetch active cases (auto-creates if none exists)
+            const caseRes = await fetch(`${API_BASE_URL}/api/v1/cases`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
-            if (res.ok) {
-                const data = await res.json();
-                setRoadmap(data);
+            
+            if (caseRes.ok) {
+                const cases = await caseRes.json();
+                if (cases.length > 0) {
+                    const currentCase = cases[0];
+                    setActiveCase(currentCase);
+                    
+                    // 2. Fetch timeline for this case
+                    const timelineRes = await fetch(`${API_BASE_URL}/api/v1/cases/${currentCase.id}/timeline`, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    
+                    if (timelineRes.ok) {
+                        const data = await timelineRes.json();
+                        setRoadmap(data);
+                    }
+                }
             }
         } catch (err) {
             console.error("Roadmap fetch error", err);
@@ -204,14 +220,25 @@ const Dashboard = ({ displayName, fullProfile, refreshProfile }) => {
                 gap: '1.8rem',
                 boxShadow: '0 30px 60px rgba(0,0,0,0.5)'
             }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1.2rem' }}>
-                    <div style={{ background: roadmap?.is_regulated ? 'rgba(255, 82, 82, 0.12)' : 'rgba(200, 241, 53, 0.12)', padding: '0.8rem', borderRadius: '14px' }}>
-                        <Sparkles color={roadmap?.is_regulated ? "#FF5252" : "#C8F135"} size={28} />
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1.2rem' }}>
+                        <div style={{ background: roadmap?.is_regulated ? 'rgba(255, 82, 82, 0.12)' : 'rgba(200, 241, 53, 0.12)', padding: '0.8rem', borderRadius: '14px' }}>
+                            <Sparkles color={roadmap?.is_regulated ? "#FF5252" : "#C8F135"} size={28} />
+                        </div>
+                        <div>
+                            <h2 style={{ fontSize: '1.6rem', fontWeight: 'bold', color: '#FFFFFF' }}>{roadmap?.is_regulated ? "Formal Recognition Required" : "Labor Market Access Ready"}</h2>
+                            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.95rem' }}>Based on your {activeCase?.profession || 'degree'} from {activeCase?.country_of_qualification || 'abroad'}</p>
+                        </div>
                     </div>
-                    <div>
-                        <h2 style={{ fontSize: '1.6rem', fontWeight: 'bold', color: '#FFFFFF' }}>{roadmap?.is_regulated ? "Formal Recognition Required" : "Labor Market Access Ready"}</h2>
-                        <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.95rem' }}>Based on your {roadmap?.degree_field} degree from {roadmap?.country}</p>
-                    </div>
+                    {activeCase && (
+                        <div style={{ textAlign: 'right' }}>
+                            <span style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)', display: 'block', marginBottom: '0.2rem' }}>CASE NUMBER</span>
+                            <span style={{ background: 'rgba(255,255,255,0.1)', padding: '0.4rem 0.8rem', borderRadius: '8px', fontSize: '0.9rem', fontWeight: 'bold' }}>{activeCase.case_number}</span>
+                            <div style={{ marginTop: '0.5rem' }}>
+                                <span style={{ color: '#C8F135', fontSize: '0.85rem', fontWeight: 'bold', textTransform: 'uppercase' }}>STATUS: {activeCase.status.replace('_', ' ')}</span>
+                            </div>
+                        </div>
+                    )}
                 </div>
                 <p style={{ fontSize: '1.2rem', lineHeight: '1.7', color: '#FFFFFF', fontWeight: '400', opacity: 0.9 }}>
                     {roadmap?.profession_notes}

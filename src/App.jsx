@@ -12,7 +12,7 @@ import { useStytch, useStytchUser } from '@stytch/react';
 // Pages and Routes
 import LandingPage from './pages/LandingPage';
 import Dashboard from './pages/Dashboard';
-import Onboarding from './pages/Onboarding';
+import PublicQuiz from './pages/PublicQuiz';
 import NameCollection from './pages/NameCollection';
 import CVGenerator from './pages/CVGenerator';
 import UploadCV from './pages/UploadCV';
@@ -68,6 +68,28 @@ function AppContent() {
           setProfileImageUrl(data.profile_image_url);
         }
         
+        // Process any stored quiz data from before they logged in
+        if (!data.onboarding_completed) {
+            const saved = localStorage.getItem('avanza_onboarding_data');
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    if (parsed.data) {
+                        await fetch(`${API_BASE_URL}/api/onboarding`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${token}`
+                            },
+                            body: JSON.stringify(parsed.data)
+                        });
+                        localStorage.removeItem('avanza_onboarding_data');
+                        data.onboarding_completed = true; // Automatically mark complete in memory
+                    }
+                } catch(e) { console.error("Error saving quiz", e); }
+            }
+        }
+
         setAuthStatus('authenticated');
         
         if (!data.first_name) {
@@ -78,15 +100,15 @@ function AppContent() {
           // Safety: If user is on dashboard but onboarding is incomplete, redirect them
           // EXCEPT if they just finished it (bypass loop)
           if (location.pathname === '/dashboard' && !data.onboarding_completed && !onboardingJustFinished) {
-            navigate('/onboarding');
+            navigate('/quiz');
             return;
           }
 
-          if (location.pathname === '/' || location.pathname === '') {
+          if (location.pathname === '/' || location.pathname === '' || location.pathname === '/quiz') {
             if (data.onboarding_completed) {
               navigate('/dashboard');
             } else {
-              navigate('/onboarding');
+              navigate('/quiz');
             }
           }
         }
@@ -177,11 +199,11 @@ function AppContent() {
       if (data.onboarding_completed) {
         navigate('/dashboard');
       } else {
-        navigate('/onboarding');
+        navigate('/quiz');
       }
     } catch (err) {
       console.error('handleNameSaved error:', err);
-      navigate('/onboarding');
+      navigate('/quiz');
     }
   };
 
@@ -285,7 +307,7 @@ function AppContent() {
           ) : (
             <>
               <button className="btn-outline" onClick={() => openAuth('login')}>{t('loginBtn')}</button>
-              <button className="btn-primary" onClick={() => openAuth('register')}>{t('getGuideBtn')}</button>
+              <button className="btn-primary" onClick={() => navigate('/quiz')}>{t('getGuideBtn')}</button>
             </>
           )}
         </nav>
@@ -295,19 +317,14 @@ function AppContent() {
         <Routes>
           <Route path="/" element={
             <LandingPage 
-              onGetStarted={openAuth} 
+              onGetStarted={() => navigate('/quiz')} 
               isLoggedIn={authStatus === 'authenticated'} 
               userName={displayName}
               onboardingCompleted={fullProfileData?.onboarding_completed}
             />
           } />
-          <Route path="/onboarding" element={
-              <ProtectedRoute>
-                  <Onboarding 
-                    refreshProfile={fetchUserProfile} 
-                    setOnboardingJustFinished={setOnboardingJustFinished}
-                  />
-              </ProtectedRoute>
+          <Route path="/quiz" element={
+              <PublicQuiz />
           } />
           <Route path="/dashboard" element={
               <ProtectedRoute>

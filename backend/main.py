@@ -180,11 +180,11 @@ def health_check():
 @app.get("/api/user/profile")
 async def get_user_profile(user_id: str = Depends(verify_stytch_session)):
     """Fetches the user row including first_name and onboarding status."""
-    users = await supabase_select("users", f"user_id=eq.{user_id}&select=user_id,first_name,onboarding_completed,profile_image_url")
+    users = await supabase_select("users", f"id=eq.{user_id}&select=id,first_name,onboarding_completed,profile_image_url")
     
     if len(users) == 0:
         # First time user — create row
-        await supabase_upsert("users", {"user_id": user_id, "onboarding_completed": False})
+        await supabase_upsert("users", {"id": user_id, "onboarding_completed": False})
         return {"first_name": None, "onboarding_completed": False, "profile_image_url": None}
     
     return {
@@ -201,7 +201,7 @@ async def save_user_name(data: Dict[str, Any], user_id: str = Depends(verify_sty
     if not first_name or len(first_name) > 50:
         raise HTTPException(status_code=400, detail="Name is required and must be 50 characters or fewer.")
     
-    result = await supabase_upsert("users", {"user_id": user_id, "first_name": first_name})
+    result = await supabase_upsert("users", {"id": user_id, "first_name": first_name})
     if result is None:
         raise HTTPException(status_code=500, detail="Failed to save name.")
     return {"status": "success", "first_name": first_name}
@@ -210,9 +210,9 @@ async def save_user_name(data: Dict[str, Any], user_id: str = Depends(verify_sty
 @app.get("/api/user/full-profile")
 async def get_full_profile(user_id: str = Depends(verify_stytch_session)):
     """A high-performance endpoint returning all user data in a single roundrip."""
-    users = await supabase_select("users", f"user_id=eq.{user_id}&select=*")
+    users = await supabase_select("users", f"id=eq.{user_id}&select=*")
     if not users:
-        await supabase_upsert("users", {"user_id": user_id, "onboarding_completed": False})
+        await supabase_upsert("users", {"id": user_id, "onboarding_completed": False})
         return {"onboarding_completed": False, "first_name": None, "profile_image_url": None, "profile": None}
     
     user_record = users[0]
@@ -230,7 +230,7 @@ async def get_full_profile(user_id: str = Depends(verify_stytch_session)):
 @app.get("/api/onboarding")
 async def get_onboarding_profile(user_id: str = Depends(verify_stytch_session)):
     """Checks completion status and fetches the profile if it exists."""
-    users = await supabase_select("users", f"user_id=eq.{user_id}&select=onboarding_completed,first_name")
+    users = await supabase_select("users", f"id=eq.{user_id}&select=onboarding_completed,first_name")
 
     if len(users) == 0:
         return {"onboarding_completed": False, "first_name": None}
@@ -259,18 +259,35 @@ async def get_onboarding_profile(user_id: str = Depends(verify_stytch_session)):
 async def save_onboarding_profile(data: Dict[str, Any], user_id: str = Depends(verify_stytch_session)):
     """Upserts wizard answers and marks onboarding as completed."""
 
-    # Upsert users table first (so foreign key reference exists)
-    user_result = await supabase_upsert("users", {"user_id": user_id, "onboarding_completed": True})
+    # Extract experience as integer
+    exp_str = data.get("years_of_experience", "")
+    exp_int = 0
+    if "1 - 3" in exp_str: exp_int = 2
+    elif "4 - 7" in exp_str: exp_int = 5
+    elif "8 - 15" in exp_str: exp_int = 10
+    elif "More" in exp_str: exp_int = 16
+
+    # Upsert users table first with new schema fields
+    user_update_data = {
+        "id": user_id, 
+        "onboarding_completed": True,
+        "country_of_qualification": data.get("degree_country"),
+        "qualification_type": data.get("degree_level"),
+        "profession": data.get("profession"),
+        "years_of_experience": exp_int,
+        "preferred_language": data.get("language_preference", "IT").lower()
+    }
+    user_result = await supabase_upsert("users", user_update_data)
     if user_result is None:
         raise HTTPException(status_code=500, detail="Failed to update users table.")
 
-    # Upsert profile
+    # Upsert legacy profile to maintain backward compatibility
     profile_data = {
         "user_id": user_id,
         "user_type": data.get("user_type"),
         "degree_level": data.get("degree_level"),
         "degree_country": data.get("degree_country"),
-        "degree_field": data.get("degree_field"),
+        "degree_field": data.get("profession"), # Mapped to profession now
         "time_in_italy": data.get("time_in_italy"),
         "residence_permit_status": data.get("residence_permit_status"),
         "goals": data.get("goals", []),
@@ -291,7 +308,7 @@ async def delete_user_account(user_id: str = Depends(verify_stytch_session)):
     p_deleted = await supabase_delete("onboarding_profiles", f"user_id=eq.{user_id}")
     
     # 2. Delete from users table
-    u_deleted = await supabase_delete("users", f"user_id=eq.{user_id}")
+    u_deleted = await supabase_delete("users", f"id=eq.{user_id}")
     
     if not u_deleted:
         raise HTTPException(status_code=500, detail="Failed to delete user record.")
@@ -362,7 +379,7 @@ async def upload_profile_image(file: UploadFile = File(...), user_id: str = Depe
         
         # 3. Update 'users' record (store the clean URL without timestamp)
         clean_url = f"{SUPABASE_URL}/storage/v1/object/public/{bucket}/{filename}"
-        await supabase_upsert("users", {"user_id": user_id, "profile_image_url": clean_url})
+        await supabase_upsert("users", {"id": user_id, "profile_image_url": clean_url})
         
         return {"status": "success", "profile_image_url": public_url}
 
@@ -527,7 +544,11 @@ async def update_recognition_step(data: Dict[str, Any], user_id: str = Depends(v
 @app.get("/api/vault/documents")
 async def get_vault_documents(user_id: str = Depends(verify_stytch_session)):
     """Fetches all documents in the user's vault."""
-    docs = await supabase_select("document_vault", f"user_id=eq.{user_id}&select=*&order=created_at.desc")
+    docs = await supabase_select("documents", f"user_id=eq.{user_id}&select=*&order=uploaded_at.desc")
+    for d in docs:
+        d['doc_type'] = d.get('document_type')
+        d['verification_status'] = d.get('status')
+        d['created_at'] = d.get('uploaded_at')
     return docs
 
 @app.post("/api/vault/upload")
@@ -598,25 +619,30 @@ async def upload_vault_document(
         
         doc_record = {
             "user_id": user_id,
-            "doc_type": doc_type,
+            "document_type": doc_type,
             "file_name": file.filename,
             "file_url": clean_url,
             "metadata": {"content_type": file.content_type, "size": len(contents)}
         }
         
-        result = await supabase_upsert("document_vault", doc_record)
-        return {"status": "success", "document": result[0] if result else None}
+        result = await supabase_upsert("documents", doc_record)
+        doc = result[0] if result else None
+        if doc:
+            doc['doc_type'] = doc.get('document_type')
+            doc['verification_status'] = doc.get('status')
+            doc['created_at'] = doc.get('uploaded_at')
+        return {"status": "success", "document": doc}
 
 @app.delete("/api/vault/documents/{doc_id}")
 async def delete_vault_document(doc_id: str, user_id: str = Depends(verify_stytch_session)):
     """Deletes a document from the vault."""
     # Verifying ownership first
-    docs = await supabase_select("document_vault", f"id=eq.{doc_id}&user_id=eq.{user_id}")
+    docs = await supabase_select("documents", f"id=eq.{doc_id}&user_id=eq.{user_id}")
     if not docs:
         raise HTTPException(status_code=404, detail="Document not found.")
     
     # Delete from DB
-    await supabase_delete("document_vault", f"id=eq.{doc_id}")
+    await supabase_delete("documents", f"id=eq.{doc_id}")
     return {"status": "success"}
 
 @app.get("/api/partners/translators")
@@ -914,7 +940,11 @@ async def admin_get_users(admin_id: str = Depends(verify_admin_session)):
 @app.get("/api/admin/documents")
 async def admin_get_all_documents(admin_id: str = Depends(verify_admin_session)):
     """Fetches all uploaded documents across all users."""
-    docs = await supabase_select("document_vault", "select=*,users(first_name)&order=created_at.desc")
+    docs = await supabase_select("documents", "select=*,users(first_name)&order=uploaded_at.desc")
+    for d in docs:
+        d['doc_type'] = d.get('document_type')
+        d['verification_status'] = d.get('status')
+        d['created_at'] = d.get('uploaded_at')
     return docs
 
 @app.patch("/api/admin/documents/{doc_id}")
@@ -932,15 +962,18 @@ async def admin_update_document_status(
         raise HTTPException(status_code=400, detail="verification_status is required.")
     
     # 1. Update the database
-    update_data = {"id": doc_id, "verification_status": status}
+    update_data = {"id": doc_id, "status": status}
     if notes is not None:
         update_data["admin_notes"] = notes
         
-    result = await supabase_upsert("document_vault", update_data)
+    result = await supabase_upsert("documents", update_data)
     if not result:
         raise HTTPException(status_code=500, detail="Failed to update document status.")
     
     updated_doc = result[0]
+    updated_doc['doc_type'] = updated_doc.get('document_type')
+    updated_doc['verification_status'] = updated_doc.get('status')
+    updated_doc['created_at'] = updated_doc.get('uploaded_at')
     user_id = updated_doc.get("user_id")
     file_name = updated_doc.get("file_name")
 
@@ -980,3 +1013,70 @@ async def admin_update_document_status(
             print(f"Failed to trigger notification flow: {str(e)}")
         
     return {"status": "success", "document": updated_doc}
+
+# --- Phase 1 API Implementations ---
+import uuid
+import datetime
+
+@app.get('/api/v1/cases')
+async def get_v1_cases(user_id: str = Depends(verify_stytch_session)):
+    cases = await supabase_select("cases", f"user_id=eq.{user_id}&select=*")
+    
+    if not cases:
+        # Auto-generate a case for new users based on their profile
+        users = await supabase_select("users", f"id=eq.{user_id}&select=*")
+        user = users[0] if users else {}
+        
+        if user:
+            new_case = {
+                "case_number": f"AV-{datetime.datetime.now().year}-{str(uuid.uuid4())[:6].upper()}",
+                "user_id": user_id,
+                "title": f"Recognition for {user.get('profession', 'Unknown Profession')}",
+                "type": "professional_recognition_non_eu", # Defaulting for now
+                "country_of_qualification": user.get("country_of_qualification", "Unknown"),
+                "profession": user.get("profession", "Unknown"),
+                "goal": "employment",
+                "status": "assessment",
+                "progress_percentage": 10,
+                "priority": "normal"
+            }
+            inserted = await supabase_upsert("cases", new_case)
+            if inserted:
+                cases = [inserted]
+
+    return cases
+
+@app.get('/api/v1/cases/{case_id}/timeline')
+async def get_v1_case_timeline(case_id: str, user_id: str = Depends(verify_stytch_session)):
+    cases = await supabase_select("cases", f"id=eq.{case_id}&user_id=eq.{user_id}&select=*")
+    if not cases:
+        raise HTTPException(status_code=404, detail="Case not found")
+        
+    case = cases[0]
+    profession = case.get("profession", "").lower()
+    
+    regulated_keywords = ['medicine', 'medic', 'doctor', 'nurs', 'law', 'legal', 'engineer', 'architect', 'psycholog', 'pharmacist', 'vet', 'dentist', 'teacher', 'accountant']
+    is_regulated = any(kw in profession for kw in regulated_keywords)
+    
+    timeline = {
+        "case_id": case_id,
+        "is_regulated": is_regulated,
+        "profession_notes": f"Based on our assessment, {case.get('profession')} from {case.get('country_of_qualification')} is considered a {'regulated' if is_regulated else 'unregulated'} profession in Italy.",
+        "competent_ministry": "Ministry of University and Research (MUR)" if is_regulated else None,
+        "steps": []
+    }
+    
+    if is_regulated:
+        timeline["steps"] = [
+            {"key": "step_apostille", "step_number": 1, "title": "Get your degree Apostilled", "description": "Contact your home country embassy.", "estimated_time": "~3-8 weeks", "estimated_cost": "Varies", "status": "completed"},
+            {"key": "step_translation", "step_number": 2, "title": "Get a certified Italian translation", "description": "Find a perito giurato sworn translator.", "estimated_time": "~1 week", "estimated_cost": "~€80-150", "status": "active"},
+            {"key": "step_mur", "step_number": 3, "title": "Submit application to MUR", "description": "Via your nearest Italian university desk.", "estimated_time": "~6-18 months", "estimated_cost": "€16", "status": "pending"},
+        ]
+    else:
+        timeline["steps"] = [
+            {"key": "step_cimea", "step_number": 1, "title": "Optional: CIMEA Statement", "description": "Get a comparability statement to negotiate better salaries.", "estimated_time": "~30 days", "estimated_cost": "€150", "status": "active"},
+            {"key": "step_apply", "step_number": 2, "title": "Apply to Jobs Directly", "description": "No formal recognition is legally required for private sector roles.", "estimated_time": "Ongoing", "estimated_cost": "Free", "status": "pending"},
+        ]
+        
+    return timeline
+
