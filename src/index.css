@@ -1,16 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-  --bg-color: #080a0f;
-  --surface-color: #121620;
-  --accent-color: #d1f727;
-  --accent-hover: #bde022;
-  --text-primary: #f8f9fa;
-  --text-secondary: #a1a6b4;
-  --border-color: #2a2e3d;
-  --error-color: #ff4f4f;
+  --bg-color: #fafafa;
+  --surface-color: #ffffff;
+  --accent-color: #f1592a;
+  --accent-hover: #d44d24;
+  --text-primary: #1a1a1a;
+  --text-secondary: #5e5e5e;
+  --border-color: #e5e7eb;
+  --error-color: #ef4444;
   
-  --gradient-glow: radial-gradient(circle at center, rgba(209, 247, 39, 0.15) 0%, rgba(8, 10, 15, 0) 70%);
+  --gradient-glow: radial-gradient(circle at center, rgba(241, 89, 42, 0.05) 0%, rgba(250, 250, 250, 0) 70%);
 }
 
 * {
@@ -62,18 +62,18 @@ button:disabled {
 
 .btn-primary {
   background-color: var(--accent-color);
-  color: #000;
+  color: #FFFFFF;
   padding: 0.75rem 1.5rem;
   border-radius: 6px;
   font-weight: 600;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 14px 0 rgba(209, 247, 39, 0.2);
+  box-shadow: 0 4px 14px 0 rgba(241, 89, 42, 0.2);
 }
 
 .btn-primary:not(:disabled):hover {
   background-color: var(--accent-hover);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px 0 rgba(209, 247, 39, 0.3);
+  box-shadow: 0 6px 20px 0 rgba(241, 89, 42, 0.3);
 }
 
 .btn-outline {
@@ -86,8 +86,9 @@ button:disabled {
 }
 
 .btn-outline:not(:disabled):hover {
-  border-color: var(--text-secondary);
-  background-color: rgba(255, 255, 255, 0.03);
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+  background-color: rgba(241, 89, 42, 0.03);
 }
 
 .container {
@@ -105,10 +106,10 @@ button:disabled {
 .input-field {
   width: 100%;
   padding: 0.85rem 1.2rem;
-  background-color: #080a0f;
-  border: 1px solid #2a2e3d;
+  background-color: #ffffff;
+  border: 1px solid var(--border-color);
   border-radius: 10px;
-  color: #FFFFFF;
+  color: var(--text-primary);
   font-size: 1rem;
   font-family: inherit;
   transition: all 0.2s ease;
@@ -117,13 +118,13 @@ button:disabled {
 .input-field:focus {
   border-color: var(--accent-color);
   outline: none;
-  background-color: #0c0f17;
-  box-shadow: 0 0 0 2px rgba(209, 247, 39, 0.1);
+  background-color: #ffffff;
+  box-shadow: 0 0 0 2px rgba(241, 89, 42, 0.1);
 }
 
 select.input-field {
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='white' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%231a1a1a' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: calc(100% - 1.2rem) center;
   padding-right: 3rem;
