@@ -71,11 +71,11 @@ const SocialContact = () => {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
           <h3 style={columnTitleStyle}>{t('footerContact')}</h3>
           <div style={contactItemStyle}>
-            <Mail size={18} color="#C8F135" />
+            <Mail size={18} color="var(--accent-color)" />
             <a href="mailto:info@avanza.it.com" style={contactLinkStyle}>info@avanza.it.com</a>
           </div>
           <div style={contactItemStyle}>
-            <Phone size={18} color="#C8F135" />
+            <Phone size={18} color="var(--accent-color)" />
             <a href="tel:+393520266387" style={contactLinkStyle}>+39 352 026 6387</a>
           </div>
         </div>
@@ -99,9 +99,9 @@ const SocialContact = () => {
           </p>
           <div style={{ position: 'relative' }}>
              <button style={{
-               background: 'rgba(200, 241, 53, 0.1)',
-               color: '#C8F135',
-               border: '1px solid rgba(200, 241, 53, 0.3)',
+               background: 'rgba(241, 89, 42, 0.1)',
+               color: 'var(--accent-color)',
+               border: '1px solid rgba(241, 89, 42, 0.3)',
                padding: '0.8rem 1.25rem',
                borderRadius: '8px',
                fontWeight: 'bold',
@@ -123,7 +123,7 @@ const SocialContact = () => {
 const columnTitleStyle = {
   fontSize: '1.1rem',
   fontWeight: 'bold',
-  color: '#FFFFFF',
+  color: 'var(--text-primary)',
   marginBottom: '0.5rem'
 };
 

@@ -18,19 +18,19 @@ const AboutSummary = () => {
                 fontSize: '1.2rem', 
                 textTransform: 'uppercase', 
                 letterSpacing: '2px', 
-                color: '#C8F135',
+                color: 'var(--accent-color)',
                 marginBottom: '1.5rem',
-                fontWeight: '700'
+                fontWeight: '800'
             }}>
                 {t('aboutTitle')}
             </h2>
             <p style={{ 
                 fontSize: '1.8rem', 
                 lineHeight: '1.5', 
-                color: '#FFFFFF',
+                color: 'var(--text-primary)',
                 maxWidth: '800px',
                 margin: '0 auto',
-                fontWeight: '300'
+                fontWeight: '400'
             }}>
                 {t('aboutDesc')}
             </p>

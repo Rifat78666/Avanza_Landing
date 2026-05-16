@@ -39,17 +39,18 @@ const Features = () => {
       }}>
         {steps.map((step, idx) => (
           <div key={idx} style={{
-            background: 'rgba(18, 22, 32, 0.7)',
-            backdropFilter: 'blur(10px)',
+            background: 'var(--surface-color)',
             border: '1px solid var(--border-color)',
-            borderRadius: '12px',
+            borderRadius: '16px',
             padding: '2.5rem 2rem',
-            transition: 'transform 0.3s ease, border-color 0.3s ease',
-            cursor: 'default'
+            transition: 'all 0.3s ease',
+            cursor: 'default',
+            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)'
           }}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = 'translateY(-5px)';
-              e.currentTarget.style.borderColor = 'rgba(209, 247, 39, 0.3)';
+              e.currentTarget.style.borderColor = 'var(--accent-color)';
+              e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1)';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = 'translateY(0)';
