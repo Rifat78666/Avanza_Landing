@@ -8,7 +8,7 @@ class Particle {
     this.size = Math.random() * 1.5 + 0.5;
     this.speedX = (Math.random() * 1 - 0.5) * 1.5;
     this.speedY = (Math.random() * 1 - 0.5) * 1.5;
-    this.color = `rgba(255, 255, 255, ${Math.random() * 0.5 + 0.2})`;
+    this.color = `rgba(0, 0, 0, ${Math.random() * 0.15 + 0.05})`;
     
     // Randomly assign vibrant color to some nodes
     this.isSpecial = Math.random() > 0.85;
@@ -41,12 +41,12 @@ class Particle {
   }
   
   draw(ctx) {
-    ctx.fillStyle = this.isSpecial ? 'rgba(209, 247, 39, 0.8)' : this.color;
+    ctx.fillStyle = this.isSpecial ? 'rgba(241, 89, 42, 0.5)' : this.color;
     
     if (this.isSpecial) {
        // Glow effect for special nodes
        ctx.shadowBlur = 10;
-       ctx.shadowColor = 'rgba(209, 247, 39, 0.5)';
+        ctx.shadowColor = 'rgba(241, 89, 42, 0.2)';
     } else {
        ctx.shadowBlur = 0;
     }
@@ -120,9 +120,9 @@ const NeuralBackground = () => {
             const opacity = 1 - (distance / connectionRadius);
             
             if (particles[i].isSpecial || particles[j].isSpecial) {
-                ctx.strokeStyle = `rgba(209, 247, 39, ${opacity * 0.4})`;
+                ctx.strokeStyle = `rgba(241, 89, 42, ${opacity * 0.2})`;
             } else {
-                ctx.strokeStyle = `rgba(255, 255, 255, ${opacity * 0.15})`;
+                ctx.strokeStyle = `rgba(0, 0, 0, ${opacity * 0.05})`;
             }
             
             ctx.lineWidth = 1;
