@@ -68,7 +68,7 @@ const NameCollection = ({ onNameSaved }) => {
             alignItems: 'center', justifyContent: 'center', padding: '2rem'
         }}>
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: '3rem' }}>
-                <img src="/Avanzalogo.jpeg" alt="AVANZA" style={{ height: '48px', objectFit: 'contain' }} />
+                <img src="/avanza_Logo.jpeg" alt="AVANZA" style={{ height: '48px', objectFit: 'contain' }} />
             </div>
 
             <div style={{
