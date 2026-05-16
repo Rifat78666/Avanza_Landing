@@ -55,7 +55,11 @@ const PublicQuiz = () => {
     };
 
     const handleBack = () => {
-        if (step > 1) setStep(step - 1);
+        if (step > 1) {
+            setStep(step - 1);
+        } else {
+            navigate('/');
+        }
     };
 
     const handleGoalToggle = (goalKey) => {
@@ -118,7 +122,7 @@ const PublicQuiz = () => {
                     <span>Step {step} of 8</span>
                     <button 
                         onClick={handleBack} 
-                        style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', visibility: step > 1 ? 'visible' : 'hidden' }}
+                        style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer' }}
                     >
                         ← Back
                     </button>
@@ -335,12 +339,10 @@ const PublicQuiz = () => {
                 )}
 
                 <div style={{ marginTop: '2.5rem', display: 'flex', justifyContent: 'space-between' }}>
-                    {step > 1 ? (
-                        <button className="btn-outline" onClick={handleBack} style={{ padding: '0.8rem 2rem' }}>Back</button>
-                    ) : <div></div>}
-                    {step < 8 && (
+                    <button className="btn-primary" onClick={handleBack} style={{ padding: '0.8rem 2rem' }}>Back</button>
+                    {step < 8 ? (
                         <button className="btn-primary" onClick={handleNext} style={{ padding: '0.8rem 2rem' }}>Next</button>
-                    )}
+                    ) : <div></div>}
                 </div>
             </div>
         </div>
