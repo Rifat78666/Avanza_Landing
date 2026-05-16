@@ -67,8 +67,8 @@ const NameCollection = ({ onNameSaved }) => {
             background: '#0F0F0F', zIndex: 9999, display: 'flex', flexDirection: 'column',
             alignItems: 'center', justifyContent: 'center', padding: '2rem'
         }}>
-            <div style={{ fontSize: '1.5rem', fontWeight: 'bold', letterSpacing: '-1px', marginBottom: '3rem', color: '#F5F5F0' }}>
-                AVANZA
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '3rem' }}>
+                <img src="/Avanzalogo.jpeg" alt="AVANZA" style={{ height: '48px', objectFit: 'contain' }} />
             </div>
 
             <div style={{

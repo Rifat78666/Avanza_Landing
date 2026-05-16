@@ -242,8 +242,8 @@ function AppContent() {
         position: 'relative',
         zIndex: 50
       }}>
-        <div style={{ fontSize: '1.5rem', fontWeight: 'bold', letterSpacing: '-1px', cursor: 'pointer' }} onClick={() => navigate('/')}>
-          AVANZA
+        <div style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }} onClick={() => navigate('/')}>
+          <img src="/Avanzalogo.jpeg" alt="AVANZA" style={{ height: '40px', objectFit: 'contain' }} />
         </div>
         <nav style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
           <select 
