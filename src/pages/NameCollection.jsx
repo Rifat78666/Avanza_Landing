@@ -64,7 +64,7 @@ const NameCollection = ({ onNameSaved }) => {
     return (
         <div style={{
             position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh',
-            background: '#0F0F0F', zIndex: 9999, display: 'flex', flexDirection: 'column',
+            background: 'var(--bg-color)', zIndex: 9999, display: 'flex', flexDirection: 'column',
             alignItems: 'center', justifyContent: 'center', padding: '2rem'
         }}>
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: '3rem' }}>
@@ -72,13 +72,14 @@ const NameCollection = ({ onNameSaved }) => {
             </div>
 
             <div style={{
-                background: '#1A1A2E', borderRadius: '16px', padding: '3rem', maxWidth: '480px', width: '100%',
-                border: '1px solid rgba(200, 241, 53, 0.15)', textAlign: 'center'
+                background: 'var(--surface-color)', borderRadius: '16px', padding: '3rem', maxWidth: '480px', width: '100%',
+                border: '1px solid var(--border-color)', textAlign: 'center',
+                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.05)'
             }}>
-                <h1 style={{ fontSize: '2rem', color: '#F5F5F0', marginBottom: '0.75rem' }}>
+                <h1 style={{ fontSize: '2rem', color: 'var(--text-primary)', marginBottom: '0.75rem', fontWeight: '800' }}>
                     {t('nameTitle')}
                 </h1>
-                <p style={{ color: '#999', marginBottom: '2rem', fontSize: '1rem' }}>
+                <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem', fontSize: '1rem' }}>
                     {t('nameSub')}
                 </p>
 
@@ -92,14 +93,20 @@ const NameCollection = ({ onNameSaved }) => {
                     autoFocus
                     style={{
                         width: '100%', padding: '1rem', fontSize: '1.2rem', borderRadius: '8px',
-                        border: error ? '1px solid #ff4444' : '1px solid rgba(200, 241, 53, 0.3)',
-                        background: '#0F0F0F', color: '#F5F5F0', outline: 'none',
-                        transition: 'border-color 0.2s', boxSizing: 'border-box'
+                        border: error ? '1px solid var(--error-color)' : '1px solid var(--border-color)',
+                        background: '#ffffff', color: 'var(--text-primary)', outline: 'none',
+                        transition: 'all 0.2s', boxSizing: 'border-box'
+                    }}
+                    onFocus={(e) => {
+                        if (!error) e.target.style.borderColor = 'var(--accent-color)';
+                    }}
+                    onBlur={(e) => {
+                        if (!error) e.target.style.borderColor = 'var(--border-color)';
                     }}
                 />
 
                 {error && (
-                    <p style={{ color: '#ff4444', fontSize: '0.85rem', marginTop: '0.5rem', textAlign: 'left' }}>{error}</p>
+                    <p style={{ color: 'var(--error-color)', fontSize: '0.85rem', marginTop: '0.5rem', textAlign: 'left' }}>{error}</p>
                 )}
 
                 <button
@@ -108,8 +115,15 @@ const NameCollection = ({ onNameSaved }) => {
                     style={{
                         width: '100%', marginTop: '1.5rem', padding: '1rem', fontSize: '1.1rem',
                         fontWeight: 'bold', borderRadius: '8px', border: 'none', cursor: saving ? 'wait' : 'pointer',
-                        background: '#C8F135', color: '#000', transition: 'opacity 0.2s',
-                        opacity: saving ? 0.6 : 1
+                        background: 'var(--accent-color)', color: '#FFFFFF', transition: 'all 0.2s',
+                        opacity: saving ? 0.6 : 1,
+                        boxShadow: '0 4px 14px rgba(241, 89, 42, 0.2)'
+                    }}
+                    onMouseEnter={(e) => {
+                        if (!saving) e.target.style.background = 'var(--accent-hover)';
+                    }}
+                    onMouseLeave={(e) => {
+                        if (!saving) e.target.style.background = 'var(--accent-color)';
                     }}
                 >
                     {saving ? t('sending') : t('continueBtn')}

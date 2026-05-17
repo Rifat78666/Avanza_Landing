@@ -183,8 +183,22 @@ async def get_user_profile(user_id: str = Depends(verify_stytch_session)):
     users = await supabase_select("users", f"id=eq.{user_id}&select=id,first_name,onboarding_completed,profile_image_url")
     
     if len(users) == 0:
-        # First time user — create row
-        await supabase_upsert("users", {"id": user_id, "onboarding_completed": False})
+        # Fetch user's email from Stytch since email is a NOT NULL constraint on our DB
+        user_email = ""
+        try:
+            user_resp = stytch_client.users.get(user_id=user_id)
+            for email_obj in user_resp.emails:
+                if email_obj.email:
+                    user_email = email_obj.email
+                    break
+        except Exception as e:
+            print(f"Stytch get user error: {e}")
+            
+        await supabase_upsert("users", {
+            "id": user_id, 
+            "email": user_email or f"{user_id}@placeholder.com", 
+            "onboarding_completed": False
+        })
         return {"first_name": None, "onboarding_completed": False, "profile_image_url": None}
     
     return {
@@ -201,7 +215,24 @@ async def save_user_name(data: Dict[str, Any], user_id: str = Depends(verify_sty
     if not first_name or len(first_name) > 50:
         raise HTTPException(status_code=400, detail="Name is required and must be 50 characters or fewer.")
     
-    result = await supabase_upsert("users", {"id": user_id, "first_name": first_name})
+    # Ensure email is retrieved if user row is not yet fully created (constraint safety)
+    users = await supabase_select("users", f"id=eq.{user_id}&select=email")
+    user_email = users[0].get("email") if users else ""
+    if not user_email:
+        try:
+            user_resp = stytch_client.users.get(user_id=user_id)
+            for email_obj in user_resp.emails:
+                if email_obj.email:
+                    user_email = email_obj.email
+                    break
+        except Exception as e:
+            print(f"Stytch get user error: {e}")
+
+    result = await supabase_upsert("users", {
+        "id": user_id, 
+        "first_name": first_name,
+        "email": user_email or f"{user_id}@placeholder.com"
+    })
     if result is None:
         raise HTTPException(status_code=500, detail="Failed to save name.")
     return {"status": "success", "first_name": first_name}
@@ -212,7 +243,22 @@ async def get_full_profile(user_id: str = Depends(verify_stytch_session)):
     """A high-performance endpoint returning all user data in a single roundrip."""
     users = await supabase_select("users", f"id=eq.{user_id}&select=*")
     if not users:
-        await supabase_upsert("users", {"id": user_id, "onboarding_completed": False})
+        # Fetch user's email from Stytch since email is a NOT NULL constraint on our DB
+        user_email = ""
+        try:
+            user_resp = stytch_client.users.get(user_id=user_id)
+            for email_obj in user_resp.emails:
+                if email_obj.email:
+                    user_email = email_obj.email
+                    break
+        except Exception as e:
+            print(f"Stytch get user error: {e}")
+            
+        await supabase_upsert("users", {
+            "id": user_id, 
+            "email": user_email or f"{user_id}@placeholder.com", 
+            "onboarding_completed": False
+        })
         return {"onboarding_completed": False, "first_name": None, "profile_image_url": None, "profile": None}
     
     user_record = users[0]
