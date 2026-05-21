@@ -7,7 +7,7 @@ import { useLanguage } from '../LanguageContext';
 const PublicQuiz = () => {
     const stytch = useStytch();
     const navigate = useNavigate();
-    const { t, setLanguage } = useLanguage();
+    const { t } = useLanguage();
     
     const [step, setStep] = useState(1);
     const [isProcessing, setIsProcessing] = useState(false);
@@ -32,6 +32,7 @@ const PublicQuiz = () => {
         if (saved) {
             try {
                 const parsed = JSON.parse(saved);
+                // eslint-disable-next-line react-hooks/set-state-in-effect
                 setProfileData(parsed.data);
                 if (parsed.step < 8) {
                     setStep(parsed.step);

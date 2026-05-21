@@ -35,7 +35,7 @@ function AppContent() {
   const [displayName, setDisplayName] = useState('');
   const [profileImageUrl, setProfileImageUrl] = useState(null);
   const [showNameCollection, setShowNameCollection] = useState(false);
-  const [onboardingJustFinished, setOnboardingJustFinished] = useState(false);
+  const [onboardingJustFinished, _setOnboardingJustFinished] = useState(false);
   const [showSuccessOverlay, setShowSuccessOverlay] = useState(false);
   
   const { language, setLanguage, t, isRTL } = useLanguage();
@@ -116,7 +116,7 @@ function AppContent() {
     } catch (err) {
       console.error('Profile fetch error:', err);
     }
-  }, [stytch, API_BASE_URL, navigate, location.pathname]);
+  }, [stytch, API_BASE_URL, navigate, location.pathname, onboardingJustFinished]);
 
   // Handle Magic Link redirect
   useEffect(() => {
@@ -163,7 +163,6 @@ function AppContent() {
         }
       } else {
         // No user found, definitely idle
-        // eslint-disable-next-line react-hooks/set-state-in-effect
         if (authStatus !== 'idle') setAuthStatus('idle');
       }
     } else {
@@ -171,7 +170,6 @@ function AppContent() {
         // but since we default to idle, we only set it if we expect a user
         const params = new URLSearchParams(window.location.search);
         if (params.get('token')) {
-            // eslint-disable-next-line react-hooks/set-state-in-effect
             setAuthStatus('authenticating');
         }
     }
