@@ -4,6 +4,8 @@ from pydantic import BaseModel
 from typing import List, Optional, Dict, Any
 import os
 import json
+import time
+import base64
 import httpx
 import stytch
 from dotenv import load_dotenv
@@ -100,11 +102,17 @@ async def supabase_delete(table: str, filters: str):
 
 
 # --- Email Notifications (SendGrid) ---
-async def send_notification_email(user_email: str, subject: str, html_content: str):
-    """Sends a transactional email via SendGrid v3 API."""
+async def send_notification_email(
+    user_email: str,
+    subject: str,
+    html_content: str,
+    attachment_bytes: Optional[bytes] = None,
+    attachment_filename: str = "Avanza_Roadmap.pdf"
+):
+    """Sends a transactional email via SendGrid v3 API, with optional PDF attachment."""
     api_key = os.getenv("SENDGRID_API_KEY")
     sender = os.getenv("SENDGRID_SENDER_EMAIL", "info@avanza.it.com")
-    
+
     if not api_key or "placeholder" in api_key:
         print(f"Skipping email to {user_email}: SendGrid API Key not configured.")
         return
@@ -115,12 +123,20 @@ async def send_notification_email(user_email: str, subject: str, html_content: s
         "subject": subject,
         "content": [{"type": "text/html", "value": html_content}]
     }
-    
+
+    if attachment_bytes:
+        payload["attachments"] = [{
+            "content": base64.b64encode(attachment_bytes).decode("utf-8"),
+            "filename": attachment_filename,
+            "type": "application/pdf",
+            "disposition": "attachment"
+        }]
+
     headers = {
         "Authorization": f"Bearer {api_key}",
         "Content-Type": "application/json"
     }
-    
+
     async with httpx.AsyncClient() as client:
         try:
             resp = await client.post("https://api.sendgrid.com/v3/mail/send", json=payload, headers=headers)
@@ -381,6 +397,163 @@ def _build_roadmap_email_html(greeting_name: str, country: str, field: str, leve
     """
     return html
 
+def _generate_free_dossier_pdf(user_id: str, first_name: str, profile: dict, roadmap_data: dict, bridge_courses: list) -> bytes:
+    """Generates the free-tier recognition dossier PDF and returns raw bytes."""
+
+    class AvanzaPDF(FPDF):
+        def header(self):
+            self.set_fill_color(15, 18, 25)
+            self.rect(0, 0, 210, 45, 'F')
+            self.set_fill_color(200, 241, 53)
+            self.circle(20, 22, 12, 'F')
+            self.set_font("helvetica", "B", 18)
+            self.set_text_color(15, 18, 25)
+            self.set_xy(16.5, 18)
+            self.cell(10, 10, "A", align='C')
+            self.set_font("helvetica", "B", 26)
+            self.set_text_color(255, 255, 255)
+            self.set_xy(35, 15)
+            self.cell(0, 10, "AVANZA PATHFINDERS", ln=True)
+            self.set_font("helvetica", "I", 10)
+            self.set_text_color(200, 241, 53)
+            self.set_xy(35, 26)
+            self.cell(0, 10, "Your Official Recognition Roadmap & Professional Dossier", ln=True)
+            self.ln(25)
+
+        def footer(self):
+            self.set_y(-25)
+            self.set_font("helvetica", "I", 8)
+            self.set_text_color(120, 120, 120)
+            self.line(10, self.get_y(), 200, self.get_y())
+            self.cell(0, 10, f"Page {self.page_no()} | Dossier ID: AV-{user_id[:8].upper()}-{int(time.time())}", align='L')
+            self.cell(0, 10, "avanza.it.com | Official Institutional Guide", align='R')
+
+    pdf = AvanzaPDF()
+    pdf.add_page()
+    pdf.set_auto_page_break(auto=True, margin=30)
+    pdf.set_text_color(40, 40, 40)
+    pdf.set_xy(15, 55)
+
+    # SECTION 1: CANDIDATE PROFILE
+    pdf.set_font("helvetica", "B", 16)
+    pdf.set_text_color(15, 18, 25)
+    pdf.cell(0, 10, "1. CANDIDATE PROFILE", ln=True)
+    pdf.set_draw_color(200, 241, 53)
+    pdf.set_line_width(0.8)
+    pdf.line(15, 66, 70, 66)
+    pdf.ln(8)
+
+    for label, val in [
+        ("Candidate Name", first_name),
+        ("Academic Level", profile.get("degree_level", "N/A")),
+        ("Discipline", profile.get("degree_field", "N/A")),
+        ("Source Country", profile.get("degree_country", "N/A")),
+        ("Issuing University", profile.get("university", "Refer to verified vault items")),
+    ]:
+        pdf.set_font("helvetica", "B", 11)
+        pdf.cell(60, 9, f"{label}:", 0)
+        pdf.set_font("helvetica", "", 11)
+        pdf.cell(0, 9, str(val), 0, 1)
+
+    pdf.ln(10)
+
+    # SECTION 2: PREMIUM UPGRADE BANNER
+    pdf.set_font("helvetica", "B", 16)
+    pdf.set_text_color(15, 18, 25)
+    pdf.cell(0, 10, "2. REGULATORY STATUS", ln=True)
+    pdf.set_draw_color(200, 241, 53)
+    pdf.set_line_width(0.8)
+    pdf.line(15, pdf.get_y(), 75, pdf.get_y())
+    pdf.ln(10)
+
+    banner_y = pdf.get_y()
+    pdf.set_fill_color(15, 18, 25)
+    pdf.rect(15, banner_y, 180, 44, 'F')
+    pdf.set_font("helvetica", "B", 9)
+    pdf.set_text_color(200, 241, 53)
+    pdf.set_xy(15, banner_y + 6)
+    pdf.cell(180, 6, "AVANZA PREMIUM FEATURE", align='C', ln=True)
+    pdf.set_font("helvetica", "B", 13)
+    pdf.set_text_color(255, 255, 255)
+    pdf.set_xy(15, banner_y + 14)
+    pdf.cell(180, 7, "Unlock Your Full Regulatory Analysis", align='C', ln=True)
+    pdf.set_font("helvetica", "", 9)
+    pdf.set_text_color(180, 180, 180)
+    pdf.set_xy(15, banner_y + 23)
+    pdf.cell(180, 6, "Competent boards, language certificates, required exams & ministry contacts", align='C', ln=True)
+    pdf.set_font("helvetica", "B", 9)
+    pdf.set_text_color(200, 241, 53)
+    pdf.set_xy(15, banner_y + 32)
+    pdf.cell(180, 6, "Upgrade at avanza.it.com/dashboard", align='C', ln=True)
+    pdf.ln(52)
+    pdf.set_text_color(40, 40, 40)
+
+    # SECTION 3: RECOGNITION ROADMAP
+    pdf.set_font("helvetica", "B", 16)
+    pdf.set_text_color(15, 18, 25)
+    pdf.cell(0, 10, "3. YOUR RECOGNITION ROADMAP", ln=True)
+    pdf.set_draw_color(200, 241, 53)
+    pdf.line(15, pdf.get_y(), 115, pdf.get_y())
+    pdf.ln(4)
+    pdf.set_font("helvetica", "", 9)
+    pdf.set_text_color(120, 120, 120)
+    pdf.cell(0, 6, f"Estimated Timeline: {roadmap_data.get('total_estimated_time', 'Varies')}   |   Estimated Cost: {roadmap_data.get('total_estimated_cost', 'Varies')}   |   Total Steps: {len(roadmap_data.get('steps', []))}", ln=True)
+    pdf.ln(4)
+
+    for step in roadmap_data.get("steps", []):
+        pdf.set_font("helvetica", "B", 11)
+        pdf.set_text_color(15, 18, 25)
+        pdf.cell(0, 8, f"Step {step['step_number']}  |  {step['title'].encode('latin-1', 'replace').decode('latin-1')}", ln=True)
+        pdf.set_font("helvetica", "", 10)
+        pdf.set_text_color(60, 60, 60)
+        pdf.multi_cell(0, 5, step["description"].encode("latin-1", "replace").decode("latin-1"))
+        pdf.set_font("helvetica", "", 9)
+        pdf.set_text_color(110, 110, 110)
+        pdf.cell(0, 5, f"  Time: {step['estimated_time']}    Cost: {step['estimated_cost']}", ln=True)
+        lock_y = pdf.get_y() + 2
+        pdf.set_fill_color(255, 248, 245)
+        pdf.set_draw_color(241, 89, 42)
+        pdf.set_line_width(0.3)
+        pdf.rect(15, lock_y, 180, 9, 'DF')
+        pdf.set_font("helvetica", "B", 8)
+        pdf.set_text_color(192, 74, 31)
+        pdf.set_xy(15, lock_y + 1)
+        pdf.cell(180, 7, "  Premium: Upgrade to unlock file checklists, submission links & step-by-step guide", align='L', ln=True)
+        pdf.set_line_width(0.8)
+        pdf.ln(5)
+
+    pdf.set_draw_color(200, 241, 53)
+    pdf.set_text_color(40, 40, 40)
+
+    # SECTION 4: BRIDGE COURSES
+    pdf.set_font("helvetica", "B", 16)
+    pdf.set_text_color(15, 18, 25)
+    pdf.cell(0, 10, "4. RECOMMENDED BRIDGE COURSES", ln=True)
+    pdf.line(15, pdf.get_y(), 125, pdf.get_y())
+    pdf.ln(4)
+    pdf.set_font("helvetica", "", 9)
+    pdf.set_text_color(120, 120, 120)
+    pdf.cell(0, 6, "Training programmes matched to your profession to help you succeed in Italy", ln=True)
+    pdf.ln(4)
+
+    for course in bridge_courses[:4]:
+        pdf.set_font("helvetica", "B", 11)
+        pdf.set_text_color(15, 18, 25)
+        pdf.cell(0, 7, course["title"].encode("latin-1", "replace").decode("latin-1"), ln=True)
+        pdf.set_font("helvetica", "I", 9)
+        pdf.set_text_color(100, 100, 100)
+        pdf.cell(0, 5, course["provider"].encode("latin-1", "replace").decode("latin-1"), ln=True)
+        pdf.set_font("helvetica", "", 10)
+        pdf.set_text_color(60, 60, 60)
+        pdf.multi_cell(0, 5, course["description"].encode("latin-1", "replace").decode("latin-1"))
+        pdf.set_font("helvetica", "", 9)
+        pdf.set_text_color(100, 100, 100)
+        pdf.cell(0, 5, f"  Duration: {course['duration']}    Language: {course['language']}    Cost: {course.get('cost', '').encode('latin-1', 'replace').decode('latin-1')}", ln=True)
+        pdf.ln(5)
+
+    return bytes(pdf.output())
+
+
 @app.get("/")
 def health_check():
     return {"status": "Avanza API is running. Fast and Secure."}
@@ -588,7 +761,16 @@ async def save_onboarding_profile(
             # 3. Get bridge courses
             bridge_courses = get_bridge_courses(field)
             
-            # 4. Build HTML email
+            # 4. Generate PDF attachment
+            profile_for_pdf = {
+                "degree_field": field,
+                "degree_country": country,
+                "degree_level": level,
+                "university": data.get("university", "Refer to verified vault items"),
+            }
+            pdf_bytes = _generate_free_dossier_pdf(user_id, greeting_name, profile_for_pdf, roadmap, bridge_courses)
+
+            # 5. Build HTML email
             html_email = _build_roadmap_email_html(
                 greeting_name=greeting_name,
                 country=country,
@@ -597,15 +779,17 @@ async def save_onboarding_profile(
                 roadmap=roadmap,
                 bridge_courses=bridge_courses
             )
-            
-            # 5. Dispatch
+
+            # 6. Dispatch with PDF attachment
             background_tasks.add_task(
                 send_notification_email,
                 user_email,
                 "Your Personalized Recognition Roadmap — Avanza Pathfinders",
-                html_email
+                html_email,
+                pdf_bytes,
+                f"Avanza_Roadmap_{greeting_name}.pdf"
             )
-            print(f"Roadmap email queued for {user_email}")
+            print(f"Roadmap email with PDF queued for {user_email}")
     except Exception as e:
         # Email dispatch failure should never block onboarding
         print(f"Roadmap email generation failed (non-blocking): {e}")
@@ -1090,215 +1274,24 @@ async def download_cv_pdf(data: Dict[str, Any], user_id: str = Depends(verify_st
 @app.get("/api/recognition/dossier")
 async def get_recognition_dossier(user_id: str = Depends(verify_stytch_session)):
     """Generates a professional PDF dossier for degree recognition."""
-    # 1. Fetch data
     full_profile = await get_full_profile(user_id)
     profile = full_profile.get("profile")
     first_name = full_profile.get("first_name", "User")
-    
+
     if not profile:
         raise HTTPException(status_code=400, detail="Profile not found. Please complete onboarding first.")
 
-    # 2. Setup PDF Class with branding
-    class AvanzaPDF(FPDF):
-        def header(self):
-            # Professional Header Bar
-            self.set_fill_color(15, 18, 25) # Dark Blue-Black
-            self.rect(0, 0, 210, 45, 'F')
-            
-            # Stylized Logo Circle
-            self.set_fill_color(200, 241, 53) # Lime Accent
-            self.circle(20, 22, 12, 'F')
-            self.set_font("helvetica", "B", 18)
-            self.set_text_color(15, 18, 25)
-            self.set_xy(16.5, 18)
-            self.cell(10, 10, "A", align='C')
-            
-            # Brand Name
-            self.set_font("helvetica", "B", 26)
-            self.set_text_color(255, 255, 255)
-            self.set_xy(35, 15)
-            self.cell(0, 10, "AVANZA PATHFINDERS", ln=True)
-            
-            self.set_font("helvetica", "I", 10)
-            self.set_text_color(200, 241, 53)
-            self.set_xy(35, 26)
-            self.cell(0, 10, "Your Official Recognition Roadmap & Professional Dossier", ln=True)
-            
-            self.ln(25)
-
-        def footer(self):
-            self.set_y(-25)
-            self.set_font("helvetica", "I", 8)
-            self.set_text_color(120, 120, 120)
-            self.line(10, self.get_y(), 200, self.get_y())
-            self.cell(0, 10, f"Page {self.page_no()} | Dossier ID: AV-{user_id[:8].upper()}-{int(time.time())}", align='L')
-            self.cell(0, 10, "avanza.it.com | Official Institutional Guide", align='R')
-
-    pdf = AvanzaPDF()
-    pdf.add_page()
-    pdf.set_auto_page_break(auto=True, margin=30)
-    
-    # Body Styling
-    pdf.set_text_color(40, 40, 40)
-    pdf.set_xy(15, 55)
-    
-    # SECTION 1: CANDIDATE
-    pdf.set_font("helvetica", "B", 16)
-    pdf.set_text_color(15, 18, 25)
-    pdf.cell(0, 10, "1. CANDIDATE PROFILE", ln=True)
-    pdf.set_draw_color(200, 241, 53)
-    pdf.set_line_width(0.8)
-    pdf.line(15, 66, 70, 66)
-    pdf.ln(8)
-    
-    pdf.set_font("helvetica", "", 12)
-    pdf.set_text_color(60, 60, 60)
-    
-    details = [
-        ("Candidate Name", first_name),
-        ("Academic Level", profile.get("degree_level", "N/A")),
-        ("Discipline", profile.get("degree_field", "N/A")),
-        ("Source Country", profile.get("degree_country", "N/A")),
-        ("Issuing University", profile.get("university", "Refer to verified vault items")),
-    ]
-    
-    for label, val in details:
-        pdf.set_font("helvetica", "B", 11)
-        pdf.cell(60, 9, f"{label}:", 0)
-        pdf.set_font("helvetica", "", 11)
-        pdf.cell(0, 9, str(val), 0, 1)
-    
-    pdf.ln(10)
-    
-    # Fetch dynamic roadmap and bridge courses
     field_raw = profile.get("degree_field", "General")
-    country_raw = profile.get("degree_country", "Unknown")
-    level_raw = profile.get("degree_level", "Bachelor's")
-    roadmap_data = generate_validation_roadmap(country_raw, field_raw, level_raw)
+    roadmap_data = generate_validation_roadmap(profile.get("degree_country", "Unknown"), field_raw, profile.get("degree_level", "Bachelor's"))
     bridge_courses = get_bridge_courses(field_raw)
-
-    # SECTION 2: PREMIUM UPGRADE BANNER (regulatory details locked)
-    pdf.set_font("helvetica", "B", 16)
-    pdf.set_text_color(15, 18, 25)
-    pdf.cell(0, 10, "2. REGULATORY STATUS", ln=True)
-    pdf.set_draw_color(200, 241, 53)
-    pdf.set_line_width(0.8)
-    pdf.line(15, pdf.get_y(), 75, pdf.get_y())
-    pdf.ln(10)
-
-    banner_y = pdf.get_y()
-    pdf.set_fill_color(15, 18, 25)
-    pdf.rect(15, banner_y, 180, 44, 'F')
-
-    pdf.set_font("helvetica", "B", 9)
-    pdf.set_text_color(200, 241, 53)
-    pdf.set_xy(15, banner_y + 6)
-    pdf.cell(180, 6, "AVANZA PREMIUM FEATURE", align='C', ln=True)
-
-    pdf.set_font("helvetica", "B", 13)
-    pdf.set_text_color(255, 255, 255)
-    pdf.set_xy(15, banner_y + 14)
-    pdf.cell(180, 7, "Unlock Your Full Regulatory Analysis", align='C', ln=True)
-
-    pdf.set_font("helvetica", "", 9)
-    pdf.set_text_color(180, 180, 180)
-    pdf.set_xy(15, banner_y + 23)
-    pdf.cell(180, 6, "Competent boards, language certificates, required exams & ministry contacts", align='C', ln=True)
-
-    pdf.set_font("helvetica", "B", 9)
-    pdf.set_text_color(200, 241, 53)
-    pdf.set_xy(15, banner_y + 32)
-    pdf.cell(180, 6, "Upgrade at avanza.it.com/dashboard", align='C', ln=True)
-
-    pdf.ln(52)
-    pdf.set_text_color(40, 40, 40)
-
-    # SECTION 3: RECOGNITION ROADMAP (dynamic steps, details locked)
-    pdf.set_font("helvetica", "B", 16)
-    pdf.set_text_color(15, 18, 25)
-    pdf.cell(0, 10, "3. YOUR RECOGNITION ROADMAP", ln=True)
-    pdf.set_draw_color(200, 241, 53)
-    pdf.line(15, pdf.get_y(), 115, pdf.get_y())
-    pdf.ln(4)
-
-    pdf.set_font("helvetica", "", 9)
-    pdf.set_text_color(120, 120, 120)
-    total_time = roadmap_data.get("total_estimated_time", "Varies")
-    total_cost = roadmap_data.get("total_estimated_cost", "Varies")
-    step_count = len(roadmap_data.get("steps", []))
-    pdf.cell(0, 6, f"Estimated Timeline: {total_time}   |   Estimated Cost: {total_cost}   |   Total Steps: {step_count}", ln=True)
-    pdf.ln(4)
-
-    for step in roadmap_data.get("steps", []):
-        pdf.set_font("helvetica", "B", 11)
-        pdf.set_text_color(15, 18, 25)
-        title_safe = step["title"].encode("latin-1", "replace").decode("latin-1")
-        pdf.cell(0, 8, f"Step {step['step_number']}  |  {title_safe}", ln=True)
-
-        pdf.set_font("helvetica", "", 10)
-        pdf.set_text_color(60, 60, 60)
-        desc_safe = step["description"].encode("latin-1", "replace").decode("latin-1")
-        pdf.multi_cell(0, 5, desc_safe)
-
-        pdf.set_font("helvetica", "", 9)
-        pdf.set_text_color(110, 110, 110)
-        pdf.cell(0, 5, f"  Time: {step['estimated_time']}    Cost: {step['estimated_cost']}", ln=True)
-
-        # Premium lock badge per step
-        lock_y = pdf.get_y() + 2
-        pdf.set_fill_color(255, 248, 245)
-        pdf.set_draw_color(241, 89, 42)
-        pdf.set_line_width(0.3)
-        pdf.rect(15, lock_y, 180, 9, 'DF')
-        pdf.set_font("helvetica", "B", 8)
-        pdf.set_text_color(192, 74, 31)
-        pdf.set_xy(15, lock_y + 1)
-        pdf.cell(180, 7, "  Premium: Upgrade to unlock file checklists, submission links & step-by-step guide", align='L', ln=True)
-        pdf.set_line_width(0.8)
-        pdf.ln(5)
-
-    pdf.set_draw_color(200, 241, 53)
-    pdf.set_text_color(40, 40, 40)
-
-    # SECTION 4: RECOMMENDED BRIDGE COURSES
-    pdf.set_font("helvetica", "B", 16)
-    pdf.set_text_color(15, 18, 25)
-    pdf.cell(0, 10, "4. RECOMMENDED BRIDGE COURSES", ln=True)
-    pdf.line(15, pdf.get_y(), 125, pdf.get_y())
-    pdf.ln(4)
-
-    pdf.set_font("helvetica", "", 9)
-    pdf.set_text_color(120, 120, 120)
-    pdf.cell(0, 6, "Training programmes matched to your profession to help you succeed in Italy", ln=True)
-    pdf.ln(4)
-
-    for course in bridge_courses[:4]:
-        pdf.set_font("helvetica", "B", 11)
-        pdf.set_text_color(15, 18, 25)
-        course_title = course["title"].encode("latin-1", "replace").decode("latin-1")
-        pdf.cell(0, 7, course_title, ln=True)
-
-        pdf.set_font("helvetica", "I", 9)
-        pdf.set_text_color(100, 100, 100)
-        provider_safe = course["provider"].encode("latin-1", "replace").decode("latin-1")
-        pdf.cell(0, 5, provider_safe, ln=True)
-
-        pdf.set_font("helvetica", "", 10)
-        pdf.set_text_color(60, 60, 60)
-        desc_safe = course["description"].encode("latin-1", "replace").decode("latin-1")
-        pdf.multi_cell(0, 5, desc_safe)
-
-        pdf.set_font("helvetica", "", 9)
-        pdf.set_text_color(100, 100, 100)
-        cost_safe = course.get("cost", "").encode("latin-1", "replace").decode("latin-1")
-        pdf.cell(0, 5, f"  Duration: {course['duration']}    Language: {course['language']}    Cost: {cost_safe}", ln=True)
-        pdf.ln(5)
+    pdf_bytes = _generate_free_dossier_pdf(user_id, first_name, profile, roadmap_data, bridge_courses)
 
     return Response(
-        content=pdf.output(),
+        content=pdf_bytes,
         media_type="application/pdf",
         headers={"Content-Disposition": f"attachment; filename=Avanza_Dossier_{first_name}.pdf"}
     )
+
 
 # --- Admin Portal Endpoints ---
 
