@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 from fpdf import FPDF
 from io import BytesIO
 from openai import AsyncOpenAI
-from validation_engine import generate_validation_roadmap
+from validation_engine import generate_validation_roadmap, get_bridge_courses
 
 load_dotenv()
 
@@ -172,6 +172,215 @@ async def verify_admin_session(user_id: str = Depends(verify_stytch_session)):
 
 # --- Endpoints ---
 
+# --- Roadmap Email HTML Builder ---
+def _build_roadmap_email_html(greeting_name: str, country: str, field: str, level: str, roadmap: dict, bridge_courses: list) -> str:
+    """Builds a branded HTML email for the free-tier onboarding roadmap."""
+    
+    # Build steps HTML
+    steps_html = ""
+    for step in roadmap.get("steps", []):
+        steps_html += f"""
+        <tr>
+            <td style="padding: 16px 20px; border-bottom: 1px solid #F0F0F0;">
+                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                    <tr>
+                        <td width="44" valign="top">
+                            <div style="width: 36px; height: 36px; border-radius: 50%; background: #FFF3ED; color: #F1592A; font-weight: 800; font-size: 15px; text-align: center; line-height: 36px;">
+                                {step['step_number']}
+                            </div>
+                        </td>
+                        <td style="padding-left: 12px;">
+                            <p style="margin: 0 0 4px 0; font-weight: 700; font-size: 15px; color: #1A1A1A;">{step['title']}</p>
+                            <p style="margin: 0 0 8px 0; font-size: 13px; color: #666666; line-height: 1.5;">{step['description']}</p>
+                            <table cellpadding="0" cellspacing="0" border="0">
+                                <tr>
+                                    <td style="background: #F5F5F5; padding: 4px 10px; border-radius: 4px; font-size: 12px; color: #888888; margin-right: 8px;">
+                                        ⏱ {step['estimated_time']}
+                                    </td>
+                                    <td width="8"></td>
+                                    <td style="background: #F5F5F5; padding: 4px 10px; border-radius: 4px; font-size: 12px; color: #888888;">
+                                        💰 {step['estimated_cost']}
+                                    </td>
+                                </tr>
+                            </table>
+                            <p style="margin: 10px 0 0 0; padding: 8px 12px; background: #FFFBF5; border: 1px dashed #F1592A; border-radius: 6px; font-size: 12px; color: #C04A1F;">
+                                🔒 <strong>Premium Feature:</strong> Upgrade to unlock step-by-step guidance, direct submission links, and exact document checklists for this step.
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        """
+    
+    # Build bridge courses HTML
+    courses_html = ""
+    for course in bridge_courses[:3]:  # Limit to 3 courses in email
+        cost_badge_bg = "#E8F5E9" if "Free" in course.get("cost", "") else "#FFF3E0"
+        cost_badge_color = "#2E7D32" if "Free" in course.get("cost", "") else "#E65100"
+        courses_html += f"""
+        <tr>
+            <td style="padding: 14px 20px; border-bottom: 1px solid #F0F0F0;">
+                <p style="margin: 0 0 4px 0; font-weight: 700; font-size: 14px; color: #1A1A1A;">{course['title']}</p>
+                <p style="margin: 0 0 6px 0; font-size: 12px; color: #888888;">{course['provider']}</p>
+                <p style="margin: 0 0 8px 0; font-size: 13px; color: #555555; line-height: 1.5;">{course['description']}</p>
+                <table cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                        <td style="background: #F5F5F5; padding: 3px 8px; border-radius: 4px; font-size: 11px; color: #888888;">
+                            ⏱ {course['duration']}
+                        </td>
+                        <td width="6"></td>
+                        <td style="background: #F5F5F5; padding: 3px 8px; border-radius: 4px; font-size: 11px; color: #888888;">
+                            🌐 {course['language']}
+                        </td>
+                        <td width="6"></td>
+                        <td style="background: {cost_badge_bg}; padding: 3px 8px; border-radius: 4px; font-size: 11px; color: {cost_badge_color}; font-weight: 700;">
+                            {course['cost']}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        """
+    
+    total_time = roadmap.get("total_estimated_time", "2-12 months")
+    total_cost = roadmap.get("total_estimated_cost", "Varies")
+    is_regulated = roadmap.get("is_regulated", False)
+    
+    html = f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body style="margin: 0; padding: 0; background-color: #F8F8F8; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color: #F8F8F8;">
+            <tr>
+                <td align="center" style="padding: 32px 16px;">
+                    <table cellpadding="0" cellspacing="0" border="0" width="600" style="max-width: 600px; background: #FFFFFF; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.06);">
+                        
+                        <!-- Header -->
+                        <tr>
+                            <td style="background: linear-gradient(135deg, #F1592A 0%, #E04520 100%); padding: 36px 32px; text-align: center;">
+                                <img src="https://avanza.it.com/avanza_Logo.jpeg" alt="Avanza" width="120" style="margin-bottom: 16px; border-radius: 8px;" />
+                                <h1 style="margin: 0; font-size: 24px; font-weight: 800; color: #FFFFFF; letter-spacing: -0.5px;">
+                                    Your Recognition Roadmap
+                                </h1>
+                                <p style="margin: 8px 0 0 0; font-size: 14px; color: rgba(255,255,255,0.85);">
+                                    Personalized pathway for your career in Italy
+                                </p>
+                            </td>
+                        </tr>
+                        
+                        <!-- Greeting -->
+                        <tr>
+                            <td style="padding: 28px 32px 8px 32px;">
+                                <p style="margin: 0; font-size: 16px; color: #333333; line-height: 1.6;">
+                                    Hello <strong>{greeting_name}</strong>,
+                                </p>
+                                <p style="margin: 12px 0 0 0; font-size: 14px; color: #555555; line-height: 1.7;">
+                                    Thank you for completing the Avanza assessment! Based on your <strong>{level}</strong> in <strong>{field}</strong> from <strong>{country}</strong>, 
+                                    here is your personalized recognition roadmap for Italy.
+                                </p>
+                            </td>
+                        </tr>
+                        
+                        <!-- Summary Badge -->
+                        <tr>
+                            <td style="padding: 16px 32px;">
+                                <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background: #FFF8F5; border: 1px solid #FFE0D4; border-radius: 10px;">
+                                    <tr>
+                                        <td style="padding: 16px 20px; text-align: center;">
+                                            <p style="margin: 0 0 4px 0; font-size: 12px; color: #999999; text-transform: uppercase; letter-spacing: 1px;">Estimated Timeline</p>
+                                            <p style="margin: 0; font-size: 20px; font-weight: 800; color: #F1592A;">{total_time}</p>
+                                        </td>
+                                        <td width="1" style="background: #FFE0D4;"></td>
+                                        <td style="padding: 16px 20px; text-align: center;">
+                                            <p style="margin: 0 0 4px 0; font-size: 12px; color: #999999; text-transform: uppercase; letter-spacing: 1px;">Estimated Cost</p>
+                                            <p style="margin: 0; font-size: 20px; font-weight: 800; color: #F1592A;">{total_cost}</p>
+                                        </td>
+                                        <td width="1" style="background: #FFE0D4;"></td>
+                                        <td style="padding: 16px 20px; text-align: center;">
+                                            <p style="margin: 0 0 4px 0; font-size: 12px; color: #999999; text-transform: uppercase; letter-spacing: 1px;">Total Steps</p>
+                                            <p style="margin: 0; font-size: 20px; font-weight: 800; color: #F1592A;">{len(roadmap.get('steps', []))}</p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        
+                        <!-- Steps Section -->
+                        <tr>
+                            <td style="padding: 8px 32px 4px 32px;">
+                                <h2 style="margin: 0; font-size: 18px; font-weight: 800; color: #1A1A1A;">📋 Your Validation Steps</h2>
+                                <p style="margin: 4px 0 0 0; font-size: 13px; color: #888888;">Follow these steps to get your qualification recognized in Italy</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px 32px;">
+                                <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background: #FAFAFA; border-radius: 10px; border: 1px solid #F0F0F0;">
+                                    {steps_html}
+                                </table>
+                            </td>
+                        </tr>
+                        
+                        <!-- Bridge Courses Section -->
+                        <tr>
+                            <td style="padding: 20px 32px 4px 32px;">
+                                <h2 style="margin: 0; font-size: 18px; font-weight: 800; color: #1A1A1A;">🎓 Recommended Bridge Courses</h2>
+                                <p style="margin: 4px 0 0 0; font-size: 13px; color: #888888;">Training courses matched to your profession to help you succeed in Italy</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px 32px;">
+                                <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background: #FAFAFA; border-radius: 10px; border: 1px solid #F0F0F0;">
+                                    {courses_html}
+                                </table>
+                            </td>
+                        </tr>
+                        
+                        <!-- Premium CTA -->
+                        <tr>
+                            <td style="padding: 24px 32px;">
+                                <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background: linear-gradient(135deg, #1A1A2E 0%, #16213E 100%); border-radius: 12px;">
+                                    <tr>
+                                        <td style="padding: 28px 24px; text-align: center;">
+                                            <p style="margin: 0 0 4px 0; font-size: 11px; color: #C8F135; text-transform: uppercase; letter-spacing: 2px; font-weight: 800;">✨ AVANZA PREMIUM</p>
+                                            <h3 style="margin: 0 0 10px 0; font-size: 20px; font-weight: 800; color: #FFFFFF;">Unlock Your Full Roadmap</h3>
+                                            <p style="margin: 0 0 20px 0; font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.6;">
+                                                Get step-by-step guidance, direct submission links, exact document checklists, 
+                                                live job matching, detailed regulatory analysis, and dedicated case manager support.
+                                            </p>
+                                            <a href="https://avanza.it.com/dashboard" style="display: inline-block; padding: 12px 32px; background: #C8F135; color: #1A1A2E; font-weight: 800; font-size: 14px; text-decoration: none; border-radius: 8px;">
+                                                Upgrade to Premium →
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        
+                        <!-- Footer -->
+                        <tr>
+                            <td style="padding: 20px 32px 28px 32px; text-align: center; border-top: 1px solid #F0F0F0;">
+                                <p style="margin: 0 0 4px 0; font-size: 12px; color: #999999;">
+                                    This email was sent by <strong>Avanza Pathfinders</strong> based on your assessment answers.
+                                </p>
+                                <p style="margin: 0; font-size: 11px; color: #BBBBBB;">
+                                    avanza.it.com &bull; Your Career Navigation Partner in Italy
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </body>
+    </html>
+    """
+    return html
+
 @app.get("/")
 def health_check():
     return {"status": "Avanza API is running. Fast and Secure."}
@@ -302,8 +511,12 @@ async def get_onboarding_profile(user_id: str = Depends(verify_stytch_session)):
 
 
 @app.post("/api/onboarding")
-async def save_onboarding_profile(data: Dict[str, Any], user_id: str = Depends(verify_stytch_session)):
-    """Upserts wizard answers and marks onboarding as completed."""
+async def save_onboarding_profile(
+    data: Dict[str, Any], 
+    background_tasks: BackgroundTasks,
+    user_id: str = Depends(verify_stytch_session)
+):
+    """Upserts wizard answers, marks onboarding as completed, and sends roadmap email."""
 
     # Extract experience as integer
     exp_str = data.get("years_of_experience", "")
@@ -343,6 +556,59 @@ async def save_onboarding_profile(data: Dict[str, Any], user_id: str = Depends(v
     profile_result = await supabase_upsert("onboarding_profiles", profile_data)
     if profile_result is None:
         raise HTTPException(status_code=500, detail="Failed to save onboarding profile.")
+
+    # --- Send Roadmap Email Asynchronously ---
+    try:
+        # 1. Retrieve user email & name
+        user_email = ""
+        user_name = ""
+        try:
+            user_resp = stytch_client.users.get(user_id=user_id)
+            for email_obj in user_resp.emails:
+                if email_obj.email:
+                    user_email = email_obj.email
+                    break
+        except Exception as e:
+            print(f"Stytch user lookup for email failed: {e}")
+        
+        # Try to get name from DB (may not exist yet if NameCollection hasn't run)
+        users_db = await supabase_select("users", f"id=eq.{user_id}&select=first_name")
+        if users_db and users_db[0].get("first_name"):
+            user_name = users_db[0]["first_name"]
+        
+        greeting_name = user_name if user_name else "Avanza Pathfinder"
+        
+        if user_email:
+            # 2. Generate roadmap
+            country = data.get("degree_country", "Unknown")
+            field = data.get("profession", "General")
+            level = data.get("degree_level", "Bachelor's")
+            roadmap = generate_validation_roadmap(country, field, level)
+            
+            # 3. Get bridge courses
+            bridge_courses = get_bridge_courses(field)
+            
+            # 4. Build HTML email
+            html_email = _build_roadmap_email_html(
+                greeting_name=greeting_name,
+                country=country,
+                field=field,
+                level=level,
+                roadmap=roadmap,
+                bridge_courses=bridge_courses
+            )
+            
+            # 5. Dispatch
+            background_tasks.add_task(
+                send_notification_email,
+                user_email,
+                "Your Personalized Recognition Roadmap — Avanza Pathfinders",
+                html_email
+            )
+            print(f"Roadmap email queued for {user_email}")
+    except Exception as e:
+        # Email dispatch failure should never block onboarding
+        print(f"Roadmap email generation failed (non-blocking): {e}")
 
     return {"status": "success"}
 
@@ -904,60 +1170,133 @@ async def get_recognition_dossier(user_id: str = Depends(verify_stytch_session))
     
     pdf.ln(10)
     
-    # SECTION 2: REGULATION
-    pdf.set_font("helvetica", "B", 16)
-    pdf.cell(0, 10, "2. REGULATORY STATUS", ln=True)
-    pdf.line(15, 125, 75, 125)
-    pdf.ln(8)
-    
-    field = profile.get("degree_field", "").lower()
-    regulated_keywords = ['medicine', 'doctor', 'nurse', 'engineer', 'architect', 'teacher', 'lawyer', 'psycholog']
-    is_regulated = any(k in field for k in regulated_keywords)
-    
-    if is_regulated:
-        status = "REGULATED PROFESSION"
-        color = (200, 0, 0)
-        advice = f"Your degree in {field} requires formal recognition (Riconoscimento Professionale) from the relevant Italian Ministry. You cannot practice without this authorization."
-    else:
-        status = "UNREGULATED PROFESSION"
-        color = (0, 100, 0)
-        advice = f"Degrees in {field} are generally considered 'Non-Regulated' in Italy. You may access the labor market directly, though a 'Declarations of Value' is recommended for credibility."
+    # Fetch dynamic roadmap and bridge courses
+    field_raw = profile.get("degree_field", "General")
+    country_raw = profile.get("degree_country", "Unknown")
+    level_raw = profile.get("degree_level", "Bachelor's")
+    roadmap_data = generate_validation_roadmap(country_raw, field_raw, level_raw)
+    bridge_courses = get_bridge_courses(field_raw)
 
-    pdf.set_font("helvetica", "B", 12)
-    pdf.set_text_color(*color)
-    pdf.cell(0, 10, f"STATUS: {status}", ln=True)
-    
-    pdf.set_font("helvetica", "", 11)
-    pdf.set_text_color(60, 60, 60)
-    pdf.multi_cell(0, 7, advice)
-    pdf.ln(10)
-    
-    # SECTION 3: ROADMAP
+    # SECTION 2: PREMIUM UPGRADE BANNER (regulatory details locked)
     pdf.set_font("helvetica", "B", 16)
     pdf.set_text_color(15, 18, 25)
-    pdf.cell(0, 10, "3. OFFICIAL RECOGNITION ROADMAP", ln=True)
-    pdf.line(15, 185, 110, 185)
-    pdf.ln(8)
-    
-    pdf.set_font("helvetica", "", 10)
-    
-    roadmap = [
-        ("Phase 1: Legalization", "Apostille must be applied by the competent authority in the country of origin."),
-        ("Phase 2: Sworn Translation", "Documents must be translated by a court-certified ('Giurato') translator in Italy."),
-        ("Phase 3: Cimēa Certification", "Apply for the Statement of Comparability via the official CIMEA portal."),
-        ("Phase 4: Final Submission", "Submit the complete dossier to the Ministry or prospective employer.")
-    ]
-    
-    for i, (title, desc) in enumerate(roadmap, 1):
+    pdf.cell(0, 10, "2. REGULATORY STATUS", ln=True)
+    pdf.set_draw_color(200, 241, 53)
+    pdf.set_line_width(0.8)
+    pdf.line(15, pdf.get_y(), 75, pdf.get_y())
+    pdf.ln(10)
+
+    banner_y = pdf.get_y()
+    pdf.set_fill_color(15, 18, 25)
+    pdf.rect(15, banner_y, 180, 44, 'F')
+
+    pdf.set_font("helvetica", "B", 9)
+    pdf.set_text_color(200, 241, 53)
+    pdf.set_xy(15, banner_y + 6)
+    pdf.cell(180, 6, "AVANZA PREMIUM FEATURE", align='C', ln=True)
+
+    pdf.set_font("helvetica", "B", 13)
+    pdf.set_text_color(255, 255, 255)
+    pdf.set_xy(15, banner_y + 14)
+    pdf.cell(180, 7, "Unlock Your Full Regulatory Analysis", align='C', ln=True)
+
+    pdf.set_font("helvetica", "", 9)
+    pdf.set_text_color(180, 180, 180)
+    pdf.set_xy(15, banner_y + 23)
+    pdf.cell(180, 6, "Competent boards, language certificates, required exams & ministry contacts", align='C', ln=True)
+
+    pdf.set_font("helvetica", "B", 9)
+    pdf.set_text_color(200, 241, 53)
+    pdf.set_xy(15, banner_y + 32)
+    pdf.cell(180, 6, "Upgrade at avanza.it.com/dashboard", align='C', ln=True)
+
+    pdf.ln(52)
+    pdf.set_text_color(40, 40, 40)
+
+    # SECTION 3: RECOGNITION ROADMAP (dynamic steps, details locked)
+    pdf.set_font("helvetica", "B", 16)
+    pdf.set_text_color(15, 18, 25)
+    pdf.cell(0, 10, "3. YOUR RECOGNITION ROADMAP", ln=True)
+    pdf.set_draw_color(200, 241, 53)
+    pdf.line(15, pdf.get_y(), 115, pdf.get_y())
+    pdf.ln(4)
+
+    pdf.set_font("helvetica", "", 9)
+    pdf.set_text_color(120, 120, 120)
+    total_time = roadmap_data.get("total_estimated_time", "Varies")
+    total_cost = roadmap_data.get("total_estimated_cost", "Varies")
+    step_count = len(roadmap_data.get("steps", []))
+    pdf.cell(0, 6, f"Estimated Timeline: {total_time}   |   Estimated Cost: {total_cost}   |   Total Steps: {step_count}", ln=True)
+    pdf.ln(4)
+
+    for step in roadmap_data.get("steps", []):
         pdf.set_font("helvetica", "B", 11)
-        pdf.cell(0, 7, f"Step {i} | {title}", ln=True)
+        pdf.set_text_color(15, 18, 25)
+        title_safe = step["title"].encode("latin-1", "replace").decode("latin-1")
+        pdf.cell(0, 8, f"Step {step['step_number']}  |  {title_safe}", ln=True)
+
         pdf.set_font("helvetica", "", 10)
-        pdf.multi_cell(0, 6, desc)
-        pdf.ln(3)
+        pdf.set_text_color(60, 60, 60)
+        desc_safe = step["description"].encode("latin-1", "replace").decode("latin-1")
+        pdf.multi_cell(0, 5, desc_safe)
+
+        pdf.set_font("helvetica", "", 9)
+        pdf.set_text_color(110, 110, 110)
+        pdf.cell(0, 5, f"  Time: {step['estimated_time']}    Cost: {step['estimated_cost']}", ln=True)
+
+        # Premium lock badge per step
+        lock_y = pdf.get_y() + 2
+        pdf.set_fill_color(255, 248, 245)
+        pdf.set_draw_color(241, 89, 42)
+        pdf.set_line_width(0.3)
+        pdf.rect(15, lock_y, 180, 9, 'DF')
+        pdf.set_font("helvetica", "B", 8)
+        pdf.set_text_color(192, 74, 31)
+        pdf.set_xy(15, lock_y + 1)
+        pdf.cell(180, 7, "  Premium: Upgrade to unlock file checklists, submission links & step-by-step guide", align='L', ln=True)
+        pdf.set_line_width(0.8)
+        pdf.ln(5)
+
+    pdf.set_draw_color(200, 241, 53)
+    pdf.set_text_color(40, 40, 40)
+
+    # SECTION 4: RECOMMENDED BRIDGE COURSES
+    pdf.set_font("helvetica", "B", 16)
+    pdf.set_text_color(15, 18, 25)
+    pdf.cell(0, 10, "4. RECOMMENDED BRIDGE COURSES", ln=True)
+    pdf.line(15, pdf.get_y(), 125, pdf.get_y())
+    pdf.ln(4)
+
+    pdf.set_font("helvetica", "", 9)
+    pdf.set_text_color(120, 120, 120)
+    pdf.cell(0, 6, "Training programmes matched to your profession to help you succeed in Italy", ln=True)
+    pdf.ln(4)
+
+    for course in bridge_courses[:4]:
+        pdf.set_font("helvetica", "B", 11)
+        pdf.set_text_color(15, 18, 25)
+        course_title = course["title"].encode("latin-1", "replace").decode("latin-1")
+        pdf.cell(0, 7, course_title, ln=True)
+
+        pdf.set_font("helvetica", "I", 9)
+        pdf.set_text_color(100, 100, 100)
+        provider_safe = course["provider"].encode("latin-1", "replace").decode("latin-1")
+        pdf.cell(0, 5, provider_safe, ln=True)
+
+        pdf.set_font("helvetica", "", 10)
+        pdf.set_text_color(60, 60, 60)
+        desc_safe = course["description"].encode("latin-1", "replace").decode("latin-1")
+        pdf.multi_cell(0, 5, desc_safe)
+
+        pdf.set_font("helvetica", "", 9)
+        pdf.set_text_color(100, 100, 100)
+        cost_safe = course.get("cost", "").encode("latin-1", "replace").decode("latin-1")
+        pdf.cell(0, 5, f"  Duration: {course['duration']}    Language: {course['language']}    Cost: {cost_safe}", ln=True)
+        pdf.ln(5)
 
     return Response(
-        content=pdf.output(), 
-        media_type="application/pdf", 
+        content=pdf.output(),
+        media_type="application/pdf",
         headers={"Content-Disposition": f"attachment; filename=Avanza_Dossier_{first_name}.pdf"}
     )
 
