@@ -70,15 +70,9 @@ const Hero = ({ onGetStarted, isLoggedIn, userName, onboardingCompleted }) => {
     <section style={{
       position: 'relative',
       display: 'flex',
-      flexDirection: 'row',
       alignItems: 'center',
-      justifyContent: 'space-between',
       minHeight: '85vh',
-      paddingTop: '3rem',
-      paddingBottom: '3rem',
       overflow: 'hidden',
-      gap: '2rem',
-      flexWrap: 'wrap',
       maxWidth: '1200px',
       margin: '0 auto',
       padding: '3rem 2rem',
@@ -221,15 +215,16 @@ const Hero = ({ onGetStarted, isLoggedIn, userName, onboardingCompleted }) => {
         </p>
       </div>
 
-      {/* RIGHT column — Globe */}
+      {/* Globe — absolutely positioned right, overlapping behind text like INDIMA */}
       <div style={{
-        flex: '0 0 auto',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        position: 'relative',
+        position: 'absolute',
+        right: '-5%',
+        top: '50%',
+        transform: 'translateY(-50%)',
+        zIndex: 1,
+        pointerEvents: 'none',
       }}>
-        <ItalianGlobe size={520} />
+        <ItalianGlobe size={650} />
       </div>
 
       {/* Cursor blink animation */}
