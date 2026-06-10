@@ -1,16 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-  --bg-color: #fafafa;
-  --surface-color: #ffffff;
-  --accent-color: #f1592a;
-  --accent-hover: #d44d24;
-  --text-primary: #1a1a1a;
+  --bg-color: #ffffff;
+  --surface-color: #f8faf8;
+  --accent-color: #009246;
+  --accent-hover: #007a3c;
+  --accent-red: #ce2b37;
+  --text-primary: #0d0d0d;
   --text-secondary: #5e5e5e;
   --border-color: #e5e7eb;
   --error-color: #ef4444;
-  
-  --gradient-glow: radial-gradient(circle at center, rgba(241, 89, 42, 0.05) 0%, rgba(250, 250, 250, 0) 70%);
+
+  --gradient-glow: radial-gradient(circle at 70% 50%, rgba(0, 146, 70, 0.06) 0%, rgba(255,255,255,0) 65%);
 }
 
 * {
@@ -67,13 +68,13 @@ button:disabled {
   border-radius: 6px;
   font-weight: 600;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 14px 0 rgba(241, 89, 42, 0.2);
+  box-shadow: 0 4px 14px 0 rgba(0, 146, 70, 0.2);
 }
 
 .btn-primary:not(:disabled):hover {
   background-color: var(--accent-hover);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px 0 rgba(241, 89, 42, 0.3);
+  box-shadow: 0 6px 20px 0 rgba(0, 146, 70, 0.3);
 }
 
 .btn-outline {
@@ -88,7 +89,7 @@ button:disabled {
 .btn-outline:not(:disabled):hover {
   border-color: var(--accent-color);
   color: var(--accent-color);
-  background-color: rgba(241, 89, 42, 0.03);
+  background-color: rgba(0, 146, 70, 0.03);
 }
 
 .container {
@@ -119,7 +120,7 @@ button:disabled {
   border-color: var(--accent-color);
   outline: none;
   background-color: #ffffff;
-  box-shadow: 0 0 0 2px rgba(241, 89, 42, 0.1);
+  box-shadow: 0 0 0 2px rgba(0, 146, 70, 0.1);
 }
 
 select.input-field {

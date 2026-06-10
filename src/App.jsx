@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from
 import './index.css';
 import { User, CheckCircle } from 'lucide-react';
 
-import NeuralBackground from './components/NeuralBackground';
 import AuthModal from './components/AuthModal';
 
 import { useLanguage } from './LanguageContext';
@@ -225,8 +224,6 @@ function AppContent() {
 
   return (
     <div className="app" dir={isRTL ? 'rtl' : 'ltr'}>
-      <NeuralBackground />
-
       {/* Name Collection Overlay */}
       {showNameCollection && authStatus === 'authenticated' && (
         <NameCollection onNameSaved={handleNameSaved} />
