@@ -26,7 +26,7 @@ const Hero = ({ onGetStarted, isLoggedIn, userName, onboardingCompleted }) => {
       background: 'var(--bg-color)',
     }}>
 
-      {/* Globe — absolute right, centered vertically, behind text */}
+      {/* Globe — absolute right, behind text */}
       <div style={{
         position: 'absolute',
         right: '-40px',
@@ -34,17 +34,23 @@ const Hero = ({ onGetStarted, isLoggedIn, userName, onboardingCompleted }) => {
         transform: 'translateY(-50%)',
         zIndex: 1,
         pointerEvents: 'none',
-        opacity: 0.92,
       }}>
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(0,146,70,0.08) 0%, rgba(206,43,55,0.04) 50%, transparent 70%)',
+        }} />
         <ItalianGlobe size={560} />
       </div>
 
-      {/* Text content — sits above the globe */}
+      {/* Text content — above globe */}
       <div className="container" style={{
         position: 'relative',
         zIndex: 2,
         paddingTop: '3rem',
         paddingBottom: '3rem',
+        maxWidth: '620px',
       }}>
 
         {/* Badge */}
@@ -52,80 +58,71 @@ const Hero = ({ onGetStarted, isLoggedIn, userName, onboardingCompleted }) => {
           display: 'inline-flex',
           alignItems: 'center',
           gap: '0.5rem',
-          background: 'rgba(0,146,70,0.08)',
-          border: '1px solid rgba(0,146,70,0.25)',
+          background: 'rgba(0,146,70,0.12)',
+          border: '1px solid rgba(0,146,70,0.3)',
           color: '#009246',
           borderRadius: '999px',
-          padding: '0.35rem 1.1rem',
-          fontSize: '0.78rem',
+          padding: '0.35rem 1rem',
+          fontSize: '0.82rem',
           fontWeight: '700',
-          marginBottom: '2rem',
-          letterSpacing: '0.8px',
+          marginBottom: '1.75rem',
+          letterSpacing: '0.5px',
           textTransform: 'uppercase',
         }}>
-          <span>🇮🇹</span> Your Italian Career Navigator
+          <span style={{ fontSize: '1rem' }}>🇮🇹</span>
+          Your Italian Career Navigator
         </div>
 
-        {/* Main heading — large, left-aligned, wraps naturally */}
         <h1 style={{
-          fontSize: 'clamp(3rem, 6.5vw, 5.2rem)',
+          fontSize: 'clamp(2.6rem, 5vw, 4.2rem)',
           fontWeight: '900',
-          lineHeight: '1.06',
+          lineHeight: '1.08',
+          marginBottom: '1.5rem',
           letterSpacing: '-0.03em',
           color: 'var(--text-primary)',
-          marginBottom: '1.5rem',
-          maxWidth: '780px',
         }}>
           {isLoggedIn
             ? t('heroAuthTitle').replace('{{name}}', userName || '')
-            : (
-              <>
-                {t('heroTitle').split(' ').slice(0, 2).join(' ')}{' '}
-                <span style={{ color: '#009246' }}>
-                  {t('heroTitle').split(' ').slice(2, 4).join(' ')}
-                </span>{' '}
-                {t('heroTitle').split(' ').slice(4).join(' ')}
-              </>
-            )
-          }
+            : t('heroTitle')}
         </h1>
 
-        {/* Subtitle */}
         <p style={{
           fontSize: '1.15rem',
           color: 'var(--text-secondary)',
-          maxWidth: '540px',
-          marginBottom: '2.75rem',
-          lineHeight: '1.75',
-          fontWeight: '400',
+          maxWidth: '520px',
+          marginBottom: '2.5rem',
+          lineHeight: '1.7',
         }}>
           {isLoggedIn ? t('heroAuthSub') : t('heroSub')}
         </p>
 
-        {/* CTAs */}
         {isLoggedIn ? (
           <button
             className="btn-primary"
-            style={{ padding: '1.1rem 2.75rem', fontSize: '1.05rem', borderRadius: '10px' }}
+            style={{
+              padding: '1.1rem 2.75rem',
+              fontSize: '1.1rem',
+              borderRadius: '10px',
+              boxShadow: '0 8px 30px rgba(0,146,70,0.25)',
+            }}
             onClick={handleAuthCTA}
           >
             {onboardingCompleted ? t('heroAuthCTA') : t('continueJourney')}
           </button>
         ) : (
-          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
             <a
               href="tel:+393520266387"
               className="btn-primary"
               style={{
-                display: 'inline-flex',
+                display: 'flex',
                 alignItems: 'center',
                 gap: '0.5rem',
-                padding: '1rem 2.25rem',
+                padding: '1rem 2rem',
                 fontSize: '1rem',
                 textDecoration: 'none',
-                color: '#fff',
+                color: '#FFFFFF',
                 borderRadius: '8px',
-                fontWeight: '600',
               }}
             >
               <Phone size={18} />
@@ -134,13 +131,12 @@ const Hero = ({ onGetStarted, isLoggedIn, userName, onboardingCompleted }) => {
             <button
               className="btn-outline"
               style={{
-                display: 'inline-flex',
+                padding: '1rem 2rem',
+                fontSize: '1rem',
+                display: 'flex',
                 alignItems: 'center',
                 gap: '0.5rem',
-                padding: '1rem 2.25rem',
-                fontSize: '1rem',
                 borderRadius: '8px',
-                fontWeight: '500',
               }}
               onClick={() => onGetStarted('register')}
             >
@@ -150,16 +146,14 @@ const Hero = ({ onGetStarted, isLoggedIn, userName, onboardingCompleted }) => {
           </div>
         )}
 
-        {!isLoggedIn && (
-          <p style={{
-            marginTop: '1.5rem',
-            fontSize: '0.82rem',
-            color: 'var(--text-secondary)',
-            opacity: 0.65,
-          }}>
-            {t('socialProof')}
-          </p>
-        )}
+        <p style={{
+          marginTop: '1.5rem',
+          fontSize: '0.85rem',
+          color: 'var(--text-secondary)',
+          opacity: 0.7,
+        }}>
+          {isLoggedIn ? '' : t('socialProof')}
+        </p>
       </div>
     </section>
   );
