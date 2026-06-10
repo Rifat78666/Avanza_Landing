@@ -23,29 +23,23 @@ const Hero = ({ onGetStarted, isLoggedIn, userName, onboardingCompleted }) => {
       flexDirection: 'column',
       alignItems: 'center',
       textAlign: 'center',
-      minHeight: '60vh',
+      minHeight: '80vh',
       justifyContent: 'center',
       paddingTop: '4rem',
       paddingBottom: '2rem',
       overflow: 'hidden',
     }}>
 
-      {/* Globe — absolute background, behind centered text */}
+      {/* Globe — large, centered behind text like INDIMA */}
       <div style={{
         position: 'absolute',
-        right: '-40px',
+        left: '50%',
         top: '50%',
-        transform: 'translateY(-50%)',
+        transform: 'translate(-50%, -50%)',
         zIndex: 1,
         pointerEvents: 'none',
       }}>
-        <div style={{
-          position: 'absolute',
-          inset: 0,
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(0,146,70,0.08) 0%, rgba(206,43,55,0.04) 50%, transparent 70%)',
-        }} />
-        <ItalianGlobe size={560} />
+        <ItalianGlobe size={750} />
       </div>
 
       <h1 style={{
