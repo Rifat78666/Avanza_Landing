@@ -127,6 +127,7 @@ const Hero = ({ onGetStarted, isLoggedIn, userName, onboardingCompleted }) => {
               display: 'block',
               color: '#009246',
               minHeight: '1.2em',
+              whiteSpace: 'nowrap',
             }}>
               {animatedText}
               <span style={{
@@ -199,6 +200,8 @@ const Hero = ({ onGetStarted, isLoggedIn, userName, onboardingCompleted }) => {
                 gap: '0.5rem',
                 background: 'rgba(255,255,255,0.05)',
                 borderRadius: '8px',
+                borderColor: '#CE2B37',
+                color: '#CE2B37',
               }}
               onClick={() => onGetStarted('register')}
             >
