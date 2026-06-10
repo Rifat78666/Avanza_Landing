@@ -1,12 +1,66 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useLanguage } from '../LanguageContext';
 import { useNavigate } from 'react-router-dom';
 import { Phone, MessageSquare } from 'lucide-react';
 import ItalianGlobe from './ItalianGlobe';
 
+const ROTATING_PHRASES = [
+  'Foreign Degree',
+  'International Diploma',
+  'Professional License',
+  'Academic Credentials',
+];
+
+const TYPING_SPEED = 80;
+const DELETING_SPEED = 40;
+const PAUSE_AFTER_TYPING = 2000;
+const PAUSE_AFTER_DELETING = 400;
+
+const useTypewriter = (phrases) => {
+  const [displayText, setDisplayText] = useState('');
+  const [phraseIndex, setPhraseIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const tick = useCallback(() => {
+    const currentPhrase = phrases[phraseIndex];
+
+    if (!isDeleting) {
+      // Typing
+      if (displayText.length < currentPhrase.length) {
+        return setTimeout(() => {
+          setDisplayText(currentPhrase.slice(0, displayText.length + 1));
+        }, TYPING_SPEED);
+      } else {
+        // Finished typing — pause then start deleting
+        return setTimeout(() => setIsDeleting(true), PAUSE_AFTER_TYPING);
+      }
+    } else {
+      // Deleting
+      if (displayText.length > 0) {
+        return setTimeout(() => {
+          setDisplayText(currentPhrase.slice(0, displayText.length - 1));
+        }, DELETING_SPEED);
+      } else {
+        // Finished deleting — move to next phrase
+        setIsDeleting(false);
+        setPhraseIndex((prev) => (prev + 1) % phrases.length);
+        return setTimeout(() => {}, PAUSE_AFTER_DELETING);
+      }
+    }
+  }, [displayText, phraseIndex, isDeleting, phrases]);
+
+  useEffect(() => {
+    const timer = tick();
+    return () => clearTimeout(timer);
+  }, [tick]);
+
+  return displayText;
+};
+
 const Hero = ({ onGetStarted, isLoggedIn, userName, onboardingCompleted }) => {
   const { t } = useLanguage();
   const navigate = useNavigate();
+  const animatedText = useTypewriter(ROTATING_PHRASES);
 
   const handleAuthCTA = () => {
     if (onboardingCompleted) {
@@ -30,7 +84,7 @@ const Hero = ({ onGetStarted, isLoggedIn, userName, onboardingCompleted }) => {
       overflow: 'hidden',
     }}>
 
-      {/* Globe — large, centered behind text like INDIMA */}
+      {/* Globe — large, centered behind text */}
       <div style={{
         position: 'absolute',
         left: '50%',
@@ -42,19 +96,62 @@ const Hero = ({ onGetStarted, isLoggedIn, userName, onboardingCompleted }) => {
         <ItalianGlobe size={750} />
       </div>
 
-      <h1 style={{
-        fontSize: 'clamp(3rem, 5vw, 4.5rem)',
-        fontWeight: '800',
-        lineHeight: '1.1',
-        marginBottom: '1.5rem',
-        maxWidth: '850px',
-        letterSpacing: '-0.02em',
-        color: 'var(--text-primary)',
-        position: 'relative',
-        zIndex: 2,
-      }}>
-        {isLoggedIn ? t('heroAuthTitle').replace('{{name}}', userName || '') : t('heroTitle')}
-      </h1>
+      {/* 3-line animated heading */}
+      {isLoggedIn ? (
+        <h1 style={{
+          fontSize: 'clamp(3rem, 5vw, 4.5rem)',
+          fontWeight: '800',
+          lineHeight: '1.1',
+          marginBottom: '1.5rem',
+          maxWidth: '850px',
+          letterSpacing: '-0.02em',
+          color: 'var(--text-primary)',
+          position: 'relative',
+          zIndex: 2,
+        }}>
+          {t('heroAuthTitle').replace('{{name}}', userName || '')}
+        </h1>
+      ) : (
+        <h1 style={{
+          fontSize: 'clamp(2.8rem, 5.5vw, 4.5rem)',
+          fontWeight: '800',
+          lineHeight: '1.15',
+          marginBottom: '1.5rem',
+          maxWidth: '900px',
+          letterSpacing: '-0.02em',
+          color: 'var(--text-primary)',
+          position: 'relative',
+          zIndex: 2,
+        }}>
+          {/* Line 1 — static */}
+          <span style={{ display: 'block' }}>
+            Make Your
+          </span>
+
+          {/* Line 2 — animated typewriter */}
+          <span style={{
+            display: 'block',
+            color: '#009246',
+            minHeight: '1.2em',
+          }}>
+            {animatedText}
+            <span style={{
+              display: 'inline-block',
+              width: '3px',
+              height: '1em',
+              background: '#009246',
+              marginLeft: '4px',
+              verticalAlign: 'text-bottom',
+              animation: 'cursorBlink 1s step-end infinite',
+            }} />
+          </span>
+
+          {/* Line 3 — static */}
+          <span style={{ display: 'block' }}>
+            Work in Italy
+          </span>
+        </h1>
+      )}
 
       <p style={{
         fontSize: '1.25rem',
@@ -135,6 +232,14 @@ const Hero = ({ onGetStarted, isLoggedIn, userName, onboardingCompleted }) => {
       }}>
         {isLoggedIn ? '' : t('socialProof')}
       </p>
+
+      {/* Cursor blink animation */}
+      <style>{`
+        @keyframes cursorBlink {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0; }
+        }
+      `}</style>
     </section>
   );
 };
