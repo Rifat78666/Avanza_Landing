@@ -570,3 +570,225 @@ def _estimate_total_cost(steps: list) -> str:
         return "€500-€1,500"
     else:
         return "€700-€2,500"
+
+
+# ---------------------------------------------------------------------------
+# Bridge Courses — Profession-Specific Training Recommendations
+# ---------------------------------------------------------------------------
+BRIDGE_COURSES = {
+    "nursing": {
+        "keywords": ["nurse", "nurs", "infermier"],
+        "courses": [
+            {
+                "title": "Italian for Medical Professionals (B2/C1)",
+                "provider": "Università di Bologna — Centro Linguistico",
+                "duration": "4 Months (160 hours)",
+                "language": "Italian",
+                "cost": "Free (EU-funded)",
+                "description": "Intensive Italian language course designed for healthcare workers, covering medical terminology, patient communication, and clinical documentation."
+            },
+            {
+                "title": "Italian National Health System (SSN) Overview",
+                "provider": "Regione Lombardia — Formazione Sanitaria",
+                "duration": "20 Hours (Online)",
+                "language": "Italian / English",
+                "cost": "Free",
+                "description": "Introduction to the Servizio Sanitario Nazionale: hospital structure, patient rights, regional health agencies (ASL), and emergency protocols."
+            },
+            {
+                "title": "Clinical Nursing Adaptation Programme",
+                "provider": "FNOPI — Federazione Nazionale Ordini Professioni Infermieristiche",
+                "duration": "6 Months (part-time)",
+                "language": "Italian",
+                "cost": "€200-€500",
+                "description": "Supervised clinical internship (tirocinio) designed for foreign-trained nurses to bridge competency gaps and prepare for Albo registration."
+            },
+        ]
+    },
+    "medicine": {
+        "keywords": ["medicine", "medical", "doctor", "physician", "medic", "chirurg"],
+        "courses": [
+            {
+                "title": "Italian Medical Terminology & Clinical Communication",
+                "provider": "Università di Padova — Facoltà di Medicina",
+                "duration": "3 Months (120 hours)",
+                "language": "Italian",
+                "cost": "Free (scholarship available)",
+                "description": "Covers medical terminology in Italian, clinical history-taking, report writing, and patient-doctor communication standards."
+            },
+            {
+                "title": "Esame di Stato Preparation Course for Foreign Doctors",
+                "provider": "SIMMG — Società Italiana di Medicina Generale",
+                "duration": "8 Weeks (intensive)",
+                "language": "Italian",
+                "cost": "€300-€600",
+                "description": "Focused preparation for the Italian State Exam (Esame di Stato), including practice questions, clinical simulations, and Italian healthcare law."
+            },
+        ]
+    },
+    "engineering": {
+        "keywords": ["engineering", "engineer", "ingegner"],
+        "courses": [
+            {
+                "title": "Italian Building Codes & Eurocode Standards",
+                "provider": "Politecnico di Milano — Continuing Education",
+                "duration": "6 Weeks (Online)",
+                "language": "English / Italian",
+                "cost": "Free (sponsored by CNI)",
+                "description": "Introduction to Italian construction regulations (NTC 2018), seismic design codes, and Eurocode compliance for foreign-trained engineers."
+            },
+            {
+                "title": "AutoCAD & BIM for the Italian Construction Industry",
+                "provider": "AFOL Metropolitana — Milano",
+                "duration": "8 Weeks (in-person)",
+                "language": "Italian",
+                "cost": "Free (regional funding)",
+                "description": "Hands-on course covering AutoCAD, Revit, and BIM workflows as used in Italian architectural and engineering firms."
+            },
+            {
+                "title": "Esame di Stato Preparation for Engineers",
+                "provider": "Ordine degli Ingegneri di Roma",
+                "duration": "4 Weeks (online + in-person)",
+                "language": "Italian",
+                "cost": "€150-€300",
+                "description": "Covers the structure and content of the Italian Engineering State Exam, including practice exams and legal framework review."
+            },
+        ]
+    },
+    "architecture": {
+        "keywords": ["architecture", "architect", "architet"],
+        "courses": [
+            {
+                "title": "Italian Urban Planning & Heritage Conservation Law",
+                "provider": "Politecnico di Torino — Dipartimento di Architettura",
+                "duration": "10 Weeks (Online)",
+                "language": "Italian / English",
+                "cost": "Free (EU-funded)",
+                "description": "Covers Italian zoning regulations, heritage conservation standards (Codice dei Beni Culturali), and sustainable urban planning practices."
+            },
+            {
+                "title": "Progettazione CAD 3D per Architetti",
+                "provider": "AFOL — Agenzia Formazione Lavoro",
+                "duration": "8 Weeks (in-person)",
+                "language": "Italian",
+                "cost": "Free (regional funding)",
+                "description": "CAD and 3D modelling course tailored for architects transitioning to the Italian professional market."
+            },
+        ]
+    },
+    "it_software": {
+        "keywords": ["software", "computer", "data", "it ", "developer", "programm", "tech"],
+        "courses": [
+            {
+                "title": "Sviluppo Web Full Stack",
+                "provider": "AFOL Metropolitana — Milano",
+                "duration": "12 Weeks (in-person)",
+                "language": "Italian",
+                "cost": "Free (GOL programme)",
+                "description": "Full-stack web development bootcamp covering HTML/CSS, JavaScript, React, Node.js, and database management. Funded by the Italian GOL programme."
+            },
+            {
+                "title": "Google IT Support Professional Certificate",
+                "provider": "Google / Coursera",
+                "duration": "6 Months (self-paced)",
+                "language": "English / Italian",
+                "cost": "Free (Google Career Certificates)",
+                "description": "Industry-recognized certification covering troubleshooting, networking, system administration, and IT security."
+            },
+            {
+                "title": "Data Analytics with Python & SQL",
+                "provider": "Università di Napoli Federico II (MOOC)",
+                "duration": "8 Weeks (online)",
+                "language": "Italian / English",
+                "cost": "Free",
+                "description": "Practical course on data analysis using Python (Pandas, Matplotlib) and SQL for business intelligence applications."
+            },
+        ]
+    },
+    "law": {
+        "keywords": ["law", "legal", "lawyer", "avvocat", "juris"],
+        "courses": [
+            {
+                "title": "Introduction to Italian Civil & Constitutional Law",
+                "provider": "Università di Roma La Sapienza (MOOC)",
+                "duration": "10 Weeks (online)",
+                "language": "Italian",
+                "cost": "Free",
+                "description": "Comprehensive overview of the Italian legal system, constitutional framework, civil code fundamentals, and court structure."
+            },
+            {
+                "title": "Italian Legal Language (C1 Level)",
+                "provider": "Università per Stranieri di Perugia",
+                "duration": "6 Months",
+                "language": "Italian",
+                "cost": "€200-€400",
+                "description": "Advanced Italian language course specializing in legal terminology, contract drafting, and courtroom communication."
+            },
+        ]
+    },
+    "teaching": {
+        "keywords": ["teaching", "teacher", "education", "pedagog", "insegnant"],
+        "courses": [
+            {
+                "title": "Italian Education System & Teaching Methodologies",
+                "provider": "INDIRE — Istituto Nazionale Documentazione Innovazione Ricerca Educativa",
+                "duration": "6 Weeks (online)",
+                "language": "Italian",
+                "cost": "Free",
+                "description": "Overview of the Italian school system, curriculum standards, assessment methods, and inclusive education practices."
+            },
+            {
+                "title": "DITALS — Teaching Italian as a Foreign Language",
+                "provider": "Università per Stranieri di Siena",
+                "duration": "3 Months",
+                "language": "Italian",
+                "cost": "€300-€500",
+                "description": "Certification course for teaching Italian as L2/LS. Recognized by MIUR and useful for integration into Italian schools."
+            },
+        ]
+    },
+}
+
+# Default courses for professions not matched above
+_DEFAULT_BRIDGE_COURSES = [
+    {
+        "title": "Italian Language for Professionals (B1/B2)",
+        "provider": "CPIA — Centro Provinciale Istruzione Adulti",
+        "duration": "4 Months (free public classes)",
+        "language": "Italian",
+        "cost": "Free",
+        "description": "Free Italian language courses offered by local adult education centres across Italy. Covers everyday and professional communication up to B2 level."
+    },
+    {
+        "title": "Digital Marketing & Communication Certificate",
+        "provider": "Google Activate / Coursera",
+        "duration": "3 Months (self-paced)",
+        "language": "English / Italian",
+        "cost": "Free",
+        "description": "Google-certified course covering SEO, social media marketing, analytics, and digital advertising — highly transferable across industries."
+    },
+    {
+        "title": "Excel & Data Analysis for Business",
+        "provider": "AFOL — Agenzia Formazione Lavoro",
+        "duration": "4 Weeks (in-person)",
+        "language": "Italian",
+        "cost": "Free (regional funding)",
+        "description": "Practical course on advanced Excel, pivot tables, data visualization, and basic business analysis techniques."
+    },
+]
+
+
+def get_bridge_courses(degree_field: str) -> list:
+    """
+    Returns a list of recommended bridge courses based on the user's
+    degree field / profession. Falls back to general courses if no
+    specific match is found.
+    """
+    field_lower = degree_field.strip().lower()
+
+    for _category, data in BRIDGE_COURSES.items():
+        for keyword in data["keywords"]:
+            if keyword in field_lower:
+                return data["courses"]
+
+    return _DEFAULT_BRIDGE_COURSES
