@@ -3,6 +3,7 @@ import { useLanguage } from '../LanguageContext';
 import { 
   Mail, Phone, MapPin, ExternalLink 
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 // Premium Social SVGs for better branding and compatibility
 const SocialIcons = {
@@ -84,10 +85,10 @@ const SocialContact = () => {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
           <h3 style={columnTitleStyle}>{t('footerSupport')}</h3>
           <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-            <li><a href="#" style={footerLinkStyle}>{t('footerAbout')}</a></li>
-            <li><a href="#" style={footerLinkStyle}>{t('footerPrivacy')}</a></li>
-            <li><a href="#" style={footerLinkStyle}>{t('footerTerms')}</a></li>
-            <li><a href="#" style={footerLinkStyle}>FAQ</a></li>
+            <li><Link to="/about" style={footerLinkStyle}>{t('footerAbout')}</Link></li>
+            <li><Link to="/privacy-policy" style={footerLinkStyle}>{t('footerPrivacy')}</Link></li>
+            <li><Link to="/terms-of-service" style={footerLinkStyle}>{t('footerTerms')}</Link></li>
+            <li><Link to="/faq" style={footerLinkStyle}>FAQ</Link></li>
           </ul>
         </div>
 

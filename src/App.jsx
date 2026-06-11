@@ -22,6 +22,9 @@ import TranslatorDirectory from './pages/TranslatorDirectory';
 import CIMEAHub from './pages/CIMEAHub';
 import BookConsultation from './pages/BookConsultation';
 import About from './pages/About';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfService from './pages/TermsOfService';
+import FAQ from './pages/FAQ';
 import ProtectedRoute from './components/ProtectedRoute';
 import Footer from './components/Footer';
 import SocialContact from './components/SocialContact';
@@ -338,6 +341,9 @@ function AppContent() {
           <Route path="/about" element={
               <About />
           } />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-of-service" element={<TermsOfService />} />
+          <Route path="/faq" element={<FAQ />} />
           <Route path="/quiz" element={
               <PublicQuiz />
           } />
