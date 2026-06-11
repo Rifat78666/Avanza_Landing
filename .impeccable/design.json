@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-06-11T03:35:00Z",
+  "title": "Design System: Avanza",
+  "extensions": {
+    "colorMeta": {
+      "primary": { "role": "primary", "displayName": "Italian Green", "canonical": "#009246", "tonalRamp": ["#001a0c", "#003318", "#004d24", "#006630", "#007a3c", "#009246", "#33a86b", "#66be90", "#99d4b5", "#ccead9", "#e5f4ec"] },
+      "secondary": { "role": "secondary", "displayName": "Italian Red", "canonical": "#ce2b37", "tonalRamp": ["#29080b", "#521116", "#7b1921", "#a4222c", "#ce2b37", "#d8555e", "#e28086", "#ebaaaf", "#f5d4d7"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero headlines only." },
+      "headline": { "displayName": "Headline", "purpose": "Section headers." },
+      "title": { "displayName": "Title", "purpose": "Card titles and component headers." },
+      "body": { "displayName": "Body", "purpose": "Paragraphs and general UI text." },
+      "label": { "displayName": "Label", "purpose": "Form labels and small metadata." }
+    },
+    "shadows": [
+      { "name": "action-glow", "value": "0 4px 14px 0 rgba(0, 146, 70, 0.2)", "purpose": "The default shadow for primary buttons to make them lift off the page." },
+      { "name": "action-hover", "value": "0 6px 20px 0 rgba(0, 146, 70, 0.3)", "purpose": "Deeper glow when hovering primary buttons." }
+    ],
+    "motion": [
+      { "name": "ease-standard", "value": "ease", "purpose": "Default easing for state transitions." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Used for main calls to action.",
+      "html": "<button class=\"ds-btn-primary\">CONTINUE</button>",
+      "css": ".ds-btn-primary { background-color: #009246; color: #FFFFFF; padding: 0.75rem 1.5rem; border-radius: 6px; font-weight: 600; font-family: 'Inter', sans-serif; transition: all 0.2s ease; box-shadow: 0 4px 14px 0 rgba(0, 146, 70, 0.2); border: none; cursor: pointer; } .ds-btn-primary:hover { background-color: #007a3c; transform: translateY(-2px); box-shadow: 0 6px 20px 0 rgba(0, 146, 70, 0.3); }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary actions.",
+      "html": "<button class=\"ds-btn-outline\">Cancel</button>",
+      "css": ".ds-btn-outline { border: 1px solid #e5e7eb; color: #0d0d0d; padding: 0.75rem 1.5rem; border-radius: 6px; font-weight: 500; font-family: 'Inter', sans-serif; transition: all 0.2s ease; background: transparent; cursor: pointer; } .ds-btn-outline:hover { border-color: #009246; color: #009246; background-color: rgba(0, 146, 70, 0.03); }"
+    },
+    {
+      "name": "Input Field",
+      "kind": "input",
+      "refersTo": "input-field",
+      "description": "Text fields for forms.",
+      "html": "<input type=\"text\" class=\"ds-input-field\" placeholder=\"Your name\" />",
+      "css": ".ds-input-field { width: 100%; padding: 0.85rem 1.2rem; background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 10px; color: #0d0d0d; font-size: 1rem; font-family: 'Inter', sans-serif; transition: all 0.2s ease; box-sizing: border-box; } .ds-input-field:focus { border-color: #009246; outline: none; background-color: #ffffff; box-shadow: 0 0 0 2px rgba(0, 146, 70, 0.1); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Welcoming Consulate",
+    "overview": "AVANZA combines professional authority with warm accessibility. It rejects the dense, intimidating nature of traditional government portals, replacing it with a clear, guided, and highly trustworthy experience. The design is airy, crisp, and definitively tied to Italy without falling into caricatures. It explicitly rejects generic SaaS startup templates and cluttered bureaucratic interfaces.",
+    "keyCharacteristics": [
+      "High contrast, exceptionally legible typography",
+      "Intentional use of the Italian flag colors (Green #009246, Red #ce2b37) to anchor the identity",
+      "Tactile components that invite interaction",
+      "Clear pathways and generous whitespace"
+    ],
+    "rules": [
+      { "name": "The Flag Anchor Rule", "body": "Green is for progress and primary actions; Red is for premium contrast or alerts. Never mix them indiscriminately; their usage must feel deliberate and structural.", "section": "colors" },
+      { "name": "The Legibility First Rule", "body": "All body text must sit at a high contrast ratio. Never use light gray for body copy; the user is reading complex immigration information and needs perfect clarity.", "section": "typography" },
+      { "name": "The Intentional Lift Rule", "body": "Shadows are only used to indicate interactivity or current state (like a selected card or a primary button). Structural containers remain flat.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do use Italian Green (#009246) for the primary path forward.",
+      "Do ensure all body text has strong contrast against its background.",
+      "Do emphasize human elements (like founder avatars) to build trust."
+    ],
+    "donts": [
+      "Don't use generic SaaS startup templates that feel disconnected from human services.",
+      "Don't create cluttered, bureaucratic interfaces that increase cognitive load.",
+      "Don't use gradient text or side-stripe borders as decorative accents.",
+      "Don't animate images on hover (e.g. no scale or rotate on images)."
+    ]
+  }
+}
