@@ -6,13 +6,13 @@ const AboutSummary = () => {
 
     return (
         <section className="container" style={{ 
-            padding: '4rem 1.5rem', 
+            padding: '4rem 2rem', 
             textAlign: 'center',
-            background: 'rgba(200, 241, 53, 0.02)',
-            borderRadius: '24px',
+            background: 'var(--surface-color)',
+            borderRadius: '16px',
             margin: '2rem auto',
             maxWidth: '1000px',
-            border: '1px solid rgba(200, 241, 53, 0.1)'
+            border: '1px solid var(--border-color)'
         }}>
             <h2 style={{ 
                 fontSize: '1.2rem', 
@@ -25,12 +25,13 @@ const AboutSummary = () => {
                 {t('aboutTitle')}
             </h2>
             <p style={{ 
-                fontSize: '1.8rem', 
-                lineHeight: '1.5', 
+                fontSize: 'clamp(1.2rem, 2.5vw, 1.8rem)', 
+                lineHeight: '1.6', 
                 color: 'var(--text-primary)',
                 maxWidth: '800px',
                 margin: '0 auto',
-                fontWeight: '400'
+                fontWeight: '400',
+                textWrap: 'pretty'
             }}>
                 {t('aboutDesc')}
             </p>

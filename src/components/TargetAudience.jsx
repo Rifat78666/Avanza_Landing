@@ -18,8 +18,13 @@ const TargetAudience = () => {
   return (
     <section className="section container" style={{ position: 'relative', zIndex: 10 }}>
       <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-        <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>Priority Job Categories</h2>
-        <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', margin: '0 auto' }}>
+        <h2 style={{ 
+          fontSize: 'clamp(1.8rem, 3vw, 2.5rem)', 
+          marginBottom: '1rem', 
+          fontWeight: '700',
+          letterSpacing: '-0.5px' 
+        }}>Priority Job Categories</h2>
+        <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', margin: '0 auto', fontSize: '1.1rem', lineHeight: '1.6' }}>
           We specialize in fast-tracking recognition for these high-demand sectors in Italy.
         </p>
       </div>
@@ -41,17 +46,26 @@ const TargetAudience = () => {
             {priorityRoles.map((role) => (
               <div key={role.name} style={{
                 padding: '1.5rem 3rem',
-                background: 'var(--surface-color)',
-                border: '2px solid var(--accent-color)',
-                borderRadius: '16px',
+                background: 'var(--bg-color)',
+                border: '1px solid var(--accent-color)',
+                borderRadius: '10px',
                 color: 'var(--text-primary)',
                 fontSize: '1.5rem',
-                fontWeight: '800',
+                fontWeight: '700',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '1rem',
-                boxShadow: '0 10px 25px rgba(0, 0, 0, 0.05)',
-                transition: 'transform 0.3s ease'
+                boxShadow: 'none',
+                transition: 'all 0.3s ease',
+                cursor: 'default'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0 4px 14px 0 rgba(0, 146, 70, 0.2)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = 'none';
               }}>
                 <span style={{ fontSize: '2rem' }}>{role.icon}</span>
                 {role.name}

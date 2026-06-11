@@ -30,37 +30,37 @@ const LandingPage = ({ onGetStarted, isLoggedIn, userName, onboardingCompleted }
       
       {/* Premium Mission Slogan Section */}
       <section style={{
-        padding: '3rem 1.5rem',
+        padding: '4rem 1.5rem',
         textAlign: 'center',
-        background: 'radial-gradient(circle at center, rgba(200, 241, 53, 0.03) 0%, transparent 70%)',
+        background: 'radial-gradient(circle at center, rgba(0, 146, 70, 0.04) 0%, transparent 70%)',
         position: 'relative'
       }}>
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <div style={{
-            width: '40px',
-            height: '2px',
-            background: '#C8F135',
-            margin: '0 auto 2rem',
-            opacity: 0.5
+            width: '60px',
+            height: '3px',
+            background: 'var(--accent-color)',
+            margin: '0 auto 2.5rem',
+            opacity: 0.8
           }}></div>
           <h2 style={{
-            fontSize: '2.5rem',
-            fontWeight: '400',
-            fontStyle: 'italic',
+            fontSize: 'clamp(1.8rem, 3vw, 2.5rem)',
+            fontWeight: '700',
             color: 'var(--text-primary)',
             lineHeight: '1.4',
-            maxWidth: '1000px',
+            maxWidth: '900px',
             margin: '0 auto',
-            letterSpacing: '-1px'
+            letterSpacing: '-0.5px',
+            textWrap: 'balance'
           }}>
             "{t('quote')}"
           </h2>
           <div style={{
-            width: '40px',
-            height: '2px',
-            background: '#C8F135',
-            margin: '2rem auto 0',
-            opacity: 0.5
+            width: '60px',
+            height: '3px',
+            background: 'var(--accent-color)',
+            margin: '2.5rem auto 0',
+            opacity: 0.8
           }}></div>
         </div>
       </section>

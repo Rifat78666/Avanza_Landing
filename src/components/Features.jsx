@@ -25,8 +25,13 @@ const Features = () => {
   return (
     <section className="container" style={{ position: 'relative', zIndex: 10, paddingTop: '2rem', paddingBottom: '6rem' }}>
       <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-        <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>{t('featuresTitle')}</h2>
-        <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', margin: '0 auto' }}>
+        <h2 style={{ 
+          fontSize: 'clamp(1.8rem, 3vw, 2.5rem)', 
+          marginBottom: '1rem', 
+          fontWeight: '700',
+          letterSpacing: '-0.5px' 
+        }}>{t('featuresTitle')}</h2>
+        <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', margin: '0 auto', fontSize: '1.1rem', lineHeight: '1.6' }}>
           {t('featuresSub')}
         </p>
       </div>
@@ -39,22 +44,23 @@ const Features = () => {
       }}>
         {steps.map((step, idx) => (
           <div key={idx} style={{
-            background: 'var(--surface-color)',
+            background: 'var(--bg-color)',
             border: '1px solid var(--border-color)',
-            borderRadius: '16px',
+            borderRadius: '10px',
             padding: '2.5rem 2rem',
             transition: 'all 0.3s ease',
             cursor: 'default',
-            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)'
+            boxShadow: 'none'
           }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-5px)';
+              e.currentTarget.style.transform = 'translateY(-2px)';
               e.currentTarget.style.borderColor = 'var(--accent-color)';
-              e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1)';
+              e.currentTarget.style.boxShadow = '0 4px 14px 0 rgba(0, 146, 70, 0.2)';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = 'translateY(0)';
               e.currentTarget.style.borderColor = 'var(--border-color)';
+              e.currentTarget.style.boxShadow = 'none';
             }}
           >
             <div style={{ fontSize: '3rem', marginBottom: '1.5rem' }}>{step.icon}</div>
