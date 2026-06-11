@@ -137,19 +137,25 @@ const BookConsultation = () => {
           color: '#fff',
           flexShrink: 0,
         }}>
-          A
+          RH
         </div>
         <div style={{ flex: 1 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
             <h3 style={{ fontSize: '1.25rem', fontWeight: '700', color: 'var(--text-primary)', margin: 0 }}>
-              Avanza Team
+              Rifatul Haque
             </h3>
+            <a href="https://www.linkedin.com/in/md-rifatul-haque" target="_blank" rel="noopener noreferrer"
+              style={{ color: '#0A66C2', display: 'flex', alignItems: 'center' }}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+              </svg>
+            </a>
           </div>
           <p style={{ color: '#009246', fontWeight: '600', fontSize: '0.95rem', margin: '0.25rem 0 0.5rem' }}>
-            Immigration & Degree Recognition Specialists
+            Co-Founder · Systems &amp; AI
           </p>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', margin: 0, lineHeight: '1.5' }}>
-            Let us guide you through Italy&apos;s credential recognition process — from CIMEA applications to job placement.
+            Designs the AI engine and platform infrastructure powering AVANZA&apos;s personalised roadmaps at scale.
           </p>
         </div>
       </div>
