@@ -252,8 +252,8 @@ function AppContent() {
           <span 
             style={{ 
               cursor: 'pointer', 
-              color: location.pathname === '/about' ? 'var(--accent-color)' : 'var(--text-secondary)', 
-              fontWeight: location.pathname === '/about' ? 'bold' : 'normal', 
+              color: location.pathname === '/about' ? 'var(--accent-color)' : '#111111', 
+              fontWeight: location.pathname === '/about' ? '700' : '600', 
               fontSize: '1rem',
               display: window.innerWidth > 768 ? 'block' : 'none'
             }} 
@@ -266,7 +266,8 @@ function AppContent() {
             onChange={(e) => setLanguage(e.target.value)}
             style={{ 
             background: 'transparent', 
-            color: 'var(--text-secondary)', 
+            color: '#111111', 
+            fontWeight: '600',
             border: 'none', 
             cursor: 'pointer',
             fontSize: '1rem',
