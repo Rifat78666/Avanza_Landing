@@ -166,7 +166,7 @@ const Hero = ({ onGetStarted, isLoggedIn, userName, onboardingCompleted }) => {
             {onboardingCompleted ? t('heroAuthCTA') : t('continueJourney')}
           </button>
         ) : (
-          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+          <div className="hero-buttons-wrapper" style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
             <a
               href="tel:+393520266387"
               className="btn-primary"
@@ -216,7 +216,7 @@ const Hero = ({ onGetStarted, isLoggedIn, userName, onboardingCompleted }) => {
       </div>
 
       {/* Globe — absolutely positioned right, overlapping behind text like INDIMA */}
-      <div style={{
+      <div className="hero-globe-wrapper" style={{
         position: 'absolute',
         right: '5%',
         top: '50%',

@@ -132,3 +132,52 @@ select.input-field {
   padding-right: 3rem;
   cursor: pointer;
 }
+
+/* Mobile Responsiveness Fixes */
+@media (max-width: 768px) {
+  /* 1. Header Layout */
+  header.container {
+    padding: 0.5rem 0.75rem !important;
+  }
+  .header-logo {
+    height: 35px !important;
+    transform: scale(1.6) !important;
+    transform-origin: left center !important;
+  }
+  header nav {
+    gap: 0.5rem !important;
+  }
+  header nav .btn-outline,
+  header nav .btn-primary {
+    padding: 0.4rem 0.75rem !important;
+    font-size: 0.8rem !important;
+  }
+  header nav select {
+    font-size: 0.85rem !important;
+    padding-right: 0 !important;
+  }
+
+  /* 2. Hero Section Padding to avoid sticky header overlap */
+  .hero-section {
+    padding-top: 100px !important;
+  }
+
+  /* 3. Hero Globe */
+  .hero-globe-wrapper {
+    opacity: 0.1 !important;
+    transform: scale(0.6) translateY(-50%) !important;
+    right: -25% !important;
+  }
+
+  /* 4. Hero Buttons Wrap/Flex */
+  .hero-buttons-wrapper {
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 0.75rem !important;
+  }
+  .hero-buttons-wrapper > * {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+}
+
