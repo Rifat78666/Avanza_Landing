@@ -253,8 +253,8 @@ function AppContent() {
             style={{ 
               cursor: 'pointer', 
               color: location.pathname === '/about' ? 'var(--accent-color)' : '#111111', 
-              fontWeight: '700', 
-              fontSize: '1.1rem',
+              fontWeight: '600', 
+              fontSize: '1rem',
               display: window.innerWidth > 768 ? 'block' : 'none'
             }} 
             onClick={() => navigate('/about')}
@@ -267,10 +267,10 @@ function AppContent() {
             style={{ 
             background: 'transparent', 
             color: '#111111', 
-            fontWeight: '700',
+            fontWeight: '600',
             border: 'none', 
             cursor: 'pointer',
-            fontSize: '1.1rem',
+            fontSize: '1rem',
             fontFamily: 'inherit',
             outline: 'none'
           }}>
