@@ -184,9 +184,10 @@ select.input-field {
   /* 3. Hero Globe */
   .hero-globe-wrapper {
     opacity: 0.25 !important;
-    transform: translate(-50%, -50%) scale(0.6) !important;
+    transform: translate(-50%, -50%) scale(1.3) !important;
     left: 50% !important;
     right: auto !important;
+    top: 50% !important;
   }
 
   /* 4. Hero Buttons Wrap/Flex */

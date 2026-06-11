@@ -215,21 +215,16 @@ const Hero = ({ onGetStarted, isLoggedIn, userName, onboardingCompleted }) => {
         </p>
       </div>
 
-      {/* Globe — absolutely positioned and centered like INDIMA */}
+      {/* Globe — positioned right on desktop, centered on mobile via CSS */}
       <div className="hero-globe-wrapper" style={{
         position: 'absolute',
-        left: '50%',
+        right: '5%',
         top: '50%',
-        transform: 'translate(-50%, -50%)',
+        transform: 'translateY(-50%)',
         zIndex: 0,
         pointerEvents: 'none',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '100%',
-        height: '100%',
       }}>
-        <ItalianGlobe size={900} />
+        <ItalianGlobe size={700} />
       </div>
 
       {/* Cursor blink animation */}
