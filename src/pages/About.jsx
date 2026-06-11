@@ -91,7 +91,7 @@ const About = () => {
                 }}
               />
               <h3 style={{ fontSize: '1.25rem', fontWeight: '700', color: '#000000', marginBottom: '0.25rem' }}>Pallab Mondal</h3>
-              <p style={{ color: '#555555', fontSize: '0.95rem' }}>Co-founder & CEO</p>
+              <p style={{ color: '#555555', fontSize: '0.95rem' }}>Founder & AI Specialist</p>
             </div>
 
             {/* RIFATUL CARD */}
@@ -109,7 +109,7 @@ const About = () => {
                 }}
               />
               <h3 style={{ fontSize: '1.25rem', fontWeight: '700', color: '#000000', marginBottom: '0.25rem' }}>Rifatul Haque</h3>
-              <p style={{ color: '#555555', fontSize: '0.95rem' }}>Co-founder & CTO</p>
+              <p style={{ color: '#555555', fontSize: '0.95rem' }}>Co-Founder · Systems & AI</p>
             </div>
 
           </div>
