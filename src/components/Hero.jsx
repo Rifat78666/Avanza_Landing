@@ -104,7 +104,7 @@ const Hero = ({ onGetStarted, isLoggedIn, userName, onboardingCompleted }) => {
           </h1>
         ) : (
           <h1 style={{
-            fontSize: 'clamp(2.8rem, 5vw, 4.2rem)',
+            fontSize: 'clamp(1.8rem, 8vw, 4.2rem)',
             fontWeight: '800',
             lineHeight: '1.12',
             marginBottom: '1.5rem',

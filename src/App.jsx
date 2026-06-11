@@ -248,7 +248,7 @@ function AppContent() {
         <div style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }} onClick={() => navigate('/')}>
           <img src="/avanza_logo.png" alt="AVANZA" className="header-logo" style={{ height: '45px', objectFit: 'contain', transform: 'scale(2.2)', transformOrigin: 'left center' }} />
         </div>
-        <nav style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+        <nav className="header-nav-container" style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
           <span 
             style={{ 
               cursor: 'pointer', 
@@ -322,10 +322,10 @@ function AppContent() {
             </div>
           ) : (
             <>
-              <button className="btn-outline" onClick={() => openAuth('login')}>{t('loginBtn')}</button>
-              <button className="btn-primary" onClick={() => navigate('/book-consultation')} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+              <button className="btn-outline header-login-btn" onClick={() => openAuth('login')}>{t('loginBtn')}</button>
+              <button className="btn-primary header-book-btn" onClick={() => navigate('/book-consultation')} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
                 <Calendar size={16} />
-                Book a Consultation
+                <span className="header-book-text">Book a Consultation</span>
               </button>
             </>
           )}
