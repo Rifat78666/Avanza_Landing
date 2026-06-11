@@ -218,13 +218,13 @@ const Hero = ({ onGetStarted, isLoggedIn, userName, onboardingCompleted }) => {
       {/* Globe — absolutely positioned right, overlapping behind text like INDIMA */}
       <div style={{
         position: 'absolute',
-        right: '-5%',
+        right: '5%',
         top: '50%',
         transform: 'translateY(-50%)',
         zIndex: 1,
         pointerEvents: 'none',
       }}>
-        <ItalianGlobe size={650} />
+        <ItalianGlobe size={450} />
       </div>
 
       {/* Cursor blink animation */}
