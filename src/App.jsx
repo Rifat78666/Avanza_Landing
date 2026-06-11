@@ -237,7 +237,7 @@ function AppContent() {
       <header className="container" style={{ 
         display: 'flex', 
         justifyContent: 'space-between', 
-        padding: '1rem 1.5rem', 
+        padding: '0.5rem 1.5rem', 
         alignItems: 'center',
         position: 'sticky',
         top: 0,
@@ -246,7 +246,7 @@ function AppContent() {
         zIndex: 100
       }}>
         <div style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }} onClick={() => navigate('/')}>
-          <img src="/avanza_logo.png" alt="AVANZA" style={{ height: '65px', objectFit: 'contain', transform: 'scale(2)', transformOrigin: 'left center' }} />
+          <img src="/avanza_logo.png" alt="AVANZA" style={{ height: '45px', objectFit: 'contain', transform: 'scale(1.5)', transformOrigin: 'left center' }} />
         </div>
         <nav style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
           <span 
