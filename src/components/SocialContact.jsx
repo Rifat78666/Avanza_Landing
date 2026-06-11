@@ -50,7 +50,7 @@ const SocialContact = () => {
         {/* Branch 1: Branding */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <img src="/avanza_logo.png" alt="AVANZA" style={{ height: '36px', objectFit: 'contain' }} />
+            <img src="/avanza_logo.png" alt="AVANZA" style={{ height: '60px', objectFit: 'contain' }} />
           </div>
           <p style={{ 
             color: 'var(--text-secondary)', 
