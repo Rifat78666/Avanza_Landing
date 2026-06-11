@@ -136,8 +136,10 @@ const BookConsultation = () => {
           fontWeight: '800',
           color: '#fff',
           flexShrink: 0,
+          overflow: 'hidden',
+          border: '2px solid #009246'
         }}>
-          RH
+          <img src="/rifat.png" alt="Rifatul Haque" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </div>
         <div style={{ flex: 1 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
