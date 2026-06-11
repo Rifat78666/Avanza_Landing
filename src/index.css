@@ -66,8 +66,7 @@ button:disabled {
   color: #FFFFFF;
   padding: 0.75rem 1.5rem;
   border-radius: 6px;
-  font-weight: 700;
-  font-size: 1.1rem;
+  font-weight: 600;
   transition: all 0.2s ease;
   box-shadow: 0 4px 14px 0 rgba(0, 146, 70, 0.2);
 }
@@ -80,11 +79,10 @@ button:disabled {
 
 .btn-outline {
   border: 1px solid var(--border-color);
-  color: #111111;
+  color: var(--text-primary);
   padding: 0.75rem 1.5rem;
   border-radius: 6px;
-  font-weight: 700;
-  font-size: 1.1rem;
+  font-weight: 500;
   transition: all 0.2s ease;
 }
 
