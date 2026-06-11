@@ -200,7 +200,7 @@ const Hero = ({ onGetStarted, isLoggedIn, userName, onboardingCompleted }) => {
               onClick={() => onGetStarted('register')}
             >
               <MessageSquare size={20} />
-              Enquire Us
+              Get Your Guide
             </button>
           </div>
         )}
