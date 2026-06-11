@@ -142,7 +142,7 @@ select.input-field {
 @media (max-width: 768px) {
   /* 1. Header Layout */
   header.container {
-    padding: 0.5rem 0.25rem !important;
+    padding: 0.5rem 0.75rem !important;
   }
   .desktop-only {
     display: none !important;
@@ -150,10 +150,15 @@ select.input-field {
   .mobile-only {
     display: flex !important;
   }
+  .header-logo-container {
+    position: absolute !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+  }
   .header-logo {
-    height: 28px !important;
+    height: 30px !important;
     transform: scale(1.4) !important;
-    transform-origin: left center !important;
+    transform-origin: center center !important;
   }
   header nav {
     gap: 0.5rem !important;
