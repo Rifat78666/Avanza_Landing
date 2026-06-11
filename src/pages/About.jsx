@@ -8,7 +8,15 @@ const About = () => {
     <div style={{ backgroundColor: 'var(--bg-color)', minHeight: '100vh', paddingBottom: '0' }}>
       
       {/* MISSION SECTION */}
-      <section style={{ padding: '6rem 2rem 4rem', textAlign: 'center', maxWidth: '900px', margin: '0 auto' }}>
+      <section style={{ padding: '6rem 2rem 4rem', textAlign: 'center', maxWidth: '1000px', margin: '0 auto' }}>
+        <h2 style={{
+          fontSize: 'clamp(2.2rem, 4vw, 3rem)',
+          fontWeight: '800',
+          color: '#000000',
+          marginBottom: '1.5rem'
+        }}>
+          Our Mission
+        </h2>
 
         <p style={{
           maxWidth: '1000px',
