@@ -224,7 +224,7 @@ const Hero = ({ onGetStarted, isLoggedIn, userName, onboardingCompleted }) => {
         zIndex: 1,
         pointerEvents: 'none',
       }}>
-        <ItalianGlobe size={450} />
+        <ItalianGlobe size={550} />
       </div>
 
       {/* Cursor blink animation */}
