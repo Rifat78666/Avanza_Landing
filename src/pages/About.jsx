@@ -9,22 +9,14 @@ const About = () => {
       
       {/* MISSION SECTION */}
       <section style={{ padding: '6rem 2rem 4rem', textAlign: 'center', maxWidth: '900px', margin: '0 auto' }}>
-        <h1 style={{
-          fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
-          fontWeight: '800',
-          color: 'var(--text-primary)',
-          marginBottom: '2.5rem',
-          letterSpacing: '-0.02em'
-        }}>
-          Our Mission
-        </h1>
+
         <p style={{
-          fontSize: 'clamp(1.2rem, 2.5vw, 1.5rem)',
-          lineHeight: '1.7',
-          color: 'var(--text-secondary)',
-          fontWeight: '400',
-          textWrap: 'balance',
-          margin: '0 auto'
+          maxWidth: '1000px',
+          margin: '0 auto',
+          fontSize: '1.1rem',
+          lineHeight: '1.8',
+          color: '#333333',
+          fontWeight: '400'
         }}>
           Our commitment drives the advancement of global mobility tailored for international professionals and students seeking degree recognition in Italy. We believe that no bureaucratic system should stand in the way of talent. That's why we empower immigrants to confidently build their future by combining our deep, firsthand expertise with our state-of-the-art AI-driven roadmaps.
         </p>
