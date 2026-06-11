@@ -246,15 +246,15 @@ function AppContent() {
         zIndex: 100
       }}>
         <div style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }} onClick={() => navigate('/')}>
-          <img src="/avanza_logo.png" alt="AVANZA" style={{ height: '45px', objectFit: 'contain', transform: 'scale(1.5)', transformOrigin: 'left center' }} />
+          <img src="/avanza_logo.png" alt="AVANZA" style={{ height: '45px', objectFit: 'contain', transform: 'scale(2.2)', transformOrigin: 'left center' }} />
         </div>
         <nav style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
           <span 
             style={{ 
               cursor: 'pointer', 
               color: location.pathname === '/about' ? 'var(--accent-color)' : '#111111', 
-              fontWeight: location.pathname === '/about' ? '700' : '600', 
-              fontSize: '1rem',
+              fontWeight: '700', 
+              fontSize: '1.1rem',
               display: window.innerWidth > 768 ? 'block' : 'none'
             }} 
             onClick={() => navigate('/about')}
@@ -267,10 +267,10 @@ function AppContent() {
             style={{ 
             background: 'transparent', 
             color: '#111111', 
-            fontWeight: '600',
+            fontWeight: '700',
             border: 'none', 
             cursor: 'pointer',
-            fontSize: '1rem',
+            fontSize: '1.1rem',
             fontFamily: 'inherit',
             outline: 'none'
           }}>
