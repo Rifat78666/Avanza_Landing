@@ -31,119 +31,88 @@ const About = () => {
       </section>
 
       {/* MEET THE TEAM SECTION */}
-      <section style={{ 
-        backgroundColor: '#0d0d0d', 
-        color: '#ffffff',
-        padding: '6rem 2rem',
-        marginTop: '2rem'
-      }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          
-          <div style={{ marginBottom: '4rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
-              <div style={{ width: '4px', height: '24px', backgroundColor: 'var(--accent-red)' }}></div>
-              <span style={{ fontSize: '1rem', fontWeight: '700', letterSpacing: '2px', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)' }}>
-                The Team
-              </span>
-            </div>
-            <h2 style={{
-              fontSize: 'clamp(2.5rem, 4vw, 3.5rem)',
-              fontWeight: '800',
-              letterSpacing: '-0.02em',
-              lineHeight: '1.2'
-            }}>
-              Built by people who lived it.
-            </h2>
-          </div>
+      <section style={{ backgroundColor: '#ffffff', paddingBottom: '6rem' }}>
+        <div style={{ textAlign: 'center', marginBottom: '4rem', paddingTop: '2rem', paddingLeft: '2rem', paddingRight: '2rem' }}>
+          <h2 style={{
+            fontSize: 'clamp(2.2rem, 4vw, 3rem)',
+            fontWeight: '800',
+            color: '#000000',
+            marginBottom: '1.5rem'
+          }}>
+            Meet The Team
+          </h2>
+          <p style={{
+            maxWidth: '1000px',
+            margin: '0 auto',
+            fontSize: '1.1rem',
+            lineHeight: '1.8',
+            color: '#333333'
+          }}>
+            AVANZA team believes in the vision of enabling seamless global mobility for international professionals. We are gathered around a mutual purpose, which is not only to transform immigrants' experiences into a structured roadmap, but also to create a sustainable and fair recognition system for the upcoming generations.
+          </p>
+        </div>
+
+        <div style={{ position: 'relative' }}>
+          {/* Background stripe */}
+          <div style={{
+            position: 'absolute',
+            top: '20%',
+            bottom: '30%',
+            left: 0,
+            right: 0,
+            background: 'linear-gradient(to right, #50697f, #e8edf1)',
+            zIndex: 1
+          }}></div>
 
           <div style={{
+            position: 'relative',
+            zIndex: 2,
+            maxWidth: '900px',
+            margin: '0 auto',
+            padding: '0 2rem',
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: '2rem'
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '3rem',
+            justifyContent: 'center'
           }}>
             
             {/* PALLAB CARD */}
-            <div style={{
-              backgroundColor: '#161616',
-              border: '1px solid #2a2a2a',
-              borderRadius: '16px',
-              padding: '2.5rem',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '1.5rem'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', flexWrap: 'wrap' }}>
-                <img 
-                  src="https://github.com/pallab.png" 
-                  alt="Pallab Mondal" 
-                  style={{
-                    width: '120px',
-                    height: '120px',
-                    borderRadius: '50%',
-                    objectFit: 'cover',
-                    border: '4px solid var(--accent-red)',
-                    boxShadow: '0 0 20px rgba(206, 43, 55, 0.2)'
-                  }}
-                />
-                <div>
-                  <h3 style={{ fontSize: '1.75rem', fontWeight: '700', marginBottom: '0.25rem' }}>Pallab Mondal</h3>
-                  <p style={{ color: 'var(--accent-red)', fontWeight: '600', fontSize: '0.95rem' }}>Founder & AI Specialist</p>
-                </div>
-              </div>
-              <p style={{ color: 'rgba(255,255,255,0.7)', lineHeight: '1.6', fontSize: '1.05rem' }}>
-                Navigated Italy's recognition system firsthand and built AVANZA to give every immigrant the guide nobody gave him.
-              </p>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <img 
+                src="https://github.com/pallab.png" 
+                alt="Pallab Mondal" 
+                style={{
+                  width: '100%',
+                  aspectRatio: '1 / 1',
+                  borderRadius: '12px',
+                  objectFit: 'cover',
+                  marginBottom: '1rem',
+                  boxShadow: '0 8px 20px rgba(0,0,0,0.1)'
+                }}
+              />
+              <h3 style={{ fontSize: '1.25rem', fontWeight: '700', color: '#000000', marginBottom: '0.25rem' }}>Pallab Mondal</h3>
+              <p style={{ color: '#555555', fontSize: '0.95rem' }}>Co-founder & CEO</p>
             </div>
 
             {/* RIFATUL CARD */}
-            <div style={{
-              backgroundColor: '#161616',
-              border: '1px solid #2a2a2a',
-              borderRadius: '16px',
-              padding: '2.5rem',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '1.5rem'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', flexWrap: 'wrap' }}>
-                <img 
-                  src="https://github.com/Rifat78666.png" 
-                  alt="Rifatul Haque" 
-                  style={{
-                    width: '120px',
-                    height: '120px',
-                    borderRadius: '50%',
-                    objectFit: 'cover',
-                    border: '4px solid var(--accent-color)',
-                    boxShadow: '0 0 20px rgba(0, 146, 70, 0.2)'
-                  }}
-                />
-                <div>
-                  <h3 style={{ fontSize: '1.75rem', fontWeight: '700', marginBottom: '0.25rem' }}>Rifatul Haque</h3>
-                  <p style={{ color: 'var(--accent-color)', fontWeight: '600', fontSize: '0.95rem' }}>Co-Founder · Systems & AI</p>
-                </div>
-              </div>
-              <p style={{ color: 'rgba(255,255,255,0.7)', lineHeight: '1.6', fontSize: '1.05rem' }}>
-                Designs the AI engine and platform infrastructure powering AVANZA's personalised roadmaps at scale.
-              </p>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <img 
+                src="https://github.com/Rifat78666.png" 
+                alt="Rifatul Haque" 
+                style={{
+                  width: '100%',
+                  aspectRatio: '1 / 1',
+                  borderRadius: '12px',
+                  objectFit: 'cover',
+                  marginBottom: '1rem',
+                  boxShadow: '0 8px 20px rgba(0,0,0,0.1)'
+                }}
+              />
+              <h3 style={{ fontSize: '1.25rem', fontWeight: '700', color: '#000000', marginBottom: '0.25rem' }}>Rifatul Haque</h3>
+              <p style={{ color: '#555555', fontSize: '0.95rem' }}>Co-founder & CTO</p>
             </div>
 
           </div>
-
-          <div style={{ marginTop: '5rem', display: 'flex', gap: '1.5rem', alignItems: 'flex-start' }}>
-            <span style={{ color: 'var(--accent-red)', fontSize: '4rem', lineHeight: '0.8', fontWeight: '900', fontFamily: 'serif' }}>"</span>
-            <h3 style={{ 
-              fontSize: 'clamp(1.5rem, 3vw, 2rem)', 
-              fontWeight: '600', 
-              fontStyle: 'italic', 
-              color: '#ffffff',
-              letterSpacing: '-0.02em',
-              marginTop: '0.5rem'
-            }}>
-              We didn't study the problem. We lived it.
-            </h3>
-          </div>
-
         </div>
       </section>
     </div>
