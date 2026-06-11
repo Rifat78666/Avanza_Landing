@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import './index.css';
-import { User, CheckCircle } from 'lucide-react';
+import { User, CheckCircle, Calendar } from 'lucide-react';
 
 import AuthModal from './components/AuthModal';
 
@@ -20,6 +20,7 @@ import DocumentVault from './pages/DocumentVault';
 import AdminPortal from './pages/AdminPortal';
 import TranslatorDirectory from './pages/TranslatorDirectory';
 import CIMEAHub from './pages/CIMEAHub';
+import BookConsultation from './pages/BookConsultation';
 import ProtectedRoute from './components/ProtectedRoute';
 import Footer from './components/Footer';
 import SocialContact from './components/SocialContact';
@@ -302,7 +303,10 @@ function AppContent() {
           ) : (
             <>
               <button className="btn-outline" onClick={() => openAuth('login')}>{t('loginBtn')}</button>
-              <button className="btn-primary" onClick={() => navigate('/quiz')}>{t('getGuideBtn')}</button>
+              <button className="btn-primary" onClick={() => navigate('/book-consultation')} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                <Calendar size={16} />
+                Book a Consultation
+              </button>
             </>
           )}
         </nav>
@@ -320,6 +324,9 @@ function AppContent() {
           } />
           <Route path="/quiz" element={
               <PublicQuiz />
+          } />
+          <Route path="/book-consultation" element={
+              <BookConsultation />
           } />
           <Route path="/dashboard" element={
               <ProtectedRoute>
