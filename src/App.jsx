@@ -21,6 +21,7 @@ import AdminPortal from './pages/AdminPortal';
 import TranslatorDirectory from './pages/TranslatorDirectory';
 import CIMEAHub from './pages/CIMEAHub';
 import BookConsultation from './pages/BookConsultation';
+import About from './pages/About';
 import ProtectedRoute from './components/ProtectedRoute';
 import Footer from './components/Footer';
 import SocialContact from './components/SocialContact';
@@ -242,6 +243,18 @@ function AppContent() {
           <img src="/avanza_Logo.jpeg" alt="AVANZA" style={{ height: '40px', objectFit: 'contain' }} />
         </div>
         <nav style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+          <span 
+            style={{ 
+              cursor: 'pointer', 
+              color: location.pathname === '/about' ? 'var(--accent-color)' : 'var(--text-secondary)', 
+              fontWeight: location.pathname === '/about' ? 'bold' : 'normal', 
+              fontSize: '1rem',
+              display: window.innerWidth > 768 ? 'block' : 'none'
+            }} 
+            onClick={() => navigate('/about')}
+          >
+            About Us
+          </span>
           <select 
             value={language}
             onChange={(e) => setLanguage(e.target.value)}
@@ -321,6 +334,9 @@ function AppContent() {
               userName={displayName}
               onboardingCompleted={fullProfileData?.onboarding_completed}
             />
+          } />
+          <Route path="/about" element={
+              <About />
           } />
           <Route path="/quiz" element={
               <PublicQuiz />
