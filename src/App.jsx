@@ -335,7 +335,7 @@ function AppContent() {
               <button className="btn-outline header-login-btn desktop-only" onClick={() => openAuth('login')}>{t('loginBtn')}</button>
               <button className="btn-primary header-book-btn" onClick={() => navigate('/book-consultation')} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
                 <Calendar size={16} />
-                Book a Consultation
+                Book a Demo
               </button>
             </>
           )}

@@ -156,9 +156,8 @@ select.input-field {
     transform: translateX(-50%) !important;
   }
   .header-logo {
-    height: 30px !important;
-    transform: scale(1.4) !important;
-    transform-origin: center center !important;
+    height: 65px !important;
+    transform: none !important;
   }
   header nav {
     gap: 0.5rem !important;
