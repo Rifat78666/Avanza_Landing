@@ -79,7 +79,7 @@ const About = () => {
             {/* PALLAB CARD */}
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               <img 
-                src="https://github.com/pallab.png" 
+                src="/pallab.png" 
                 alt="Pallab Mondal" 
                 style={{
                   width: '100%',
