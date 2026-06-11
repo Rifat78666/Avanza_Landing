@@ -137,33 +137,27 @@ select.input-field {
 @media (max-width: 768px) {
   /* 1. Header Layout */
   header.container {
-    padding: 0.5rem 0.75rem !important;
+    padding: 0.5rem 0.25rem !important;
   }
   .header-logo {
-    height: 35px !important;
-    transform: scale(1.6) !important;
+    height: 28px !important;
+    transform: scale(1.4) !important;
     transform-origin: left center !important;
   }
   header nav {
-    gap: 0.5rem !important;
+    gap: 0.25rem !important;
   }
   header nav .btn-outline,
   header nav .btn-primary {
-    padding: 0.4rem 0.75rem !important;
-    font-size: 0.8rem !important;
+    padding: 0.35rem 0.4rem !important;
+    font-size: 0.7rem !important;
+    letter-spacing: -0.5px !important;
+    white-space: nowrap !important;
   }
   header nav select {
-    font-size: 0.85rem !important;
+    font-size: 0.75rem !important;
     padding-right: 0 !important;
-  }
-  .header-login-btn {
-    display: none !important;
-  }
-  .header-book-text-full {
-    display: none !important;
-  }
-  .header-book-text-short {
-    display: inline !important;
+    margin-right: 0.2rem !important;
   }
 
   /* 2. Hero Section Padding to avoid sticky header overlap */
