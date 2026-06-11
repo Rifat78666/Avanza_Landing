@@ -49,10 +49,10 @@ const ItalianGlobe = ({ size = 600 }) => {
       ctx.clearRect(0, 0, size, size);
 
       if (isMobile) {
-        // Faint blue glow behind globe for mobile
+        // Faint green glow behind globe for mobile
         const grad = ctx.createRadialGradient(cx, cy, R * 0.4, cx, cy, R * 1.1);
-        grad.addColorStop(0, 'rgba(14,165,233,0.08)');
-        grad.addColorStop(0.5, 'rgba(14,165,233,0.03)');
+        grad.addColorStop(0, 'rgba(0,180,80,0.08)');
+        grad.addColorStop(0.5, 'rgba(0,180,80,0.03)');
         grad.addColorStop(1, 'transparent');
         ctx.fillStyle = grad;
         ctx.beginPath();
@@ -76,14 +76,10 @@ const ItalianGlobe = ({ size = 600 }) => {
         const phi = (i / NUM_LAT) * Math.PI - Math.PI / 2;
         
         let color;
-        if (isMobile) {
-          color = INDIMA_BLUE;
-        } else {
-          const latFraction = i / NUM_LAT;
-          if (latFraction < 0.35) color = GREEN;
-          else if (latFraction < 0.65) color = WHITE;
-          else color = RED;
-        }
+        const latFraction = i / NUM_LAT;
+        if (latFraction < 0.35) color = GREEN;
+        else if (latFraction < 0.65) color = WHITE;
+        else color = RED;
 
         for (let j = 0; j < STEPS; j++) {
           const lam1 = (j / STEPS) * Math.PI * 2;
@@ -106,14 +102,10 @@ const ItalianGlobe = ({ size = 600 }) => {
         const lambda = (i / NUM_LON) * Math.PI * 2;
         
         let color;
-        if (isMobile) {
-          color = INDIMA_BLUE;
-        } else {
-          const lonFraction = i / NUM_LON;
-          if (lonFraction < 0.33) color = GREEN;
-          else if (lonFraction < 0.66) color = WHITE;
-          else color = RED;
-        }
+        const lonFraction = i / NUM_LON;
+        if (lonFraction < 0.33) color = GREEN;
+        else if (lonFraction < 0.66) color = WHITE;
+        else color = RED;
 
         for (let j = 0; j < STEPS; j++) {
           const phi1 = (j / STEPS) * Math.PI - Math.PI / 2;
