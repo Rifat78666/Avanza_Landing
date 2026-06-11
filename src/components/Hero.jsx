@@ -218,13 +218,15 @@ const Hero = ({ onGetStarted, isLoggedIn, userName, onboardingCompleted }) => {
       {/* Globe — positioned right on desktop, centered on mobile via CSS */}
       <div className="hero-globe-wrapper" style={{
         position: 'absolute',
-        right: '5%',
+        right: '-2%',
         top: '50%',
         transform: 'translateY(-50%)',
         zIndex: 0,
         pointerEvents: 'none',
+        width: '380px',
+        height: '380px',
       }}>
-        <ItalianGlobe size={550} />
+        <ItalianGlobe size={380} />
       </div>
 
       {/* Cursor blink animation */}
