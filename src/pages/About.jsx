@@ -60,7 +60,7 @@ const About = () => {
             bottom: '30%',
             left: 0,
             right: 0,
-            background: 'linear-gradient(to right, #50697f, #e8edf1)',
+            background: 'linear-gradient(to right, rgba(0, 146, 70, 0.15) 0%, rgba(255, 255, 255, 0) 50%, rgba(206, 43, 55, 0.15) 100%)',
             zIndex: 1
           }}></div>
 
@@ -112,6 +112,21 @@ const About = () => {
               <p style={{ color: '#555555', fontSize: '0.95rem' }}>Co-founder & CTO</p>
             </div>
 
+          </div>
+          
+          <div style={{ position: 'relative', zIndex: 2, marginTop: '5rem', display: 'flex', gap: '1.5rem', alignItems: 'flex-start', justifyContent: 'center' }}>
+            <span style={{ color: 'var(--accent-red)', fontSize: '4rem', lineHeight: '0.8', fontWeight: '900', fontFamily: 'serif' }}>"</span>
+            <h3 style={{ 
+              fontSize: 'clamp(1.5rem, 3vw, 2rem)', 
+              fontWeight: '600', 
+              fontStyle: 'italic', 
+              color: '#000000',
+              letterSpacing: '-0.02em',
+              marginTop: '0.5rem',
+              maxWidth: '800px'
+            }}>
+              We didn't study the problem. We lived it.
+            </h3>
           </div>
         </div>
       </section>
