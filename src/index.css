@@ -156,6 +156,15 @@ select.input-field {
     font-size: 0.85rem !important;
     padding-right: 0 !important;
   }
+  .header-login-btn {
+    display: none !important;
+  }
+  .header-book-text-full {
+    display: none !important;
+  }
+  .header-book-text-short {
+    display: inline !important;
+  }
 
   /* 2. Hero Section Padding to avoid sticky header overlap */
   .hero-section {
