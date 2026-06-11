@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useLanguage } from '../LanguageContext';
-import { Calendar, Clock, Video, Linkedin, Mail, Phone, ChevronLeft, ChevronRight, Check } from 'lucide-react';
+import { Calendar, Clock, Video, Mail, Phone, ChevronLeft, ChevronRight, Check } from 'lucide-react';
 
 const CONSULTATION_TYPES = [
   {
@@ -144,10 +144,6 @@ const BookConsultation = () => {
             <h3 style={{ fontSize: '1.25rem', fontWeight: '700', color: 'var(--text-primary)', margin: 0 }}>
               Avanza Team
             </h3>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
-              style={{ color: '#0A66C2', display: 'flex' }}>
-              <Linkedin size={20} />
-            </a>
           </div>
           <p style={{ color: '#009246', fontWeight: '600', fontSize: '0.95rem', margin: '0.25rem 0 0.5rem' }}>
             Immigration & Degree Recognition Specialists
