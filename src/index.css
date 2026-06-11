@@ -133,11 +133,22 @@ select.input-field {
   cursor: pointer;
 }
 
+/* Desktop/Base visibility rules */
+.mobile-only {
+  display: none !important;
+}
+
 /* Mobile Responsiveness Fixes */
 @media (max-width: 768px) {
   /* 1. Header Layout */
   header.container {
     padding: 0.5rem 0.25rem !important;
+  }
+  .desktop-only {
+    display: none !important;
+  }
+  .mobile-only {
+    display: flex !important;
   }
   .header-logo {
     height: 28px !important;
@@ -145,13 +156,13 @@ select.input-field {
     transform-origin: left center !important;
   }
   header nav {
-    gap: 0.25rem !important;
+    gap: 0.5rem !important;
   }
   header nav .btn-outline,
   header nav .btn-primary {
-    padding: 0.35rem 0.4rem !important;
-    font-size: 0.7rem !important;
-    letter-spacing: -0.5px !important;
+    padding: 0.5rem 0.75rem !important;
+    font-size: 0.8rem !important;
+    letter-spacing: normal !important;
     white-space: nowrap !important;
   }
   header nav select {

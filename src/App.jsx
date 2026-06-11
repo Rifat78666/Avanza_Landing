@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import './index.css';
-import { User, CheckCircle, Calendar } from 'lucide-react';
+import { User, CheckCircle, Calendar, Menu, X } from 'lucide-react';
 
 import AuthModal from './components/AuthModal';
 
@@ -41,6 +41,7 @@ function AppContent() {
   const [showNameCollection, setShowNameCollection] = useState(false);
   const [onboardingJustFinished, _setOnboardingJustFinished] = useState(false);
   const [showSuccessOverlay, setShowSuccessOverlay] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   const { language, setLanguage, t, isRTL } = useLanguage();
   const stytch = useStytch();
@@ -250,6 +251,7 @@ function AppContent() {
         </div>
         <nav className="header-nav-container" style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
           <span 
+            className="desktop-only"
             style={{ 
               cursor: 'pointer', 
               color: location.pathname === '/about' ? 'var(--accent-color)' : '#111111', 
@@ -262,6 +264,7 @@ function AppContent() {
             About Us
           </span>
           <select 
+            className="desktop-only"
             value={language}
             onChange={(e) => setLanguage(e.target.value)}
             style={{ 
@@ -284,7 +287,7 @@ function AppContent() {
           </select>
 
           {authStatus === 'authenticated' && user ? (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+            <div className="desktop-only" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
               <div style={{ gap: '1.5rem', alignItems: 'center', display: window.innerWidth > 768 ? 'flex' : 'none' }}>
                  <span style={{ cursor: 'pointer', color: location.pathname === '/dashboard' ? 'var(--accent-color)' : 'var(--text-secondary)', fontWeight: location.pathname === '/dashboard' ? 'bold' : 'normal' }} onClick={() => navigate('/dashboard')}>{t('dashboard')}</span>
                  <span style={{ cursor: 'pointer', color: location.pathname === '/profile' ? 'var(--accent-color)' : 'var(--text-secondary)', fontWeight: location.pathname === '/profile' ? 'bold' : 'normal' }} onClick={() => navigate('/profile')}>{t('myProfile')}</span>
@@ -322,15 +325,89 @@ function AppContent() {
             </div>
           ) : (
             <>
-              <button className="btn-outline header-login-btn" onClick={() => openAuth('login')}>{t('loginBtn')}</button>
+              <button className="btn-outline header-login-btn desktop-only" onClick={() => openAuth('login')}>{t('loginBtn')}</button>
               <button className="btn-primary header-book-btn" onClick={() => navigate('/book-consultation')} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
                 <Calendar size={16} />
                 Book a Consultation
               </button>
             </>
           )}
+          <button 
+            className="mobile-only"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            style={{ padding: '0.4rem', border: '1px solid var(--border-color)', borderRadius: '6px', color: 'var(--text-primary)' }}
+          >
+            {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
         </nav>
       </header>
+
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div className="mobile-only" style={{
+          position: 'fixed',
+          top: '60px',
+          left: 0,
+          right: 0,
+          backgroundColor: 'var(--bg-color)',
+          borderBottom: '1px solid var(--border-color)',
+          padding: '1.5rem',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1rem',
+          zIndex: 99,
+          boxShadow: '0 10px 25px rgba(0,0,0,0.1)'
+        }}>
+          <span 
+            style={{ cursor: 'pointer', fontWeight: '600', fontSize: '1.1rem', padding: '0.5rem 0', borderBottom: '1px solid var(--border-color)' }} 
+            onClick={() => { navigate('/about'); setIsMobileMenuOpen(false); }}
+          >
+            About Us
+          </span>
+
+          {authStatus === 'authenticated' && user ? (
+            <>
+              <span style={{ cursor: 'pointer', fontWeight: '600', fontSize: '1.1rem', padding: '0.5rem 0', borderBottom: '1px solid var(--border-color)' }} onClick={() => { navigate('/dashboard'); setIsMobileMenuOpen(false); }}>{t('dashboard')}</span>
+              <span style={{ cursor: 'pointer', fontWeight: '600', fontSize: '1.1rem', padding: '0.5rem 0', borderBottom: '1px solid var(--border-color)' }} onClick={() => { navigate('/profile'); setIsMobileMenuOpen(false); }}>{t('myProfile')}</span>
+              <span style={{ cursor: 'pointer', fontWeight: '600', fontSize: '1.1rem', padding: '0.5rem 0', borderBottom: '1px solid var(--border-color)' }} onClick={() => { navigate('/settings'); setIsMobileMenuOpen(false); }}>{t('settings')}</span>
+              {user?.emails?.[0]?.email && (import.meta.env.VITE_ADMIN_EMAILS || '').split(',').includes(user.emails[0].email) && (
+                  <span style={{ cursor: 'pointer', color: 'var(--accent-color)', fontWeight: 'bold', fontSize: '1.1rem', padding: '0.5rem 0', borderBottom: '1px solid var(--border-color)' }} onClick={() => { navigate('/admin'); setIsMobileMenuOpen(false); }}>{t('admin')}</span>
+              )}
+              <button 
+                onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }} 
+                className="btn-outline"
+                style={{ width: '100%', justifyContent: 'center', marginTop: '0.5rem' }}
+              >
+                  {t('logout')}
+              </button>
+            </>
+          ) : (
+            <button 
+              className="btn-outline" 
+              style={{ width: '100%', justifyContent: 'center' }}
+              onClick={() => { openAuth('login'); setIsMobileMenuOpen(false); }}
+            >
+              {t('loginBtn')}
+            </button>
+          )}
+
+          <select 
+            value={language}
+            onChange={(e) => { setLanguage(e.target.value); setIsMobileMenuOpen(false); }}
+            style={{ 
+              padding: '0.75rem', border: '1px solid var(--border-color)', borderRadius: '6px', fontSize: '1rem', background: 'transparent', marginTop: '0.5rem'
+            }}
+          >
+            <option value="IT">IT</option>
+            <option value="EN">EN</option>
+            <option value="ES">ES</option>
+            <option value="AR">AR</option>
+            <option value="HI">HI</option>
+            <option value="FR">FR</option>
+            <option value="BN">BN</option>
+          </select>
+        </div>
+      )}
       
       <main style={{ position: 'relative', zIndex: 1, minHeight: '60vh' }}>
         <Routes>
