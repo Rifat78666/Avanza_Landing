@@ -243,7 +243,7 @@ function AppContent() {
         zIndex: 50
       }}>
         <div style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }} onClick={() => navigate('/')}>
-          <img src="/avanza_Logo.jpeg" alt="AVANZA" style={{ height: '40px', objectFit: 'contain' }} />
+          <img src="/avanza_logo.png" alt="AVANZA" style={{ height: '40px', objectFit: 'contain' }} />
         </div>
         <nav style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
           <span 
