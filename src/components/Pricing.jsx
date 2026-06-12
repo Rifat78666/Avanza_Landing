@@ -301,7 +301,8 @@ const Pricing = ({ onGetStarted }) => {
           color: 'var(--text-secondary)',
           maxWidth: '680px',
           lineHeight: '1.65',
-          textAlign: 'left',
+          textAlign: 'center',
+          margin: '2.5rem auto 0',
         }}
       >
         Generic AI tools charge €10 for a basic evaluation. AVANZA charges{' '}
