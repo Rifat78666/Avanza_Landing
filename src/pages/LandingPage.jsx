@@ -3,6 +3,7 @@ import Hero from '../components/Hero';
 import AboutSummary from '../components/AboutSummary';
 import Features from '../components/Features';
 import TargetAudience from '../components/TargetAudience';
+import Pricing from '../components/Pricing';
 import { useLanguage } from '../LanguageContext';
 
 const LandingPage = ({ onGetStarted, isLoggedIn, userName, onboardingCompleted }) => {
@@ -26,6 +27,10 @@ const LandingPage = ({ onGetStarted, isLoggedIn, userName, onboardingCompleted }
       </div>
       <div id="target-audience">
         <TargetAudience />
+      </div>
+
+      <div id="pricing">
+        <Pricing onGetStarted={onGetStarted} />
       </div>
       
       {/* Premium Mission Slogan Section */}
