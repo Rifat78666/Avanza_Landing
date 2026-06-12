@@ -79,18 +79,7 @@ const Pricing = ({ onGetStarted }) => {
     >
       {/* Header */}
       <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-        <p
-          style={{
-            fontSize: '0.8rem',
-            fontWeight: '600',
-            letterSpacing: '0.12em',
-            color: 'var(--text-secondary)',
-            textTransform: 'uppercase',
-            marginBottom: '0.75rem',
-          }}
-        >
-          PRICING
-        </p>
+
         <h2
           style={{
             fontSize: 'clamp(1.8rem, 3vw, 2.5rem)',
