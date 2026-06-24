@@ -159,13 +159,6 @@ const ECTSCalculator = () => {
                     : "⚠ Your credits are below the standard Italian requirement. You may need extra coursework or evaluation."}
                 </div>
               </div>
-              
-              <div style={{ marginTop: '1.5rem', paddingTop: '1.5rem', borderTop: '1px solid var(--border-color)', textAlign: 'center' }}>
-                <p style={{ marginBottom: '1rem', fontSize: '0.9rem' }}>Need an official ECTS mapping for your university admission or job application?</p>
-                <button className="btn-outline" style={{ margin: '0 auto', display: 'flex', alignItems: 'center', gap: '0.5rem' }} onClick={() => window.location.href = '/quiz'}>
-                  Get Your Recognition Roadmap <ArrowRight size={16} />
-                </button>
-              </div>
             </>
           )}
         </div>

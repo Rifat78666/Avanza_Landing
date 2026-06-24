@@ -130,12 +130,6 @@ const WorkPermitWizard = () => {
               </ul>
             </div>
           </div>
-          
-          <div style={{ marginTop: '1.5rem', paddingTop: '1.5rem', borderTop: '1px solid var(--border-color)', textAlign: 'center' }}>
-            <button className="btn-outline" style={{ margin: '0 auto', display: 'flex', alignItems: 'center', gap: '0.5rem' }} onClick={() => window.location.href = '/quiz'}>
-              Start Your Personalized Roadmap <ArrowRight size={16} />
-            </button>
-          </div>
         </div>
       )}
       </div>
