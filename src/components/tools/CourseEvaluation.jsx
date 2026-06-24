@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft, FileText, Download, CheckCircle } from 'lucide-react';
+import { ArrowLeft, FileText, Download, CheckCircle, ChevronDown } from 'lucide-react';
 
 const CourseEvaluation = () => {
   const navigate = useNavigate();
@@ -299,20 +299,25 @@ const CourseEvaluation = () => {
                 </div>
                 <div>
                   <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>Target Country</label>
-                  <select 
-                    name="target_country"
-                    value={formData.target_country}
-                    onChange={handleChange}
-                    className="input-field"
-                    style={{ width: '100%', padding: '1rem', fontSize: '1.1rem', background: 'var(--bg-color)' }}
-                  >
-                    <option value="Italy">Italy</option>
-                    <option value="Germany">Germany</option>
-                    <option value="Hungary">Hungary</option>
-                    <option value="Netherlands">Netherlands</option>
-                    <option value="France">France</option>
-                    <option value="Spain">Spain</option>
-                  </select>
+                  <div style={{ position: 'relative' }}>
+                    <select 
+                      name="target_country"
+                      value={formData.target_country}
+                      onChange={handleChange}
+                      className="input-field"
+                      style={{ width: '100%', padding: '1rem', paddingRight: '2.5rem', fontSize: '1.1rem', background: 'var(--bg-color)', appearance: 'none' }}
+                    >
+                      <option value="Italy">Italy</option>
+                      <option value="Germany">Germany</option>
+                      <option value="Hungary">Hungary</option>
+                      <option value="Netherlands">Netherlands</option>
+                      <option value="France">France</option>
+                      <option value="Spain">Spain</option>
+                    </select>
+                    <div style={{ position: 'absolute', right: '1rem', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: 'var(--text-secondary)' }}>
+                      <ChevronDown size={20} />
+                    </div>
+                  </div>
                 </div>
               </div>
 
