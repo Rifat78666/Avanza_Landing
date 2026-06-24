@@ -34,6 +34,7 @@ import KSACreditsCalculator from './components/tools/KSACreditsCalculator';
 import UniversityRequirements from './components/tools/UniversityRequirements';
 import CIPCodes from './components/tools/CIPCodes';
 import UniversityRankings from './components/tools/UniversityRankings';
+import CredentialReport from './components/tools/CredentialReport';
 
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
@@ -468,6 +469,7 @@ function AppContent() {
           <Route path="/tools/university-requirements" element={<UniversityRequirements />} />
           <Route path="/tools/cip-codes" element={<CIPCodes />} />
           <Route path="/tools/university-rankings" element={<UniversityRankings />} />
+          <Route path="/tools/credential-report" element={<CredentialReport />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/faq" element={<FAQ />} />

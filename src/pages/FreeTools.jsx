@@ -62,6 +62,13 @@ const FreeTools = () => {
           description: 'Find entry requirements by country.',
           icon: <FileText size={24} color="#009246" />,
           path: '/tools/university-requirements'
+        },
+        {
+          id: 'credential-report',
+          name: 'Official Credential Report',
+          description: 'Generate an official PDF translating your foreign academic credentials into European standards.',
+          icon: <FileText size={24} color="#CE2B37" />,
+          path: '/tools/credential-report'
         }
       ]
     },

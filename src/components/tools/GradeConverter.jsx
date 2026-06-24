@@ -85,32 +85,8 @@ const GradeConverter = () => {
     setStep(step + 1);
   };
 
-  const handlePayment = async () => {
-    try {
-      const response = await fetch('http://localhost:8000/api/create-checkout-session', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          source_country: sourceCountry,
-          grading_system: gradingSystem,
-          grade: parseFloat(grade),
-          target_country: targetCountry
-        }),
-      });
-      
-      const data = await response.json();
-      if (data.url) {
-        window.location.href = data.url; // Redirect to Stripe Checkout
-      } else {
-        console.error('Failed to create checkout session', data);
-        alert('Payment setup is incomplete. Please check your Stripe API keys in the backend.');
-      }
-    } catch (error) {
-      console.error('Error connecting to backend:', error);
-      alert('Cannot connect to the AVANZA backend. Is the Python server running?');
-    }
+  const handleMockPayment = () => {
+    setIsUnlocked(true);
   };
 
   return (
@@ -286,7 +262,7 @@ const GradeConverter = () => {
                         See all {matchedUnis.length} matching universities, view all country conversions, and unlock 1:1 consultation booking with our founders.
                       </p>
                       <button 
-                        onClick={handlePayment}
+                        onClick={handleMockPayment}
                         style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', width: '100%', padding: '1rem', background: '#009246', color: 'white', border: 'none', borderRadius: '8px', fontSize: '1.1rem', fontWeight: 'bold', cursor: 'pointer' }}
                       >
                         <Euro size={20} /> Pay €4.99 to Unlock
