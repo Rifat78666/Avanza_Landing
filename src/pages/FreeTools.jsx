@@ -13,28 +13,28 @@ const FreeTools = () => {
           id: 'grade-converter',
           name: 'Grade Converter',
           description: 'Convert foreign grades to Italian 30/30 & US 4.0.',
-          icon: <Calculator size={24} color="var(--accent-color)" />,
+          icon: <Calculator size={24} color="#009246" />,
           path: '/tools/grade-converter'
         },
         {
           id: 'ects-calculator',
           name: 'ECTS Calculator',
           description: 'Convert international credits to European ECTS.',
-          icon: <BookOpen size={24} color="var(--accent-color)" />,
+          icon: <BookOpen size={24} color="#CE2B37" />,
           path: '/tools/ects-calculator'
         },
         {
           id: 'us-credits',
           name: 'U.S. Credits Calculator',
           description: 'Convert foreign credits to U.S. Semester Hours.',
-          icon: <Calculator size={24} color="#60A5FA" />,
+          icon: <Calculator size={24} color="#009246" />,
           path: '/tools/us-credits'
         },
         {
           id: 'ksa-credits',
           name: 'KSA Credits Calculator',
           description: 'Convert credits to Saudi Arabian standards.',
-          icon: <Globe size={24} color="#10B981" />,
+          icon: <Globe size={24} color="#CE2B37" />,
           path: '/tools/ksa-credits'
         }
       ]
@@ -46,21 +46,21 @@ const FreeTools = () => {
           id: 'degree-checker',
           name: 'Degree Level Checker',
           description: 'Map foreign degrees to Italian Laurea levels.',
-          icon: <GraduationCap size={24} color="var(--accent-color)" />,
+          icon: <GraduationCap size={24} color="#009246" />,
           path: '/tools/degree-checker'
         },
         {
           id: 'albo-check',
           name: 'Albo Check',
           description: 'Check if your profession is regulated in Italy.',
-          icon: <ShieldCheck size={24} color="var(--accent-color)" />,
+          icon: <ShieldCheck size={24} color="#CE2B37" />,
           path: '/tools/albo-check'
         },
         {
           id: 'university-requirements',
           name: 'University Requirements',
           description: 'Find entry requirements by country.',
-          icon: <FileText size={24} color="#F59E0B" />,
+          icon: <FileText size={24} color="#009246" />,
           path: '/tools/university-requirements'
         }
       ]
@@ -72,14 +72,14 @@ const FreeTools = () => {
           id: 'work-permit',
           name: 'Work Permit Wizard',
           description: 'Find the exact Italian residence permit you need.',
-          icon: <Briefcase size={24} color="var(--accent-color)" />,
+          icon: <Briefcase size={24} color="#009246" />,
           path: '/tools/work-permit'
         },
         {
           id: 'decreto-flussi',
           name: 'Decreto Flussi Checker',
           description: 'Check eligibility for Italian immigration quotas.',
-          icon: <PlaneTakeoff size={24} color="var(--accent-color)" />,
+          icon: <PlaneTakeoff size={24} color="#CE2B37" />,
           path: '/tools/decreto-flussi'
         }
       ]
@@ -91,14 +91,14 @@ const FreeTools = () => {
           id: 'university-rankings',
           name: 'University Rankings',
           description: 'Search global university rankings.',
-          icon: <Trophy size={24} color="#EAB308" />,
+          icon: <Trophy size={24} color="#009246" />,
           path: '/tools/university-rankings'
         },
         {
           id: 'cip-codes',
           name: 'CIP Codes Search',
           description: 'Search Classification of Instructional Programs.',
-          icon: <Settings size={24} color="#8B5CF6" />,
+          icon: <Settings size={24} color="#CE2B37" />,
           path: '/tools/cip-codes'
         }
       ]
@@ -140,7 +140,7 @@ const FreeTools = () => {
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = 'translateY(-4px)';
                     e.currentTarget.style.boxShadow = '0 12px 24px rgba(0,0,0,0.2)';
-                    e.currentTarget.style.borderColor = 'rgba(200, 241, 53, 0.3)';
+                    e.currentTarget.style.borderColor = idx % 2 === 0 ? 'rgba(0, 146, 70, 0.4)' : 'rgba(206, 43, 55, 0.4)';
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = 'translateY(0)';

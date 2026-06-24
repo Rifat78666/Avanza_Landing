@@ -1,23 +1,62 @@
-{
-  "Italy": {
-    "Bachelor (Laurea Triennale)": "High School Diploma with 12 years of schooling. If less than 12 years, foundation year or university credits required. Entrance exam (TOLC) often required.",
-    "Master (Laurea Magistrale)": "Bachelor's degree in a related field. Minimum GPA requirements vary. English or Italian language proficiency (B2).",
-    "Medicine (Laurea a Ciclo Unico)": "IMAT exam for English medical schools or Italian test for Italian schools. Highly competitive."
+[
+  {
+    "country": "Italy",
+    "qualificationOriginal": "Diploma di Superamento dell'Esame di Stato conclusivo dei Corsi di Istruzione Secondaria Superiore",
+    "qualificationEnglish": "Upper Secondary School Leaving Diploma",
+    "awardingBody": "Ministry of Education and Merit (MIM)",
+    "totalYears": "13 years (in some cases 12)",
+    "accessRequirements": "Grants access to higher education in Italy and internationally, subject to specific university requirements.",
+    "additionalNotes": "Must be obtained after a minimum of 12 years of global schooling for most international recognitions.",
+    "link": "https://www.miur.gov.it/"
   },
-  "Germany": {
-    "Bachelor": "Abitur equivalent. Foreign students may need Studienkolleg (preparatory course) if their diploma is not recognized. B2/C1 German usually required.",
-    "Master": "Bachelor's degree with specific ECTS in related subjects. Many English-taught programs available."
+  {
+    "country": "United States",
+    "qualificationOriginal": "High School Diploma",
+    "qualificationEnglish": "High School Diploma",
+    "awardingBody": "State Boards of Education / Local School Districts",
+    "totalYears": "12 years",
+    "accessRequirements": "For Italian universities, a US High School Diploma must typically be accompanied by 3 qualifying AP exams or 1 year of university-level study to meet the 12-year requirement with academic rigor.",
+    "additionalNotes": "The SAT/ACT may also be required depending on the institution.",
+    "link": "https://www.ed.gov/"
   },
-  "France": {
-    "Bachelor (Licence)": "Baccalauréat equivalent. B2 French usually required. Application via Études en France.",
-    "Master": "Licence or equivalent Bachelor's. Strong academic record."
+  {
+    "country": "India",
+    "qualificationOriginal": "Higher Secondary School Certificate (HSC) / Standard 12",
+    "qualificationEnglish": "Higher Secondary School Certificate",
+    "awardingBody": "CBSE, CISCE, or State Boards",
+    "totalYears": "12 years",
+    "accessRequirements": "Generally accepted for undergraduate admission globally. For Italy, it meets the minimum 12-year schooling requirement.",
+    "additionalNotes": "Specific subject requirements depend on the chosen university program.",
+    "link": "https://www.education.gov.in/"
   },
-  "United States": {
-    "Undergraduate": "High school diploma, SAT/ACT (often optional now), TOEFL/IELTS, personal statement.",
-    "Graduate": "Bachelor's degree, GRE/GMAT (sometimes optional), letters of recommendation, statement of purpose."
+  {
+    "country": "United Kingdom",
+    "qualificationOriginal": "General Certificate of Education Advanced Level (A-Levels)",
+    "qualificationEnglish": "A-Levels",
+    "awardingBody": "Various Examination Boards (e.g., Cambridge, Edexcel, AQA)",
+    "totalYears": "13 years",
+    "accessRequirements": "Requires a minimum of 3 A-Level passes in relevant subjects. For Italy, passing 3 A-levels is strictly required.",
+    "additionalNotes": "O-Levels / GCSEs alone are not sufficient for university entry.",
+    "link": "https://www.gov.uk/education"
   },
-  "United Kingdom": {
-    "Undergraduate": "A-Levels or equivalent (e.g., IB). Application via UCAS. IELTS/PTE required.",
-    "Postgraduate": "Upper second-class (2:1) honours degree. Strong references."
+  {
+    "country": "Germany",
+    "qualificationOriginal": "Zeugnis der Allgemeinen Hochschulreife (Abitur)",
+    "qualificationEnglish": "Certificate of General University Qualification",
+    "awardingBody": "Ministries of Education of the Federal States",
+    "totalYears": "12 to 13 years",
+    "accessRequirements": "Grants direct access to all subjects at all higher education institutions in Germany and across Europe.",
+    "additionalNotes": "Subject-specific Fachgebundene Hochschulreife only grants access to certain subjects.",
+    "link": "https://www.kmk.org/"
+  },
+  {
+    "country": "France",
+    "qualificationOriginal": "Baccalauréat (Général, Technologique, Professionnel)",
+    "qualificationEnglish": "Baccalaureate",
+    "awardingBody": "Ministry of National Education",
+    "totalYears": "12 years",
+    "accessRequirements": "Grants direct access to higher education in France. Recognized globally for university admission.",
+    "additionalNotes": "Certain selective programs (Classes Préparatoires) require specific Baccalauréat specializations and high grades.",
+    "link": "https://www.education.gouv.fr/"
   }
-}
+]

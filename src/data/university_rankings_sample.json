@@ -1,10 +1,94 @@
 [
-  { "rank": 1, "name": "Massachusetts Institute of Technology (MIT)", "country": "United States", "score": "100" },
-  { "rank": 2, "name": "University of Cambridge", "country": "United Kingdom", "score": "98.8" },
-  { "rank": 3, "name": "University of Oxford", "country": "United Kingdom", "score": "98.4" },
-  { "rank": 4, "name": "Harvard University", "country": "United States", "score": "98.3" },
-  { "rank": 5, "name": "Stanford University", "country": "United States", "score": "98.1" },
-  { "rank": 123, "name": "Politecnico di Milano", "country": "Italy", "score": "53.4" },
-  { "rank": 134, "name": "Sapienza University of Rome", "country": "Italy", "score": "51.1" },
-  { "rank": 154, "name": "Alma Mater Studiorum - University of Bologna", "country": "Italy", "score": "48.9" }
+  {
+    "rank": 1,
+    "name": "Massachusetts Institute of Technology (MIT)",
+    "country": "United States",
+    "score": "100.0",
+    "metrics": {
+      "research": "99.9",
+      "employability": "100.0",
+      "globalEngagement": "96.5"
+    },
+    "admission": {
+      "bachelor": {
+        "gpa": "3.9 - 4.0",
+        "tests": "SAT: 1520-1580 / ACT: 35-36",
+        "english": "TOEFL: 100+ / IELTS: 7.5+"
+      },
+      "master": {
+        "gpa": "3.8+ (varies by program)",
+        "tests": "GRE: Highly Recommended",
+        "english": "TOEFL: 100+ / IELTS: 7.5+"
+      }
+    }
+  },
+  {
+    "rank": 4,
+    "name": "University of Oxford",
+    "country": "United Kingdom",
+    "score": "98.9",
+    "metrics": {
+      "research": "100.0",
+      "employability": "99.0",
+      "globalEngagement": "98.5"
+    },
+    "admission": {
+      "bachelor": {
+        "gpa": "3.8 - 4.0 (A*A*A - AAA at A-Level)",
+        "tests": "Admissions Test Required (e.g. MAT, PAT)",
+        "english": "IELTS: 7.5+ / TOEFL: 110+"
+      },
+      "master": {
+        "gpa": "3.7+ (First Class or High Upper Second)",
+        "tests": "GRE: Required for some programs",
+        "english": "IELTS: 7.5+ / TOEFL: 110+"
+      }
+    }
+  },
+  {
+    "rank": 7,
+    "name": "ETH Zurich",
+    "country": "Switzerland",
+    "score": "93.3",
+    "metrics": {
+      "research": "98.0",
+      "employability": "95.5",
+      "globalEngagement": "99.0"
+    },
+    "admission": {
+      "bachelor": {
+        "gpa": "Equivalent to excellent Matura",
+        "tests": "Entrance Exam (if criteria not met)",
+        "english": "German C1 Required (Bachelor usually in German)"
+      },
+      "master": {
+        "gpa": "Excellent Bachelor's degree",
+        "tests": "GRE: Highly Recommended",
+        "english": "TOEFL: 100+ / IELTS: 7.0+"
+      }
+    }
+  },
+  {
+    "rank": 17,
+    "name": "Tsinghua University",
+    "country": "China",
+    "score": "87.1",
+    "metrics": {
+      "research": "94.5",
+      "employability": "96.0",
+      "globalEngagement": "85.0"
+    },
+    "admission": {
+      "bachelor": {
+        "gpa": "Outstanding High School Record",
+        "tests": "Gaokao (for domestic), SAT/ACT + APs (for Int'l)",
+        "english": "HSK 5+ (for Chinese programs) / IELTS 6.5+"
+      },
+      "master": {
+        "gpa": "3.5+",
+        "tests": "GRE/GMAT for specific programs",
+        "english": "TOEFL: 90+ / IELTS: 6.5+"
+      }
+    }
+  }
 ]
