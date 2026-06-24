@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import alboTables from '../../data/albo_profession_table.json';
-import { ShieldCheck, ArrowRight, FileText, Clock } from 'lucide-react';
+import { ShieldCheck, ArrowRight, FileText, Clock, ArrowLeft } from 'lucide-react';
 
 const AlboCheck = () => {
+  const navigate = useNavigate();
   const [profession, setProfession] = useState(Object.keys(alboTables)[0]);
   const [result, setResult] = useState(null);
 
@@ -11,8 +13,16 @@ const AlboCheck = () => {
   };
 
   return (
-    <div className="card" style={{ padding: '2rem', marginBottom: '2rem' }}>
-      <h2 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
+    <div className="container" style={{ maxWidth: '800px', margin: '0 auto', paddingTop: '2rem' }}>
+      <button 
+        onClick={() => navigate('/tools')} 
+        style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', marginBottom: '1.5rem', fontWeight: 'bold' }}
+      >
+        <ArrowLeft size={18} /> Back to Tools
+      </button>
+
+      <div className="card" style={{ padding: '2rem', marginBottom: '2rem' }}>
+        <h2 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
         <ShieldCheck size={24} color="var(--accent-color)" />
         Albo Check (Professional Orders)
       </h2>
@@ -90,6 +100,7 @@ const AlboCheck = () => {
           </div>
         </div>
       )}
+    </div>
     </div>
   );
 };

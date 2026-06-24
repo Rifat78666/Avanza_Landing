@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import gradeTables from '../../data/grade_conversion_tables.json';
-import { Calculator, ArrowRight } from 'lucide-react';
+import { Calculator, ArrowRight, ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const GradeConverter = () => {
+  const navigate = useNavigate();
   const [country, setCountry] = useState(Object.keys(gradeTables)[0]);
   const [systemId, setSystemId] = useState(gradeTables[Object.keys(gradeTables)[0]].systems[0].id);
   const [score, setScore] = useState('');
@@ -58,8 +60,16 @@ const GradeConverter = () => {
   };
 
   return (
-    <div className="card" style={{ padding: '2rem', marginBottom: '2rem' }}>
-      <h2 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
+    <div className="container" style={{ maxWidth: '800px', margin: '0 auto', paddingTop: '2rem' }}>
+      <button 
+        onClick={() => navigate('/tools')} 
+        style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', marginBottom: '1.5rem', fontWeight: 'bold' }}
+      >
+        <ArrowLeft size={18} /> Back to Tools
+      </button>
+
+      <div className="card" style={{ padding: '2rem', marginBottom: '2rem' }}>
+        <h2 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
         <Calculator size={24} color="var(--accent-color)" />
         Free Italian Grade Converter
       </h2>
@@ -140,6 +150,7 @@ const GradeConverter = () => {
           )}
         </div>
       )}
+      </div>
     </div>
   );
 };

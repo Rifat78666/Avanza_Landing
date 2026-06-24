@@ -1,0 +1,23 @@
+{
+  "Italy": {
+    "Bachelor (Laurea Triennale)": "High School Diploma with 12 years of schooling. If less than 12 years, foundation year or university credits required. Entrance exam (TOLC) often required.",
+    "Master (Laurea Magistrale)": "Bachelor's degree in a related field. Minimum GPA requirements vary. English or Italian language proficiency (B2).",
+    "Medicine (Laurea a Ciclo Unico)": "IMAT exam for English medical schools or Italian test for Italian schools. Highly competitive."
+  },
+  "Germany": {
+    "Bachelor": "Abitur equivalent. Foreign students may need Studienkolleg (preparatory course) if their diploma is not recognized. B2/C1 German usually required.",
+    "Master": "Bachelor's degree with specific ECTS in related subjects. Many English-taught programs available."
+  },
+  "France": {
+    "Bachelor (Licence)": "Baccalauréat equivalent. B2 French usually required. Application via Études en France.",
+    "Master": "Licence or equivalent Bachelor's. Strong academic record."
+  },
+  "United States": {
+    "Undergraduate": "High school diploma, SAT/ACT (often optional now), TOEFL/IELTS, personal statement.",
+    "Graduate": "Bachelor's degree, GRE/GMAT (sometimes optional), letters of recommendation, statement of purpose."
+  },
+  "United Kingdom": {
+    "Undergraduate": "A-Levels or equivalent (e.g., IB). Application via UCAS. IELTS/PTE required.",
+    "Postgraduate": "Upper second-class (2:1) honours degree. Strong references."
+  }
+}

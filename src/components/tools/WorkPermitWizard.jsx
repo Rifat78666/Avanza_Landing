@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import permitRules from '../../data/work_permit_rules.json';
-import { Briefcase, ArrowRight, CheckCircle2, Clock } from 'lucide-react';
+import { Briefcase, ArrowRight, CheckCircle2, Clock, ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const WorkPermitWizard = () => {
+  const navigate = useNavigate();
   const [nationality, setNationality] = useState(permitRules.nationalities[0]);
   const [residenceStatus, setResidenceStatus] = useState(permitRules.residence_status[0]);
   const [professionType, setProfessionType] = useState(permitRules.profession_types[0]);
@@ -29,8 +31,16 @@ const WorkPermitWizard = () => {
   };
 
   return (
-    <div className="card" style={{ padding: '2rem', marginBottom: '2rem' }}>
-      <h2 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
+    <div className="container" style={{ maxWidth: '800px', margin: '0 auto', paddingTop: '2rem' }}>
+      <button 
+        onClick={() => navigate('/tools')} 
+        style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', marginBottom: '1.5rem', fontWeight: 'bold' }}
+      >
+        <ArrowLeft size={18} /> Back to Tools
+      </button>
+
+      <div className="card" style={{ padding: '2rem', marginBottom: '2rem' }}>
+        <h2 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
         <Briefcase size={24} color="var(--accent-color)" />
         Italy Work Permit Wizard
       </h2>
@@ -105,6 +115,7 @@ const WorkPermitWizard = () => {
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 };

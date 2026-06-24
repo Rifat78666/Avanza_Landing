@@ -23,6 +23,18 @@ import CIMEAHub from './pages/CIMEAHub';
 import BookConsultation from './pages/BookConsultation';
 import About from './pages/About';
 import FreeTools from './pages/FreeTools';
+import GradeConverter from './components/tools/GradeConverter';
+import ECTSCalculator from './components/tools/ECTSCalculator';
+import DegreeLevelChecker from './components/tools/DegreeLevelChecker';
+import AlboCheck from './components/tools/AlboCheck';
+import DecretoFlussiChecker from './components/tools/DecretoFlussiChecker';
+import WorkPermitWizard from './components/tools/WorkPermitWizard';
+import USCreditsCalculator from './components/tools/USCreditsCalculator';
+import KSACreditsCalculator from './components/tools/KSACreditsCalculator';
+import UniversityRequirements from './components/tools/UniversityRequirements';
+import CIPCodes from './components/tools/CIPCodes';
+import UniversityRankings from './components/tools/UniversityRankings';
+
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
 import FAQ from './pages/FAQ';
@@ -445,6 +457,17 @@ function AppContent() {
           <Route path="/tools" element={
               <FreeTools />
           } />
+          <Route path="/tools/grade-converter" element={<GradeConverter />} />
+          <Route path="/tools/ects-calculator" element={<ECTSCalculator />} />
+          <Route path="/tools/degree-checker" element={<DegreeLevelChecker />} />
+          <Route path="/tools/albo-check" element={<AlboCheck />} />
+          <Route path="/tools/decreto-flussi" element={<DecretoFlussiChecker />} />
+          <Route path="/tools/work-permit" element={<WorkPermitWizard />} />
+          <Route path="/tools/us-credits" element={<USCreditsCalculator />} />
+          <Route path="/tools/ksa-credits" element={<KSACreditsCalculator />} />
+          <Route path="/tools/university-requirements" element={<UniversityRequirements />} />
+          <Route path="/tools/cip-codes" element={<CIPCodes />} />
+          <Route path="/tools/university-rankings" element={<UniversityRankings />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/faq" element={<FAQ />} />

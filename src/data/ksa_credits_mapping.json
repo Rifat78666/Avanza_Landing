@@ -1,0 +1,32 @@
+{
+  "credits_mapping": [
+    {
+      "source_country": "Generic (Any)",
+      "credit_type": "Standard Academic Credit",
+      "ratio": 1.5,
+      "formula": "credits * 1.5",
+      "notes": "Generally, 1 standard credit is approximately 1.5 KSA credits."
+    },
+    {
+      "source_country": "United States",
+      "credit_type": "Semester Hours",
+      "ratio": 1.0,
+      "formula": "credits * 1.0",
+      "notes": "US Semester Hours map almost 1:1 to KSA credit hours."
+    },
+    {
+      "source_country": "Europe",
+      "credit_type": "ECTS",
+      "ratio": 0.5,
+      "formula": "credits * 0.5",
+      "notes": "1 ECTS is typically considered 0.5 KSA credits."
+    },
+    {
+      "source_country": "United Kingdom",
+      "credit_type": "CATS",
+      "ratio": 0.25,
+      "formula": "credits * 0.25",
+      "notes": "1 UK CATS credit is roughly 0.25 KSA credits."
+    }
+  ]
+}

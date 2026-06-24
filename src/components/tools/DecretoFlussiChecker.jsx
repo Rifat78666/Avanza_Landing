@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import rulesData from '../../data/decreto_flussi_rules.json';
-import { PlaneTakeoff, ArrowRight, AlertTriangle } from 'lucide-react';
+import { PlaneTakeoff, ArrowRight, AlertTriangle, ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const DecretoFlussiChecker = () => {
+  const navigate = useNavigate();
   const [nationality, setNationality] = useState(rulesData.nationalities[0]);
   const [location, setLocation] = useState(rulesData.locations[0]);
   const [profession, setProfession] = useState(rulesData.professions[0]);
@@ -29,8 +31,16 @@ const DecretoFlussiChecker = () => {
   };
 
   return (
-    <div className="card" style={{ padding: '2rem', marginBottom: '2rem' }}>
-      <h2 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
+    <div className="container" style={{ maxWidth: '800px', margin: '0 auto', paddingTop: '2rem' }}>
+      <button 
+        onClick={() => navigate('/tools')} 
+        style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', marginBottom: '1.5rem', fontWeight: 'bold' }}
+      >
+        <ArrowLeft size={18} /> Back to Tools
+      </button>
+
+      <div className="card" style={{ padding: '2rem', marginBottom: '2rem' }}>
+        <h2 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
         <PlaneTakeoff size={24} color="var(--accent-color)" />
         Decreto Flussi Eligibility Checker
       </h2>
@@ -100,6 +110,7 @@ const DecretoFlussiChecker = () => {
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 };

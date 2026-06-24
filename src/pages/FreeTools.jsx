@@ -1,155 +1,184 @@
-import React, { useState } from 'react';
-import GradeConverter from '../components/tools/GradeConverter';
-import AlboCheck from '../components/tools/AlboCheck';
-import ECTSCalculator from '../components/tools/ECTSCalculator';
-import DegreeLevelChecker from '../components/tools/DegreeLevelChecker';
-import DecretoFlussiChecker from '../components/tools/DecretoFlussiChecker';
-import WorkPermitWizard from '../components/tools/WorkPermitWizard';
-import { Wrench, ArrowLeft } from 'lucide-react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Calculator, BookOpen, GraduationCap, ShieldCheck, PlaneTakeoff, Briefcase, Trophy, Globe, FileText, Settings, Star } from 'lucide-react';
 
 const FreeTools = () => {
-  const [activeTab, setActiveTab] = useState('grade');
   const navigate = useNavigate();
 
+  const tools = [
+    {
+      category: "Conversions & Calculations",
+      items: [
+        {
+          id: 'grade-converter',
+          name: 'Grade Converter',
+          description: 'Convert foreign grades to Italian 30/30 & US 4.0.',
+          icon: <Calculator size={24} color="var(--accent-color)" />,
+          path: '/tools/grade-converter'
+        },
+        {
+          id: 'ects-calculator',
+          name: 'ECTS Calculator',
+          description: 'Convert international credits to European ECTS.',
+          icon: <BookOpen size={24} color="var(--accent-color)" />,
+          path: '/tools/ects-calculator'
+        },
+        {
+          id: 'us-credits',
+          name: 'U.S. Credits Calculator',
+          description: 'Convert foreign credits to U.S. Semester Hours.',
+          icon: <Calculator size={24} color="#60A5FA" />,
+          path: '/tools/us-credits'
+        },
+        {
+          id: 'ksa-credits',
+          name: 'KSA Credits Calculator',
+          description: 'Convert credits to Saudi Arabian standards.',
+          icon: <Globe size={24} color="#10B981" />,
+          path: '/tools/ksa-credits'
+        }
+      ]
+    },
+    {
+      category: "Degree & Recognition Verification",
+      items: [
+        {
+          id: 'degree-checker',
+          name: 'Degree Level Checker',
+          description: 'Map foreign degrees to Italian Laurea levels.',
+          icon: <GraduationCap size={24} color="var(--accent-color)" />,
+          path: '/tools/degree-checker'
+        },
+        {
+          id: 'albo-check',
+          name: 'Albo Check',
+          description: 'Check if your profession is regulated in Italy.',
+          icon: <ShieldCheck size={24} color="var(--accent-color)" />,
+          path: '/tools/albo-check'
+        },
+        {
+          id: 'university-requirements',
+          name: 'University Requirements',
+          description: 'Find entry requirements by country.',
+          icon: <FileText size={24} color="#F59E0B" />,
+          path: '/tools/university-requirements'
+        }
+      ]
+    },
+    {
+      category: "Immigration & Visas",
+      items: [
+        {
+          id: 'work-permit',
+          name: 'Work Permit Wizard',
+          description: 'Find the exact Italian residence permit you need.',
+          icon: <Briefcase size={24} color="var(--accent-color)" />,
+          path: '/tools/work-permit'
+        },
+        {
+          id: 'decreto-flussi',
+          name: 'Decreto Flussi Checker',
+          description: 'Check eligibility for Italian immigration quotas.',
+          icon: <PlaneTakeoff size={24} color="var(--accent-color)" />,
+          path: '/tools/decreto-flussi'
+        }
+      ]
+    },
+    {
+      category: "Databases & Search",
+      items: [
+        {
+          id: 'university-rankings',
+          name: 'University Rankings',
+          description: 'Search global university rankings.',
+          icon: <Trophy size={24} color="#EAB308" />,
+          path: '/tools/university-rankings'
+        },
+        {
+          id: 'cip-codes',
+          name: 'CIP Codes Search',
+          description: 'Search Classification of Instructional Programs.',
+          icon: <Settings size={24} color="#8B5CF6" />,
+          path: '/tools/cip-codes'
+        }
+      ]
+    }
+  ];
+
   return (
-    <div className="container" style={{ padding: '2rem 1rem', maxWidth: '800px', margin: '0 auto', minHeight: '80vh' }}>
-      {/* Optional SEO Helmet tags, assuming react-helmet is or will be added. 
-          If not, these can be safely ignored or removed later. */}
-      {/* <Helmet>
-        <title>Free Tools for Immigrants in Italy | AVANZA</title>
-        <meta name="description" content="Calculate your Italian grade equivalent and find out which Albo (Professional Order) you need to join in Italy for free." />
-      </Helmet> */}
-
-      <button 
-        onClick={() => navigate('/')} 
-        style={{ 
-          display: 'flex', alignItems: 'center', gap: '0.5rem', 
-          background: 'transparent', border: 'none', color: 'var(--text-secondary)', 
-          cursor: 'pointer', marginBottom: '1.5rem', padding: 0 
-        }}
-      >
-        <ArrowLeft size={18} /> Back to Home
-      </button>
-
-      <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-        <h1 style={{ fontSize: '2.5rem', fontWeight: '800', marginBottom: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem' }}>
-          <Wrench color="var(--accent-color)" size={36} />
-          Free Tools
-        </h1>
-        <p style={{ fontSize: '1.1rem', color: 'var(--text-secondary)', maxWidth: '600px', margin: '0 auto' }}>
-          Instantly evaluate your foreign credentials and find the right professional pathway in Italy. No signup required.
+    <div className="container" style={{ padding: '4rem 1.5rem', maxWidth: '1200px', margin: '0 auto' }}>
+      <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+        <h1 style={{ fontSize: '3rem', marginBottom: '1rem' }}>Free Immigration & Recognition Tools</h1>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '1.2rem', maxWidth: '600px', margin: '0 auto' }}>
+          Explore our suite of tools designed to help you navigate credential evaluation, university admissions, and immigration pathways.
         </p>
       </div>
 
-      <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem', borderBottom: '1px solid var(--border-color)', overflowX: 'auto', paddingBottom: '0.5rem' }}>
-        <button 
-          onClick={() => setActiveTab('grade')}
-          style={{ 
-            padding: '0.75rem 1.5rem', 
-            background: 'transparent', 
-            border: 'none', 
-            borderBottom: activeTab === 'grade' ? '3px solid var(--accent-color)' : '3px solid transparent',
-            color: activeTab === 'grade' ? 'var(--text-primary)' : 'var(--text-secondary)',
-            fontWeight: activeTab === 'grade' ? 'bold' : 'normal',
-            cursor: 'pointer',
-            fontSize: '1.05rem',
-            whiteSpace: 'nowrap'
-          }}
-        >
-          Grade Converter
-        </button>
-        <button 
-          onClick={() => setActiveTab('ects')}
-          style={{ 
-            padding: '0.75rem 1.5rem', 
-            background: 'transparent', 
-            border: 'none', 
-            borderBottom: activeTab === 'ects' ? '3px solid var(--accent-color)' : '3px solid transparent',
-            color: activeTab === 'ects' ? 'var(--text-primary)' : 'var(--text-secondary)',
-            fontWeight: activeTab === 'ects' ? 'bold' : 'normal',
-            cursor: 'pointer',
-            fontSize: '1.05rem',
-            whiteSpace: 'nowrap'
-          }}
-        >
-          ECTS Calculator
-        </button>
-        <button 
-          onClick={() => setActiveTab('degree')}
-          style={{ 
-            padding: '0.75rem 1.5rem', 
-            background: 'transparent', 
-            border: 'none', 
-            borderBottom: activeTab === 'degree' ? '3px solid var(--accent-color)' : '3px solid transparent',
-            color: activeTab === 'degree' ? 'var(--text-primary)' : 'var(--text-secondary)',
-            fontWeight: activeTab === 'degree' ? 'bold' : 'normal',
-            cursor: 'pointer',
-            fontSize: '1.05rem',
-            whiteSpace: 'nowrap'
-          }}
-        >
-          Degree Equivalency
-        </button>
-        <button 
-          onClick={() => setActiveTab('albo')}
-          style={{ 
-            padding: '0.75rem 1.5rem', 
-            background: 'transparent', 
-            border: 'none', 
-            borderBottom: activeTab === 'albo' ? '3px solid var(--accent-color)' : '3px solid transparent',
-            color: activeTab === 'albo' ? 'var(--text-primary)' : 'var(--text-secondary)',
-            fontWeight: activeTab === 'albo' ? 'bold' : 'normal',
-            cursor: 'pointer',
-            fontSize: '1.05rem',
-            whiteSpace: 'nowrap'
-          }}
-        >
-          Albo (Order) Check
-        </button>
-        <button 
-          onClick={() => setActiveTab('flussi')}
-          style={{ 
-            padding: '0.75rem 1.5rem', 
-            background: 'transparent', 
-            border: 'none', 
-            borderBottom: activeTab === 'flussi' ? '3px solid var(--accent-color)' : '3px solid transparent',
-            color: activeTab === 'flussi' ? 'var(--text-primary)' : 'var(--text-secondary)',
-            fontWeight: activeTab === 'flussi' ? 'bold' : 'normal',
-            cursor: 'pointer',
-            fontSize: '1.05rem',
-            whiteSpace: 'nowrap'
-          }}
-        >
-          Decreto Flussi Check
-        </button>
-        <button 
-          onClick={() => setActiveTab('permit')}
-          style={{ 
-            padding: '0.75rem 1.5rem', 
-            background: 'transparent', 
-            border: 'none', 
-            borderBottom: activeTab === 'permit' ? '3px solid var(--accent-color)' : '3px solid transparent',
-            color: activeTab === 'permit' ? 'var(--text-primary)' : 'var(--text-secondary)',
-            fontWeight: activeTab === 'permit' ? 'bold' : 'normal',
-            cursor: 'pointer',
-            fontSize: '1.05rem',
-            whiteSpace: 'nowrap'
-          }}
-        >
-          Work Permit Wizard
-        </button>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '4rem' }}>
+        {tools.map((section, idx) => (
+          <div key={idx}>
+            <h2 style={{ fontSize: '1.5rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem', marginBottom: '1.5rem' }}>
+              {section.category}
+            </h2>
+            <div style={{ 
+              display: 'grid', 
+              gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', 
+              gap: '1.5rem' 
+            }}>
+              {section.items.map((tool) => (
+                <div 
+                  key={tool.id} 
+                  className="card" 
+                  style={{ 
+                    display: 'flex', 
+                    flexDirection: 'column', 
+                    height: '100%', 
+                    padding: '1.5rem',
+                    transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                    cursor: 'pointer'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-4px)';
+                    e.currentTarget.style.boxShadow = '0 12px 24px rgba(0,0,0,0.2)';
+                    e.currentTarget.style.borderColor = 'rgba(200, 241, 53, 0.3)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = 'none';
+                    e.currentTarget.style.borderColor = 'var(--border-color)';
+                  }}
+                  onClick={() => navigate(tool.path)}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
+                    <div style={{ 
+                      padding: '0.75rem', 
+                      backgroundColor: 'rgba(255,255,255,0.03)', 
+                      borderRadius: '12px',
+                      border: '1px solid rgba(255,255,255,0.05)'
+                    }}>
+                      {tool.icon}
+                    </div>
+                    <h3 style={{ fontSize: '1.1rem', margin: 0 }}>{tool.name}</h3>
+                  </div>
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', flexGrow: 1, marginBottom: '1.5rem', lineHeight: '1.5' }}>
+                    {tool.description}
+                  </p>
+                  <button 
+                    className="btn-outline" 
+                    style={{ width: '100%', justifyContent: 'center' }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(tool.path);
+                    }}
+                  >
+                    Use Tool
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
-
-      <div className="tab-content" style={{ animation: 'fadeIn 0.3s ease-in-out' }}>
-        {activeTab === 'grade' && <GradeConverter />}
-        {activeTab === 'ects' && <ECTSCalculator />}
-        {activeTab === 'degree' && <DegreeLevelChecker />}
-        {activeTab === 'albo' && <AlboCheck />}
-        {activeTab === 'flussi' && <DecretoFlussiChecker />}
-        {activeTab === 'permit' && <WorkPermitWizard />}
-      </div>
-
     </div>
   );
 };

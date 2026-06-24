@@ -1,0 +1,10 @@
+[
+  { "rank": 1, "name": "Massachusetts Institute of Technology (MIT)", "country": "United States", "score": "100" },
+  { "rank": 2, "name": "University of Cambridge", "country": "United Kingdom", "score": "98.8" },
+  { "rank": 3, "name": "University of Oxford", "country": "United Kingdom", "score": "98.4" },
+  { "rank": 4, "name": "Harvard University", "country": "United States", "score": "98.3" },
+  { "rank": 5, "name": "Stanford University", "country": "United States", "score": "98.1" },
+  { "rank": 123, "name": "Politecnico di Milano", "country": "Italy", "score": "53.4" },
+  { "rank": 134, "name": "Sapienza University of Rome", "country": "Italy", "score": "51.1" },
+  { "rank": 154, "name": "Alma Mater Studiorum - University of Bologna", "country": "Italy", "score": "48.9" }
+]

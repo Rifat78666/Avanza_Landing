@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { BookOpen, ArrowRight } from 'lucide-react';
+import { BookOpen, ArrowRight, ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const ECTSCalculator = () => {
+  const navigate = useNavigate();
   const [country, setCountry] = useState('Generic');
   const [degreeLevel, setDegreeLevel] = useState('Bachelor');
   const [totalCredits, setTotalCredits] = useState('');
@@ -45,8 +47,16 @@ const ECTSCalculator = () => {
   };
 
   return (
-    <div className="card" style={{ padding: '2rem', marginBottom: '2rem' }}>
-      <h2 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
+    <div className="container" style={{ maxWidth: '800px', margin: '0 auto', paddingTop: '2rem' }}>
+      <button 
+        onClick={() => navigate('/tools')} 
+        style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', marginBottom: '1.5rem', fontWeight: 'bold' }}
+      >
+        <ArrowLeft size={18} /> Back to Tools
+      </button>
+
+      <div className="card" style={{ padding: '2rem', marginBottom: '2rem' }}>
+        <h2 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
         <BookOpen size={24} color="var(--accent-color)" />
         Free ECTS Credit Converter
       </h2>
@@ -134,6 +144,7 @@ const ECTSCalculator = () => {
           )}
         </div>
       )}
+      </div>
     </div>
   );
 };

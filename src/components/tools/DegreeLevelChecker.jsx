@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import degreeMapping from '../../data/degree_name_mapping.json';
-import { GraduationCap, ArrowRight, CheckCircle2, Clock } from 'lucide-react';
+import { GraduationCap, ArrowRight, CheckCircle2, Clock, ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const DegreeLevelChecker = () => {
+  const navigate = useNavigate();
   const [country, setCountry] = useState(Object.keys(degreeMapping)[0]);
   const [degree, setDegree] = useState(Object.keys(degreeMapping[Object.keys(degreeMapping)[0]].degrees)[0]);
   const [result, setResult] = useState(null);
@@ -19,8 +21,16 @@ const DegreeLevelChecker = () => {
   };
 
   return (
-    <div className="card" style={{ padding: '2rem', marginBottom: '2rem' }}>
-      <h2 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
+    <div className="container" style={{ maxWidth: '800px', margin: '0 auto', paddingTop: '2rem' }}>
+      <button 
+        onClick={() => navigate('/tools')} 
+        style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', marginBottom: '1.5rem', fontWeight: 'bold' }}
+      >
+        <ArrowLeft size={18} /> Back to Tools
+      </button>
+
+      <div className="card" style={{ padding: '2rem', marginBottom: '2rem' }}>
+        <h2 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
         <GraduationCap size={24} color="var(--accent-color)" />
         Italian Degree Level Checker
       </h2>
@@ -110,6 +120,7 @@ const DegreeLevelChecker = () => {
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 };
