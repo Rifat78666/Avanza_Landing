@@ -36,6 +36,22 @@ const FreeTools = () => {
           description: 'Convert credits to Saudi Arabian standards.',
           icon: <Globe size={24} color="#CE2B37" />,
           path: '/tools/ksa-credits'
+        },
+        {
+          id: 'credential-report',
+          name: 'Course by Course Evaluation',
+          description: 'A complete course-by-course evaluation — verification, credit and grade conversion, framework mapping, and GPA — delivered as one official PDF report.',
+          price: '€10',
+          features: [
+            'Institution Verification',
+            'Credit Points Conversion',
+            'Qualification Framework Mapping',
+            'Grade Scale Conversion',
+            'GPA Evaluation',
+            'Official PDF Report'
+          ],
+          icon: <FileText size={24} color="#009246" />,
+          path: '/tools/course-evaluation'
         }
       ]
     },
@@ -62,22 +78,6 @@ const FreeTools = () => {
           description: 'Find entry requirements by country.',
           icon: <FileText size={24} color="#009246" />,
           path: '/tools/university-requirements'
-        },
-        {
-          id: 'credential-report',
-          name: 'Course by Course Evaluation',
-          description: 'A complete course-by-course evaluation — verification, credit and grade conversion, framework mapping, and GPA — delivered as one official PDF report.',
-          price: '€10',
-          features: [
-            'Institution Verification',
-            'Credit Points Conversion',
-            'Qualification Framework Mapping',
-            'Grade Scale Conversion',
-            'GPA Evaluation',
-            'Official PDF Report'
-          ],
-          icon: <FileText size={24} color="#CE2B37" />,
-          path: '/tools/course-evaluation'
         }
       ]
     },
