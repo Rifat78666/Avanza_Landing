@@ -318,7 +318,12 @@ const GradeConverter = () => {
                 <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem', maxWidth: '500px', margin: '0 auto 2rem auto' }}>
                   Get personalized guidance on your university applications and visa process — €0 extra, included with your report unlock.
                 </p>
-                <button style={{ padding: '1rem 2rem', background: '#009246', color: 'white', border: 'none', borderRadius: '8px', fontSize: '1.2rem', fontWeight: 'bold', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
+                <button 
+                  onClick={() => window.open('https://calendly.com/', '_blank')}
+                  style={{ padding: '1rem 2rem', background: '#009246', color: 'white', border: 'none', borderRadius: '8px', fontSize: '1.2rem', fontWeight: 'bold', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', transition: 'transform 0.1s' }}
+                  onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
+                  onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                >
                   <Calendar size={20} /> Schedule via Calendly
                 </button>
               </div>
