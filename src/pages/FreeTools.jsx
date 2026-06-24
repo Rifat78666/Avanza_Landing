@@ -137,11 +137,11 @@ const FreeTools = () => {
           <p style={{ fontSize: '1.2rem', marginBottom: '2rem' }}>Explore our suite of tools designed to help you navigate credential evaluation, university admissions, and immigration pathways.</p>
           <button 
             onClick={() => navigate('/tools/grade-converter')}
-            style={{ padding: '0.8rem 2.5rem', background: '#ffffff', color: '#009246', border: 'none', borderRadius: '30px', fontSize: '1.1rem', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 4px 14px rgba(0,0,0,0.2)', transition: 'transform 0.2s' }}
+            style={{ padding: '0.8rem 2.5rem', background: '#ffffff', border: 'none', borderRadius: '30px', cursor: 'pointer', boxShadow: '0 4px 14px rgba(0,0,0,0.2)', transition: 'transform 0.2s' }}
             onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
             onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
           >
-            Start Now
+            <span className="s-shimmer" style={{ fontSize: '1.2rem', lineHeight: '1', display: 'inline-block', padding: '0.1rem 0', letterSpacing: 'normal' }}>Start Now</span>
           </button>
         </div>
       </div>
