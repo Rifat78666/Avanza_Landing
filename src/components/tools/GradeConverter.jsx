@@ -205,9 +205,9 @@ const GradeConverter = () => {
       )}
 
       {step === 5 && equivalents && (
-        <div style={{ animation: 'fadeIn 0.5s ease' }}>
+        <div style={{ animation: 'fadeIn 0.5s ease', position: 'relative' }}>
           
-          <div className="card" style={{ padding: '2rem', marginBottom: '2rem', borderTop: '4px solid #009246', textAlign: 'center' }}>
+          <div className="card" style={{ padding: '2rem', marginBottom: '2rem', borderTop: '4px solid #009246', textAlign: 'center', filter: isUnlocked ? 'none' : 'blur(5px)', opacity: isUnlocked ? 1 : 0.6, pointerEvents: isUnlocked ? 'auto' : 'none' }}>
             <h2 style={{ marginBottom: '1rem' }}>Your {targetCountry} Grade Equivalent</h2>
             <div style={{ fontSize: '3.5rem', fontWeight: '900', color: '#009246', marginBottom: '0.5rem' }}>
               {equivalents[targetCountry]}
@@ -224,8 +224,8 @@ const GradeConverter = () => {
               Based on your equivalent grade, you qualify for admission at <strong>{matchedUnis.length}</strong> universities in {targetCountry}.
             </p>
             
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', position: 'relative' }}>
-              {matchedUnis.slice(0, isUnlocked ? matchedUnis.length : 2).map((uni, idx) => (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              {isUnlocked && matchedUnis.map((uni, idx) => (
                 <div key={idx} className="card" style={{ padding: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div>
                     <h4 style={{ fontSize: '1.2rem', marginBottom: '0.25rem' }}>{uni.name}</h4>
@@ -239,40 +239,45 @@ const GradeConverter = () => {
                 </div>
               ))}
 
-              {!isUnlocked && matchedUnis.length > 2 && (
+              {!isUnlocked && (
                 <>
-                  <div className="card" style={{ padding: '1.5rem', filter: 'blur(4px)', opacity: 0.7 }}>
+                  <div className="card" style={{ padding: '1.5rem', filter: 'blur(5px)', opacity: 0.5 }}>
                     <h4 style={{ fontSize: '1.2rem', marginBottom: '0.25rem' }}>University of Milan (Example)</h4>
                     <div style={{ display: 'flex', gap: '1rem', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
                       <span>Level: Master</span>
                     </div>
                   </div>
-                  <div className="card" style={{ padding: '1.5rem', filter: 'blur(4px)', opacity: 0.5 }}>
+                  <div className="card" style={{ padding: '1.5rem', filter: 'blur(5px)', opacity: 0.3 }}>
                     <h4 style={{ fontSize: '1.2rem', marginBottom: '0.25rem' }}>Politecnico di Torino (Example)</h4>
                     <div style={{ display: 'flex', gap: '1rem', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
                       <span>Level: Both</span>
-                    </div>
-                  </div>
-
-                  <div style={{ position: 'absolute', bottom: '0', left: '0', right: '0', height: '180px', background: 'linear-gradient(transparent, var(--bg-color))', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', paddingBottom: '1rem' }}>
-                    <div style={{ background: 'var(--surface-color)', padding: '1.5rem', borderRadius: '12px', border: '1px solid #CE2B37', textAlign: 'center', boxShadow: '0 10px 30px rgba(0,0,0,0.5)', maxWidth: '500px', width: '100%' }}>
-                      <Lock size={32} color="#CE2B37" style={{ marginBottom: '0.5rem' }} />
-                      <h3 style={{ marginBottom: '0.5rem' }}>Unlock Your Full Report</h3>
-                      <p style={{ color: 'var(--text-secondary)', marginBottom: '1rem', fontSize: '0.9rem' }}>
-                        See all {matchedUnis.length} matching universities, view all country conversions, and unlock 1:1 consultation booking with our founders.
-                      </p>
-                      <button 
-                        onClick={handleMockPayment}
-                        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', width: '100%', padding: '1rem', background: '#009246', color: 'white', border: 'none', borderRadius: '8px', fontSize: '1.1rem', fontWeight: 'bold', cursor: 'pointer' }}
-                      >
-                        <Euro size={20} /> Pay €4.99 to Unlock
-                      </button>
                     </div>
                   </div>
                 </>
               )}
             </div>
           </div>
+
+          {!isUnlocked && (
+            <div style={{ position: 'absolute', top: '0', bottom: '0', left: '0', right: '0', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', zIndex: 10 }}>
+              <div style={{ background: 'var(--surface-color)', padding: '2rem', borderRadius: '12px', border: '2px solid #CE2B37', textAlign: 'center', boxShadow: '0 20px 40px rgba(0,0,0,0.6)', maxWidth: '500px', width: '90%' }}>
+                <Lock size={40} color="#CE2B37" style={{ marginBottom: '1rem' }} />
+                <h3 style={{ marginBottom: '1rem', fontSize: '1.8rem' }}>Unlock Your Full Report</h3>
+                <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem', fontSize: '1.1rem', lineHeight: '1.5' }}>
+                  See your exact {targetCountry} grade equivalent, unlock all {matchedUnis.length} matching universities, and get a 1:1 consultation with our founders.
+                </p>
+                <button 
+                  onClick={handleMockPayment}
+                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', width: '100%', padding: '1.2rem', background: '#009246', color: 'white', border: 'none', borderRadius: '8px', fontSize: '1.2rem', fontWeight: 'bold', cursor: 'pointer', transition: 'transform 0.1s ease' }}
+                  onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
+                  onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                >
+                  <Euro size={22} /> Pay €4.99 to Unlock
+                </button>
+              </div>
+            </div>
+          )}
+
 
           {isUnlocked && (
             <div style={{ marginTop: '4rem', animation: 'fadeIn 0.5s ease', borderTop: '1px solid var(--border-color)', paddingTop: '3rem' }}>
