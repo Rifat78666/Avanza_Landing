@@ -12,6 +12,8 @@
   "dependencies": {
     "@stytch/react": "^20.0.5",
     "@stytch/vanilla-js": "^6.0.5",
+    "jspdf": "^4.2.1",
+    "jspdf-autotable": "^5.0.8",
     "lucide-react": "^1.7.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
