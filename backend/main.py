@@ -12,6 +12,7 @@ from dotenv import load_dotenv
 from fpdf import FPDF
 from io import BytesIO
 from openai import AsyncOpenAI
+import stripe
 from validation_engine import generate_validation_roadmap, get_bridge_courses
 
 load_dotenv()
@@ -56,6 +57,15 @@ stytch_client = stytch.Client(
     project_id=STYTCH_PROJECT_ID,
     secret=STYTCH_SECRET,
 )
+
+# Stripe API
+stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
+
+class ConversionSession(BaseModel):
+    source_country: str
+    grading_system: str
+    grade: float
+    target_country: str = "All Europe"
 
 # Supabase REST helper headers
 SUPABASE_HEADERS = {
@@ -557,6 +567,48 @@ def _generate_free_dossier_pdf(user_id: str, first_name: str, profile: dict, roa
 @app.get("/")
 def health_check():
     return {"status": "Avanza API is running. Fast and Secure."}
+
+@app.post("/api/create-checkout-session")
+async def create_checkout(session_data: ConversionSession):
+    try:
+        # Log to Supabase analytics (Non-blocking)
+        try:
+            # We can use the existing supabase_upsert helper
+            await supabase_upsert("conversion_events", {
+                "source_country": session_data.source_country,
+                "grading_system": session_data.grading_system,
+                "original_grade": session_data.grade,
+                "target_country": session_data.target_country
+            })
+        except Exception as db_err:
+            print(f"Warning: Failed to log conversion event: {db_err}")
+
+        # Create a Stripe Checkout Session
+        session = stripe.checkout.Session.create(
+            payment_method_types=["card"],
+            line_items=[{
+                "price_data": {
+                    "currency": "eur",
+                    "product_data": {
+                        "name": "AVANZA Grade Converter — Full Report",
+                        "description": f"Grade conversion + university list for {session_data.source_country} → Europe"
+                    },
+                    "unit_amount": 499,  # €4.99 in cents
+                },
+                "quantity": 1,
+            }],
+            mode="payment",
+            success_url=f"https://avanza-landing.vercel.app/tools/grade-converter?session_id={{CHECKOUT_SESSION_ID}}&unlocked=true",
+            cancel_url=f"https://avanza-landing.vercel.app/tools/grade-converter?cancelled=true",
+            metadata={
+                "source_country": session_data.source_country,
+                "grade": str(session_data.grade),
+                "grading_system": session_data.grading_system,
+            }
+        )
+        return {"url": session.url}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.get("/api/user/profile")

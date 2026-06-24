@@ -7,3 +7,4 @@ httpx
 stytch
 fpdf2
 openai
+stripe
