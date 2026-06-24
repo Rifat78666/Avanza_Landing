@@ -31,7 +31,30 @@ const DecretoFlussiChecker = () => {
   };
 
   return (
-    <div className="container" style={{ maxWidth: '800px', margin: '0 auto', paddingTop: '2rem' }}>
+        <>
+      <div style={{
+        width: '100%',
+        position: 'relative',
+        backgroundImage: 'url("https://images.unsplash.com/photo-1530521954074-e64f6810b32d?auto=format&fit=crop&w=1920&q=80")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        padding: '5rem 1rem',
+        textAlign: 'center',
+        color: 'white',
+        borderBottom: '4px solid #009246'
+      }}>
+        <div style={{
+          position: 'absolute',
+          top: 0, left: 0, right: 0, bottom: 0,
+          backgroundColor: 'rgba(0, 40, 20, 0.7)',
+          zIndex: 1
+        }}></div>
+        <div style={{ position: 'relative', zIndex: 2, maxWidth: '800px', margin: '0 auto' }}>
+          <h1 style={{ fontSize: '3rem', marginBottom: '1rem', fontWeight: 'bold' }}>Decreto Flussi Checker</h1>
+          <p style={{ fontSize: '1.2rem', marginBottom: '2rem' }}>Check eligibility for Italian immigration quotas.</p>
+        </div>
+      </div>
+<div className="container" style={{ maxWidth: '800px', margin: '0 auto', paddingTop: '2rem' }}>
       <button 
         onClick={() => navigate('/tools')} 
         style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', marginBottom: '1.5rem', fontWeight: 'bold' }}
@@ -112,6 +135,7 @@ const DecretoFlussiChecker = () => {
       )}
       </div>
     </div>
+      </>
   );
 };
 
