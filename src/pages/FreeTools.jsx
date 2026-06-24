@@ -66,7 +66,7 @@ const FreeTools = () => {
         {
           id: 'credential-report',
           name: 'Course by Course Evaluation',
-          description: 'Detailed course by course evaluation of your qualification.',
+          description: 'A complete course-by-course evaluation — verification, credit and grade conversion, framework mapping, and GPA — delivered as one official PDF report.',
           price: '€10',
           features: [
             'Institution Verification',
@@ -196,7 +196,7 @@ const FreeTools = () => {
                       }}
                       onClick={() => navigate(tool.path)}
                     >
-                      <h3 style={{ fontSize: '1.5rem', margin: '0 0 1rem 0' }}>{tool.name}</h3>
+                      <h3 style={{ fontSize: '1.5rem', margin: '0 0 1rem 0', color: '#0052FF' }}>{tool.name}</h3>
                       <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', flexGrow: 1, marginBottom: '2rem', lineHeight: '1.5' }}>
                         {tool.description}
                       </p>
