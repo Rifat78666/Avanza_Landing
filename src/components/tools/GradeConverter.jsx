@@ -319,7 +319,7 @@ const GradeConverter = () => {
                   <h3 style={{ marginBottom: '0.5rem' }}>Pallab Mondal</h3>
                   <p style={{ color: '#009246', fontWeight: 'bold', marginBottom: '0.5rem' }}>Co-founder, Country Manager</p>
                   <div style={{ marginBottom: '1rem', display: 'flex', justifyContent: 'center' }}>
-                    <img src="/university_logos.png" alt="University of Milan, Bicocca, Pavia" style={{ height: '45px', width: 'auto', objectFit: 'contain', mixBlendMode: 'multiply' }} onError={(e) => e.target.style.display = 'none'} />
+                    <img src="/university_logos.png" alt="University of Milan, Bicocca, Pavia" style={{ width: '100%', maxWidth: '690px', height: 'auto', aspectRatio: '690 / 170', objectFit: 'contain', mixBlendMode: 'multiply' }} onError={(e) => e.target.style.display = 'none'} />
                   </div>
                   <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '0.5rem', lineHeight: '1.4' }}>
                     Master's in Artificial Intelligence for Science and Technology (Joint Programme)
@@ -332,7 +332,7 @@ const GradeConverter = () => {
                   <h3 style={{ marginBottom: '0.5rem' }}>Md Rifatul Haque</h3>
                   <p style={{ color: '#CE2B37', fontWeight: 'bold', marginBottom: '0.5rem' }}>Co-founder, System & AI</p>
                   <div style={{ marginBottom: '1rem', display: 'flex', justifyContent: 'center' }}>
-                    <img src="/university_logos.png" alt="University of Milan, Bicocca, Pavia" style={{ height: '45px', width: 'auto', objectFit: 'contain', mixBlendMode: 'multiply' }} onError={(e) => e.target.style.display = 'none'} />
+                    <img src="/university_logos.png" alt="University of Milan, Bicocca, Pavia" style={{ width: '100%', maxWidth: '690px', height: 'auto', aspectRatio: '690 / 170', objectFit: 'contain', mixBlendMode: 'multiply' }} onError={(e) => e.target.style.display = 'none'} />
                   </div>
                   <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '0.5rem', lineHeight: '1.4' }}>
                     Master's in Artificial Intelligence for Science and Technology (Joint Programme)
