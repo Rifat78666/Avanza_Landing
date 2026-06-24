@@ -75,7 +75,7 @@ const GradeConverter = () => {
       Netherlands: `${netherlands}/10`, 
       France: `${france}/20`, 
       Spain: `${spain}/10`,
-      numeric: { italy, germany: german, hungary }
+      numeric: { italy, germany: german, hungary, netherlands, france, spain }
     };
   };
 
@@ -85,7 +85,10 @@ const GradeConverter = () => {
     if (targetCountry === 'Italy') return u.min_italian_equivalent !== null && equivalents.numeric.italy >= u.min_italian_equivalent;
     if (targetCountry === 'Germany') return u.min_german_equivalent !== null && equivalents.numeric.germany <= u.min_german_equivalent;
     if (targetCountry === 'Hungary') return u.min_hungarian_equivalent !== null && equivalents.numeric.hungary >= u.min_hungarian_equivalent;
-    return u.country === targetCountry; // basic match for others lacking strict seeded data
+    if (targetCountry === 'Netherlands') return u.min_netherlands_equivalent !== null && equivalents.numeric.netherlands >= u.min_netherlands_equivalent;
+    if (targetCountry === 'France') return u.min_french_equivalent !== null && equivalents.numeric.france >= u.min_french_equivalent;
+    if (targetCountry === 'Spain') return u.min_spanish_equivalent !== null && equivalents.numeric.spain >= u.min_spanish_equivalent;
+    return false;
   }) : [];
 
   const handleNext = () => {
