@@ -22,6 +22,7 @@ import TranslatorDirectory from './pages/TranslatorDirectory';
 import CIMEAHub from './pages/CIMEAHub';
 import BookConsultation from './pages/BookConsultation';
 import About from './pages/About';
+import FreeTools from './pages/FreeTools';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
 import FAQ from './pages/FAQ';
@@ -270,6 +271,19 @@ function AppContent() {
           >
             About Us
           </span>
+          <span 
+            className="desktop-only"
+            style={{ 
+              cursor: 'pointer', 
+              color: location.pathname === '/tools' ? 'var(--accent-color)' : '#111111', 
+              fontWeight: '600', 
+              fontSize: '1rem',
+              display: window.innerWidth > 768 ? 'block' : 'none'
+            }} 
+            onClick={() => navigate('/tools')}
+          >
+            Free Tools
+          </span>
           <select 
             className="desktop-only"
             value={language}
@@ -364,6 +378,12 @@ function AppContent() {
           >
             About Us
           </span>
+          <span 
+            style={{ cursor: 'pointer', fontWeight: '600', fontSize: '1.1rem', padding: '0.5rem 0', borderBottom: '1px solid var(--border-color)' }} 
+            onClick={() => { navigate('/tools'); setIsMobileMenuOpen(false); }}
+          >
+            Free Tools
+          </span>
 
           {authStatus === 'authenticated' && user ? (
             <>
@@ -421,6 +441,9 @@ function AppContent() {
           } />
           <Route path="/about" element={
               <About />
+          } />
+          <Route path="/tools" element={
+              <FreeTools />
           } />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />

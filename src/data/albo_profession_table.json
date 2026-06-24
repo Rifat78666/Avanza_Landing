@@ -1,0 +1,57 @@
+{
+  "nurse": {
+    "id": "nurse",
+    "english": "Nurse",
+    "italian": "Infermiere",
+    "albo": "Ordine delle Professioni Infermieristiche (OPI)",
+    "ministry": "Ministero della Salute",
+    "procedure": "art. 49 D.Lgs 206/2007 or Art. 6 bis DL 18/2020",
+    "key_docs": ["Diploma / Degree", "Dichiarazione di Valore / CIMEA", "Traduzione Giurata", "Certificato Iscrizione Albo (Country of Origin)", "Nulla Osta"],
+    "estimated_months": "3-8 months",
+    "cimea_needed": false
+  },
+  "engineer": {
+    "id": "engineer",
+    "english": "Engineer",
+    "italian": "Ingegnere",
+    "albo": "Ordine degli Ingegneri",
+    "ministry": "Ministero dell'Università e della Ricerca (MUR)",
+    "procedure": "Recognition of academic/professional title via MUR",
+    "key_docs": ["Diploma / Degree", "Full Transcript", "CIMEA Statement of Comparability", "Traduzione Giurata"],
+    "estimated_months": "6-18 months",
+    "cimea_needed": true
+  },
+  "doctor": {
+    "id": "doctor",
+    "english": "Medical Doctor",
+    "italian": "Medico Chirurgo",
+    "albo": "Ordine dei Medici Chirurghi e degli Odontoiatri",
+    "ministry": "Ministero della Salute",
+    "procedure": "art. 49 D.Lgs 206/2007",
+    "key_docs": ["Medical Degree", "Transcript", "Dichiarazione di Valore / CIMEA", "Good Standing Certificate", "Traduzione Giurata"],
+    "estimated_months": "6-12 months",
+    "cimea_needed": true
+  },
+  "architect": {
+    "id": "architect",
+    "english": "Architect",
+    "italian": "Architetto",
+    "albo": "Ordine degli Architetti",
+    "ministry": "Ministero dell'Università e della Ricerca (MUR)",
+    "procedure": "Recognition of academic/professional title via MUR",
+    "key_docs": ["Architecture Degree", "Transcript", "CIMEA Statement of Comparability", "Portfolio (sometimes required)"],
+    "estimated_months": "6-12 months",
+    "cimea_needed": true
+  },
+  "dentist": {
+    "id": "dentist",
+    "english": "Dentist",
+    "italian": "Odontoiatra",
+    "albo": "Ordine dei Medici Chirurghi e degli Odontoiatri",
+    "ministry": "Ministero della Salute",
+    "procedure": "art. 49 D.Lgs 206/2007",
+    "key_docs": ["Dentistry Degree", "Transcript", "CIMEA Statement of Comparability", "Good Standing Certificate", "Traduzione Giurata"],
+    "estimated_months": "6-12 months",
+    "cimea_needed": true
+  }
+}

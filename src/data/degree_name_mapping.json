@@ -1,0 +1,127 @@
+{
+  "IN": {
+    "name": "India",
+    "degrees": {
+      "B.Tech": { 
+        "italian_equiv": "Laurea Magistrale", 
+        "eqf": 7, 
+        "ects_min": 240, 
+        "note": "MUR typically treats a 4-year Indian B.Tech as equivalent to Laurea Magistrale because of the Bologna gap.",
+        "albo_required": true,
+        "albo_name": "Ordine degli Ingegneri (if practicing)",
+        "ministry": "MUR",
+        "cimea_needed": true
+      },
+      "B.Sc.": { 
+        "italian_equiv": "Laurea Triennale", 
+        "eqf": 6, 
+        "ects_min": 180,
+        "albo_required": false,
+        "ministry": "MUR",
+        "cimea_needed": true
+      },
+      "MBBS": { 
+        "italian_equiv": "Laurea Magistrale a Ciclo Unico (Medicina)", 
+        "eqf": 7, 
+        "ects_min": 360,
+        "albo_required": true,
+        "albo_name": "Ordine dei Medici",
+        "ministry": "Ministero della Salute",
+        "cimea_needed": true
+      },
+      "BDS": { 
+        "italian_equiv": "Laurea Magistrale a Ciclo Unico (Odontoiatria)", 
+        "eqf": 7, 
+        "ects_min": 300,
+        "albo_required": true,
+        "albo_name": "Ordine dei Medici (Albo Odontoiatri)",
+        "ministry": "Ministero della Salute",
+        "cimea_needed": true
+      },
+      "M.Sc.": { 
+        "italian_equiv": "Laurea Magistrale", 
+        "eqf": 7, 
+        "ects_min": 120,
+        "albo_required": false,
+        "ministry": "MUR",
+        "cimea_needed": true
+      },
+      "MBA": { 
+        "italian_equiv": "Laurea Magistrale", 
+        "eqf": 7, 
+        "ects_min": 120,
+        "albo_required": false,
+        "ministry": "MUR",
+        "cimea_needed": true
+      }
+    }
+  },
+  "PH": {
+    "name": "Philippines",
+    "degrees": {
+      "Bachelor of Science in Nursing": { 
+        "italian_equiv": "Laurea Triennale", 
+        "eqf": 6, 
+        "ects_min": 180,
+        "albo_required": true, 
+        "albo_name": "Ordine delle Professioni Infermieristiche (OPI)",
+        "ministry": "Ministero della Salute",
+        "cimea_needed": false,
+        "note": "Often processed via direct Ministry of Health pathway without CIMEA."
+      },
+      "B.S. Engineering": { 
+        "italian_equiv": "Laurea Triennale", 
+        "eqf": 6, 
+        "ects_min": 180,
+        "albo_required": true, 
+        "albo_name": "Ordine degli Ingegneri",
+        "ministry": "MUR",
+        "cimea_needed": true
+      }
+    }
+  },
+  "PK": {
+    "name": "Pakistan",
+    "degrees": {
+      "B.S.": { 
+        "italian_equiv": "Laurea Triennale", 
+        "eqf": 6, 
+        "ects_min": 180,
+        "albo_required": false,
+        "ministry": "MUR",
+        "cimea_needed": true
+      },
+      "MBBS": { 
+        "italian_equiv": "Laurea Magistrale a Ciclo Unico (Medicina)", 
+        "eqf": 7, 
+        "ects_min": 360,
+        "albo_required": true,
+        "albo_name": "Ordine dei Medici",
+        "ministry": "Ministero della Salute",
+        "cimea_needed": true
+      }
+    }
+  },
+  "NG": {
+    "name": "Nigeria",
+    "degrees": {
+      "B.Sc.": { 
+        "italian_equiv": "Laurea Triennale", 
+        "eqf": 6, 
+        "ects_min": 180,
+        "albo_required": false,
+        "ministry": "MUR",
+        "cimea_needed": true
+      },
+      "B.Eng.": { 
+        "italian_equiv": "Laurea Triennale", 
+        "eqf": 6, 
+        "ects_min": 180,
+        "albo_required": true,
+        "albo_name": "Ordine degli Ingegneri",
+        "ministry": "MUR",
+        "cimea_needed": true
+      }
+    }
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "IN": {
+    "name": "India",
+    "systems": [
+      {
+        "name": "Percentage (0-100)",
+        "id": "percent",
+        "to_italian_30": "(score * 0.3).toFixed(1)",
+        "to_gpa_4": "((score - 55) / 11.25).toFixed(2)",
+        "min": 0,
+        "max": 100
+      },
+      {
+        "name": "CGPA (0-10)",
+        "id": "cgpa10",
+        "to_italian_30": "(score * 3).toFixed(1)",
+        "to_gpa_4": "(score * 0.4).toFixed(2)",
+        "min": 0,
+        "max": 10
+      }
+    ]
+  },
+  "PK": {
+    "name": "Pakistan",
+    "systems": [
+      {
+        "name": "Percentage (0-100)",
+        "id": "percent",
+        "to_italian_30": "(score * 0.3).toFixed(1)",
+        "to_gpa_4": "((score - 55) / 11.25).toFixed(2)",
+        "min": 0,
+        "max": 100
+      },
+      {
+        "name": "GPA (0-4.0)",
+        "id": "gpa4",
+        "to_italian_30": "((score / 4) * 30).toFixed(1)",
+        "to_gpa_4": "(score).toFixed(2)",
+        "min": 0,
+        "max": 4
+      }
+    ]
+  },
+  "PH": {
+    "name": "Philippines",
+    "systems": [
+      {
+        "name": "Philippine Scale (1.0-5.0, inverted)",
+        "id": "ph5",
+        "to_italian_30": "(((5 - score) / (5 - 1)) * 12 + 18).toFixed(1)",
+        "to_gpa_4": "(5 - score).toFixed(2)",
+        "min": 1,
+        "max": 5
+      }
+    ]
+  },
+  "NG": {
+    "name": "Nigeria",
+    "systems": [
+      {
+        "name": "Percentage (0-100)",
+        "id": "percent",
+        "to_italian_30": "(score * 0.3).toFixed(1)",
+        "to_gpa_4": "(score / 25).toFixed(2)",
+        "min": 0,
+        "max": 100
+      },
+      {
+        "name": "GPA (0-5.0)",
+        "id": "gpa5",
+        "to_italian_30": "((score / 5) * 30).toFixed(1)",
+        "to_gpa_4": "(score * 0.8).toFixed(2)",
+        "min": 0,
+        "max": 5
+      }
+    ]
+  },
+  "US": {
+    "name": "United States",
+    "systems": [
+      {
+        "name": "GPA (0-4.0)",
+        "id": "gpa4",
+        "to_italian_30": "((score / 4) * 30).toFixed(1)",
+        "to_gpa_4": "(score).toFixed(2)",
+        "min": 0,
+        "max": 4
+      }
+    ]
+  }
+}
