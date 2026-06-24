@@ -117,7 +117,7 @@ const FreeTools = () => {
       <div style={{
         width: '100%',
         position: 'relative',
-        backgroundImage: 'url("https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1920&q=80")',
+        backgroundImage: 'url("https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1920&q=80")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         padding: '5rem 1rem',
@@ -133,7 +133,7 @@ const FreeTools = () => {
         }}></div>
         
         <div style={{ position: 'relative', zIndex: 2, maxWidth: '800px', margin: '0 auto' }}>
-          <h1 style={{ fontSize: '3rem', marginBottom: '1rem', fontWeight: 'bold' }}>Free Immigration & Recognition Tools</h1>
+          <h1 style={{ fontSize: '3rem', marginBottom: '1rem', fontWeight: 'bold' }}>Start your Europe journey with AVANZA</h1>
           <p style={{ fontSize: '1.2rem', marginBottom: '2rem' }}>Explore our suite of tools designed to help you navigate credential evaluation, university admissions, and immigration pathways.</p>
           <button 
             onClick={() => document.getElementById('tools-list').scrollIntoView({ behavior: 'smooth' })}

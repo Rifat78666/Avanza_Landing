@@ -51,7 +51,7 @@ const ECTSCalculator = () => {
       <div style={{
         width: '100%',
         position: 'relative',
-        backgroundImage: 'url("https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1920&q=80")',
+        backgroundImage: 'url("https://images.unsplash.com/photo-1513258496099-48168024aec0?auto=format&fit=crop&w=1920&q=80")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         padding: '5rem 1rem',
