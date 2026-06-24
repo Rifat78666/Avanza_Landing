@@ -209,7 +209,8 @@ const FreeTools = () => {
                     }}
                   >
                     {tool.name.toLowerCase().includes('calculat') || tool.name.toLowerCase().includes('convert') ? 'Calculate' : 
-                     tool.name.toLowerCase().includes('check') ? 'Check' : 'Use Tool'}
+                     tool.name.toLowerCase().includes('check') ? 'Check' : 
+                     tool.name.toLowerCase().includes('report') ? 'Get Report' : 'Use Tool'}
                   </button>
                 </div>
               )})}
