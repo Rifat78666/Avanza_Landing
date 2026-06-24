@@ -323,7 +323,7 @@ const GradeConverter = () => {
                   </p>
                   <a href="mailto:pallabm472@gmail.com" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', color: 'var(--text-secondary)' }}><Mail size={16}/> pallabm472@gmail.com</a>
                   <div style={{ marginTop: '1.5rem', marginBottom: '0.5rem', display: 'flex', justifyContent: 'center' }}>
-                    <img src="/university_logos.png" alt="University of Milan, Bicocca, Pavia" style={{ width: '100%', maxWidth: '350px', height: 'auto', objectFit: 'contain', mixBlendMode: 'multiply' }} onError={(e) => e.target.style.display = 'none'} />
+                    <img src="/avanza_university_strip_white.png" alt="University of Milan, Bicocca, Pavia" style={{ width: '100%', maxWidth: '350px', height: 'auto', objectFit: 'contain', mixBlendMode: 'multiply' }} onError={(e) => e.target.style.display = 'none'} />
                   </div>
                 </div>
 
@@ -336,7 +336,7 @@ const GradeConverter = () => {
                   </p>
                   <a href="mailto:rifatulhaque200@gmail.com" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', color: 'var(--text-secondary)' }}><Mail size={16}/> rifatulhaque200@gmail.com</a>
                   <div style={{ marginTop: '1.5rem', marginBottom: '0.5rem', display: 'flex', justifyContent: 'center' }}>
-                    <img src="/university_logos.png" alt="University of Milan, Bicocca, Pavia" style={{ width: '100%', maxWidth: '350px', height: 'auto', objectFit: 'contain', mixBlendMode: 'multiply' }} onError={(e) => e.target.style.display = 'none'} />
+                    <img src="/avanza_university_strip_white.png" alt="University of Milan, Bicocca, Pavia" style={{ width: '100%', maxWidth: '350px', height: 'auto', objectFit: 'contain', mixBlendMode: 'multiply' }} onError={(e) => e.target.style.display = 'none'} />
                   </div>
                 </div>
               </div>
