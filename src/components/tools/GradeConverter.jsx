@@ -333,8 +333,13 @@ const GradeConverter = () => {
                   onMouseEnter={(e) => { if(!isProcessing) e.currentTarget.style.transform = 'scale(1.02)' }}
                   onMouseLeave={(e) => { if(!isProcessing) e.currentTarget.style.transform = 'scale(1)' }}
                 >
-                  <Euro size={22} /> {isProcessing ? 'Loading...' : 'Pay €4.99 to Unlock'}
+                  <Euro size={22} /> {isProcessing ? 'Redirecting to checkout...' : 'Pay €4.99 to Unlock'}
                 </button>
+                {isProcessing && (
+                  <p style={{ marginTop: '1rem', color: '#009246', fontWeight: 'bold', fontSize: '0.95rem', animation: 'fadeIn 0.5s ease' }}>
+                    Please wait while we prepare your secure checkout. Do not refresh or go back. You will be redirected automatically.
+                  </p>
+                )}
               </div>
             </div>
           )}
