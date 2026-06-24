@@ -76,6 +76,7 @@ const FreeTools = () => {
             'GPA Evaluation',
             'Official PDF Report'
           ],
+          icon: <FileText size={24} color="#CE2B37" />,
           path: '/tools/course-evaluation'
         }
       ]
@@ -169,60 +170,6 @@ const FreeTools = () => {
             }}>
               {section.items.map((tool, toolIdx) => {
                 const cardColor = toolIdx % 2 === 0 ? '#009246' : '#CE2B37';
-                
-                if (tool.price && tool.features) {
-                  return (
-                    <div 
-                      key={tool.id} 
-                      className="card" 
-                      style={{ 
-                        display: 'flex', 
-                        flexDirection: 'column', 
-                        height: '100%', 
-                        padding: '1.5rem',
-                        transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-                        cursor: 'pointer',
-                        border: `2px solid ${cardColor}`,
-                        borderRadius: 'var(--radius)',
-                        boxShadow: 'var(--shadow)'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = 'translateY(-4px)';
-                        e.currentTarget.style.boxShadow = `0 12px 24px ${cardColor}33`; // 33 is 20% opacity hex
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.transform = 'translateY(0)';
-                        e.currentTarget.style.boxShadow = 'var(--shadow)';
-                      }}
-                      onClick={() => navigate(tool.path)}
-                    >
-                      <h3 style={{ fontSize: '1.5rem', margin: '0 0 1rem 0', color: cardColor }}>{tool.name}</h3>
-                      <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', flexGrow: 1, marginBottom: '2rem', lineHeight: '1.5' }}>
-                        {tool.description}
-                      </p>
-
-                      <button 
-                        style={{ 
-                          width: '100%', 
-                          padding: '1rem', 
-                          background: cardColor, 
-                          color: 'white', 
-                          border: 'none', 
-                          borderRadius: '30px', 
-                          fontSize: '1.1rem', 
-                          fontWeight: 'bold', 
-                          cursor: 'pointer' 
-                        }}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          navigate(tool.path);
-                        }}
-                      >
-                        Evaluate
-                      </button>
-                    </div>
-                  );
-                }
 
                 return (
                 <div 
@@ -273,6 +220,7 @@ const FreeTools = () => {
                   >
                     {tool.name.toLowerCase().includes('calculat') || tool.name.toLowerCase().includes('convert') ? 'Calculate' : 
                      (tool.name.toLowerCase().includes('check') || tool.name.toLowerCase().includes('ranking') || tool.name.toLowerCase().includes('requirement') || tool.name.toLowerCase().includes('permit')) ? 'Check' : 
+                     tool.name.toLowerCase().includes('evaluation') ? 'Evaluate' : 
                      tool.name.toLowerCase().includes('report') ? 'Get Report' : 'Use Tool'}
                   </button>
                 </div>
