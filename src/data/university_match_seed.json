@@ -1,0 +1,159 @@
+[
+  {
+    "id": "1",
+    "name": "Università di Bologna",
+    "country": "Italy",
+    "city": "Bologna",
+    "programme_level": "Master",
+    "min_italian_equivalent": 24,
+    "min_german_equivalent": null,
+    "tuition_range": "€0–€3,000/year",
+    "language_of_instruction": "English, Italian"
+  },
+  {
+    "id": "2",
+    "name": "Università di Milano-Bicocca",
+    "country": "Italy",
+    "city": "Milan",
+    "programme_level": "Both",
+    "min_italian_equivalent": 22,
+    "min_german_equivalent": null,
+    "tuition_range": "€0–€3,000/year",
+    "language_of_instruction": "English, Italian"
+  },
+  {
+    "id": "3",
+    "name": "Università di Padova",
+    "country": "Italy",
+    "city": "Padua",
+    "programme_level": "Both",
+    "min_italian_equivalent": 24,
+    "min_german_equivalent": null,
+    "tuition_range": "€0–€3,000/year",
+    "language_of_instruction": "English, Italian"
+  },
+  {
+    "id": "4",
+    "name": "Università di Torino",
+    "country": "Italy",
+    "city": "Turin",
+    "programme_level": "Both",
+    "min_italian_equivalent": 20,
+    "min_german_equivalent": null,
+    "tuition_range": "€0–€3,000/year",
+    "language_of_instruction": "English, Italian"
+  },
+  {
+    "id": "5",
+    "name": "Università di Roma La Sapienza",
+    "country": "Italy",
+    "city": "Rome",
+    "programme_level": "Both",
+    "min_italian_equivalent": 20,
+    "min_german_equivalent": null,
+    "tuition_range": "€0–€3,000/year",
+    "language_of_instruction": "English, Italian"
+  },
+  {
+    "id": "6",
+    "name": "Università di Pavia",
+    "country": "Italy",
+    "city": "Pavia",
+    "programme_level": "Both",
+    "min_italian_equivalent": 22,
+    "min_german_equivalent": null,
+    "tuition_range": "€0–€3,000/year",
+    "language_of_instruction": "English, Italian"
+  },
+  {
+    "id": "7",
+    "name": "TU Munich",
+    "country": "Germany",
+    "city": "Munich",
+    "programme_level": "Master",
+    "min_italian_equivalent": null,
+    "min_german_equivalent": 2.0,
+    "tuition_range": "€0–€3,000/year",
+    "language_of_instruction": "English, German"
+  },
+  {
+    "id": "8",
+    "name": "LMU Munich",
+    "country": "Germany",
+    "city": "Munich",
+    "programme_level": "Both",
+    "min_italian_equivalent": null,
+    "min_german_equivalent": 2.3,
+    "tuition_range": "€0/year (Admin fee)",
+    "language_of_instruction": "English, German"
+  },
+  {
+    "id": "9",
+    "name": "Heidelberg University",
+    "country": "Germany",
+    "city": "Heidelberg",
+    "programme_level": "Both",
+    "min_italian_equivalent": null,
+    "min_german_equivalent": 2.5,
+    "tuition_range": "€1,500/semester",
+    "language_of_instruction": "English, German"
+  },
+  {
+    "id": "10",
+    "name": "University of Hamburg",
+    "country": "Germany",
+    "city": "Hamburg",
+    "programme_level": "Both",
+    "min_italian_equivalent": null,
+    "min_german_equivalent": 3.0,
+    "tuition_range": "€0/year",
+    "language_of_instruction": "English, German"
+  },
+  {
+    "id": "11",
+    "name": "Humboldt-Universität Berlin",
+    "country": "Germany",
+    "city": "Berlin",
+    "programme_level": "Both",
+    "min_italian_equivalent": null,
+    "min_german_equivalent": 2.5,
+    "tuition_range": "€0/year",
+    "language_of_instruction": "English, German"
+  },
+  {
+    "id": "12",
+    "name": "Eötvös Loránd University (ELTE)",
+    "country": "Hungary",
+    "city": "Budapest",
+    "programme_level": "Both",
+    "min_italian_equivalent": null,
+    "min_german_equivalent": null,
+    "min_hungarian_equivalent": 3,
+    "tuition_range": "€3,000–€6,000/year",
+    "language_of_instruction": "English, Hungarian"
+  },
+  {
+    "id": "13",
+    "name": "Budapest University of Technology",
+    "country": "Hungary",
+    "city": "Budapest",
+    "programme_level": "Both",
+    "min_italian_equivalent": null,
+    "min_german_equivalent": null,
+    "min_hungarian_equivalent": 3,
+    "tuition_range": "€3,000–€5,000/year",
+    "language_of_instruction": "English, Hungarian"
+  },
+  {
+    "id": "14",
+    "name": "University of Debrecen",
+    "country": "Hungary",
+    "city": "Debrecen",
+    "programme_level": "Both",
+    "min_italian_equivalent": null,
+    "min_german_equivalent": null,
+    "min_hungarian_equivalent": 2,
+    "tuition_range": "€4,000–€8,000/year",
+    "language_of_instruction": "English"
+  }
+]

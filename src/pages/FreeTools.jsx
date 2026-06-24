@@ -11,8 +11,8 @@ const FreeTools = () => {
       items: [
         {
           id: 'grade-converter',
-          name: 'Grade Converter',
-          description: 'Convert foreign grades to Italian 30/30 & US 4.0.',
+          name: 'Grade Converter & University Match',
+          description: 'Convert your grades to European standards and see which universities you qualify for.',
           icon: <Calculator size={24} color="#009246" />,
           path: '/tools/grade-converter'
         },
