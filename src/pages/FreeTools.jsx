@@ -138,7 +138,7 @@ const FreeTools = () => {
                     padding: '1.5rem',
                     transition: 'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease',
                     cursor: 'pointer',
-                    borderLeft: `4px solid ${cardColor}`
+                    border: '1px solid var(--border-color)'
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = 'translateY(-4px)';
@@ -149,7 +149,6 @@ const FreeTools = () => {
                     e.currentTarget.style.transform = 'translateY(0)';
                     e.currentTarget.style.boxShadow = 'none';
                     e.currentTarget.style.borderColor = 'var(--border-color)';
-                    e.currentTarget.style.borderLeftColor = cardColor;
                   }}
                   onClick={() => navigate(tool.path)}
                 >
