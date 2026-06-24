@@ -268,7 +268,7 @@ function AppContent() {
           {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
         <div className="header-logo-container" style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }} onClick={() => navigate('/')}>
-          <img src="/avanza_logo.png" alt="AVANZA" className="header-logo" style={{ height: '45px', objectFit: 'contain', transform: 'scale(2.2)', transformOrigin: 'left center' }} />
+          <img src="/avanza_logo.png" alt="AVANZA" className="header-logo" style={{ height: '70px', objectFit: 'contain' }} />
         </div>
         <nav className="header-nav-container" style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
           <span 
