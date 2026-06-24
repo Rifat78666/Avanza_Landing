@@ -200,23 +200,6 @@ const FreeTools = () => {
                       <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', flexGrow: 1, marginBottom: '2rem', lineHeight: '1.5' }}>
                         {tool.description}
                       </p>
-                      
-                      <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1.5rem', marginBottom: '2rem' }}>
-                        <div style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '1rem' }}>INCLUDED FEATURES</div>
-                        <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                          {tool.features.map((feat, i) => (
-                            <li key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '1rem' }}>
-                              <div style={{ color: '#0052FF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                                  <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                                </svg>
-                              </div>
-                              {feat}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
 
                       <button 
                         style={{ 
