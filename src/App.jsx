@@ -36,6 +36,8 @@ import CIPCodes from './components/tools/CIPCodes';
 import UniversityRankings from './components/tools/UniversityRankings';
 import CredentialReport from './components/tools/CredentialReport';
 
+import TypographyPreview from './pages/TypographyPreview';
+
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
 import FAQ from './pages/FAQ';
@@ -483,6 +485,9 @@ function AppContent() {
           <Route path="/book-consultation" element={
               <BookConsultation />
           } />
+          {/* Hidden Pages */}
+          <Route path="/typography-preview" element={<TypographyPreview />} />
+
           <Route path="/dashboard" element={
               <ProtectedRoute>
                   <Dashboard 
