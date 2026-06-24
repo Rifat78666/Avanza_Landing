@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { jsPDF } from "jspdf";
-import autoTable from "jspdf-autotable";
 import { ArrowLeft, FileText, Download, CheckCircle, ChevronDown } from 'lucide-react';
 
 const CourseEvaluation = () => {
@@ -33,61 +31,31 @@ const CourseEvaluation = () => {
 
   const processAiEvaluation = async (sessionId) => {
     try {
-      // Mocking the AI processing time
-      setTimeout(() => {
-        try {
-          const doc = new jsPDF();
-          
-          // Header
-          doc.setFillColor(0, 146, 70);
-          doc.rect(0, 0, 210, 40, 'F');
-          doc.setTextColor(255, 255, 255);
-          doc.setFontSize(24);
-          doc.text("AVANZA", 105, 20, { align: 'center' });
-          doc.setFontSize(14);
-          doc.text("Official Course by Course Evaluation", 105, 30, { align: 'center' });
-          
-          // Details
-          doc.setTextColor(0, 0, 0);
-          doc.setFontSize(12);
-          doc.text("Candidate Details", 14, 55);
-          doc.setFontSize(10);
-          doc.text(`Name: ${formData.student_name}`, 14, 65);
-          doc.text(`Email: ${formData.email}`, 14, 72);
-          doc.text(`Degree: ${formData.degree_title}`, 14, 79);
-          doc.text(`Institution: ${formData.university}`, 14, 86);
-          doc.text(`Target Country: ${formData.target_country}`, 14, 93);
-          
-          // Table
-          autoTable(doc, {
-            startY: 105,
-            head: [['Original Course', 'Original Grade', 'Converted Grade', 'ECTS Credits']],
-            body: [
-              ['Core Subject 101', 'A', '28/30', '6'],
-              ['Advanced Methodology', 'B+', '26/30', '8'],
-              ['Practical Seminar', 'A-', '27/30', '4'],
-              ['Final Project / Thesis', 'A+', '30/30 e lode', '12'],
-            ],
-            headStyles: { fillColor: [0, 146, 70] },
-            styles: { fontSize: 10 }
-          });
-          
-          // Footer
-          const finalY = doc.lastAutoTable ? doc.lastAutoTable.finalY : 160;
-          doc.setFontSize(10);
-          doc.text("This document is an electronically generated official Avanza evaluation.", 105, finalY + 20, { align: 'center' });
-          doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 105, finalY + 26, { align: 'center' });
-
-          doc.save(`Avanza_Evaluation_${formData.student_name ? formData.student_name.replace(/ /g, '_') : 'Report'}.pdf`);
-          
-          setAiProcessing(false);
-          setAiSuccess(true);
-        } catch (err) {
-          console.error("PDF generation error:", err);
-          alert("Error generating PDF preview.");
-          setAiProcessing(false);
+      const response = await fetch(
+        window.location.hostname === "localhost" 
+          ? "http://localhost:8000/api/process-evaluation" 
+          : "https://avanza-backend.onrender.com/api/process-evaluation",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ session_id: sessionId })
         }
-      }, 4000); // 4 seconds of "AI Processing"
+      );
+      
+      if (!response.ok) throw new Error("Failed to process evaluation");
+      
+      // Download actual PDF from the AI backend
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Avanza_Course_Evaluation.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      
+      setAiProcessing(false);
+      setAiSuccess(true);
     } catch (error) {
       console.error(error);
       alert("Error processing your transcript. Please contact support.");
@@ -113,22 +81,65 @@ const CourseEvaluation = () => {
     }
     
     setIsProcessing(true);
-    // Mocking the backend upload delay
-    setTimeout(() => {
-      setDocumentId("mock_document_123");
-      setStep(2);
+    try {
+      const formPayload = new FormData();
+      formPayload.append("file", file);
+      formPayload.append("student_name", formData.student_name);
+      formPayload.append("email", formData.email);
+      formPayload.append("degree_title", formData.degree_title);
+      formPayload.append("university", formData.university);
+      formPayload.append("original_grade", formData.original_grade);
+      formPayload.append("target_country", formData.target_country);
+
+      const response = await fetch(
+        window.location.hostname === "localhost" 
+          ? "http://localhost:8000/api/upload-transcript" 
+          : "https://avanza-backend.onrender.com/api/upload-transcript",
+        {
+          method: "POST",
+          body: formPayload
+        }
+      );
+      
+      const data = await response.json();
+      if (response.ok && data.document_id) {
+        setDocumentId(data.document_id);
+        setStep(2);
+      } else {
+        alert("Error uploading transcript.");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Network error.");
+    } finally {
       setIsProcessing(false);
-    }, 1500);
+    }
   };
 
   const handlePay = async () => {
     setIsProcessing(true);
-    // Mocking the Stripe payment and immediately jumping to AI processing
-    setTimeout(() => {
+    try {
+      const response = await fetch(
+        window.location.hostname === "localhost" 
+          ? "http://localhost:8000/api/create-evaluation-checkout" 
+          : "https://avanza-backend.onrender.com/api/create-evaluation-checkout", 
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ document_id: documentId })
+      });
+      const data = await response.json();
+      if (response.ok && data.url) {
+        window.location.href = data.url;
+      } else {
+        alert("Payment error. Could not generate checkout session.");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Network error: Something went wrong contacting the server.");
+    } finally {
       setIsProcessing(false);
-      setAiProcessing(true);
-      processAiEvaluation("mock_stripe_session_456");
-    }, 1500);
+    }
   };
 
   return (
@@ -370,7 +381,7 @@ const CourseEvaluation = () => {
                   cursor: isProcessing ? 'not-allowed' : 'pointer', opacity: isProcessing ? 0.7 : 1 
                 }}
               >
-                {isProcessing ? 'Processing...' : 'Pay €10 via Stripe (Mock)'}
+                {isProcessing ? 'Redirecting to checkout...' : 'Pay €10 via Stripe'}
               </button>
               
               <button 
