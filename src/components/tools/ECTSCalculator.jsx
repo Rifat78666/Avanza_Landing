@@ -171,7 +171,6 @@ const ECTSCalculator = () => {
         </div>
       )}
       </div>
-      </div>
     </div>
     </>
   );
