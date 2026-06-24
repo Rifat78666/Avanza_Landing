@@ -110,8 +110,8 @@ const GradeConverter = () => {
         }}></div>
         
         <div style={{ position: 'relative', zIndex: 2, maxWidth: '800px', margin: '0 auto' }}>
-          <h1 style={{ fontSize: '3rem', marginBottom: '1rem', fontWeight: 'bold' }}>AVANZA Grade Converter</h1>
-          <p style={{ fontSize: '1.2rem', marginBottom: '2rem' }}>Calculate your European GPA in Minutes!</p>
+          <h1 style={{ fontSize: '3.5rem', marginBottom: '1rem', fontWeight: 'bold' }}>Your degree already counts.</h1>
+          <p style={{ fontSize: '1.2rem', marginBottom: '2rem' }}>We just make Europe see it — your academic record converted to European standards, so institutions understand you from day one.</p>
         </div>
       </div>
 
