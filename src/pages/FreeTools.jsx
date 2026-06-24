@@ -202,13 +202,14 @@ const FreeTools = () => {
                   </p>
                   <button 
                     className="btn-outline" 
-                    style={{ width: '100%', justifyContent: 'center' }}
+                    style={{ width: '100%', justifyContent: 'center', fontWeight: 'bold' }}
                     onClick={(e) => {
                       e.stopPropagation();
                       navigate(tool.path);
                     }}
                   >
-                    Use Tool
+                    {tool.name.toLowerCase().includes('calculat') || tool.name.toLowerCase().includes('convert') ? 'Calculate' : 
+                     tool.name.toLowerCase().includes('check') ? 'Check' : 'Use Tool'}
                   </button>
                 </div>
               )})}
