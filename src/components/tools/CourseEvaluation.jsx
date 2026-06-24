@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { jsPDF } from "jspdf";
-import "jspdf-autotable";
+import autoTable from "jspdf-autotable";
 import { ArrowLeft, FileText, Download, CheckCircle, ChevronDown } from 'lucide-react';
 
 const CourseEvaluation = () => {
@@ -35,52 +35,58 @@ const CourseEvaluation = () => {
     try {
       // Mocking the AI processing time
       setTimeout(() => {
-        const doc = new jsPDF();
-        
-        // Header
-        doc.setFillColor(0, 146, 70);
-        doc.rect(0, 0, 210, 40, 'F');
-        doc.setTextColor(255, 255, 255);
-        doc.setFontSize(24);
-        doc.text("AVANZA", 105, 20, { align: 'center' });
-        doc.setFontSize(14);
-        doc.text("Official Course by Course Evaluation", 105, 30, { align: 'center' });
-        
-        // Details
-        doc.setTextColor(0, 0, 0);
-        doc.setFontSize(12);
-        doc.text("Candidate Details", 14, 55);
-        doc.setFontSize(10);
-        doc.text(`Name: ${formData.student_name}`, 14, 65);
-        doc.text(`Email: ${formData.email}`, 14, 72);
-        doc.text(`Degree: ${formData.degree_title}`, 14, 79);
-        doc.text(`Institution: ${formData.university}`, 14, 86);
-        doc.text(`Target Country: ${formData.target_country}`, 14, 93);
-        
-        // Table
-        doc.autoTable({
-          startY: 105,
-          head: [['Original Course', 'Original Grade', 'Converted Grade', 'ECTS Credits']],
-          body: [
-            ['Core Subject 101', 'A', '28/30', '6'],
-            ['Advanced Methodology', 'B+', '26/30', '8'],
-            ['Practical Seminar', 'A-', '27/30', '4'],
-            ['Final Project / Thesis', 'A+', '30/30 e lode', '12'],
-          ],
-          headStyles: { fillColor: [0, 146, 70] },
-          styles: { fontSize: 10 }
-        });
-        
-        // Footer
-        const finalY = doc.lastAutoTable.finalY || 160;
-        doc.setFontSize(10);
-        doc.text("This document is an electronically generated official Avanza evaluation.", 105, finalY + 20, { align: 'center' });
-        doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 105, finalY + 26, { align: 'center' });
+        try {
+          const doc = new jsPDF();
+          
+          // Header
+          doc.setFillColor(0, 146, 70);
+          doc.rect(0, 0, 210, 40, 'F');
+          doc.setTextColor(255, 255, 255);
+          doc.setFontSize(24);
+          doc.text("AVANZA", 105, 20, { align: 'center' });
+          doc.setFontSize(14);
+          doc.text("Official Course by Course Evaluation", 105, 30, { align: 'center' });
+          
+          // Details
+          doc.setTextColor(0, 0, 0);
+          doc.setFontSize(12);
+          doc.text("Candidate Details", 14, 55);
+          doc.setFontSize(10);
+          doc.text(`Name: ${formData.student_name}`, 14, 65);
+          doc.text(`Email: ${formData.email}`, 14, 72);
+          doc.text(`Degree: ${formData.degree_title}`, 14, 79);
+          doc.text(`Institution: ${formData.university}`, 14, 86);
+          doc.text(`Target Country: ${formData.target_country}`, 14, 93);
+          
+          // Table
+          autoTable(doc, {
+            startY: 105,
+            head: [['Original Course', 'Original Grade', 'Converted Grade', 'ECTS Credits']],
+            body: [
+              ['Core Subject 101', 'A', '28/30', '6'],
+              ['Advanced Methodology', 'B+', '26/30', '8'],
+              ['Practical Seminar', 'A-', '27/30', '4'],
+              ['Final Project / Thesis', 'A+', '30/30 e lode', '12'],
+            ],
+            headStyles: { fillColor: [0, 146, 70] },
+            styles: { fontSize: 10 }
+          });
+          
+          // Footer
+          const finalY = doc.lastAutoTable ? doc.lastAutoTable.finalY : 160;
+          doc.setFontSize(10);
+          doc.text("This document is an electronically generated official Avanza evaluation.", 105, finalY + 20, { align: 'center' });
+          doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 105, finalY + 26, { align: 'center' });
 
-        doc.save(`Avanza_Evaluation_${formData.student_name ? formData.student_name.replace(/ /g, '_') : 'Report'}.pdf`);
-        
-        setAiProcessing(false);
-        setAiSuccess(true);
+          doc.save(`Avanza_Evaluation_${formData.student_name ? formData.student_name.replace(/ /g, '_') : 'Report'}.pdf`);
+          
+          setAiProcessing(false);
+          setAiSuccess(true);
+        } catch (err) {
+          console.error("PDF generation error:", err);
+          alert("Error generating PDF preview.");
+          setAiProcessing(false);
+        }
       }, 4000); // 4 seconds of "AI Processing"
     } catch (error) {
       console.error(error);
