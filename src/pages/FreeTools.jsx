@@ -3,6 +3,8 @@ import GradeConverter from '../components/tools/GradeConverter';
 import AlboCheck from '../components/tools/AlboCheck';
 import ECTSCalculator from '../components/tools/ECTSCalculator';
 import DegreeLevelChecker from '../components/tools/DegreeLevelChecker';
+import DecretoFlussiChecker from '../components/tools/DecretoFlussiChecker';
+import WorkPermitWizard from '../components/tools/WorkPermitWizard';
 import { Wrench, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -105,6 +107,38 @@ const FreeTools = () => {
         >
           Albo (Order) Check
         </button>
+        <button 
+          onClick={() => setActiveTab('flussi')}
+          style={{ 
+            padding: '0.75rem 1.5rem', 
+            background: 'transparent', 
+            border: 'none', 
+            borderBottom: activeTab === 'flussi' ? '3px solid var(--accent-color)' : '3px solid transparent',
+            color: activeTab === 'flussi' ? 'var(--text-primary)' : 'var(--text-secondary)',
+            fontWeight: activeTab === 'flussi' ? 'bold' : 'normal',
+            cursor: 'pointer',
+            fontSize: '1.05rem',
+            whiteSpace: 'nowrap'
+          }}
+        >
+          Decreto Flussi Check
+        </button>
+        <button 
+          onClick={() => setActiveTab('permit')}
+          style={{ 
+            padding: '0.75rem 1.5rem', 
+            background: 'transparent', 
+            border: 'none', 
+            borderBottom: activeTab === 'permit' ? '3px solid var(--accent-color)' : '3px solid transparent',
+            color: activeTab === 'permit' ? 'var(--text-primary)' : 'var(--text-secondary)',
+            fontWeight: activeTab === 'permit' ? 'bold' : 'normal',
+            cursor: 'pointer',
+            fontSize: '1.05rem',
+            whiteSpace: 'nowrap'
+          }}
+        >
+          Work Permit Wizard
+        </button>
       </div>
 
       <div className="tab-content" style={{ animation: 'fadeIn 0.3s ease-in-out' }}>
@@ -112,6 +146,8 @@ const FreeTools = () => {
         {activeTab === 'ects' && <ECTSCalculator />}
         {activeTab === 'degree' && <DegreeLevelChecker />}
         {activeTab === 'albo' && <AlboCheck />}
+        {activeTab === 'flussi' && <DecretoFlussiChecker />}
+        {activeTab === 'permit' && <WorkPermitWizard />}
       </div>
 
     </div>

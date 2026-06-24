@@ -1,0 +1,90 @@
+{
+  "professions": [
+    "Healthcare (Nurses, Doctors)",
+    "Engineering",
+    "Construction",
+    "Tourism & Hospitality",
+    "IT & Telecom",
+    "Transport & Logistics",
+    "Agriculture",
+    "Other / General Worker"
+  ],
+  "nationalities": [
+    "India", "Philippines", "Pakistan", "Bangladesh", "Sri Lanka",
+    "Albania", "Egypt", "Morocco", "Nigeria", "Senegal",
+    "Other Non-EU Country", "EU Citizen"
+  ],
+  "locations": [
+    "Currently living abroad (outside Italy)",
+    "Currently in Italy with a valid student/training permit",
+    "Currently in Italy undocumented"
+  ],
+  "rules": [
+    {
+      "condition": { "nationality": "EU Citizen" },
+      "result": {
+        "eligible": false,
+        "message": "You do not need to apply through the Decreto Flussi.",
+        "explanation": "As an EU citizen, you have the right to live and work freely in Italy without a visa or work permit."
+      }
+    },
+    {
+      "condition": { "location": "Currently in Italy undocumented" },
+      "result": {
+        "eligible": false,
+        "message": "Not eligible through standard Decreto Flussi quotas.",
+        "explanation": "The standard Decreto Flussi is for workers currently living abroad. Undocumented workers in Italy usually cannot apply unless a specific 'Sanatoria' (regularization) decree is passed."
+      }
+    },
+    {
+      "condition": { "location": "Currently in Italy with a valid student/training permit" },
+      "result": {
+        "eligible": true,
+        "message": "Eligible for 'Conversione' (Conversion).",
+        "explanation": "You can apply to convert your student/training permit into a work permit within the specific Decreto Flussi quotas allocated for conversions, provided you have a valid job offer.",
+        "requires_job_offer": true
+      }
+    },
+    {
+      "condition": { 
+        "location": "Currently living abroad (outside Italy)",
+        "profession_in": ["Healthcare (Nurses, Doctors)", "Engineering", "IT & Telecom"]
+      },
+      "result": {
+        "eligible": true,
+        "message": "Eligible for Highly Skilled / specific quotas (or outside quotas).",
+        "explanation": "Professions like Nurses or Engineers often fall under the 'Carta Blu UE' (EU Blue Card) or special healthcare quotas (e.g., Art. 27), which can sometimes be processed outside the strict Decreto Flussi seasonal windows. A job offer is mandatory.",
+        "requires_job_offer": true
+      }
+    },
+    {
+      "condition": { 
+        "location": "Currently living abroad (outside Italy)",
+        "profession_in": ["Construction", "Tourism & Hospitality", "Transport & Logistics"]
+      },
+      "result": {
+        "eligible": true,
+        "message": "Eligible under standard Subordinate Work quotas.",
+        "explanation": "These sectors usually receive the largest number of allocated quotas in the annual Decreto Flussi. You must have an Italian employer willing to sponsor your application on the click-day.",
+        "requires_job_offer": true
+      }
+    },
+    {
+      "condition": { 
+        "location": "Currently living abroad (outside Italy)",
+        "profession_in": ["Agriculture"]
+      },
+      "result": {
+        "eligible": true,
+        "message": "Eligible under Seasonal Work quotas.",
+        "explanation": "Agriculture is covered heavily under seasonal quotas. You need an employer in the agricultural sector to submit the request.",
+        "requires_job_offer": true
+      }
+    }
+  ],
+  "default_result": {
+    "eligible": false,
+    "message": "Eligibility uncertain based on general rules.",
+    "explanation": "Your specific situation might require a closer look at the exact quotas allocated for your country and profession. The Decreto Flussi is highly competitive."
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "nationalities": ["Non-EU Citizen", "EU Citizen"],
+  "residence_status": [
+    "Living abroad (no Italian permit)",
+    "In Italy on a Student Permit",
+    "In Italy on a Job Seeker Permit (Attesa Occupazione)",
+    "In Italy on a Family/Dependent Permit"
+  ],
+  "profession_types": [
+    "Highly Skilled (Degree + High Salary offer)",
+    "Standard Employee (Subordinate Work)",
+    "Freelance / Self-Employed (Partita IVA)",
+    "Regulated Healthcare Professional (e.g., Nurse)"
+  ],
+  "rules": [
+    {
+      "condition": { "nationality": "EU Citizen" },
+      "result": {
+        "permit_name": "No Work Permit Required",
+        "steps": ["Register residence at local Comune (Anagrafe)", "Apply for Tessera Sanitaria (Health Card)"],
+        "timeline": "Immediate right to work"
+      }
+    },
+    {
+      "condition": { 
+        "nationality": "Non-EU Citizen", 
+        "residence_status": "In Italy on a Student Permit" 
+      },
+      "result": {
+        "permit_name": "Conversione in Permesso per Lavoro Subordinato",
+        "steps": ["Secure a job offer (minimum 20 hours/week)", "Apply for conversion via Sportello Unico (often subject to Decreto Flussi quotas unless degree obtained in Italy)", "Sign Contratto di Soggiorno"],
+        "timeline": "3-6 months"
+      }
+    },
+    {
+      "condition": { 
+        "nationality": "Non-EU Citizen", 
+        "residence_status": "In Italy on a Job Seeker Permit (Attesa Occupazione)" 
+      },
+      "result": {
+        "permit_name": "Permesso per Lavoro Subordinato",
+        "steps": ["Sign employment contract", "Notify Questura of status change", "Renew permit under work status"],
+        "timeline": "1-2 months"
+      }
+    },
+    {
+      "condition": { 
+        "nationality": "Non-EU Citizen", 
+        "residence_status": "In Italy on a Family/Dependent Permit" 
+      },
+      "result": {
+        "permit_name": "Permesso per Motivi Familiari (Work Authorized)",
+        "steps": ["You can legally work with this permit", "No conversion needed for employment", "Employer registers contract normally"],
+        "timeline": "Immediate right to work"
+      }
+    },
+    {
+      "condition": { 
+        "nationality": "Non-EU Citizen", 
+        "residence_status": "Living abroad (no Italian permit)",
+        "profession_type": "Highly Skilled (Degree + High Salary offer)"
+      },
+      "result": {
+        "permit_name": "Carta Blu UE (EU Blue Card)",
+        "steps": ["Employer submits request (Nulla Osta) to Sportello Unico", "Obtain Entry Visa from Italian Consulate", "Enter Italy and apply for Permesso di Soggiorno within 8 days"],
+        "timeline": "3-5 months (outside standard Decreto Flussi quotas)"
+      }
+    },
+    {
+      "condition": { 
+        "nationality": "Non-EU Citizen", 
+        "residence_status": "Living abroad (no Italian permit)",
+        "profession_type": "Regulated Healthcare Professional (e.g., Nurse)"
+      },
+      "result": {
+        "permit_name": "Permesso per Lavoro Subordinato (Art. 27 / Derogations)",
+        "steps": ["Obtain Degree Recognition / Albo Registration (or apply under Art. 6 bis DL 18/2020 derogation)", "Employer requests Nulla Osta", "Obtain Visa", "Enter Italy"],
+        "timeline": "4-8 months"
+      }
+    },
+    {
+      "condition": { 
+        "nationality": "Non-EU Citizen", 
+        "residence_status": "Living abroad (no Italian permit)",
+        "profession_type": "Freelance / Self-Employed (Partita IVA)"
+      },
+      "result": {
+        "permit_name": "Permesso per Lavoro Autonomo",
+        "steps": ["Check Decreto Flussi self-employment quotas", "Obtain professional certifications/chamber of commerce clearances", "Obtain Entry Visa", "Open Partita IVA in Italy"],
+        "timeline": "6-12 months (very strict quotas)"
+      }
+    }
+  ],
+  "default_result": {
+    "permit_name": "Permesso per Lavoro Subordinato (via Decreto Flussi)",
+    "steps": ["Find Italian employer", "Employer submits request on Decreto Flussi 'Click Day'", "Wait for Nulla Osta", "Apply for Visa at Consulate"],
+    "timeline": "6-12 months"
+  }
+}
