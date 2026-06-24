@@ -284,23 +284,31 @@ const GradeConverter = () => {
               <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
                 <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Talk to an Expert</h2>
                 <p style={{ color: 'var(--text-secondary)', maxWidth: '700px', margin: '0 auto', lineHeight: '1.6' }}>
-                  Our founders have navigated this exact process themselves. Both are currently studying their Master's in Artificial Intelligence for Science and Technology (a Joint Program enrolled at the University of Milan, University of Milano-Bicocca, and University of Pavia). Book your included 1:1 consultation with them today.
+                  Our founders have navigated this exact process themselves. Book your included 1:1 consultation with them today.
                 </p>
               </div>
 
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', marginBottom: '3rem' }}>
-                <div className="card" style={{ padding: '2rem', textAlign: 'center', borderTop: '4px solid #009246' }}>
+                <div className="card" style={{ padding: '2rem', textAlign: 'center', borderTop: '4px solid #009246', display: 'flex', flexDirection: 'column' }}>
                   <img src="/pallab.png" alt="Pallab Mondal" style={{ width: '80px', height: '80px', borderRadius: '50%', objectFit: 'cover', margin: '0 auto 1rem auto', display: 'block', border: '3px solid #009246' }} />
                   <h3 style={{ marginBottom: '0.5rem' }}>Pallab Mondal</h3>
                   <p style={{ color: '#009246', fontWeight: 'bold', marginBottom: '1rem' }}>Co-founder, Country Manager</p>
-                  <a href="mailto:pallab@avanza.it" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', color: 'var(--text-secondary)' }}><Mail size={16}/> pallab@avanza.it</a>
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1.5rem', lineHeight: '1.4', flexGrow: 1 }}>
+                    Master's in Artificial Intelligence for Science and Technology<br />
+                    Joint Program: University of Milan, University of Milano-Bicocca & University of Pavia
+                  </p>
+                  <a href="mailto:pallabm472@gmail.com" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', color: 'var(--text-secondary)' }}><Mail size={16}/> pallabm472@gmail.com</a>
                 </div>
 
-                <div className="card" style={{ padding: '2rem', textAlign: 'center', borderTop: '4px solid #CE2B37' }}>
+                <div className="card" style={{ padding: '2rem', textAlign: 'center', borderTop: '4px solid #CE2B37', display: 'flex', flexDirection: 'column' }}>
                   <img src="/rifat.png" alt="Md Rifatul Haque" style={{ width: '80px', height: '80px', borderRadius: '50%', objectFit: 'cover', margin: '0 auto 1rem auto', display: 'block', border: '3px solid #CE2B37' }} />
                   <h3 style={{ marginBottom: '0.5rem' }}>Md Rifatul Haque</h3>
                   <p style={{ color: '#CE2B37', fontWeight: 'bold', marginBottom: '1rem' }}>Co-founder</p>
-                  <a href="mailto:rifatul@avanza.it" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', color: 'var(--text-secondary)' }}><Mail size={16}/> rifatul@avanza.it</a>
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1.5rem', lineHeight: '1.4', flexGrow: 1 }}>
+                    Master's in Artificial Intelligence for Science and Technology<br />
+                    Joint Program: University of Milan, University of Milano-Bicocca & University of Pavia
+                  </p>
+                  <a href="mailto:rifatulhaque200@gmail.com" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', color: 'var(--text-secondary)' }}><Mail size={16}/> rifatulhaque200@gmail.com</a>
                 </div>
               </div>
 
