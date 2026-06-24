@@ -11,6 +11,7 @@ const GradeConverter = () => {
   const [grade, setGrade] = useState('');
   const [targetCountry, setTargetCountry] = useState('');
   const [isUnlocked, setIsUnlocked] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -95,6 +96,7 @@ const GradeConverter = () => {
   };
 
   const handleLivePayment = async () => {
+    setIsProcessing(true);
     try {
       const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://avanza-backend-h0pm.onrender.com';
       const response = await fetch(`${API_BASE_URL}/api/create-checkout-session`, {
@@ -108,12 +110,17 @@ const GradeConverter = () => {
         })
       });
       const data = await response.json();
-      if (data.url) {
+      if (response.ok && data.url) {
         window.location.href = data.url;
+      } else {
+        alert("Payment error: " + (data.detail || JSON.stringify(data) || "Could not generate checkout session."));
+        console.error("Backend error:", data);
       }
     } catch (error) {
       console.error("Error redirecting to Stripe:", error);
-      alert("Something went wrong loading the payment page.");
+      alert("Network error: Something went wrong contacting the server.");
+    } finally {
+      setIsProcessing(false);
     }
   };
 
@@ -321,11 +328,12 @@ const GradeConverter = () => {
                 </p>
                 <button 
                   onClick={handleLivePayment}
-                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', width: '100%', padding: '1.2rem', background: '#009246', color: 'white', border: 'none', borderRadius: '8px', fontSize: '1.2rem', fontWeight: 'bold', cursor: 'pointer', transition: 'transform 0.1s ease' }}
-                  onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
-                  onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                  disabled={isProcessing}
+                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', width: '100%', padding: '1.2rem', background: isProcessing ? '#888' : '#009246', color: 'white', border: 'none', borderRadius: '8px', fontSize: '1.2rem', fontWeight: 'bold', cursor: isProcessing ? 'not-allowed' : 'pointer', transition: 'transform 0.1s ease' }}
+                  onMouseEnter={(e) => { if(!isProcessing) e.currentTarget.style.transform = 'scale(1.02)' }}
+                  onMouseLeave={(e) => { if(!isProcessing) e.currentTarget.style.transform = 'scale(1)' }}
                 >
-                  <Euro size={22} /> Pay €4.99 to Unlock
+                  <Euro size={22} /> {isProcessing ? 'Loading...' : 'Pay €4.99 to Unlock'}
                 </button>
               </div>
             </div>
