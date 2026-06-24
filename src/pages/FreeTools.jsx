@@ -125,7 +125,9 @@ const FreeTools = () => {
               gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', 
               gap: '1.5rem' 
             }}>
-              {section.items.map((tool) => (
+              {section.items.map((tool, toolIdx) => {
+                const cardColor = toolIdx % 2 === 0 ? '#009246' : '#CE2B37';
+                return (
                 <div 
                   key={tool.id} 
                   className="card" 
@@ -134,18 +136,20 @@ const FreeTools = () => {
                     flexDirection: 'column', 
                     height: '100%', 
                     padding: '1.5rem',
-                    transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-                    cursor: 'pointer'
+                    transition: 'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease',
+                    cursor: 'pointer',
+                    borderLeft: `4px solid ${cardColor}`
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = 'translateY(-4px)';
                     e.currentTarget.style.boxShadow = '0 12px 24px rgba(0,0,0,0.2)';
-                    e.currentTarget.style.borderColor = idx % 2 === 0 ? 'rgba(0, 146, 70, 0.4)' : 'rgba(206, 43, 55, 0.4)';
+                    e.currentTarget.style.borderColor = cardColor;
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = 'translateY(0)';
                     e.currentTarget.style.boxShadow = 'none';
                     e.currentTarget.style.borderColor = 'var(--border-color)';
+                    e.currentTarget.style.borderLeftColor = cardColor;
                   }}
                   onClick={() => navigate(tool.path)}
                 >
@@ -174,7 +178,7 @@ const FreeTools = () => {
                     Use Tool
                   </button>
                 </div>
-              ))}
+              )})}
             </div>
           </div>
         ))}
