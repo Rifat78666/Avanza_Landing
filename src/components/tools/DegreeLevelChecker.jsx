@@ -25,7 +25,7 @@ const DegreeLevelChecker = () => {
       <div style={{
         width: '100%',
         position: 'relative',
-        backgroundImage: 'url("https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1920&q=80")',
+        backgroundImage: 'url("https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=1920&q=80")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         padding: '5rem 1rem',

@@ -27,7 +27,7 @@ const KSACreditsCalculator = () => {
       <div style={{
         width: '100%',
         position: 'relative',
-        backgroundImage: 'url("https://images.unsplash.com/photo-1579705745122-eb80c85c07b6?auto=format&fit=crop&w=1920&q=80")',
+        backgroundImage: 'url("https://images.unsplash.com/photo-1551041777-ed277b8dd348?auto=format&fit=crop&w=1920&q=80")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         padding: '5rem 1rem',

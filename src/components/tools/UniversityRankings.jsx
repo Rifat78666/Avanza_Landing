@@ -22,7 +22,7 @@ const UniversityRankings = () => {
       <div style={{
         width: '100%',
         position: 'relative',
-        backgroundImage: 'url("https://images.unsplash.com/photo-1523580494112-071d311b95b8?auto=format&fit=crop&w=1920&q=80")',
+        backgroundImage: 'url("https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?auto=format&fit=crop&w=1920&q=80")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         padding: '5rem 1rem',
