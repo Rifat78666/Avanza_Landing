@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLanguage } from '../LanguageContext';
+import { Mail } from 'lucide-react';
 
 const About = () => {
   const { t } = useLanguage();
@@ -77,43 +78,55 @@ const About = () => {
           }}>
             
             {/* PALLAB CARD */}
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
               <img 
                 src="/pallab.png" 
                 alt="Pallab Mondal" 
                 style={{
-                  width: '100%',
-                  aspectRatio: '1 / 1',
-                  borderRadius: '12px',
+                  width: '120px',
+                  height: '120px',
+                  borderRadius: '50%',
                   objectFit: 'cover',
                   marginBottom: '1rem',
+                  border: '4px solid #009246',
                   boxShadow: '0 8px 20px rgba(0,0,0,0.1)'
                 }}
               />
               <h3 style={{ fontSize: '1.25rem', fontWeight: '700', color: '#000000', marginBottom: '0.25rem' }}>Pallab Mondal</h3>
-              <p style={{ color: '#555555', fontSize: '0.95rem', marginBottom: '1rem' }}>Founder & AI Specialist</p>
-              <div style={{ marginTop: '1.5rem', marginBottom: '0.5rem', display: 'flex', justifyContent: 'center' }}>
+              <p style={{ color: '#009246', fontWeight: 'bold', fontSize: '0.95rem', marginBottom: '0.5rem' }}>Co-founder, Country Manager</p>
+              <p style={{ color: '#555555', fontSize: '0.9rem', marginBottom: '0.5rem', lineHeight: '1.4' }}>
+                Master's in Artificial Intelligence for Science and Technology (Joint Programme)<br />
+                University of Milan || University of Milano-Bicocca || University of Pavia
+              </p>
+              <a href="mailto:pallabm472@gmail.com" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', color: '#555555', marginBottom: '1rem' }}><Mail size={16}/> pallabm472@gmail.com</a>
+              <div style={{ marginTop: '0.5rem', marginBottom: '0.5rem', display: 'flex', justifyContent: 'center' }}>
                 <img src="/avanza_university_strip_white.png" alt="University of Milan, Bicocca, Pavia" style={{ width: '100%', maxWidth: '350px', height: 'auto', objectFit: 'contain', mixBlendMode: 'multiply' }} onError={(e) => e.target.style.display = 'none'} />
               </div>
             </div>
 
             {/* RIFATUL CARD */}
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
               <img 
                 src="https://github.com/Rifat78666.png" 
                 alt="Rifatul Haque" 
                 style={{
-                  width: '100%',
-                  aspectRatio: '1 / 1',
-                  borderRadius: '12px',
+                  width: '120px',
+                  height: '120px',
+                  borderRadius: '50%',
                   objectFit: 'cover',
                   marginBottom: '1rem',
+                  border: '4px solid #CE2B37',
                   boxShadow: '0 8px 20px rgba(0,0,0,0.1)'
                 }}
               />
-              <h3 style={{ fontSize: '1.25rem', fontWeight: '700', color: '#000000', marginBottom: '0.25rem' }}>Rifatul Haque</h3>
-              <p style={{ color: '#555555', fontSize: '0.95rem', marginBottom: '1rem' }}>Co-Founder · Systems & AI</p>
-              <div style={{ marginTop: '1.5rem', marginBottom: '0.5rem', display: 'flex', justifyContent: 'center' }}>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: '700', color: '#000000', marginBottom: '0.25rem' }}>Md Rifatul Haque</h3>
+              <p style={{ color: '#CE2B37', fontWeight: 'bold', fontSize: '0.95rem', marginBottom: '0.5rem' }}>Co-founder, System & AI</p>
+              <p style={{ color: '#555555', fontSize: '0.9rem', marginBottom: '0.5rem', lineHeight: '1.4' }}>
+                Master's in Artificial Intelligence for Science and Technology (Joint Programme)<br />
+                University of Milan || University of Milano-Bicocca || University of Pavia
+              </p>
+              <a href="mailto:rifatulhaque200@gmail.com" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', color: '#555555', marginBottom: '1rem' }}><Mail size={16}/> rifatulhaque200@gmail.com</a>
+              <div style={{ marginTop: '0.5rem', marginBottom: '0.5rem', display: 'flex', justifyContent: 'center' }}>
                 <img src="/avanza_university_strip_white.png" alt="University of Milan, Bicocca, Pavia" style={{ width: '100%', maxWidth: '350px', height: 'auto', objectFit: 'contain', mixBlendMode: 'multiply' }} onError={(e) => e.target.style.display = 'none'} />
               </div>
             </div>
