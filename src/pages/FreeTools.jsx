@@ -179,29 +179,29 @@ const FreeTools = () => {
                         display: 'flex', 
                         flexDirection: 'column', 
                         height: '100%', 
-                        padding: '1.5rem',
-                        transition: 'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease',
+                        padding: '2rem',
+                        transition: 'transform 0.2s ease, box-shadow 0.2s ease',
                         cursor: 'pointer',
                         border: '2px solid #0052FF',
-                        borderRadius: '16px',
-                        boxShadow: '0 4px 12px rgba(0,82,255,0.1)'
+                        borderRadius: 'var(--radius)',
+                        boxShadow: 'var(--shadow)'
                       }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.transform = 'translateY(-4px)';
-                        e.currentTarget.style.boxShadow = '0 12px 24px rgba(0,82,255,0.2)';
+                        e.currentTarget.style.boxShadow = '0 12px 24px rgba(0,82,255,0.15)';
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.transform = 'translateY(0)';
-                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,82,255,0.1)';
+                        e.currentTarget.style.boxShadow = 'var(--shadow)';
                       }}
                       onClick={() => navigate(tool.path)}
                     >
-                      <h3 style={{ fontSize: '1.3rem', margin: '0 0 1rem 0', color: '#0052FF' }}>{tool.name}</h3>
-                      <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', flexGrow: 1, marginBottom: '1.5rem', lineHeight: '1.5' }}>
+                      <h3 style={{ fontSize: '1.5rem', margin: '0 0 1rem 0' }}>{tool.name}</h3>
+                      <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', flexGrow: 1, marginBottom: '2rem', lineHeight: '1.5' }}>
                         {tool.description}
                       </p>
                       
-                      <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1.5rem', marginBottom: '1.5rem' }}>
+                      <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1.5rem', marginBottom: '2rem' }}>
                         <div style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '1rem' }}>INCLUDED FEATURES</div>
                         <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                           {tool.features.map((feat, i) => (
