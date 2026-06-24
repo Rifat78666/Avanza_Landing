@@ -179,16 +179,16 @@ const FreeTools = () => {
                         display: 'flex', 
                         flexDirection: 'column', 
                         height: '100%', 
-                        padding: '2rem',
+                        padding: '1.5rem',
                         transition: 'transform 0.2s ease, box-shadow 0.2s ease',
                         cursor: 'pointer',
-                        border: '2px solid #0052FF',
+                        border: `2px solid ${cardColor}`,
                         borderRadius: 'var(--radius)',
                         boxShadow: 'var(--shadow)'
                       }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.transform = 'translateY(-4px)';
-                        e.currentTarget.style.boxShadow = '0 12px 24px rgba(0,82,255,0.15)';
+                        e.currentTarget.style.boxShadow = `0 12px 24px ${cardColor}33`; // 33 is 20% opacity hex
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.transform = 'translateY(0)';
@@ -196,7 +196,7 @@ const FreeTools = () => {
                       }}
                       onClick={() => navigate(tool.path)}
                     >
-                      <h3 style={{ fontSize: '1.5rem', margin: '0 0 1rem 0', color: '#0052FF' }}>{tool.name}</h3>
+                      <h3 style={{ fontSize: '1.5rem', margin: '0 0 1rem 0', color: cardColor }}>{tool.name}</h3>
                       <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', flexGrow: 1, marginBottom: '2rem', lineHeight: '1.5' }}>
                         {tool.description}
                       </p>
@@ -205,7 +205,7 @@ const FreeTools = () => {
                         style={{ 
                           width: '100%', 
                           padding: '1rem', 
-                          background: '#0052FF', 
+                          background: cardColor, 
                           color: 'white', 
                           border: 'none', 
                           borderRadius: '30px', 
