@@ -14,7 +14,7 @@ const GradeConverter = () => {
 
   const gradingSystems = {
     'India': ['Percentage (0-100)', 'CGPA (10-pt)', 'CGPA (4-pt)'],
-    'Bangladesh': ['Percentage (0-100)', 'GPA (5-pt)'],
+    'Bangladesh': ['Percentage (0-100)', 'GPA (5-pt)', 'CGPA (4-pt)'],
     'Pakistan': ['Percentage (0-100)', 'CGPA (4-pt)']
   };
 
@@ -32,7 +32,10 @@ const GradeConverter = () => {
     let italy = 0;
     if (gradingSystem.includes('10-pt')) italy = Math.round((g / 10) * 30);
     else if (gradingSystem.includes('5-pt')) italy = Math.round((g / 5) * 30);
-    else if (gradingSystem.includes('4-pt')) italy = Math.round((g / 4) * 30);
+    else if (gradingSystem.includes('4-pt')) {
+      if (g < 2.0) italy = 17; // Below Italian threshold
+      else italy = Math.round(18 + ((g - 2.0) / 2.0) * 12);
+    }
     else {
       if (pct >= 95) italy = 30;
       else if (pct >= 60) italy = Math.round(18 + ((pct - 60) / 40) * 12);
