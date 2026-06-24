@@ -1,93 +1,70 @@
 [
   {
-    "rank": 1,
-    "name": "Massachusetts Institute of Technology (MIT)",
-    "country": "United States",
-    "score": "100.0",
+    "rank": 123,
+    "name": "Politecnico di Milano",
+    "country": "Italy",
+    "score": "75.4",
     "metrics": {
-      "research": "99.9",
-      "employability": "100.0",
-      "globalEngagement": "96.5"
+      "research": "80.1",
+      "employability": "88.0",
+      "globalEngagement": "70.5"
     },
     "admission": {
       "bachelor": {
-        "gpa": "3.9 - 4.0",
-        "tests": "SAT: 1520-1580 / ACT: 35-36",
-        "english": "TOEFL: 100+ / IELTS: 7.5+"
+        "gpa": "High School Diploma / TOLC-I",
+        "tests": "TOLC-I (Engineering)",
+        "english": "IELTS 5.5+"
       },
       "master": {
-        "gpa": "3.8+ (varies by program)",
-        "tests": "GRE: Highly Recommended",
-        "english": "TOEFL: 100+ / IELTS: 7.5+"
+        "gpa": "Bachelor (Min 80/110)",
+        "tests": "None / Portfolio",
+        "english": "IELTS 6.0+"
       }
     }
   },
   {
-    "rank": 4,
-    "name": "University of Oxford",
-    "country": "United Kingdom",
-    "score": "98.9",
+    "rank": 154,
+    "name": "Sapienza University of Rome",
+    "country": "Italy",
+    "score": "70.1",
     "metrics": {
-      "research": "100.0",
-      "employability": "99.0",
-      "globalEngagement": "98.5"
+      "research": "85.2",
+      "employability": "65.5",
+      "globalEngagement": "72.0"
     },
     "admission": {
       "bachelor": {
-        "gpa": "3.8 - 4.0 (A*A*A - AAA at A-Level)",
-        "tests": "Admissions Test Required (e.g. MAT, PAT)",
-        "english": "IELTS: 7.5+ / TOEFL: 110+"
+        "gpa": "High School Diploma",
+        "tests": "TOLC-E/TOLC-F",
+        "english": "IELTS 5.5+"
       },
       "master": {
-        "gpa": "3.7+ (First Class or High Upper Second)",
-        "tests": "GRE: Required for some programs",
-        "english": "IELTS: 7.5+ / TOEFL: 110+"
+        "gpa": "Bachelor (Min 85/110)",
+        "tests": "None",
+        "english": "IELTS 6.0+"
       }
     }
   },
   {
-    "rank": 7,
-    "name": "ETH Zurich",
-    "country": "Switzerland",
-    "score": "93.3",
+    "rank": 167,
+    "name": "University of Bologna",
+    "country": "Italy",
+    "score": "68.9",
     "metrics": {
-      "research": "98.0",
-      "employability": "95.5",
-      "globalEngagement": "99.0"
+      "research": "78.0",
+      "employability": "69.0",
+      "globalEngagement": "75.5"
     },
     "admission": {
       "bachelor": {
-        "gpa": "Equivalent to excellent Matura",
-        "tests": "Entrance Exam (if criteria not met)",
-        "english": "German C1 Required (Bachelor usually in German)"
+        "gpa": "High School Diploma",
+        "tests": "TOLC",
+        "english": "IELTS 5.5+"
       },
       "master": {
-        "gpa": "Excellent Bachelor's degree",
-        "tests": "GRE: Highly Recommended",
-        "english": "TOEFL: 100+ / IELTS: 7.0+"
-      }
-    }
-  },
-  {
-    "rank": 17,
-    "name": "Tsinghua University",
-    "country": "China",
-    "score": "87.1",
-    "metrics": {
-      "research": "94.5",
-      "employability": "96.0",
-      "globalEngagement": "85.0"
-    },
-    "admission": {
-      "bachelor": {
-        "gpa": "Outstanding High School Record",
-        "tests": "Gaokao (for domestic), SAT/ACT + APs (for Int'l)",
-        "english": "HSK 5+ (for Chinese programs) / IELTS 6.5+"
-      },
-      "master": {
-        "gpa": "3.5+",
-        "tests": "GRE/GMAT for specific programs",
-        "english": "TOEFL: 90+ / IELTS: 6.5+"
+        "gpa": "Bachelor (Min 80/110)",
+        "tests": "None",
+        "english": "IELTS 6.0+"
       }
     }
   },
@@ -103,14 +80,14 @@
     },
     "admission": {
       "bachelor": {
-        "gpa": "High School Diploma (Minimum 70/100)",
-        "tests": "TOLC test depending on program",
-        "english": "B2 Level (IELTS 5.5+)"
+        "gpa": "High School Diploma (Min 70/100)",
+        "tests": "TOLC",
+        "english": "IELTS 5.5+"
       },
       "master": {
-        "gpa": "Bachelor degree in related field (Minimum 85/110)",
-        "tests": "Usually None / Portfolio",
-        "english": "B2 Level (IELTS 6.0+)"
+        "gpa": "Bachelor (Min 85/110)",
+        "tests": "Portfolio",
+        "english": "IELTS 6.0+"
       }
     }
   },
@@ -128,12 +105,12 @@
       "bachelor": {
         "gpa": "High School Diploma",
         "tests": "TOLC",
-        "english": "B2 Level"
+        "english": "IELTS 5.5+"
       },
       "master": {
-        "gpa": "Bachelor degree (Minimum 85/110)",
+        "gpa": "Bachelor (Min 85/110)",
         "tests": "None",
-        "english": "B2 Level"
+        "english": "IELTS 6.0+"
       }
     }
   },
@@ -151,12 +128,265 @@
       "bachelor": {
         "gpa": "High School Diploma",
         "tests": "TOLC",
-        "english": "B2 Level"
+        "english": "IELTS 5.5+"
       },
       "master": {
         "gpa": "Bachelor degree",
         "tests": "None",
-        "english": "B2 Level"
+        "english": "IELTS 6.0+"
+      }
+    }
+  },
+  {
+    "rank": 37,
+    "name": "Technical University of Munich (TUM)",
+    "country": "Germany",
+    "score": "88.5",
+    "metrics": {
+      "research": "92.0",
+      "employability": "95.5",
+      "globalEngagement": "80.5"
+    },
+    "admission": {
+      "bachelor": {
+        "gpa": "Abitur equivalent",
+        "tests": "VPD Assessment",
+        "english": "IELTS 6.5+ / German B2"
+      },
+      "master": {
+        "gpa": "Bachelor eq. to 2.5 German",
+        "tests": "GRE for some",
+        "english": "IELTS 6.5+"
+      }
+    }
+  },
+  {
+    "rank": 54,
+    "name": "LMU Munich",
+    "country": "Germany",
+    "score": "85.2",
+    "metrics": {
+      "research": "90.0",
+      "employability": "82.5",
+      "globalEngagement": "85.0"
+    },
+    "admission": {
+      "bachelor": {
+        "gpa": "Abitur equivalent",
+        "tests": "None",
+        "english": "German C1"
+      },
+      "master": {
+        "gpa": "Good Bachelor",
+        "tests": "None",
+        "english": "IELTS 6.5+"
+      }
+    }
+  },
+  {
+    "rank": 24,
+    "name": "PSL University",
+    "country": "France",
+    "score": "90.5",
+    "metrics": {
+      "research": "95.0",
+      "employability": "90.0",
+      "globalEngagement": "88.0"
+    },
+    "admission": {
+      "bachelor": {
+        "gpa": "Excellent Baccalaureate",
+        "tests": "Entrance Exam",
+        "english": "IELTS 6.5+ / French B2"
+      },
+      "master": {
+        "gpa": "Excellent Bachelor",
+        "tests": "Interview",
+        "english": "IELTS 6.5+"
+      }
+    }
+  },
+  {
+    "rank": 60,
+    "name": "Sorbonne University",
+    "country": "France",
+    "score": "83.1",
+    "metrics": {
+      "research": "88.5",
+      "employability": "75.0",
+      "globalEngagement": "85.5"
+    },
+    "admission": {
+      "bachelor": {
+        "gpa": "Good Baccalaureate",
+        "tests": "Campus France",
+        "english": "French B2/C1"
+      },
+      "master": {
+        "gpa": "Good Bachelor",
+        "tests": "Dossier",
+        "english": "IELTS 6.5+"
+      }
+    }
+  },
+  {
+    "rank": 164,
+    "name": "University of Barcelona",
+    "country": "Spain",
+    "score": "68.5",
+    "metrics": {
+      "research": "72.0",
+      "employability": "65.5",
+      "globalEngagement": "70.0"
+    },
+    "admission": {
+      "bachelor": {
+        "gpa": "Nota de Corte",
+        "tests": "UNEDasiss",
+        "english": "Spanish B2"
+      },
+      "master": {
+        "gpa": "Bachelor degree",
+        "tests": "None",
+        "english": "IELTS 6.0+"
+      }
+    }
+  },
+  {
+    "rank": 58,
+    "name": "University of Amsterdam",
+    "country": "Netherlands",
+    "score": "84.0",
+    "metrics": {
+      "research": "86.5",
+      "employability": "80.0",
+      "globalEngagement": "90.0"
+    },
+    "admission": {
+      "bachelor": {
+        "gpa": "VWO equivalent",
+        "tests": "Numerus Fixus",
+        "english": "IELTS 6.5+"
+      },
+      "master": {
+        "gpa": "Good Bachelor",
+        "tests": "GMAT/GRE for Business",
+        "english": "IELTS 6.5+"
+      }
+    }
+  },
+  {
+    "rank": 61,
+    "name": "Delft University of Technology",
+    "country": "Netherlands",
+    "score": "83.5",
+    "metrics": {
+      "research": "88.0",
+      "employability": "92.0",
+      "globalEngagement": "85.0"
+    },
+    "admission": {
+      "bachelor": {
+        "gpa": "VWO equivalent",
+        "tests": "Selection",
+        "english": "IELTS 6.5+"
+      },
+      "master": {
+        "gpa": "CGPA > 75%",
+        "tests": "GRE required",
+        "english": "IELTS 6.5+"
+      }
+    }
+  },
+  {
+    "rank": 601,
+    "name": "Eötvös Loránd University",
+    "country": "Hungary",
+    "score": "45.0",
+    "metrics": {
+      "research": "48.0",
+      "employability": "42.0",
+      "globalEngagement": "50.0"
+    },
+    "admission": {
+      "bachelor": {
+        "gpa": "High School Diploma",
+        "tests": "Entrance Exam",
+        "english": "IELTS 5.5+"
+      },
+      "master": {
+        "gpa": "Bachelor degree",
+        "tests": "Oral Exam",
+        "english": "IELTS 6.0+"
+      }
+    }
+  },
+  {
+    "rank": 473,
+    "name": "University of Cyprus",
+    "country": "Cyprus",
+    "score": "52.0",
+    "metrics": {
+      "research": "55.0",
+      "employability": "45.0",
+      "globalEngagement": "60.0"
+    },
+    "admission": {
+      "bachelor": {
+        "gpa": "High School",
+        "tests": "Pancyprian Exams",
+        "english": "IELTS 5.5+"
+      },
+      "master": {
+        "gpa": "Bachelor degree",
+        "tests": "None",
+        "english": "IELTS 6.0+"
+      }
+    }
+  },
+  {
+    "rank": 400,
+    "name": "Vilnius University",
+    "country": "Lithuania",
+    "score": "55.0",
+    "metrics": {
+      "research": "52.0",
+      "employability": "60.0",
+      "globalEngagement": "65.0"
+    },
+    "admission": {
+      "bachelor": {
+        "gpa": "High School Diploma",
+        "tests": "None",
+        "english": "IELTS 5.5+"
+      },
+      "master": {
+        "gpa": "Bachelor degree",
+        "tests": "Motivation Letter",
+        "english": "IELTS 6.0+"
+      }
+    }
+  },
+  {
+    "rank": 358,
+    "name": "University of Tartu",
+    "country": "Estonia",
+    "score": "59.5",
+    "metrics": {
+      "research": "62.0",
+      "employability": "55.0",
+      "globalEngagement": "70.0"
+    },
+    "admission": {
+      "bachelor": {
+        "gpa": "High School Diploma",
+        "tests": "Motivation Letter",
+        "english": "IELTS 5.5+"
+      },
+      "master": {
+        "gpa": "Bachelor degree",
+        "tests": "Interview",
+        "english": "IELTS 6.0+"
       }
     }
   }
