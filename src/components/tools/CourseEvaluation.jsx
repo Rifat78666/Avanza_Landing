@@ -162,8 +162,8 @@ const CourseEvaluation = () => {
           zIndex: 1
         }}></div>
         <div style={{ position: 'relative', zIndex: 2, maxWidth: '800px', margin: '0 auto' }}>
-          <h1 style={{ fontSize: '3.5rem', marginBottom: '1rem', fontWeight: 'bold' }}>Course by Course Evaluation</h1>
-          <p style={{ fontSize: '1.2rem', marginBottom: '2rem' }}>Detailed course by course evaluation and European framework mapping for your academic qualifications.</p>
+          <h1 style={{ fontSize: '3.5rem', marginBottom: '1rem', fontWeight: 'bold' }}>Unlock your global potential.</h1>
+          <p style={{ fontSize: '1.2rem', marginBottom: '2rem' }}>Comprehensive course-by-course evaluation verifying your academic achievements to the highest European standards.</p>
         </div>
       </div>
       
@@ -174,6 +174,18 @@ const CourseEvaluation = () => {
         >
           <ArrowLeft size={18} /> Back to Tools
         </button>
+
+        <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
+            <div style={{ background: 'rgba(0, 146, 70, 0.1)', padding: '1rem', borderRadius: '50%' }}>
+              <FileText size={40} color="#009246" />
+            </div>
+          </div>
+          <h2 className="s-grad" style={{ fontSize: '2.5rem', marginBottom: '1rem', paddingBottom: '0.2rem' }}>Course by Course Evaluation</h2>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '1.2rem', maxWidth: '600px', margin: '0 auto' }}>
+            A complete course-by-course evaluation — verification, credit and grade conversion, framework mapping, and GPA — delivered as one official PDF report.
+          </p>
+        </div>
 
         <div className="card" style={{ padding: '2rem', borderTop: '4px solid #009246' }}>
           {aiProcessing ? (
