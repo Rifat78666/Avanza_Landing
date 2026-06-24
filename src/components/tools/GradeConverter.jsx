@@ -318,8 +318,8 @@ const GradeConverter = () => {
                   <img src="/pallab.png" alt="Pallab Mondal" style={{ width: '80px', height: '80px', borderRadius: '50%', objectFit: 'cover', margin: '0 auto 1rem auto', display: 'block', border: '3px solid #009246' }} />
                   <h3 style={{ marginBottom: '0.5rem' }}>Pallab Mondal</h3>
                   <p style={{ color: '#009246', fontWeight: 'bold', marginBottom: '0.5rem' }}>Co-founder, Country Manager</p>
-                  <div style={{ background: 'rgba(0, 0, 0, 0.02)', borderRadius: '20px', padding: '0.5rem 1rem', marginBottom: '1rem', display: 'inline-flex', justifyContent: 'center', alignItems: 'center', border: '1px solid var(--border-color)', boxShadow: 'inset 0 1px 3px rgba(0,0,0,0.02)' }}>
-                    <img src="/university_logos.png" alt="University of Milan, Bicocca, Pavia" style={{ height: '40px', width: 'auto', objectFit: 'contain', display: 'block' }} onError={(e) => e.target.style.display = 'none'} />
+                  <div style={{ marginBottom: '1rem', display: 'flex', justifyContent: 'center' }}>
+                    <img src="/university_logos.png" alt="University of Milan, Bicocca, Pavia" style={{ height: '45px', width: 'auto', objectFit: 'contain', mixBlendMode: 'multiply' }} onError={(e) => e.target.style.display = 'none'} />
                   </div>
                   <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '0.5rem', lineHeight: '1.4' }}>
                     Master's in Artificial Intelligence for Science and Technology (Joint Programme)
@@ -331,8 +331,8 @@ const GradeConverter = () => {
                   <img src="/rifat.png" alt="Md Rifatul Haque" style={{ width: '80px', height: '80px', borderRadius: '50%', objectFit: 'cover', margin: '0 auto 1rem auto', display: 'block', border: '3px solid #CE2B37' }} />
                   <h3 style={{ marginBottom: '0.5rem' }}>Md Rifatul Haque</h3>
                   <p style={{ color: '#CE2B37', fontWeight: 'bold', marginBottom: '0.5rem' }}>Co-founder, System & AI</p>
-                  <div style={{ background: 'rgba(0, 0, 0, 0.02)', borderRadius: '20px', padding: '0.5rem 1rem', marginBottom: '1rem', display: 'inline-flex', justifyContent: 'center', alignItems: 'center', border: '1px solid var(--border-color)', boxShadow: 'inset 0 1px 3px rgba(0,0,0,0.02)' }}>
-                    <img src="/university_logos.png" alt="University of Milan, Bicocca, Pavia" style={{ height: '40px', width: 'auto', objectFit: 'contain', display: 'block' }} onError={(e) => e.target.style.display = 'none'} />
+                  <div style={{ marginBottom: '1rem', display: 'flex', justifyContent: 'center' }}>
+                    <img src="/university_logos.png" alt="University of Milan, Bicocca, Pavia" style={{ height: '45px', width: 'auto', objectFit: 'contain', mixBlendMode: 'multiply' }} onError={(e) => e.target.style.display = 'none'} />
                   </div>
                   <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '0.5rem', lineHeight: '1.4' }}>
                     Master's in Artificial Intelligence for Science and Technology (Joint Programme)

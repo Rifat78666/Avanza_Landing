@@ -92,8 +92,8 @@ const About = () => {
               />
               <h3 style={{ fontSize: '1.25rem', fontWeight: '700', color: '#000000', marginBottom: '0.25rem' }}>Pallab Mondal</h3>
               <p style={{ color: '#555555', fontSize: '0.95rem', marginBottom: '1rem' }}>Founder & AI Specialist</p>
-              <div style={{ background: 'rgba(0, 0, 0, 0.02)', borderRadius: '20px', padding: '0.5rem 1rem', display: 'inline-flex', justifyContent: 'center', alignItems: 'center', border: '1px solid var(--border-color)', boxShadow: 'inset 0 1px 3px rgba(0,0,0,0.02)', alignSelf: 'flex-start' }}>
-                <img src="/university_logos.png" alt="University of Milan, Bicocca, Pavia" style={{ height: '40px', width: 'auto', objectFit: 'contain', display: 'block' }} onError={(e) => e.target.style.display = 'none'} />
+              <div style={{ marginBottom: '1rem', display: 'flex', justifyContent: 'center' }}>
+                <img src="/university_logos.png" alt="University of Milan, Bicocca, Pavia" style={{ height: '45px', width: 'auto', objectFit: 'contain', mixBlendMode: 'multiply' }} onError={(e) => e.target.style.display = 'none'} />
               </div>
             </div>
 
@@ -113,8 +113,8 @@ const About = () => {
               />
               <h3 style={{ fontSize: '1.25rem', fontWeight: '700', color: '#000000', marginBottom: '0.25rem' }}>Rifatul Haque</h3>
               <p style={{ color: '#555555', fontSize: '0.95rem', marginBottom: '1rem' }}>Co-Founder · Systems & AI</p>
-              <div style={{ background: 'rgba(0, 0, 0, 0.02)', borderRadius: '20px', padding: '0.5rem 1rem', display: 'inline-flex', justifyContent: 'center', alignItems: 'center', border: '1px solid var(--border-color)', boxShadow: 'inset 0 1px 3px rgba(0,0,0,0.02)', alignSelf: 'flex-start' }}>
-                <img src="/university_logos.png" alt="University of Milan, Bicocca, Pavia" style={{ height: '40px', width: 'auto', objectFit: 'contain', display: 'block' }} onError={(e) => e.target.style.display = 'none'} />
+              <div style={{ marginBottom: '1rem', display: 'flex', justifyContent: 'center' }}>
+                <img src="/university_logos.png" alt="University of Milan, Bicocca, Pavia" style={{ height: '45px', width: 'auto', objectFit: 'contain', mixBlendMode: 'multiply' }} onError={(e) => e.target.style.display = 'none'} />
               </div>
             </div>
 
