@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { ArrowLeft, Calculator, GraduationCap, MapPin, CheckCircle, Lock, Calendar, Mail, Euro } from 'lucide-react';
 import uniData from '../../data/university_match_seed.json';
 
@@ -11,6 +11,15 @@ const GradeConverter = () => {
   const [grade, setGrade] = useState('');
   const [targetCountry, setTargetCountry] = useState('');
   const [isUnlocked, setIsUnlocked] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (params.get('unlocked') === 'true') {
+      setIsUnlocked(true);
+      setStep(5);
+    }
+  }, [location]);
 
   const gradingSystems = {
     'India': ['Percentage (0-100)', 'CGPA (10-pt)', 'CGPA (4-pt)'],
@@ -85,8 +94,27 @@ const GradeConverter = () => {
     setStep(step + 1);
   };
 
-  const handleMockPayment = () => {
-    setIsUnlocked(true);
+  const handleLivePayment = async () => {
+    try {
+      const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://avanza-backend-h0pm.onrender.com';
+      const response = await fetch(`${API_BASE_URL}/api/create-checkout-session`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          source_country: sourceCountry,
+          grading_system: gradingSystem,
+          grade: parseFloat(grade) || 0,
+          target_country: targetCountry || "All Europe"
+        })
+      });
+      const data = await response.json();
+      if (data.url) {
+        window.location.href = data.url;
+      }
+    } catch (error) {
+      console.error("Error redirecting to Stripe:", error);
+      alert("Something went wrong loading the payment page.");
+    }
   };
 
   return (
@@ -292,7 +320,7 @@ const GradeConverter = () => {
                   See your exact {targetCountry} grade equivalent, unlock all {matchedUnis.length} matching universities, and get a 1:1 consultation with our founders.
                 </p>
                 <button 
-                  onClick={handleMockPayment}
+                  onClick={handleLivePayment}
                   style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', width: '100%', padding: '1.2rem', background: '#009246', color: 'white', border: 'none', borderRadius: '8px', fontSize: '1.2rem', fontWeight: 'bold', cursor: 'pointer', transition: 'transform 0.1s ease' }}
                   onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
                   onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
