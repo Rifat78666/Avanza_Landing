@@ -293,7 +293,7 @@ const GradeConverter = () => {
                   <img src="/pallab.png" alt="Pallab Mondal" style={{ width: '80px', height: '80px', borderRadius: '50%', objectFit: 'cover', margin: '0 auto 1rem auto', display: 'block', border: '3px solid #009246' }} />
                   <h3 style={{ marginBottom: '0.5rem' }}>Pallab Mondal</h3>
                   <p style={{ color: '#009246', fontWeight: 'bold', marginBottom: '1rem' }}>Co-founder, Country Manager</p>
-                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1.5rem', lineHeight: '1.4', flexGrow: 1 }}>
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1.5rem', lineHeight: '1.4' }}>
                     Master's in Artificial Intelligence for Science and Technology<br />
                     Joint Program: University of Milan, University of Milano-Bicocca & University of Pavia
                   </p>
@@ -304,7 +304,7 @@ const GradeConverter = () => {
                   <img src="/rifat.png" alt="Md Rifatul Haque" style={{ width: '80px', height: '80px', borderRadius: '50%', objectFit: 'cover', margin: '0 auto 1rem auto', display: 'block', border: '3px solid #CE2B37' }} />
                   <h3 style={{ marginBottom: '0.5rem' }}>Md Rifatul Haque</h3>
                   <p style={{ color: '#CE2B37', fontWeight: 'bold', marginBottom: '1rem' }}>Co-founder</p>
-                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1.5rem', lineHeight: '1.4', flexGrow: 1 }}>
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1.5rem', lineHeight: '1.4' }}>
                     Master's in Artificial Intelligence for Science and Technology<br />
                     Joint Program: University of Milan, University of Milano-Bicocca & University of Pavia
                   </p>
