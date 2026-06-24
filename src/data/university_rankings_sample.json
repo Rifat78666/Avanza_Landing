@@ -90,5 +90,74 @@
         "english": "TOEFL: 90+ / IELTS: 6.5+"
       }
     }
+  },
+  {
+    "rank": 250,
+    "name": "University of Milan",
+    "country": "Italy",
+    "score": "70.5",
+    "metrics": {
+      "research": "75.0",
+      "employability": "68.0",
+      "globalEngagement": "65.0"
+    },
+    "admission": {
+      "bachelor": {
+        "gpa": "High School Diploma (Minimum 70/100)",
+        "tests": "TOLC test depending on program",
+        "english": "B2 Level (IELTS 5.5+)"
+      },
+      "master": {
+        "gpa": "Bachelor degree in related field (Minimum 85/110)",
+        "tests": "Usually None / Portfolio",
+        "english": "B2 Level (IELTS 6.0+)"
+      }
+    }
+  },
+  {
+    "rank": 300,
+    "name": "University of Milano-Bicocca",
+    "country": "Italy",
+    "score": "65.2",
+    "metrics": {
+      "research": "70.0",
+      "employability": "62.0",
+      "globalEngagement": "60.0"
+    },
+    "admission": {
+      "bachelor": {
+        "gpa": "High School Diploma",
+        "tests": "TOLC",
+        "english": "B2 Level"
+      },
+      "master": {
+        "gpa": "Bachelor degree (Minimum 85/110)",
+        "tests": "None",
+        "english": "B2 Level"
+      }
+    }
+  },
+  {
+    "rank": 400,
+    "name": "University of Pavia",
+    "country": "Italy",
+    "score": "58.9",
+    "metrics": {
+      "research": "65.0",
+      "employability": "55.0",
+      "globalEngagement": "50.0"
+    },
+    "admission": {
+      "bachelor": {
+        "gpa": "High School Diploma",
+        "tests": "TOLC",
+        "english": "B2 Level"
+      },
+      "master": {
+        "gpa": "Bachelor degree",
+        "tests": "None",
+        "english": "B2 Level"
+      }
+    }
   }
 ]
