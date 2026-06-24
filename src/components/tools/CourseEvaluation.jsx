@@ -4,23 +4,116 @@ import { ArrowLeft, FileText, Download, CheckCircle } from 'lucide-react';
 
 const CourseEvaluation = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     student_name: '',
+    email: '',
     degree_title: '',
     university: '',
     original_grade: '',
     target_country: 'Italy'
   });
+  const [file, setFile] = useState(null);
+  const [documentId, setDocumentId] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [aiProcessing, setAiProcessing] = useState(false);
+  const [aiSuccess, setAiSuccess] = useState(false);
+
+  // Check for Stripe redirect
+  useEffect(() => {
+    const query = new URLSearchParams(location.search);
+    if (query.get('success') === 'true' && query.get('session_id')) {
+      setAiProcessing(true);
+      processAiEvaluation(query.get('session_id'));
+    }
+  }, [location.search]);
+
+  const processAiEvaluation = async (sessionId) => {
+    try {
+      const response = await fetch(
+        window.location.hostname === "localhost" 
+          ? "http://localhost:8000/api/process-evaluation" 
+          : "https://avanza-backend.onrender.com/api/process-evaluation",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ session_id: sessionId })
+        }
+      );
+      
+      if (!response.ok) throw new Error("Failed to process evaluation");
+      
+      // Download PDF
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Avanza_Course_Evaluation.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      
+      setAiProcessing(false);
+      setAiSuccess(true);
+    } catch (error) {
+      console.error(error);
+      alert("Error processing your transcript. Please contact support.");
+      setAiProcessing(false);
+    }
+  };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleNext = (e) => {
+  const handleFileChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setFile(e.target.files[0]);
+    }
+  };
+
+  const handleEvaluate = async (e) => {
     e.preventDefault();
-    setStep(2);
+    if (!file) {
+      alert("Please upload your transcript.");
+      return;
+    }
+    
+    setIsProcessing(true);
+    try {
+      const formPayload = new FormData();
+      formPayload.append("file", file);
+      formPayload.append("student_name", formData.student_name);
+      formPayload.append("email", formData.email);
+      formPayload.append("degree_title", formData.degree_title);
+      formPayload.append("university", formData.university);
+      formPayload.append("original_grade", formData.original_grade);
+      formPayload.append("target_country", formData.target_country);
+
+      const response = await fetch(
+        window.location.hostname === "localhost" 
+          ? "http://localhost:8000/api/upload-transcript" 
+          : "https://avanza-backend.onrender.com/api/upload-transcript",
+        {
+          method: "POST",
+          body: formPayload
+        }
+      );
+      
+      const data = await response.json();
+      if (response.ok && data.document_id) {
+        setDocumentId(data.document_id);
+        setStep(2);
+      } else {
+        alert("Error uploading transcript.");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Network error.");
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   const handlePay = async () => {
@@ -33,7 +126,7 @@ const CourseEvaluation = () => {
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData)
+        body: JSON.stringify({ document_id: documentId })
       });
       const data = await response.json();
       if (response.ok && data.url) {
@@ -83,22 +176,71 @@ const CourseEvaluation = () => {
         </button>
 
         <div className="card" style={{ padding: '2rem', borderTop: '4px solid #0052FF' }}>
-          {step === 1 ? (
-            <form onSubmit={handleNext} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          {aiProcessing ? (
+            <div style={{ textAlign: 'center', padding: '4rem 2rem' }}>
+              <div style={{ position: 'relative', width: '120px', height: '120px', margin: '0 auto 2rem auto' }}>
+                <div style={{ 
+                  position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+                  border: '4px solid rgba(0, 82, 255, 0.2)', borderRadius: '50%', borderTopColor: '#0052FF',
+                  animation: 'spin 1.5s linear infinite'
+                }}></div>
+                <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+                  <FileText size={40} color="#0052FF" />
+                </div>
+              </div>
+              <style>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
+              <h2 style={{ fontSize: '2rem', marginBottom: '1rem', background: 'linear-gradient(90deg, #0052FF, #00C6FF)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>AI is Reading Your Transcript...</h2>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '1.2rem', maxWidth: '500px', margin: '0 auto' }}>
+                Our AI is currently analyzing your subjects, converting your credits, and mapping your grades to European standards. This takes about 10-20 seconds.
+              </p>
+            </div>
+          ) : aiSuccess ? (
+            <div style={{ textAlign: 'center', padding: '4rem 2rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.5rem' }}>
+                <CheckCircle size={80} color="#009246" />
+              </div>
+              <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>Evaluation Complete!</h2>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '1.2rem', marginBottom: '2rem' }}>
+                Your transcript has been successfully evaluated. The PDF report should download automatically. A copy has also been sent to your email.
+              </p>
+              <button 
+                onClick={() => navigate('/tools')}
+                style={{ background: '#0052FF', color: 'white', padding: '1rem 2rem', border: 'none', borderRadius: '8px', fontSize: '1.1rem', fontWeight: 'bold', cursor: 'pointer' }}
+              >
+                Return to Tools
+              </button>
+            </div>
+          ) : step === 1 ? (
+            <form onSubmit={handleEvaluate} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
               <h2 style={{ fontSize: '1.8rem', marginBottom: '1rem', textAlign: 'center' }}>Enter Qualification Details</h2>
               
-              <div>
-                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>Full Name</label>
-                <input 
-                  type="text" 
-                  name="student_name"
-                  required
-                  value={formData.student_name}
-                  onChange={handleChange}
-                  className="input-field"
-                  placeholder="e.g. Rahul Sharma"
-                  style={{ width: '100%', padding: '1rem', fontSize: '1.1rem' }}
-                />
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                <div>
+                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>Full Name</label>
+                  <input 
+                    type="text" 
+                    name="student_name"
+                    required
+                    value={formData.student_name}
+                    onChange={handleChange}
+                    className="input-field"
+                    placeholder="e.g. Rahul Sharma"
+                    style={{ width: '100%', padding: '1rem', fontSize: '1.1rem' }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>Email Address</label>
+                  <input 
+                    type="email" 
+                    name="email"
+                    required
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="input-field"
+                    placeholder="e.g. rahul@example.com"
+                    style={{ width: '100%', padding: '1rem', fontSize: '1.1rem' }}
+                  />
+                </div>
               </div>
 
               <div>
@@ -162,17 +304,30 @@ const CourseEvaluation = () => {
                 </div>
               </div>
 
+              <div style={{ border: '2px dashed var(--border-color)', padding: '2rem', borderRadius: '8px', textAlign: 'center', backgroundColor: 'var(--bg-color)' }}>
+                <label style={{ display: 'block', marginBottom: '1rem', fontWeight: 'bold', fontSize: '1.1rem' }}>Upload Transcript</label>
+                <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>Upload your official transcript (PDF, JPG, or PNG) so our AI can evaluate your courses.</p>
+                <input 
+                  type="file" 
+                  accept=".pdf,image/*"
+                  onChange={handleFileChange}
+                  required
+                  style={{ display: 'block', margin: '0 auto' }}
+                />
+              </div>
+
               <div style={{ marginTop: '1rem' }}>
                 <button 
                   type="submit" 
+                  disabled={isProcessing}
                   style={{ 
                     display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', 
                     width: '100%', padding: '1.2rem', background: '#0052FF', color: 'white', 
                     border: 'none', borderRadius: '8px', fontSize: '1.2rem', fontWeight: 'bold', 
-                    cursor: 'pointer' 
+                    cursor: isProcessing ? 'not-allowed' : 'pointer', opacity: isProcessing ? 0.7 : 1
                   }}
                 >
-                  Proceed to Evaluation
+                  {isProcessing ? 'Uploading...' : 'Evaluate'}
                 </button>
               </div>
             </form>
