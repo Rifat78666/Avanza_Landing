@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft, Calculator, GraduationCap, MapPin, CheckCircle, Lock, Calendar, Mail, Euro } from 'lucide-react';
+import { ArrowLeft, Calculator, GraduationCap, MapPin, CheckCircle, Lock, Calendar, Mail, Euro, User, FileText } from 'lucide-react';
+import { jsPDF } from "jspdf";
+import autoTable from "jspdf-autotable";
 import uniData from '../../data/university_match_seed.json';
 
 const GradeConverter = () => {
@@ -10,6 +12,8 @@ const GradeConverter = () => {
   const [gradingSystem, setGradingSystem] = useState('');
   const [grade, setGrade] = useState('');
   const [targetCountry, setTargetCountry] = useState('');
+  const [userName, setUserName] = useState('');
+  const [userEmail, setUserEmail] = useState('');
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const location = useLocation();
@@ -18,7 +22,17 @@ const GradeConverter = () => {
     const params = new URLSearchParams(location.search);
     if (params.get('unlocked') === 'true') {
       setIsUnlocked(true);
-      setStep(5);
+      const savedState = localStorage.getItem('gradeConverterState');
+      if (savedState) {
+        const parsed = JSON.parse(savedState);
+        setSourceCountry(parsed.sourceCountry);
+        setGradingSystem(parsed.gradingSystem);
+        setGrade(parsed.grade);
+        setTargetCountry(parsed.targetCountry);
+        setUserName(parsed.userName || '');
+        setUserEmail(parsed.userEmail || '');
+      }
+      setStep(6);
     }
   }, [location]);
 
@@ -95,13 +109,35 @@ const GradeConverter = () => {
     if (step === 1 && !sourceCountry) return;
     if (step === 2 && !gradingSystem) return;
     if (step === 3 && !grade) return;
+    if (step === 4 && !targetCountry) return;
+    
+    if (step === 4) {
+      setStep(5);
+      return;
+    }
+    
+    if (step === 5) {
+      if (!userName || !userEmail) {
+        alert("Please enter your Name and Email to proceed.");
+        return;
+      }
+      setStep(6);
+      return;
+    }
+
     setStep(step + 1);
   };
 
   const handleLivePayment = async () => {
     setIsProcessing(true);
+    
+    // Persist state in localStorage so we can recover it after Stripe redirects back
+    localStorage.setItem('gradeConverterState', JSON.stringify({
+      sourceCountry, gradingSystem, grade, targetCountry, userName, userEmail
+    }));
+    
     try {
-      const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://avanza-backend-h0pm.onrender.com';
+      const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://avanza-backend.onrender.com';
       const response = await fetch(`${API_BASE_URL}/api/create-checkout-session`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -124,6 +160,66 @@ const GradeConverter = () => {
       alert("Network error: Something went wrong contacting the server.");
     } finally {
       setIsProcessing(false);
+    }
+  };
+
+  const generatePDF = () => {
+    try {
+      const doc = new jsPDF();
+      
+      // Header
+      doc.setFillColor(0, 146, 70);
+      doc.rect(0, 0, 210, 40, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(24);
+      doc.text("AVANZA", 105, 20, { align: 'center' });
+      doc.setFontSize(14);
+      doc.text("Official Grade Conversion & University Match Report", 105, 30, { align: 'center' });
+      
+      // Candidate Profile
+      doc.setTextColor(0, 0, 0);
+      doc.setFontSize(12);
+      doc.text("Candidate Profile", 14, 55);
+      doc.setFontSize(10);
+      doc.text(`Name: ${userName}`, 14, 65);
+      doc.text(`Email: ${userEmail}`, 14, 72);
+      doc.text(`Origin Country: ${sourceCountry}`, 14, 79);
+      doc.text(`Original Grade: ${grade} (${gradingSystem})`, 14, 86);
+      doc.text(`Target Country: ${targetCountry}`, 14, 93);
+      
+      // Results Highlight
+      doc.setFillColor(240, 248, 240);
+      doc.rect(120, 50, 75, 45, 'F');
+      doc.setDrawColor(0, 146, 70);
+      doc.setLineWidth(0.5);
+      doc.rect(120, 50, 75, 45, 'S');
+      
+      doc.setFontSize(11);
+      doc.text(`${targetCountry} Equivalent Grade:`, 157, 65, { align: 'center' });
+      doc.setFontSize(22);
+      doc.setTextColor(0, 146, 70);
+      doc.text(equivalents ? String(equivalents[targetCountry]) : '', 157, 80, { align: 'center' });
+      
+      // Table
+      doc.setTextColor(0, 0, 0);
+      autoTable(doc, {
+        startY: 110,
+        head: [['University Name', 'City', 'Level', 'Tuition']],
+        body: matchedUnis.map(u => [u.name, u.city, u.programme_level, u.tuition_range]),
+        headStyles: { fillColor: [206, 43, 55] },
+        styles: { fontSize: 10 }
+      });
+      
+      // Footer
+      const finalY = doc.lastAutoTable ? doc.lastAutoTable.finalY : 160;
+      doc.setFontSize(10);
+      doc.text("Your report includes a free 1:1 consultation with the Avanza Founders.", 105, finalY + 20, { align: 'center' });
+      doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 105, finalY + 26, { align: 'center' });
+
+      doc.save(`Avanza_Match_Report_${userName ? userName.replace(/ /g, '_') : 'User'}.pdf`);
+    } catch (err) {
+      console.error(err);
+      alert("Error generating PDF.");
     }
   };
 
@@ -267,58 +363,106 @@ const GradeConverter = () => {
         </div>
       )}
 
-      {step === 5 && equivalents && (
+      {step === 5 && (
+        <div className="card" style={{ padding: '3rem 2rem', maxWidth: '600px', margin: '0 auto', borderTop: '4px solid #CE2B37', textAlign: 'center', animation: 'fadeIn 0.5s ease' }}>
+          <div style={{ background: 'rgba(206, 43, 55, 0.1)', padding: '1.5rem', borderRadius: '50%', display: 'inline-block', marginBottom: '1.5rem' }}>
+            <User size={40} color="#CE2B37" />
+          </div>
+          <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Your matches are ready.</h2>
+          <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem', fontSize: '1.1rem' }}>
+            We've mapped your {gradingSystem} grade to {targetCountry} standards and found your eligible universities. Enter your details to link your results to your profile.
+          </p>
+          
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', textAlign: 'left', marginBottom: '2rem' }}>
+            <div>
+              <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>Full Name</label>
+              <input 
+                type="text" 
+                value={userName} 
+                onChange={(e) => setUserName(e.target.value)} 
+                className="input-field"
+                placeholder="e.g. John Doe"
+                style={{ width: '100%', padding: '1rem', fontSize: '1.1rem' }}
+              />
+            </div>
+            <div>
+              <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>Email Address</label>
+              <input 
+                type="email" 
+                value={userEmail} 
+                onChange={(e) => setUserEmail(e.target.value)} 
+                className="input-field"
+                placeholder="e.g. john@example.com"
+                style={{ width: '100%', padding: '1rem', fontSize: '1.1rem' }}
+              />
+            </div>
+          </div>
+          
+          <button 
+            onClick={handleNext}
+            style={{ width: '100%', padding: '1.2rem', background: '#009246', border: 'none', color: '#fff', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold', fontSize: '1.2rem' }}
+          >
+            Process My Results
+          </button>
+        </div>
+      )}
+
+      {step === 6 && equivalents && (
         <div style={{ animation: 'fadeIn 0.5s ease', position: 'relative' }}>
           
-          <div className="card" style={{ padding: '2rem', marginBottom: '2rem', borderTop: '4px solid #009246', textAlign: 'center', filter: isUnlocked ? 'none' : 'blur(5px)', opacity: isUnlocked ? 1 : 0.6, pointerEvents: isUnlocked ? 'auto' : 'none' }}>
-            <h2 style={{ marginBottom: '1rem' }}>Your {targetCountry} Grade Equivalent</h2>
-            <div style={{ fontSize: '3.5rem', fontWeight: '900', color: '#009246', marginBottom: '0.5rem' }}>
-              {equivalents[targetCountry]}
+          {isUnlocked && (
+            <div className="card" style={{ padding: '2rem', marginBottom: '2rem', borderTop: '4px solid #009246', textAlign: 'center', animation: 'fadeIn 0.5s ease' }}>
+              <h2 style={{ marginBottom: '1rem' }}>Your {targetCountry} Grade Equivalent</h2>
+              <div style={{ fontSize: '3.5rem', fontWeight: '900', color: '#009246', marginBottom: '0.5rem' }}>
+                {equivalents[targetCountry]}
+              </div>
+              <p style={{ color: 'var(--text-secondary)' }}>Converted from your {gradingSystem} score of {grade} in {sourceCountry}.</p>
             </div>
-            <p style={{ color: 'var(--text-secondary)' }}>Converted from your {gradingSystem} score of {grade} in {sourceCountry}.</p>
-          </div>
+          )}
 
           <div style={{ marginBottom: '2rem' }}>
-            <h3 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '1.5rem', marginBottom: '1rem' }}>
+            <h3 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '1.5rem', marginBottom: '1rem', opacity: isUnlocked ? 1 : 0.4 }}>
               <GraduationCap size={24} color="#CE2B37" />
               University Matches
             </h3>
-            <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
-              Based on your equivalent grade, you qualify for admission at <strong>{matchedUnis.length}</strong> universities in {targetCountry}.
-            </p>
             
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              {isUnlocked && matchedUnis.map((uni, idx) => (
-                <div key={idx} className="card" style={{ padding: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <div>
-                    <h4 style={{ fontSize: '1.2rem', marginBottom: '0.25rem' }}>{uni.name}</h4>
-                    <div style={{ display: 'flex', gap: '1rem', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
-                      <span style={{ display: 'flex', alignItems: 'center', gap: '0.2rem' }}><MapPin size={14}/> {uni.city}</span>
-                      <span>Level: {uni.programme_level}</span>
-                      <span>Tuition: {uni.tuition_range}</span>
+            {isUnlocked ? (
+              <>
+                <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
+                  Based on your equivalent grade, you qualify for admission at <strong>{matchedUnis.length}</strong> universities in {targetCountry}.
+                </p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                  {matchedUnis.map((uni, idx) => (
+                    <div key={idx} className="card" style={{ padding: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <div>
+                        <h4 style={{ fontSize: '1.2rem', marginBottom: '0.25rem' }}>{uni.name}</h4>
+                        <div style={{ display: 'flex', gap: '1rem', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+                          <span style={{ display: 'flex', alignItems: 'center', gap: '0.2rem' }}><MapPin size={14}/> {uni.city}</span>
+                          <span>Level: {uni.programme_level}</span>
+                          <span>Tuition: {uni.tuition_range}</span>
+                        </div>
+                      </div>
+                      <CheckCircle size={24} color="#009246" />
                     </div>
-                  </div>
-                  <CheckCircle size={24} color="#009246" />
+                  ))}
                 </div>
-              ))}
-
-              {!isUnlocked && (
-                <>
-                  <div className="card" style={{ padding: '1.5rem', filter: 'blur(5px)', opacity: 0.5 }}>
-                    <h4 style={{ fontSize: '1.2rem', marginBottom: '0.25rem' }}>University of Milan (Example)</h4>
-                    <div style={{ display: 'flex', gap: '1rem', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
-                      <span>Level: Master</span>
-                    </div>
+              </>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <div className="card" style={{ padding: '1.5rem', filter: 'blur(5px)', opacity: 0.3 }}>
+                  <h4 style={{ fontSize: '1.2rem', marginBottom: '0.25rem' }}>University of Milan (Example)</h4>
+                  <div style={{ display: 'flex', gap: '1rem', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+                    <span>Level: Master</span>
                   </div>
-                  <div className="card" style={{ padding: '1.5rem', filter: 'blur(5px)', opacity: 0.3 }}>
-                    <h4 style={{ fontSize: '1.2rem', marginBottom: '0.25rem' }}>Politecnico di Torino (Example)</h4>
-                    <div style={{ display: 'flex', gap: '1rem', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
-                      <span>Level: Both</span>
-                    </div>
+                </div>
+                <div className="card" style={{ padding: '1.5rem', filter: 'blur(5px)', opacity: 0.1 }}>
+                  <h4 style={{ fontSize: '1.2rem', marginBottom: '0.25rem' }}>Politecnico di Torino (Example)</h4>
+                  <div style={{ display: 'flex', gap: '1rem', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+                    <span>Level: Both</span>
                   </div>
-                </>
-              )}
-            </div>
+                </div>
+              </div>
+            )}
           </div>
 
           {!isUnlocked && (
@@ -327,7 +471,7 @@ const GradeConverter = () => {
                 <Lock size={40} color="#CE2B37" style={{ marginBottom: '1rem' }} />
                 <h3 style={{ marginBottom: '1rem', fontSize: '1.8rem' }}>Unlock Your Full Report</h3>
                 <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem', fontSize: '1.1rem', lineHeight: '1.5' }}>
-                  See your exact {targetCountry} grade equivalent, unlock all {matchedUnis.length} matching universities, and get a 1:1 consultation with our founders.
+                  Pay €4.99 to instantly unlock your exact {targetCountry} grade equivalent, your full list of eligible universities, your personalized PDF report, and a 1:1 consultation.
                 </p>
                 <button 
                   onClick={handleLivePayment}
@@ -350,7 +494,23 @@ const GradeConverter = () => {
 
           {isUnlocked && (
             <div style={{ marginTop: '4rem', animation: 'fadeIn 0.5s ease', borderTop: '1px solid var(--border-color)', paddingTop: '3rem' }}>
-              <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+              <div style={{ textAlign: 'center', marginBottom: '3rem', background: 'rgba(0, 146, 70, 0.05)', padding: '2rem', borderRadius: '12px', border: '1px solid rgba(0, 146, 70, 0.2)' }}>
+                <FileText size={48} color="#009246" style={{ marginBottom: '1rem' }} />
+                <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Download Official Report</h2>
+                <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', margin: '0 auto 2rem auto', fontSize: '1.1rem' }}>
+                  Keep a permanent record of your grade conversion and eligible universities. This PDF report is ready for download.
+                </p>
+                <button 
+                  onClick={generatePDF}
+                  style={{ padding: '1rem 2rem', background: '#009246', color: 'white', border: 'none', borderRadius: '8px', fontSize: '1.2rem', fontWeight: 'bold', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', transition: 'transform 0.1s' }}
+                  onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
+                  onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                >
+                  <Download size={20}/> Download PDF Report
+                </button>
+              </div>
+
+              <div style={{ textAlign: 'center', marginBottom: '2rem', marginTop: '4rem' }}>
                 <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Talk to an Expert</h2>
                 <p style={{ color: 'var(--text-secondary)', maxWidth: '700px', margin: '0 auto', lineHeight: '1.6' }}>
                   Our founders have navigated this exact process themselves. Book your included 1:1 consultation with them today.
