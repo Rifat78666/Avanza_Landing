@@ -29,7 +29,7 @@ const UniversityRequirements = () => {
         <div style={{
           position: 'absolute',
           top: 0, left: 0, right: 0, bottom: 0,
-          backgroundColor: 'rgba(0, 40, 20, 0.7)',
+          background: 'linear-gradient(135deg, rgba(20, 30, 48, 0.8) 0%, rgba(36, 59, 85, 0.8) 100%)',
           zIndex: 1
         }}></div>
         <div style={{ position: 'relative', zIndex: 2, maxWidth: '800px', margin: '0 auto' }}>
