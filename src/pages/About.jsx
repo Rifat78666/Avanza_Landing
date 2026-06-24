@@ -10,13 +10,12 @@ const About = () => {
       
       {/* MISSION SECTION */}
       <section style={{ padding: '6rem 2rem 4rem', textAlign: 'center', maxWidth: '1000px', margin: '0 auto' }}>
-        <h2 style={{
+        <h2 className="s-outline" style={{
           fontSize: 'clamp(2.2rem, 4vw, 3rem)',
-          fontWeight: '800',
-          color: '#000000',
-          marginBottom: '1.5rem'
+          marginBottom: '1.5rem',
+          textAlign: 'center'
         }}>
-          Our Mission
+          Our <b>Mission</b>
         </h2>
 
         <p style={{
@@ -34,13 +33,11 @@ const About = () => {
       {/* MEET THE TEAM SECTION */}
       <section style={{ backgroundColor: '#ffffff', paddingBottom: '6rem' }}>
         <div style={{ textAlign: 'center', marginBottom: '4rem', paddingTop: '2rem', paddingLeft: '2rem', paddingRight: '2rem' }}>
-          <h2 style={{
+          <h2 className="s-outline" style={{
             fontSize: 'clamp(2.2rem, 4vw, 3rem)',
-            fontWeight: '800',
-            color: '#000000',
             marginBottom: '1.5rem'
           }}>
-            Meet The Team
+            Meet The <b>Team</b>
           </h2>
           <p style={{
             maxWidth: '1000px',
