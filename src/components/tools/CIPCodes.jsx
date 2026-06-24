@@ -27,7 +27,7 @@ const CIPCodes = () => {
         <div style={{
           position: 'absolute',
           top: 0, left: 0, right: 0, bottom: 0,
-          background: 'linear-gradient(135deg, rgba(22, 160, 133, 0.8) 0%, rgba(41, 128, 185, 0.8) 100%)',
+          background: 'linear-gradient(135deg, rgba(22, 160, 133, 0.4) 0%, rgba(41, 128, 185, 0.4) 100%)',
           zIndex: 1
         }}></div>
         <div style={{ position: 'relative', zIndex: 2, maxWidth: '800px', margin: '0 auto' }}>
