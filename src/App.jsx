@@ -32,9 +32,9 @@ import WorkPermitWizard from './components/tools/WorkPermitWizard';
 import USCreditsCalculator from './components/tools/USCreditsCalculator';
 import KSACreditsCalculator from './components/tools/KSACreditsCalculator';
 import UniversityRequirements from './components/tools/UniversityRequirements';
+import CourseEvaluation from './components/tools/CourseEvaluation';
 import CIPCodes from './components/tools/CIPCodes';
 import UniversityRankings from './components/tools/UniversityRankings';
-import CredentialReport from './components/tools/CredentialReport';
 
 import TypographyPreview from './pages/TypographyPreview';
 
@@ -473,9 +473,9 @@ function AppContent() {
           <Route path="/tools/us-credits" element={<USCreditsCalculator />} />
           <Route path="/tools/ksa-credits" element={<KSACreditsCalculator />} />
           <Route path="/tools/university-requirements" element={<UniversityRequirements />} />
+          <Route path="/tools/course-evaluation" element={<CourseEvaluation />} />
           <Route path="/tools/cip-codes" element={<CIPCodes />} />
           <Route path="/tools/university-rankings" element={<UniversityRankings />} />
-          <Route path="/tools/credential-report" element={<CredentialReport />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/faq" element={<FAQ />} />

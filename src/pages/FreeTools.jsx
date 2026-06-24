@@ -65,10 +65,18 @@ const FreeTools = () => {
         },
         {
           id: 'credential-report',
-          name: 'Official Credential Report',
-          description: 'Generate an official PDF translating your foreign academic credentials into European standards.',
-          icon: <FileText size={24} color="#CE2B37" />,
-          path: '/tools/credential-report'
+          name: 'Course by Course Evaluation',
+          description: 'Detailed course by course evaluation of your qualification.',
+          price: '€10',
+          features: [
+            'Institution Verification',
+            'Credit Points Conversion',
+            'Qualification Framework Mapping',
+            'Grade Scale Conversion',
+            'GPA Evaluation',
+            'Official PDF Report'
+          ],
+          path: '/tools/course-evaluation'
         }
       ]
     },
@@ -161,6 +169,82 @@ const FreeTools = () => {
             }}>
               {section.items.map((tool, toolIdx) => {
                 const cardColor = toolIdx % 2 === 0 ? '#009246' : '#CE2B37';
+                
+                if (tool.price && tool.features) {
+                  return (
+                    <div 
+                      key={tool.id} 
+                      className="card" 
+                      style={{ 
+                        display: 'flex', 
+                        flexDirection: 'column', 
+                        height: '100%', 
+                        padding: '2rem',
+                        transition: 'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease',
+                        cursor: 'pointer',
+                        border: '2px solid #0052FF',
+                        borderRadius: '16px',
+                        boxShadow: '0 4px 12px rgba(0,82,255,0.1)'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-4px)';
+                        e.currentTarget.style.boxShadow = '0 12px 24px rgba(0,82,255,0.2)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,82,255,0.1)';
+                      }}
+                      onClick={() => navigate(tool.path)}
+                    >
+                      <h3 style={{ fontSize: '1.5rem', margin: '0 0 1rem 0' }}>{tool.name}</h3>
+                      <div style={{ marginBottom: '1rem' }}>
+                        <div style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '1px' }}>PRICE</div>
+                        <div style={{ fontSize: '3rem', fontWeight: 'bold', color: '#0052FF' }}>{tool.price}</div>
+                      </div>
+                      <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', marginBottom: '1.5rem', lineHeight: '1.5' }}>
+                        {tool.description}
+                      </p>
+                      
+                      <div style={{ flexGrow: 1, borderTop: '1px solid var(--border-color)', paddingTop: '1.5rem', marginBottom: '2rem' }}>
+                        <div style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '1rem' }}>INCLUDED FEATURES</div>
+                        <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                          {tool.features.map((feat, i) => (
+                            <li key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '1rem' }}>
+                              <div style={{ color: '#0052FF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                  <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                                </svg>
+                              </div>
+                              {feat}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      <button 
+                        style={{ 
+                          width: '100%', 
+                          padding: '1rem', 
+                          background: '#0052FF', 
+                          color: 'white', 
+                          border: 'none', 
+                          borderRadius: '30px', 
+                          fontSize: '1.1rem', 
+                          fontWeight: 'bold', 
+                          cursor: 'pointer' 
+                        }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(tool.path);
+                        }}
+                      >
+                        Get Started
+                      </button>
+                    </div>
+                  );
+                }
+
                 return (
                 <div 
                   key={tool.id} 

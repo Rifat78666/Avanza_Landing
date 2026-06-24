@@ -67,6 +67,13 @@ class ConversionSession(BaseModel):
     grade: float
     target_country: str = "All Europe"
 
+class CourseEvaluationSession(BaseModel):
+    student_name: str
+    degree_title: str
+    university: str
+    original_grade: str
+    target_country: str
+
 # Supabase REST helper headers
 SUPABASE_HEADERS = {
     "apikey": SUPABASE_KEY,
@@ -604,6 +611,37 @@ async def create_checkout(session_data: ConversionSession):
                 "source_country": session_data.source_country,
                 "grade": str(session_data.grade),
                 "grading_system": session_data.grading_system,
+            }
+        )
+        return {"url": session.url}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/create-evaluation-checkout")
+async def create_evaluation_checkout(session_data: CourseEvaluationSession):
+    try:
+        session = stripe.checkout.Session.create(
+            payment_method_types=["card"],
+            line_items=[{
+                "price_data": {
+                    "currency": "eur",
+                    "product_data": {
+                        "name": "Course by Course Evaluation",
+                        "description": f"Detailed mapping of {session_data.degree_title} from {session_data.university} to {session_data.target_country} standards."
+                    },
+                    "unit_amount": 1000,  # €10.00 in cents
+                },
+                "quantity": 1,
+            }],
+            mode="payment",
+            success_url=f"https://avanza-landing.vercel.app/tools/course-evaluation?session_id={{CHECKOUT_SESSION_ID}}&success=true",
+            cancel_url=f"https://avanza-landing.vercel.app/tools/course-evaluation?cancelled=true",
+            metadata={
+                "student_name": session_data.student_name,
+                "degree_title": session_data.degree_title,
+                "university": session_data.university,
+                "original_grade": session_data.original_grade,
+                "target_country": session_data.target_country
             }
         )
         return {"url": session.url}
