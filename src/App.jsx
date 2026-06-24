@@ -249,26 +249,29 @@ function AppContent() {
         <NameCollection onNameSaved={handleNameSaved} />
       )}
       
-      <header className="container" style={{ 
-        display: 'flex', 
-        justifyContent: 'space-between', 
-        padding: '0.5rem 1.5rem', 
-        alignItems: 'center',
+      <header style={{ 
         position: 'sticky',
         top: 0,
+        width: '100%',
         backgroundColor: 'var(--bg-color)',
         borderBottom: '1px solid var(--border-color)',
         zIndex: 100
       }}>
-        <button 
+        <div className="container" style={{ 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          padding: '0.5rem 1.5rem', 
+          alignItems: 'center'
+        }}>
+          <button 
           className="mobile-only mobile-menu-btn"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           style={{ padding: '0.4rem', border: '1px solid var(--border-color)', borderRadius: '6px', color: 'var(--text-primary)', background: 'transparent' }}
         >
           {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
-        <div className="header-logo-container" style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }} onClick={() => navigate('/')}>
-          <img src="/avanza_logo.png" alt="AVANZA" className="header-logo" style={{ height: '70px', objectFit: 'contain' }} />
+        <div className="header-logo-container" style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', height: '80px' }} onClick={() => navigate('/')}>
+          <img src="/avanza_logo.png" alt="AVANZA" className="header-logo" style={{ height: '45px', objectFit: 'contain', transform: 'scale(2.2)', transformOrigin: 'left center' }} />
         </div>
         <nav className="header-nav-container" style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
           <span 
@@ -367,6 +370,7 @@ function AppContent() {
             </>
           )}
         </nav>
+        </div>
       </header>
 
       {/* Mobile Menu Overlay */}
