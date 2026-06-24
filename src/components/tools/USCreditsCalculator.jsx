@@ -27,7 +27,7 @@ const USCreditsCalculator = () => {
       <div style={{
         width: '100%',
         position: 'relative',
-        backgroundImage: 'url("https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1920&q=80")',
+        backgroundImage: 'url("https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?auto=format&fit=crop&w=1920&q=80")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         padding: '5rem 1rem',
@@ -38,7 +38,7 @@ const USCreditsCalculator = () => {
         <div style={{
           position: 'absolute',
           top: 0, left: 0, right: 0, bottom: 0,
-          backgroundColor: 'rgba(0, 40, 20, 0.7)',
+          background: 'linear-gradient(135deg, rgba(10, 49, 97, 0.8) 0%, rgba(179, 25, 66, 0.8) 100%)',
           zIndex: 1
         }}></div>
         <div style={{ position: 'relative', zIndex: 2, maxWidth: '800px', margin: '0 auto' }}>

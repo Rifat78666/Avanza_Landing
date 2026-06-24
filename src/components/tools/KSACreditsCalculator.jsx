@@ -27,7 +27,7 @@ const KSACreditsCalculator = () => {
       <div style={{
         width: '100%',
         position: 'relative',
-        backgroundImage: 'url("https://images.unsplash.com/photo-1586724237569-f3a0c1dee8c6?auto=format&fit=crop&w=1920&q=80")',
+        backgroundImage: 'url("https://images.unsplash.com/photo-1579705745122-eb80c85c07b6?auto=format&fit=crop&w=1920&q=80")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         padding: '5rem 1rem',
@@ -38,7 +38,7 @@ const KSACreditsCalculator = () => {
         <div style={{
           position: 'absolute',
           top: 0, left: 0, right: 0, bottom: 0,
-          backgroundColor: 'rgba(0, 40, 20, 0.7)',
+          background: 'linear-gradient(135deg, rgba(0, 146, 70, 0.8) 0%, rgba(206, 43, 55, 0.6) 100%)',
           zIndex: 1
         }}></div>
         <div style={{ position: 'relative', zIndex: 2, maxWidth: '800px', margin: '0 auto' }}>
