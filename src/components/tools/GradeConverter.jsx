@@ -90,25 +90,58 @@ const GradeConverter = () => {
   };
 
   return (
-    <div className="container" style={{ maxWidth: '900px', margin: '0 auto', paddingTop: '2rem', paddingBottom: '4rem' }}>
-      <button 
-        onClick={() => navigate('/tools')} 
-        style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', marginBottom: '1.5rem', fontWeight: 'bold' }}
-      >
-        <ArrowLeft size={18} /> Back to Tools
-      </button>
-
-      <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
-          <div style={{ background: 'rgba(0, 146, 70, 0.1)', padding: '1rem', borderRadius: '50%' }}>
-            <Calculator size={40} color="#009246" />
-          </div>
+    <>
+      <div style={{
+        width: '100%',
+        position: 'relative',
+        backgroundImage: 'url("https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1920&q=80")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        padding: '5rem 1rem',
+        textAlign: 'center',
+        color: 'white',
+        borderBottom: '4px solid #009246'
+      }}>
+        <div style={{
+          position: 'absolute',
+          top: 0, left: 0, right: 0, bottom: 0,
+          backgroundColor: 'rgba(0, 40, 20, 0.7)',
+          zIndex: 1
+        }}></div>
+        
+        <div style={{ position: 'relative', zIndex: 2, maxWidth: '800px', margin: '0 auto' }}>
+          <h1 style={{ fontSize: '3rem', marginBottom: '1rem', fontWeight: 'bold' }}>AVANZA Grade Converter</h1>
+          <p style={{ fontSize: '1.2rem', marginBottom: '2rem' }}>Calculate your European GPA in Minutes!</p>
+          <button 
+            onClick={() => document.getElementById('calculator-start').scrollIntoView({ behavior: 'smooth' })}
+            style={{ padding: '0.8rem 2.5rem', background: '#ffffff', color: '#009246', border: 'none', borderRadius: '30px', fontSize: '1.1rem', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 4px 14px rgba(0,0,0,0.2)', transition: 'transform 0.2s' }}
+            onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+            onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+          >
+            Start Now
+          </button>
         </div>
-        <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>Grade Converter & University Match</h1>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '1.2rem', maxWidth: '600px', margin: '0 auto' }}>
-          Convert your grades to European standards and instantly see which universities you qualify for.
-        </p>
       </div>
+
+      <div id="calculator-start" className="container" style={{ maxWidth: '900px', margin: '0 auto', paddingTop: '2rem', paddingBottom: '4rem' }}>
+        <button 
+          onClick={() => navigate('/tools')} 
+          style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', marginBottom: '1.5rem', fontWeight: 'bold' }}
+        >
+          <ArrowLeft size={18} /> Back to Tools
+        </button>
+
+        <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
+            <div style={{ background: 'rgba(0, 146, 70, 0.1)', padding: '1rem', borderRadius: '50%' }}>
+              <Calculator size={40} color="#009246" />
+            </div>
+          </div>
+          <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>Grade Converter & University Match</h2>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '1.2rem', maxWidth: '600px', margin: '0 auto' }}>
+            Convert your grades to European standards and instantly see which universities you qualify for.
+          </p>
+        </div>
 
       {step < 5 && (
         <div className="card" style={{ padding: '2rem', maxWidth: '600px', margin: '0 auto', borderTop: '4px solid #CE2B37' }}>
@@ -342,7 +375,8 @@ const GradeConverter = () => {
 
         </div>
       )}
-    </div>
+      </div>
+    </>
   );
 };
 
