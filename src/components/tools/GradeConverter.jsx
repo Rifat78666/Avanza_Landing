@@ -317,10 +317,12 @@ const GradeConverter = () => {
                 <div className="card" style={{ padding: '2rem', textAlign: 'center', borderTop: '4px solid #009246' }}>
                   <img src="/pallab.png" alt="Pallab Mondal" style={{ width: '80px', height: '80px', borderRadius: '50%', objectFit: 'cover', margin: '0 auto 1rem auto', display: 'block', border: '3px solid #009246' }} />
                   <h3 style={{ marginBottom: '0.5rem' }}>Pallab Mondal</h3>
-                  <p style={{ color: '#009246', fontWeight: 'bold', marginBottom: '1rem' }}>Co-founder, Country Manager</p>
+                  <p style={{ color: '#009246', fontWeight: 'bold', marginBottom: '0.5rem' }}>Co-founder, Country Manager</p>
+                  <div style={{ background: '#ffffff', borderRadius: '8px', padding: '0.5rem', marginBottom: '1rem', display: 'inline-block' }}>
+                    <img src="/university_logos.png" alt="University of Milan, Bicocca, Pavia" style={{ width: '100%', maxWidth: '180px', display: 'block', mixBlendMode: 'multiply' }} onError={(e) => e.target.style.display = 'none'} />
+                  </div>
                   <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '0.5rem', lineHeight: '1.4' }}>
-                    Master's in Artificial Intelligence for Science and Technology (Joint Programme)<br />
-                    University of Milan || University of Milano-Bicocca || University of Pavia
+                    Master's in Artificial Intelligence for Science and Technology (Joint Programme)
                   </p>
                   <a href="mailto:pallabm472@gmail.com" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', color: 'var(--text-secondary)' }}><Mail size={16}/> pallabm472@gmail.com</a>
                 </div>
@@ -328,10 +330,12 @@ const GradeConverter = () => {
                 <div className="card" style={{ padding: '2rem', textAlign: 'center', borderTop: '4px solid #CE2B37' }}>
                   <img src="/rifat.png" alt="Md Rifatul Haque" style={{ width: '80px', height: '80px', borderRadius: '50%', objectFit: 'cover', margin: '0 auto 1rem auto', display: 'block', border: '3px solid #CE2B37' }} />
                   <h3 style={{ marginBottom: '0.5rem' }}>Md Rifatul Haque</h3>
-                  <p style={{ color: '#CE2B37', fontWeight: 'bold', marginBottom: '1rem' }}>Co-founder, System & AI</p>
+                  <p style={{ color: '#CE2B37', fontWeight: 'bold', marginBottom: '0.5rem' }}>Co-founder, System & AI</p>
+                  <div style={{ background: '#ffffff', borderRadius: '8px', padding: '0.5rem', marginBottom: '1rem', display: 'inline-block' }}>
+                    <img src="/university_logos.png" alt="University of Milan, Bicocca, Pavia" style={{ width: '100%', maxWidth: '180px', display: 'block', mixBlendMode: 'multiply' }} onError={(e) => e.target.style.display = 'none'} />
+                  </div>
                   <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '0.5rem', lineHeight: '1.4' }}>
-                    Master's in Artificial Intelligence for Science and Technology (Joint Programme)<br />
-                    University of Milan || University of Milano-Bicocca || University of Pavia
+                    Master's in Artificial Intelligence for Science and Technology (Joint Programme)
                   </p>
                   <a href="mailto:rifatulhaque200@gmail.com" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', color: 'var(--text-secondary)' }}><Mail size={16}/> rifatulhaque200@gmail.com</a>
                 </div>

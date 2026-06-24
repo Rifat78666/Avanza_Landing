@@ -91,7 +91,10 @@ const About = () => {
                 }}
               />
               <h3 style={{ fontSize: '1.25rem', fontWeight: '700', color: '#000000', marginBottom: '0.25rem' }}>Pallab Mondal</h3>
-              <p style={{ color: '#555555', fontSize: '0.95rem' }}>Founder & AI Specialist</p>
+              <p style={{ color: '#555555', fontSize: '0.95rem', marginBottom: '1rem' }}>Founder & AI Specialist</p>
+              <div style={{ background: '#ffffff', borderRadius: '8px', padding: '0.5rem', display: 'inline-block' }}>
+                <img src="/university_logos.png" alt="University of Milan, Bicocca, Pavia" style={{ width: '100%', maxWidth: '220px', display: 'block', mixBlendMode: 'multiply' }} onError={(e) => e.target.style.display = 'none'} />
+              </div>
             </div>
 
             {/* RIFATUL CARD */}
@@ -109,7 +112,10 @@ const About = () => {
                 }}
               />
               <h3 style={{ fontSize: '1.25rem', fontWeight: '700', color: '#000000', marginBottom: '0.25rem' }}>Rifatul Haque</h3>
-              <p style={{ color: '#555555', fontSize: '0.95rem' }}>Co-Founder · Systems & AI</p>
+              <p style={{ color: '#555555', fontSize: '0.95rem', marginBottom: '1rem' }}>Co-Founder · Systems & AI</p>
+              <div style={{ background: '#ffffff', borderRadius: '8px', padding: '0.5rem', display: 'inline-block' }}>
+                <img src="/university_logos.png" alt="University of Milan, Bicocca, Pavia" style={{ width: '100%', maxWidth: '220px', display: 'block', mixBlendMode: 'multiply' }} onError={(e) => e.target.style.display = 'none'} />
+              </div>
             </div>
 
           </div>
