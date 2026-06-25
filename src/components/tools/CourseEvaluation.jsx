@@ -186,7 +186,7 @@ const CourseEvaluation = () => {
               <FileText size={40} color={themeColor} />
             </div>
           </div>
-          <h2 className="s-grad" style={{ fontSize: '2.5rem', marginBottom: '1rem', paddingBottom: '0.2rem' }}>Course by Course Evaluation</h2>
+          <h2 style={{ color: themeColor, fontSize: '2.5rem', marginBottom: '1rem', paddingBottom: '0.2rem' }}>Course by Course Evaluation</h2>
           <p style={{ color: '#4a4a4a', fontSize: '1.2rem', maxWidth: '600px', margin: '0 auto' }}>
             A complete course-by-course evaluation — verification, credit and grade conversion, framework mapping, and GPA — delivered as one official PDF report.
           </p>

@@ -505,7 +505,7 @@ const GradeConverter = () => {
               <Calculator size={40} color={themeColor} />
             </div>
           </div>
-          <h2 className="s-grad" style={{ fontSize: '2.5rem', marginBottom: '1rem', paddingBottom: '0.2rem' }}>Grade Converter & University Match</h2>
+          <h2 style={{ color: themeColor, fontSize: '2.5rem', marginBottom: '1rem', paddingBottom: '0.2rem' }}>Grade Converter & University Match</h2>
           <p style={{ color: '#4a4a4a', fontSize: '1.2rem', maxWidth: '600px', margin: '0 auto' }}>
             Convert your grades to European standards and instantly see which universities you qualify for.
           </p>
