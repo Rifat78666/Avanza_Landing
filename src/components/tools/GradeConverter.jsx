@@ -323,7 +323,7 @@ const GradeConverter = () => {
       doc.setFont("helvetica", "normal");
       doc.setFontSize(9);
       doc.setTextColor(200, 200, 200);
-      doc.text("Included with your report — book a time that suits you.", 20, finalY + 18);
+      doc.text("Included with your report - book a time that suits you.", 20, finalY + 18);
       
       doc.setFont("helvetica", "B");
       doc.setFontSize(9);
@@ -342,7 +342,7 @@ const GradeConverter = () => {
       doc.setFont("helvetica", "B");
       doc.setFontSize(11);
       doc.setTextColor(255, 255, 255);
-      doc.text("Book your session →", 160, finalY + 18, { align: 'center' });
+      doc.text("Book your session >", 160, finalY + 18, { align: 'center' });
       doc.setFont("helvetica", "normal");
       doc.setFontSize(8);
       doc.text("calendly.com/avanza", 160, finalY + 22, { align: 'center' });

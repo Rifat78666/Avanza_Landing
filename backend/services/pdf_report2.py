@@ -257,7 +257,7 @@ def generate_course_evaluation_pdf(candidate_name, institution, target_country, 
     pdf.set_font("helvetica", "", 9)
     pdf.set_text_color(200, 200, 200)
     pdf.set_x(20)
-    pdf.cell(0, 5, "Included with your report — book a time that suits you.", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+    pdf.cell(0, 5, "Included with your report - book a time that suits you.", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
     
     pdf.set_font("helvetica", "B", 9)
     pdf.set_text_color(255, 255, 255)
@@ -278,7 +278,7 @@ def generate_course_evaluation_pdf(candidate_name, institution, target_country, 
     pdf.set_font("helvetica", "B", 11)
     pdf.set_text_color(255, 255, 255)
     pdf.set_xy(140, final_y + 13)
-    pdf.cell(50, 5, "Book your session →", align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+    pdf.cell(50, 5, "Book your session >", align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
     pdf.set_font("helvetica", "", 8)
     pdf.set_xy(140, final_y + 18)
     pdf.cell(50, 5, "calendly.com/avanza", align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
