@@ -5,39 +5,41 @@ from fpdf.enums import XPos, YPos
 
 class CourseEvaluationPDF(FPDF):
     def header(self):
-        # Header banner
-        dark_green = (10, 67, 47)
-        avanza_green = (0, 146, 70)
-        
-        self.set_fill_color(*dark_green)
-        self.rect(0, 0, 210, 40, 'F')
-        
-        # Logo
-        import os
-        logo_path = os.path.join(os.path.dirname(__file__), '..', '..', 'public', 'favicon.png')
-        if os.path.exists(logo_path):
-            self.image(logo_path, x=14, y=10, w=16)
+        if self.page_no() == 1:
+            dark_green = (10, 67, 47)
+            avanza_green = (0, 146, 70)
+            
+            self.set_fill_color(*dark_green)
+            self.rect(0, 0, 210, 40, 'F')
+            
+            # Logo
+            import os
+            logo_path = os.path.join(os.path.dirname(__file__), '..', '..', 'public', 'favicon.png')
+            if os.path.exists(logo_path):
+                self.image(logo_path, x=14, y=10, w=16)
+            else:
+                self.set_fill_color(*avanza_green)
+                self.set_line_width(0)
+                self.rect(14, 12, 12, 12, 'F', round_corners=True, corner_radius=2)
+            
+            # Header text
+            self.set_text_color(255, 255, 255)
+            self.set_font("helvetica", "B", 22)
+            self.set_xy(34, 12)
+            self.cell(0, 10, "AVANZA", new_x=XPos.RIGHT, new_y=YPos.TOP)
+            self.set_font("helvetica", "", 8)
+            self.set_xy(34, 20)
+            self.cell(0, 5, "M O V E  F O R W A R D", new_x=XPos.RIGHT, new_y=YPos.TOP)
+            
+            self.set_font("helvetica", "", 9)
+            self.set_xy(10, 18)
+            self.cell(186, 10, "O F F I C I A L  R E P O R T", align='R', new_x=XPos.RIGHT, new_y=YPos.TOP)
+            self.set_font("helvetica", "B", 14)
+            self.set_xy(10, 24)
+            self.cell(186, 10, "Course-by-Course Evaluation", align='R', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+            self.set_y(45)
         else:
-            self.set_fill_color(*avanza_green)
-            self.set_line_width(0)
-            self.rect(14, 12, 12, 12, 'F', round_corners=True, corner_radius=2)
-        
-        # Header text
-        self.set_text_color(255, 255, 255)
-        self.set_font("helvetica", "B", 22)
-        self.set_xy(34, 12)
-        self.cell(0, 10, "AVANZA", new_x=XPos.RIGHT, new_y=YPos.TOP)
-        self.set_font("helvetica", "", 8)
-        self.set_xy(34, 20)
-        self.cell(0, 5, "M O V E  F O R W A R D", new_x=XPos.RIGHT, new_y=YPos.TOP)
-        
-        self.set_font("helvetica", "", 9)
-        self.set_xy(10, 18)
-        self.cell(186, 10, "O F F I C I A L  R E P O R T", align='R', new_x=XPos.RIGHT, new_y=YPos.TOP)
-        self.set_font("helvetica", "B", 14)
-        self.set_xy(10, 24)
-        self.cell(186, 10, "Course-by-Course Evaluation", align='R', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
-        self.set_y(45)
+            self.set_y(25)
 
     def footer(self):
         dark_green = (10, 67, 47)
@@ -282,9 +284,9 @@ def generate_course_evaluation_pdf(candidate_name, institution, target_country, 
     public_dir = os.path.join(os.path.dirname(__file__), '..', '..', 'public')
     pallab_path = os.path.join(public_dir, 'pallab.png')
     rifat_path = os.path.join(public_dir, 'rifat.png')
-    unis_path = os.path.join(public_dir, 'university_logos.png')
+    unis_path = os.path.join(public_dir, 'avanza_university_strip_white.png')
     
-    if os.path.exists(pallab_path) and os.path.exists(rifat_path) and os.path.exists(unis_path):
+    if os.path.exists(pallab_path) and os.path.exists(rifat_path):
         pdf.image(pallab_path, x=45, y=final_y, w=25)
         pdf.image(rifat_path, x=140, y=final_y, w=25)
         final_y += 30
@@ -312,14 +314,19 @@ def generate_course_evaluation_pdf(candidate_name, institution, target_country, 
         pdf.set_font("helvetica", "", 8)
         pdf.set_text_color(*text_muted)
         pdf.set_xy(14, final_y)
-        pdf.cell(87, 4, "Master's in Artificial Intelligence for Science and", align='C')
+        pdf.cell(87, 4, "Master's in Artificial Intelligence for", align='C')
         pdf.set_xy(109, final_y)
-        pdf.cell(87, 4, "Master's in Artificial Intelligence for Science and", align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+        pdf.cell(87, 4, "Master's in Artificial Intelligence for", align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
         final_y += 4
         pdf.set_xy(14, final_y)
-        pdf.cell(87, 4, "Technology (Joint Programme)", align='C')
+        pdf.cell(87, 4, "Science and Technology", align='C')
         pdf.set_xy(109, final_y)
-        pdf.cell(87, 4, "Technology (Joint Programme)", align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+        pdf.cell(87, 4, "Science and Technology", align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+        final_y += 4
+        pdf.set_xy(14, final_y)
+        pdf.cell(87, 4, "(Joint Programme)", align='C')
+        pdf.set_xy(109, final_y)
+        pdf.cell(87, 4, "(Joint Programme)", align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
         final_y += 6
         
         # Emails
@@ -327,11 +334,26 @@ def generate_course_evaluation_pdf(candidate_name, institution, target_country, 
         pdf.cell(87, 4, "pallabm472@gmail.com", align='C')
         pdf.set_xy(109, final_y)
         pdf.cell(87, 4, "rifatulhaque200@gmail.com", align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+        final_y += 6
+        
+        # Separate Calendly Links
+        pdf.set_font("helvetica", "B", 8)
+        pdf.set_text_color(0, 100, 200)
+        
+        pallab_link = "https://calendly.com/pallabm472/30min"
+        rifat_link = "https://calendly.com/rifatulhaque200/30min"
+        
+        pdf.set_xy(14, final_y)
+        pdf.cell(87, 4, "Book 1:1 with Pallab >", align='C', link=pallab_link)
+        pdf.set_xy(109, final_y)
+        pdf.cell(87, 4, "Book 1:1 with Rifat >", align='C', link=rifat_link, new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+        
         final_y += 8
         
         # Uni Logos
-        pdf.image(unis_path, x=20, y=final_y, w=74)
-        pdf.image(unis_path, x=115, y=final_y, w=74)
+        if os.path.exists(unis_path):
+            pdf.image(unis_path, x=20, y=final_y, w=74)
+            pdf.image(unis_path, x=115, y=final_y, w=74)
     
     pdf.output(output_path)
 

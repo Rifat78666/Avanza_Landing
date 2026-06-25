@@ -230,9 +230,9 @@ def generate_sample_pdf(output_path):
     public_dir = os.path.join(os.path.dirname(__file__), '..', 'public')
     pallab_path = os.path.join(public_dir, 'pallab.png')
     rifat_path = os.path.join(public_dir, 'rifat.png')
-    unis_path = os.path.join(public_dir, 'university_logos.png')
+    unis_path = os.path.join(public_dir, 'avanza_university_strip_white.png')
     
-    if os.path.exists(pallab_path) and os.path.exists(rifat_path) and os.path.exists(unis_path):
+    if os.path.exists(pallab_path) and os.path.exists(rifat_path):
         pdf.image(pallab_path, x=45, y=final_y, w=25)
         pdf.image(rifat_path, x=140, y=final_y, w=25)
         final_y += 30
@@ -260,14 +260,19 @@ def generate_sample_pdf(output_path):
         pdf.set_font("helvetica", "", 8)
         pdf.set_text_color(*text_muted)
         pdf.set_xy(14, final_y)
-        pdf.cell(87, 4, "Master's in Artificial Intelligence for Science and", align='C')
+        pdf.cell(87, 4, "Master's in Artificial Intelligence for", align='C')
         pdf.set_xy(109, final_y)
-        pdf.cell(87, 4, "Master's in Artificial Intelligence for Science and", align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+        pdf.cell(87, 4, "Master's in Artificial Intelligence for", align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
         final_y += 4
         pdf.set_xy(14, final_y)
-        pdf.cell(87, 4, "Technology (Joint Programme)", align='C')
+        pdf.cell(87, 4, "Science and Technology", align='C')
         pdf.set_xy(109, final_y)
-        pdf.cell(87, 4, "Technology (Joint Programme)", align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+        pdf.cell(87, 4, "Science and Technology", align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+        final_y += 4
+        pdf.set_xy(14, final_y)
+        pdf.cell(87, 4, "(Joint Programme)", align='C')
+        pdf.set_xy(109, final_y)
+        pdf.cell(87, 4, "(Joint Programme)", align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
         final_y += 6
         
         # Emails
@@ -275,15 +280,30 @@ def generate_sample_pdf(output_path):
         pdf.cell(87, 4, "pallabm472@gmail.com", align='C')
         pdf.set_xy(109, final_y)
         pdf.cell(87, 4, "rifatulhaque200@gmail.com", align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+        final_y += 6
+        
+        # Separate Calendly Links
+        pdf.set_font("helvetica", "B", 8)
+        pdf.set_text_color(0, 100, 200)
+        
+        pallab_link = "https://calendly.com/pallabm472/30min"
+        rifat_link = "https://calendly.com/rifatulhaque200/30min"
+        
+        pdf.set_xy(14, final_y)
+        pdf.cell(87, 4, "Book 1:1 with Pallab >", align='C', link=pallab_link)
+        pdf.set_xy(109, final_y)
+        pdf.cell(87, 4, "Book 1:1 with Rifat >", align='C', link=rifat_link, new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+        
         final_y += 8
         
         # Uni Logos
-        pdf.image(unis_path, x=20, y=final_y, w=74)
-        pdf.image(unis_path, x=115, y=final_y, w=74)
+        if os.path.exists(unis_path):
+            pdf.image(unis_path, x=20, y=final_y, w=74)
+            pdf.image(unis_path, x=115, y=final_y, w=74)
     
     pdf.output(output_path)
 
 if __name__ == "__main__":
-    output_path = r"C:\Users\rifat\.gemini\antigravity-ide\brain\250e62fd-5827-4f04-a08c-21d7cbaca58f\New_Grade_Conversion.pdf"
+    output_path = r"C:\Users\rifat\.gemini\antigravity-ide\brain\250e62fd-5827-4f04-a08c-21d7cbaca58f\New_Grade_Conversion_v5.pdf"
     generate_sample_pdf(output_path)
     print("Report 1 Python Mock Generated!")
