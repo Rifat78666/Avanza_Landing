@@ -13,28 +13,28 @@ const FreeTools = () => {
           id: 'grade-converter',
           name: 'Grade Converter & University Match',
           description: 'Convert your grades to European standards and see which universities you qualify for.',
-          icon: <Calculator size={24} color="#009246" />,
+          icon: <Calculator size={32} color="#009246" />,
           path: '/tools/grade-converter'
         },
         {
           id: 'ects-calculator',
           name: 'ECTS Calculator',
           description: 'Convert international credits to European ECTS.',
-          icon: <BookOpen size={24} color="#CE2B37" />,
+          icon: <BookOpen size={32} color="#CE2B37" />,
           path: '/tools/ects-calculator'
         },
         {
           id: 'us-credits',
           name: 'U.S. Credits Calculator',
           description: 'Convert foreign credits to U.S. Semester Hours.',
-          icon: <Calculator size={24} color="#009246" />,
+          icon: <Calculator size={32} color="#009246" />,
           path: '/tools/us-credits'
         },
         {
           id: 'ksa-credits',
           name: 'KSA Credits Calculator',
           description: 'Convert credits to Saudi Arabian standards.',
-          icon: <Globe size={24} color="#CE2B37" />,
+          icon: <Globe size={32} color="#CE2B37" />,
           path: '/tools/ksa-credits'
         },
         {
@@ -50,7 +50,7 @@ const FreeTools = () => {
             'GPA Evaluation',
             'Official PDF Report'
           ],
-          icon: <FileText size={24} color="#009246" />,
+          icon: <FileText size={32} color="#009246" />,
           path: '/tools/course-evaluation'
         }
       ]
@@ -62,21 +62,21 @@ const FreeTools = () => {
           id: 'degree-checker',
           name: 'Degree Level Checker',
           description: 'Map foreign degrees to Italian Laurea levels.',
-          icon: <GraduationCap size={24} color="#009246" />,
+          icon: <GraduationCap size={32} color="#009246" />,
           path: '/tools/degree-checker'
         },
         {
           id: 'albo-check',
           name: 'Albo Check',
           description: 'Check if your profession is regulated in Italy.',
-          icon: <ShieldCheck size={24} color="#CE2B37" />,
+          icon: <ShieldCheck size={32} color="#CE2B37" />,
           path: '/tools/albo-check'
         },
         {
           id: 'university-requirements',
           name: 'University Requirements',
           description: 'Find entry requirements by country.',
-          icon: <FileText size={24} color="#009246" />,
+          icon: <FileText size={32} color="#009246" />,
           path: '/tools/university-requirements'
         }
       ]
@@ -88,14 +88,14 @@ const FreeTools = () => {
           id: 'work-permit',
           name: 'Work Permit Wizard',
           description: 'Find the exact Italian residence permit you need.',
-          icon: <Briefcase size={24} color="#009246" />,
+          icon: <Briefcase size={32} color="#009246" />,
           path: '/tools/work-permit'
         },
         {
           id: 'decreto-flussi',
           name: 'Decreto Flussi Checker',
           description: 'Check eligibility for Italian immigration quotas.',
-          icon: <PlaneTakeoff size={24} color="#CE2B37" />,
+          icon: <PlaneTakeoff size={32} color="#CE2B37" />,
           path: '/tools/decreto-flussi'
         }
       ]
@@ -107,14 +107,14 @@ const FreeTools = () => {
           id: 'university-rankings',
           name: 'University Rankings',
           description: 'Search global university rankings.',
-          icon: <Trophy size={24} color="#009246" />,
+          icon: <Trophy size={32} color="#009246" />,
           path: '/tools/university-rankings'
         },
         {
           id: 'cip-codes',
           name: 'CIP Codes Search',
           description: 'Search Classification of Instructional Programs.',
-          icon: <Settings size={24} color="#CE2B37" />,
+          icon: <Settings size={32} color="#CE2B37" />,
           path: '/tools/cip-codes'
         }
       ]
@@ -155,7 +155,7 @@ const FreeTools = () => {
         </div>
       </div>
 
-      <div id="tools-list" className="container" style={{ padding: '4rem 1.5rem', maxWidth: '1200px', margin: '0 auto' }}>
+      <div id="tools-list" style={{ padding: '4rem 0', width: 'calc(100% - 2rem)', maxWidth: '1400px', margin: '0 auto' }}>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '4rem' }}>
         {tools.map((section, idx) => (
@@ -165,7 +165,7 @@ const FreeTools = () => {
             </h2>
             <div style={{ 
               display: 'grid', 
-              gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', 
+              gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', 
               gap: '1.5rem' 
             }}>
               {section.items.map((tool, toolIdx) => {
@@ -179,7 +179,7 @@ const FreeTools = () => {
                     display: 'flex', 
                     flexDirection: 'column', 
                     height: '100%', 
-                    padding: '1.5rem',
+                    padding: '2rem',
                     transition: 'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease',
                     cursor: 'pointer',
                     border: '1px solid var(--border-color)',
@@ -198,23 +198,23 @@ const FreeTools = () => {
                   }}
                   onClick={() => navigate(tool.path)}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
                     <div style={{ 
-                      padding: '0.75rem', 
+                      padding: '1rem', 
                       backgroundColor: 'rgba(255,255,255,0.03)', 
                       borderRadius: '12px',
                       border: '1px solid rgba(255,255,255,0.05)'
                     }}>
                       {tool.icon}
                     </div>
-                    <h3 style={{ fontSize: '1.1rem', margin: 0 }}>{tool.name}</h3>
+                    <h3 style={{ fontSize: '1.3rem', margin: 0 }}>{tool.name}</h3>
                   </div>
-                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', flexGrow: 1, marginBottom: '1.5rem', lineHeight: '1.5' }}>
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', flexGrow: 1, marginBottom: '2rem', lineHeight: '1.6' }}>
                     {tool.description}
                   </p>
                   <button 
                     className="btn-outline" 
-                    style={{ width: '100%', justifyContent: 'center', fontWeight: 'bold' }}
+                    style={{ width: '100%', justifyContent: 'center', fontWeight: 'bold', fontSize: '1.1rem', padding: '1rem 1.5rem' }}
                     onClick={(e) => {
                       e.stopPropagation();
                       navigate(tool.path);
