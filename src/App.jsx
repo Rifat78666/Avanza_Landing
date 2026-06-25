@@ -65,6 +65,17 @@ function AppContent() {
   const { user, isLoaded } = useStytchUser();
   const navigate = useNavigate();
   const location = useLocation();
+  const [isMarketingMode, setIsMarketingMode] = useState(false);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (params.get('ref') === 'direct') {
+      setIsMarketingMode(true);
+      sessionStorage.setItem('avanza_marketing_mode', 'true');
+    } else if (sessionStorage.getItem('avanza_marketing_mode') === 'true') {
+      setIsMarketingMode(true);
+    }
+  }, [location.search]);
 
   const fetchUserProfile = useCallback(async () => {
     try {
@@ -266,113 +277,117 @@ function AppContent() {
           padding: '0.5rem 1.5rem', 
           alignItems: 'center'
         }}>
-          <button 
-          className="mobile-only mobile-menu-btn"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          style={{ padding: '0.4rem', border: '1px solid var(--border-color)', borderRadius: '6px', color: 'var(--text-primary)', background: 'transparent' }}
-        >
-          {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
-        </button>
-        <div className="header-logo-container" style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', height: '80px' }} onClick={() => navigate('/')}>
+          {!isMarketingMode && (
+            <button 
+              className="mobile-only mobile-menu-btn"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              style={{ padding: '0.4rem', border: '1px solid var(--border-color)', borderRadius: '6px', color: 'var(--text-primary)', background: 'transparent' }}
+            >
+              {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
+          )}
+        <div className="header-logo-container" style={{ cursor: isMarketingMode ? 'default' : 'pointer', display: 'flex', alignItems: 'center', height: '80px' }} onClick={() => !isMarketingMode && navigate('/')}>
           <img src="/avanza_logo.png" alt="AVANZA" className="header-logo" style={{ height: '45px', objectFit: 'contain', transform: 'scale(2.2)', transformOrigin: 'left center' }} />
         </div>
-        <nav className="header-nav-container" style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
-          <span 
-            className="desktop-only"
-            style={{ 
-              cursor: 'pointer', 
-              color: location.pathname === '/about' ? 'var(--accent-color)' : '#111111', 
-              fontWeight: '600', 
+        {!isMarketingMode && (
+          <nav className="header-nav-container" style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+            <span 
+              className="desktop-only"
+              style={{ 
+                cursor: 'pointer', 
+                color: location.pathname === '/about' ? 'var(--accent-color)' : '#111111', 
+                fontWeight: '600', 
+                fontSize: '1rem',
+                display: window.innerWidth > 768 ? 'block' : 'none'
+              }} 
+              onClick={() => navigate('/about')}
+            >
+              About Us
+            </span>
+            <span 
+              className="desktop-only"
+              style={{ 
+                cursor: 'pointer', 
+                color: location.pathname === '/tools' ? 'var(--accent-color)' : '#111111', 
+                fontWeight: '600', 
+                fontSize: '1rem',
+                display: window.innerWidth > 768 ? 'block' : 'none'
+              }} 
+              onClick={() => navigate('/tools')}
+            >
+              Free Tools
+            </span>
+            <select 
+              className="desktop-only"
+              value={language}
+              onChange={(e) => setLanguage(e.target.value)}
+              style={{ 
+              background: 'transparent', 
+              color: '#111111', 
+              fontWeight: '600',
+              border: 'none', 
+              cursor: 'pointer',
               fontSize: '1rem',
-              display: window.innerWidth > 768 ? 'block' : 'none'
-            }} 
-            onClick={() => navigate('/about')}
-          >
-            About Us
-          </span>
-          <span 
-            className="desktop-only"
-            style={{ 
-              cursor: 'pointer', 
-              color: location.pathname === '/tools' ? 'var(--accent-color)' : '#111111', 
-              fontWeight: '600', 
-              fontSize: '1rem',
-              display: window.innerWidth > 768 ? 'block' : 'none'
-            }} 
-            onClick={() => navigate('/tools')}
-          >
-            Free Tools
-          </span>
-          <select 
-            className="desktop-only"
-            value={language}
-            onChange={(e) => setLanguage(e.target.value)}
-            style={{ 
-            background: 'transparent', 
-            color: '#111111', 
-            fontWeight: '600',
-            border: 'none', 
-            cursor: 'pointer',
-            fontSize: '1rem',
-            fontFamily: 'inherit',
-            outline: 'none'
-          }}>
-            <option value="IT" style={{background: 'var(--surface-color)'}}>IT</option>
-            <option value="EN" style={{background: 'var(--surface-color)'}}>EN</option>
-            <option value="ES" style={{background: 'var(--surface-color)'}}>ES</option>
-            <option value="AR" style={{background: 'var(--surface-color)'}}>AR</option>
-            <option value="HI" style={{background: 'var(--surface-color)'}}>HI</option>
-            <option value="FR" style={{background: 'var(--surface-color)'}}>FR</option>
-            <option value="BN" style={{background: 'var(--surface-color)'}}>BN</option>
-          </select>
+              fontFamily: 'inherit',
+              outline: 'none'
+            }}>
+              <option value="IT" style={{background: 'var(--surface-color)'}}>IT</option>
+              <option value="EN" style={{background: 'var(--surface-color)'}}>EN</option>
+              <option value="ES" style={{background: 'var(--surface-color)'}}>ES</option>
+              <option value="AR" style={{background: 'var(--surface-color)'}}>AR</option>
+              <option value="HI" style={{background: 'var(--surface-color)'}}>HI</option>
+              <option value="FR" style={{background: 'var(--surface-color)'}}>FR</option>
+              <option value="BN" style={{background: 'var(--surface-color)'}}>BN</option>
+            </select>
 
-          {authStatus === 'authenticated' && user ? (
-            <div className="desktop-only" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-              <div style={{ gap: '1.5rem', alignItems: 'center', display: window.innerWidth > 768 ? 'flex' : 'none' }}>
-                 <span style={{ cursor: 'pointer', color: location.pathname === '/dashboard' ? 'var(--accent-color)' : 'var(--text-secondary)', fontWeight: location.pathname === '/dashboard' ? 'bold' : 'normal' }} onClick={() => navigate('/dashboard')}>{t('dashboard')}</span>
-                 <span style={{ cursor: 'pointer', color: location.pathname === '/profile' ? 'var(--accent-color)' : 'var(--text-secondary)', fontWeight: location.pathname === '/profile' ? 'bold' : 'normal' }} onClick={() => navigate('/profile')}>{t('myProfile')}</span>
-                 <span style={{ cursor: 'pointer', color: location.pathname === '/settings' ? 'var(--accent-color)' : 'var(--text-secondary)', fontWeight: location.pathname === '/settings' ? 'bold' : 'normal' }} onClick={() => navigate('/settings')}>{t('settings')}</span>
-                 {user?.emails?.[0]?.email && (import.meta.env.VITE_ADMIN_EMAILS || '').split(',').includes(user.emails[0].email) && (
-                     <span style={{ cursor: 'pointer', color: 'var(--accent-color)', fontWeight: 'bold' }} onClick={() => navigate('/admin')}>{t('admin')}</span>
-                 )}
-                 <div style={{ borderLeft: '1px solid var(--border-color)', height: '20px' }}></div>
+            {authStatus === 'authenticated' && user ? (
+              <div className="desktop-only" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+                <div style={{ gap: '1.5rem', alignItems: 'center', display: window.innerWidth > 768 ? 'flex' : 'none' }}>
+                   <span style={{ cursor: 'pointer', color: location.pathname === '/dashboard' ? 'var(--accent-color)' : 'var(--text-secondary)', fontWeight: location.pathname === '/dashboard' ? 'bold' : 'normal' }} onClick={() => navigate('/dashboard')}>{t('dashboard')}</span>
+                   <span style={{ cursor: 'pointer', color: location.pathname === '/profile' ? 'var(--accent-color)' : 'var(--text-secondary)', fontWeight: location.pathname === '/profile' ? 'bold' : 'normal' }} onClick={() => navigate('/profile')}>{t('myProfile')}</span>
+                   <span style={{ cursor: 'pointer', color: location.pathname === '/settings' ? 'var(--accent-color)' : 'var(--text-secondary)', fontWeight: location.pathname === '/settings' ? 'bold' : 'normal' }} onClick={() => navigate('/settings')}>{t('settings')}</span>
+                   {user?.emails?.[0]?.email && (import.meta.env.VITE_ADMIN_EMAILS || '').split(',').includes(user.emails[0].email) && (
+                       <span style={{ cursor: 'pointer', color: 'var(--accent-color)', fontWeight: 'bold' }} onClick={() => navigate('/admin')}>{t('admin')}</span>
+                   )}
+                   <div style={{ borderLeft: '1px solid var(--border-color)', height: '20px' }}></div>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--accent-color)', fontWeight: '800', fontSize: '1.1rem' }}>
+                    {profileImageUrl ? (
+                        <img src={profileImageUrl} alt="Profile" style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--accent-color)' }} />
+                    ) : (
+                        <User size={22} color="var(--accent-color)" />
+                    )}
+                    <span style={{ marginLeft: '0.25rem', letterSpacing: '-0.5px' }}>{displayName}</span>
+                </div>
+                <button 
+                  onClick={handleLogout} 
+                  style={{ 
+                      background: 'transparent', 
+                      color: 'var(--text-secondary)', 
+                      border: '1px solid var(--border-color)', 
+                      padding: '0.5rem 1rem', 
+                      borderRadius: '8px', 
+                      cursor: 'pointer' 
+                  }}>
+                    {t('logout')}
+                </button>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--accent-color)', fontWeight: '800', fontSize: '1.1rem' }}>
-                  {profileImageUrl ? (
-                      <img src={profileImageUrl} alt="Profile" style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--accent-color)' }} />
-                  ) : (
-                      <User size={22} color="var(--accent-color)" />
-                  )}
-                  <span style={{ marginLeft: '0.25rem', letterSpacing: '-0.5px' }}>{displayName}</span>
+            ) : (authStatus === 'authenticating' || authStatus === 'loading') ? (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-secondary)' }}>
+                  <div className="mini-spinner" style={{ width: '14px', height: '14px', border: '2px solid rgba(0,0,0,0.1)', borderTopColor: 'var(--accent-color)', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
+                  <span style={{ fontSize: '0.9rem' }}>Verifying...</span>
               </div>
-              <button 
-                onClick={handleLogout} 
-                style={{ 
-                    background: 'transparent', 
-                    color: 'var(--text-secondary)', 
-                    border: '1px solid var(--border-color)', 
-                    padding: '0.5rem 1rem', 
-                    borderRadius: '8px', 
-                    cursor: 'pointer' 
-                }}>
-                  {t('logout')}
-              </button>
-            </div>
-          ) : (authStatus === 'authenticating' || authStatus === 'loading') ? (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-secondary)' }}>
-                <div className="mini-spinner" style={{ width: '14px', height: '14px', border: '2px solid rgba(0,0,0,0.1)', borderTopColor: 'var(--accent-color)', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
-                <span style={{ fontSize: '0.9rem' }}>Verifying...</span>
-            </div>
-          ) : (
-            <>
-              <button className="btn-outline header-login-btn desktop-only" onClick={() => openAuth('login')}>{t('loginBtn')}</button>
-              <button className="btn-primary header-book-btn" onClick={() => navigate('/book-consultation')} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                <Calendar size={16} />
-                Book a Demo
-              </button>
-            </>
-          )}
-        </nav>
+            ) : (
+              <>
+                <button className="btn-outline header-login-btn desktop-only" onClick={() => openAuth('login')}>{t('loginBtn')}</button>
+                <button className="btn-primary header-book-btn" onClick={() => navigate('/book-consultation')} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                  <Calendar size={16} />
+                  Book a Demo
+                </button>
+              </>
+            )}
+          </nav>
+        )}
         </div>
       </header>
 
@@ -556,8 +571,8 @@ function AppContent() {
         </Routes>
       </main>
 
-      <SocialContact />
-      <Footer />
+      {!isMarketingMode && <SocialContact />}
+      {!isMarketingMode && <Footer />}
 
       <AuthModal 
         isOpen={isAuthModalOpen} 
