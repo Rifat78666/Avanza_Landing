@@ -172,62 +172,81 @@ const FreeTools = () => {
               gap: '1.5rem' 
             }}>
               {section.items.map((tool, toolIdx) => {
-                const cardColor = toolIdx % 2 === 0 ? '#009246' : '#CE2B37';
+                const palettes = [
+                  { bg: '#23252b', text: '#ffffff', subtext: '#a0a3b1', iconBg: '#34363f', pillBg: '#34363f', iconColor: '#ffffff' },
+                  { bg: '#b4beff', text: '#1a1a1a', subtext: '#4a4d66', iconBg: '#ffffff', pillBg: '#ffffff', iconColor: '#4a4d66' },
+                  { bg: '#f5e4d1', text: '#1a1a1a', subtext: '#66594d', iconBg: '#ffffff', pillBg: '#ffffff', iconColor: '#66594d' },
+                  { bg: '#e0f2f1', text: '#1a1a1a', subtext: '#4d6664', iconBg: '#ffffff', pillBg: '#ffffff', iconColor: '#009246' },
+                ];
+                const theme = palettes[toolIdx % palettes.length];
 
                 return (
                 <div 
                   key={tool.id} 
-                  className="card" 
                   style={{ 
                     display: 'flex', 
                     flexDirection: 'column', 
                     height: '100%', 
-                    padding: '2rem',
-                    transition: 'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease',
+                    padding: '2.5rem',
+                    backgroundColor: theme.bg,
+                    color: theme.text,
+                    transition: 'transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s cubic-bezier(0.2, 0.8, 0.2, 1)',
                     cursor: 'pointer',
-                    border: '1px solid var(--border-color)',
-                    borderRadius: '24px',
+                    borderRadius: '36px',
+                    position: 'relative',
                     overflow: 'hidden'
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-4px)';
-                    e.currentTarget.style.boxShadow = '0 12px 24px rgba(0,0,0,0.2)';
-                    e.currentTarget.style.borderColor = cardColor;
+                    e.currentTarget.style.transform = 'scale(1.03)';
+                    e.currentTarget.style.boxShadow = '0 20px 40px rgba(0,0,0,0.15)';
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.transform = 'scale(1)';
                     e.currentTarget.style.boxShadow = 'none';
-                    e.currentTarget.style.borderColor = 'var(--border-color)';
                   }}
                   onClick={() => navigate(tool.path)}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
+                  {/* Top row: Icon and pill badge */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2.5rem' }}>
                     <div style={{ 
-                      padding: '1rem', 
-                      backgroundColor: 'rgba(255,255,255,0.03)', 
-                      borderRadius: '12px',
-                      border: '1px solid rgba(255,255,255,0.05)'
+                      padding: '1.2rem', 
+                      backgroundColor: theme.iconBg, 
+                      borderRadius: '24px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
                     }}>
-                      {tool.icon}
+                      {React.cloneElement(tool.icon, { color: theme.iconColor, size: 28 })}
                     </div>
-                    <h3 style={{ fontSize: '1.3rem', margin: 0 }}>{tool.name}</h3>
+                    <div style={{
+                      padding: '0.5rem 1.2rem',
+                      backgroundColor: theme.pillBg,
+                      borderRadius: '20px',
+                      fontSize: '0.9rem',
+                      fontWeight: 'bold',
+                      color: theme.text,
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.5rem',
+                      boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
+                    }}>
+                      <span>Try Now</span>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                    </div>
                   </div>
-                  <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', flexGrow: 1, marginBottom: '2rem', lineHeight: '1.6' }}>
+
+                  {/* Title */}
+                  <h3 style={{ fontSize: '1.8rem', fontWeight: '800', margin: '0 0 1rem 0', lineHeight: '1.2', letterSpacing: '-0.02em' }}>
+                    {tool.name}
+                  </h3>
+
+                  {/* Description */}
+                  <p style={{ color: theme.subtext, fontSize: '1.1rem', margin: 0, lineHeight: '1.5', fontWeight: '500' }}>
                     {tool.description}
                   </p>
-                  <button 
-                    className="btn-outline" 
-                    style={{ width: '100%', justifyContent: 'center', fontWeight: 'bold', fontSize: '1.1rem', padding: '1rem 1.5rem' }}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      navigate(tool.path);
-                    }}
-                  >
-                    {tool.name.toLowerCase().includes('calculat') || tool.name.toLowerCase().includes('convert') ? 'Calculate' : 
-                     (tool.name.toLowerCase().includes('check') || tool.name.toLowerCase().includes('ranking') || tool.name.toLowerCase().includes('requirement') || tool.name.toLowerCase().includes('permit')) ? 'Check' : 
-                     tool.name.toLowerCase().includes('evaluation') ? 'Evaluate' : 
-                     tool.name.toLowerCase().includes('report') ? 'Get Report' : 'Use Tool'}
-                  </button>
+                  
+                  <div style={{ flexGrow: 1 }} />
                 </div>
               )})}
             </div>
