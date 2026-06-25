@@ -14,7 +14,9 @@ const CIPCodes = () => {
   return (
         <>
       <div style={{
-        width: '100%',
+        width: 'calc(100% - 2rem)',
+        maxWidth: '1400px',
+        margin: '1rem auto',
         position: 'relative',
         backgroundImage: 'url("https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1920&q=80")',
         backgroundSize: 'cover',
@@ -22,7 +24,8 @@ const CIPCodes = () => {
         padding: '5rem 1rem',
         textAlign: 'center',
         color: 'white',
-        borderBottom: '4px solid #009246'
+        borderRadius: '36px',
+        overflow: 'hidden'
       }}>
         <div style={{
           position: 'absolute',
