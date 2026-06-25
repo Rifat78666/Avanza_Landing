@@ -296,7 +296,7 @@ def generate_course_evaluation_pdf(candidate_name, institution, target_country, 
         pdf.cell(87, 5, "CEO", align='C')
         pdf.set_text_color(200, 30, 30)
         pdf.set_xy(109, final_y)
-        pdf.cell(87, 5, "CEO", align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+        pdf.cell(87, 5, "CTO", align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
         final_y += 6
         
         # Degrees

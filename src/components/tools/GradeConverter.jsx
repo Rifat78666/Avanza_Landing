@@ -376,7 +376,7 @@ const GradeConverter = () => {
         doc.setTextColor(...avanzaGreen);
         doc.text("CEO", 57.5, finalY, { align: 'center' });
         doc.setTextColor(200, 30, 30); // Red
-        doc.text("CEO", 152.5, finalY, { align: 'center' });
+        doc.text("CTO", 152.5, finalY, { align: 'center' });
         
         finalY += 6;
         

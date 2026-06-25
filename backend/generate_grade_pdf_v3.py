@@ -5,37 +5,40 @@ from fpdf.enums import XPos, YPos
 
 class GradeConversionPDF(FPDF):
     def header(self):
-        dark_green = (10, 67, 47)
-        avanza_green = (0, 146, 70)
-        
-        self.set_fill_color(*dark_green)
-        self.rect(0, 0, 210, 40, 'F')
-        
-        # Logo
-        import os
-        logo_path = os.path.join(os.path.dirname(__file__), '..', 'public', 'favicon.png')
-        if os.path.exists(logo_path):
-            self.image(logo_path, x=14, y=10, w=16)
+        if self.page_no() == 1:
+            dark_green = (10, 67, 47)
+            avanza_green = (0, 146, 70)
+            
+            self.set_fill_color(*dark_green)
+            self.rect(0, 0, 210, 40, 'F')
+            
+            # Logo
+            import os
+            logo_path = os.path.join(os.path.dirname(__file__), '..', 'public', 'favicon.png')
+            if os.path.exists(logo_path):
+                self.image(logo_path, x=14, y=10, w=16)
+            else:
+                self.set_fill_color(*avanza_green)
+                self.set_line_width(0)
+                self.rect(14, 12, 12, 12, 'F', round_corners=True, corner_radius=2)
+            
+            self.set_text_color(255, 255, 255)
+            self.set_font("helvetica", "B", 22)
+            self.set_xy(34, 12)
+            self.cell(0, 10, "AVANZA", new_x=XPos.RIGHT, new_y=YPos.TOP)
+            self.set_font("helvetica", "", 8)
+            self.set_xy(34, 20)
+            self.cell(0, 5, "M O V E  F O R W A R D", new_x=XPos.RIGHT, new_y=YPos.TOP)
+            
+            self.set_font("helvetica", "", 9)
+            self.set_xy(10, 18)
+            self.cell(186, 10, "O F F I C I A L  R E P O R T", align='R', new_x=XPos.RIGHT, new_y=YPos.TOP)
+            self.set_font("helvetica", "B", 14)
+            self.set_xy(10, 24)
+            self.cell(186, 10, "Grade Conversion & University Match", align='R', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+            self.set_y(45)
         else:
-            self.set_fill_color(*avanza_green)
-            self.set_line_width(0)
-            self.rect(14, 12, 12, 12, 'F', round_corners=True, corner_radius=2)
-        
-        self.set_text_color(255, 255, 255)
-        self.set_font("helvetica", "B", 22)
-        self.set_xy(34, 12)
-        self.cell(0, 10, "AVANZA", new_x=XPos.RIGHT, new_y=YPos.TOP)
-        self.set_font("helvetica", "", 8)
-        self.set_xy(34, 20)
-        self.cell(0, 5, "M O V E  F O R W A R D", new_x=XPos.RIGHT, new_y=YPos.TOP)
-        
-        self.set_font("helvetica", "", 9)
-        self.set_xy(10, 18)
-        self.cell(186, 10, "O F F I C I A L  R E P O R T", align='R', new_x=XPos.RIGHT, new_y=YPos.TOP)
-        self.set_font("helvetica", "B", 14)
-        self.set_xy(10, 24)
-        self.cell(186, 10, "Grade Conversion & University Match", align='R', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
-        self.set_y(45)
+            self.set_y(25)
 
     def footer(self):
         dark_green = (10, 67, 47)
@@ -242,7 +245,7 @@ def generate_sample_pdf(output_path):
         pdf.cell(87, 5, "CEO", align='C')
         pdf.set_text_color(200, 30, 30)
         pdf.set_xy(109, final_y)
-        pdf.cell(87, 5, "CEO", align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+        pdf.cell(87, 5, "CTO", align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
         final_y += 6
         
         # Degrees
@@ -314,6 +317,6 @@ def generate_sample_pdf(output_path):
     pdf.output(output_path)
 
 if __name__ == "__main__":
-    output_path = r"C:\Users\rifat\.gemini\antigravity-ide\brain\250e62fd-5827-4f04-a08c-21d7cbaca58f\New_Grade_Conversion_v8.pdf"
+    output_path = r"C:\Users\rifat\.gemini\antigravity-ide\brain\250e62fd-5827-4f04-a08c-21d7cbaca58f\New_Grade_Conversion_v10.pdf"
     generate_sample_pdf(output_path)
     print("Report 1 Python Mock Generated!")
