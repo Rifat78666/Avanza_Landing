@@ -346,7 +346,7 @@ const GradeConverter = () => {
         const rifatImg = new Image();
         rifatImg.src = '/rifat.png';
         const uniLogos = new Image();
-        uniLogos.src = '/university_logos.png';
+        uniLogos.src = '/avanza_university_strip_white.png';
         
         await Promise.all([
           new Promise(r => { pallabImg.onload = r; pallabImg.onerror = r; }),
@@ -392,6 +392,14 @@ const GradeConverter = () => {
         finalY += 4;
         doc.text("(Joint Programme)", 57.5, finalY, { align: 'center' });
         doc.text("(Joint Programme)", 152.5, finalY, { align: 'center' });
+        
+        finalY += 4;
+        
+        doc.text("University of Milan || University of Milano-Bicocca ||", 57.5, finalY, { align: 'center' });
+        doc.text("University of Milan || University of Milano-Bicocca ||", 152.5, finalY, { align: 'center' });
+        finalY += 4;
+        doc.text("University of Pavia", 57.5, finalY, { align: 'center' });
+        doc.text("University of Pavia", 152.5, finalY, { align: 'center' });
         
         finalY += 6;
         

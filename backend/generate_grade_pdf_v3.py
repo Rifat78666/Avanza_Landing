@@ -219,7 +219,7 @@ def generate_sample_pdf(output_path):
     public_dir = os.path.join(os.path.dirname(__file__), '..', 'public')
     pallab_path = os.path.join(public_dir, 'pallab.png')
     rifat_path = os.path.join(public_dir, 'rifat.png')
-    unis_path = os.path.join(public_dir, 'university_logos.png')
+    unis_path = os.path.join(public_dir, 'avanza_university_strip_white.png')
     
     if os.path.exists(pallab_path) and os.path.exists(rifat_path):
         pdf.image(pallab_path, x=45, y=final_y, w=25, h=25)
@@ -262,6 +262,17 @@ def generate_sample_pdf(output_path):
         pdf.cell(87, 4, "(Joint Programme)", align='C')
         pdf.set_xy(109, final_y)
         pdf.cell(87, 4, "(Joint Programme)", align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+        final_y += 4
+        
+        pdf.set_xy(14, final_y)
+        pdf.cell(87, 4, "University of Milan || University of Milano-Bicocca ||", align='C')
+        pdf.set_xy(109, final_y)
+        pdf.cell(87, 4, "University of Milan || University of Milano-Bicocca ||", align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+        final_y += 4
+        pdf.set_xy(14, final_y)
+        pdf.cell(87, 4, "University of Pavia", align='C')
+        pdf.set_xy(109, final_y)
+        pdf.cell(87, 4, "University of Pavia", align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
         final_y += 6
         
         # Emails
@@ -303,6 +314,6 @@ def generate_sample_pdf(output_path):
     pdf.output(output_path)
 
 if __name__ == "__main__":
-    output_path = r"C:\Users\rifat\.gemini\antigravity-ide\brain\250e62fd-5827-4f04-a08c-21d7cbaca58f\New_Grade_Conversion_v7.pdf"
+    output_path = r"C:\Users\rifat\.gemini\antigravity-ide\brain\250e62fd-5827-4f04-a08c-21d7cbaca58f\New_Grade_Conversion_v8.pdf"
     generate_sample_pdf(output_path)
     print("Report 1 Python Mock Generated!")
