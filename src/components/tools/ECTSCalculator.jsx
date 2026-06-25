@@ -94,7 +94,7 @@ const ECTSCalculator = () => {
           <ArrowLeft size={18} /> Back to Tools
         </button>
 
-        <div className="card" style={{ padding: '2rem', marginBottom: '2rem' }}>
+        <div className="card" style={{ background: themeBg, color: '#1a1a1a', padding: '2rem', marginBottom: '2rem' }}>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1rem', marginBottom: '1.5rem' }}>
         <div>
@@ -139,7 +139,7 @@ const ECTSCalculator = () => {
         </div>
       </div>
 
-      <button className="btn-primary" onClick={handleCalculate} style={{ width: '100%', marginBottom: '1.5rem', justifyContent: 'center' }}>
+      <button className="btn-primary" style={{ background: themeColor, borderColor: themeColor, width: '100%', marginBottom: '1.5rem', justifyContent: 'center' }}>
         Calculate ECTS
       </button>
 

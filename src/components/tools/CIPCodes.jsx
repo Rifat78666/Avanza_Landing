@@ -49,7 +49,7 @@ const CIPCodes = () => {
         <ArrowLeft size={18} /> Back to Tools
       </button>
 
-      <div className="card" style={{ padding: '2rem', marginBottom: '2rem' }}>
+      <div className="card" style={{ background: themeBg, color: '#1a1a1a', padding: '2rem', marginBottom: '2rem' }}>
         <h2 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
           <BookOpen size={24} color="var(--accent-color)" />
           CIP Codes Search

@@ -692,13 +692,13 @@ const GradeConverter = () => {
               </>
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                <div className="card" style={{ padding: '1.5rem', filter: 'blur(5px)', opacity: 0.3 }}>
+                <div className="card" style={{ background: themeBg, color: '#1a1a1a', padding: '1.5rem', filter: 'blur(5px)', opacity: 0.3 }}>
                   <h4 style={{ fontSize: '1.2rem', marginBottom: '0.25rem' }}>University of Milan (Example)</h4>
                   <div style={{ display: 'flex', gap: '1rem', color: '#4a4a4a', fontSize: '0.9rem' }}>
                     <span>Level: Master</span>
                   </div>
                 </div>
-                <div className="card" style={{ padding: '1.5rem', filter: 'blur(5px)', opacity: 0.1 }}>
+                <div className="card" style={{ background: themeBg, color: '#1a1a1a', padding: '1.5rem', filter: 'blur(5px)', opacity: 0.1 }}>
                   <h4 style={{ fontSize: '1.2rem', marginBottom: '0.25rem' }}>Politecnico di Torino (Example)</h4>
                   <div style={{ display: 'flex', gap: '1rem', color: '#4a4a4a', fontSize: '0.9rem' }}>
                     <span>Level: Both</span>

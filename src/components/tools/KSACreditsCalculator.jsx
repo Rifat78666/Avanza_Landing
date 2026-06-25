@@ -60,7 +60,7 @@ const KSACreditsCalculator = () => {
         <ArrowLeft size={18} /> Back to Tools
       </button>
 
-      <div className="card" style={{ padding: '2rem', marginBottom: '2rem' }}>
+      <div className="card" style={{ background: themeBg, color: '#1a1a1a', padding: '2rem', marginBottom: '2rem' }}>
         <h2 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
           <Calculator size={24} color="var(--accent-color)" />
           KSA Credits Calculator
@@ -84,7 +84,7 @@ const KSACreditsCalculator = () => {
           </div>
         </div>
 
-        <button className="btn-primary" onClick={calculate} style={{ width: '100%', marginBottom: '1.5rem', justifyContent: 'center' }}>
+        <button className="btn-primary" style={{ background: themeColor, borderColor: themeColor, width: '100%', marginBottom: '1.5rem', justifyContent: 'center' }}>
           Calculate KSA Credits
         </button>
 
