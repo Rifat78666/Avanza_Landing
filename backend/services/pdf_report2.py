@@ -284,12 +284,12 @@ def generate_course_evaluation_pdf(candidate_name, institution, target_country, 
     public_dir = os.path.join(os.path.dirname(__file__), '..', '..', 'public')
     pallab_path = os.path.join(public_dir, 'pallab.png')
     rifat_path = os.path.join(public_dir, 'rifat.png')
-    unis_path = os.path.join(public_dir, 'avanza_university_strip_white.png')
+    unis_path = os.path.join(public_dir, 'university_logos.png')
     
     if os.path.exists(pallab_path) and os.path.exists(rifat_path):
-        pdf.image(pallab_path, x=45, y=final_y, w=25)
-        pdf.image(rifat_path, x=140, y=final_y, w=25)
-        final_y += 30
+        pdf.image(pallab_path, x=45, y=final_y, w=25, h=25)
+        pdf.image(rifat_path, x=140, y=final_y, w=25, h=25)
+        final_y += 34
         
         # Names
         pdf.set_font("helvetica", "B", 11)
@@ -304,10 +304,10 @@ def generate_course_evaluation_pdf(candidate_name, institution, target_country, 
         pdf.set_font("helvetica", "B", 9)
         pdf.set_text_color(*avanza_green)
         pdf.set_xy(14, final_y)
-        pdf.cell(87, 5, "Co-founder, Country Manager", align='C')
+        pdf.cell(87, 5, "CEO", align='C')
         pdf.set_text_color(200, 30, 30)
         pdf.set_xy(109, final_y)
-        pdf.cell(87, 5, "Co-founder, System & AI", align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+        pdf.cell(87, 5, "CEO", align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
         final_y += 6
         
         # Degrees
@@ -336,19 +336,30 @@ def generate_course_evaluation_pdf(candidate_name, institution, target_country, 
         pdf.cell(87, 4, "rifatulhaque200@gmail.com", align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
         final_y += 6
         
-        # Separate Calendly Links
-        pdf.set_font("helvetica", "B", 8)
-        pdf.set_text_color(0, 100, 200)
-        
+        # Separate Calendly Links as Green Buttons
         pallab_link = "https://calendly.com/pallabm472/30min"
         rifat_link = "https://calendly.com/rifatulhaque200/30min"
         
-        pdf.set_xy(14, final_y)
-        pdf.cell(87, 4, "Book 1:1 with Pallab >", align='C', link=pallab_link)
-        pdf.set_xy(109, final_y)
-        pdf.cell(87, 4, "Book 1:1 with Rifat >", align='C', link=rifat_link, new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+        pdf.set_fill_color(*avanza_green)
         
-        final_y += 8
+        # Pallab Button
+        pdf.rect(37, final_y, 40, 8, 'F', round_corners=True, corner_radius=2)
+        pdf.link(37, final_y, 40, 8, pallab_link)
+        
+        # Rifat Button
+        pdf.rect(132, final_y, 40, 8, 'F', round_corners=True, corner_radius=2)
+        pdf.link(132, final_y, 40, 8, rifat_link)
+        
+        pdf.set_font("helvetica", "B", 8)
+        pdf.set_text_color(255, 255, 255)
+        
+        pdf.set_xy(37, final_y + 2)
+        pdf.cell(40, 4, "Book 1:1 with Pallab >", align='C')
+        
+        pdf.set_xy(132, final_y + 2)
+        pdf.cell(40, 4, "Book 1:1 with Rifat >", align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+        
+        final_y += 12
         
         # Uni Logos
         if os.path.exists(unis_path):
