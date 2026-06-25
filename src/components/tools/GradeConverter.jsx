@@ -167,58 +167,200 @@ const GradeConverter = () => {
     try {
       const doc = new jsPDF();
       
-      // Header
-      doc.setFillColor(0, 146, 70);
+      const darkGreen = [10, 67, 47]; // #0a432f
+      const lightGreen = [242, 248, 242];
+      const avanzaGreen = [0, 146, 70];
+      const textColor = [25, 30, 40];
+      const textMuted = [100, 100, 100];
+      
+      // HEADER (Full width dark green banner)
+      doc.setFillColor(...darkGreen);
       doc.rect(0, 0, 210, 40, 'F');
+      
+      // Play icon (simple triangle)
+      doc.setFillColor(...avanzaGreen);
+      doc.roundedRect(14, 12, 12, 12, 2, 2, 'F');
+      doc.setFillColor(255, 255, 255);
+      doc.triangle(18, 15, 18, 21, 23, 18, 'F');
+      
+      // Header Text
       doc.setTextColor(255, 255, 255);
-      doc.setFontSize(24);
-      doc.text("AVANZA", 105, 20, { align: 'center' });
-      doc.setFontSize(14);
-      doc.text("Official Grade Conversion & University Match Report", 105, 30, { align: 'center' });
-      
-      // Candidate Profile
-      doc.setTextColor(0, 0, 0);
-      doc.setFontSize(12);
-      doc.text("Candidate Profile", 14, 55);
-      doc.setFontSize(10);
-      doc.text(`Name: ${userName}`, 14, 65);
-      doc.text(`Email: ${userEmail}`, 14, 72);
-      doc.text(`Origin Country: ${sourceCountry}`, 14, 79);
-      doc.text(`Original Grade: ${grade} (${gradingSystem})`, 14, 86);
-      doc.text(`Target Country: ${targetCountry}`, 14, 93);
-      
-      // Results Highlight
-      doc.setFillColor(240, 248, 240);
-      doc.rect(120, 50, 75, 45, 'F');
-      doc.setDrawColor(0, 146, 70);
-      doc.setLineWidth(0.5);
-      doc.rect(120, 50, 75, 45, 'S');
-      
-      doc.setFontSize(11);
-      doc.text(`${targetCountry} Equivalent Grade:`, 157, 65, { align: 'center' });
+      doc.setFont("helvetica", "B");
       doc.setFontSize(22);
-      doc.setTextColor(0, 146, 70);
-      doc.text(equivalents ? String(equivalents[targetCountry]) : '', 157, 80, { align: 'center' });
+      doc.text("AVANZA", 30, 20);
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(8);
+      doc.text("M O V E\nF O R W A R D", 30, 25);
+      
+      doc.setFontSize(9);
+      doc.text("O F F I C I A L  R E P O R T", 196, 20, { align: 'right' });
+      doc.setFont("helvetica", "B");
+      doc.setFontSize(14);
+      doc.text("Grade Conversion & University Match", 196, 27, { align: 'right' });
+      
+      // TITLE SECTION
+      doc.setTextColor(...textColor);
+      doc.setFontSize(20);
+      doc.text("Grade Conversion & University Match", 14, 55);
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(11);
+      doc.setTextColor(...textMuted);
+      doc.text(`Your home grade, translated to the ${targetCountry} system — with recognised universities you qualify for.`, 14, 62);
+      
+      doc.setFontSize(9);
+      doc.text(`Report ID   AV-GC-${new Date().getFullYear()}-${Math.floor(Math.random() * 9000 + 1000)}`, 14, 70);
+      doc.text(`Generated   ${new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}`, 65, 70);
+      
+      // CANDIDATE PROFILE SECTION
+      doc.setFont("helvetica", "B");
+      doc.setFontSize(10);
+      doc.setTextColor(...avanzaGreen);
+      doc.text("C A N D I D A T E   P R O F I L E", 14, 85);
+      doc.setDrawColor(220, 220, 220);
+      doc.line(75, 84, 196, 84);
+      
+      // Profile Box
+      doc.setFillColor(252, 252, 252);
+      doc.roundedRect(14, 90, 182, 45, 3, 3, 'FD');
+      
+      doc.setFontSize(8);
+      doc.setTextColor(...textMuted);
+      doc.text("N A M E", 20, 100);
+      doc.text("E M A I L", 105, 100);
+      doc.text("O R I G I N   C O U N T R Y", 20, 120);
+      doc.text("T A R G E T   C O U N T R Y", 105, 120);
+      
+      doc.setFont("helvetica", "B");
+      doc.setFontSize(12);
+      doc.setTextColor(...textColor);
+      doc.text(userName || "N/A", 20, 106);
+      doc.text(userEmail || "N/A", 105, 106);
+      doc.text(sourceCountry || "N/A", 20, 126);
+      doc.text(targetCountry || "N/A", 105, 126);
+      
+      // GRADE CONVERSION SECTION
+      doc.setFont("helvetica", "B");
+      doc.setFontSize(10);
+      doc.setTextColor(...avanzaGreen);
+      doc.text("G R A D E   C O N V E R S I O N", 14, 150);
+      doc.line(75, 149, 196, 149);
+      
+      // Left Box (Original)
+      doc.setFillColor(248, 248, 248);
+      doc.roundedRect(14, 155, 80, 55, 4, 4, 'FD');
+      doc.setFontSize(8);
+      doc.setTextColor(...textMuted);
+      doc.text(`O R I G I N A L   G R A D E  ·  ${sourceCountry.toUpperCase()}`, 54, 165, { align: 'center' });
+      doc.setFontSize(45);
+      doc.setTextColor(...darkGreen);
+      doc.text(`${grade}`, 54, 185, { align: 'center' });
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(9);
+      doc.setTextColor(...textMuted);
+      doc.text(`on a ${gradingSystem} scale`, 54, 195, { align: 'center' });
+      
+      // Arrow
+      doc.setTextColor(...avanzaGreen);
+      doc.setFontSize(20);
+      doc.text("→", 105, 182, { align: 'center' });
+      
+      // Right Box (Target)
+      doc.setFillColor(...darkGreen);
+      doc.roundedRect(116, 155, 80, 55, 4, 4, 'F');
+      doc.setFont("helvetica", "B");
+      doc.setFontSize(8);
+      doc.setTextColor(200, 241, 53); // Lime green
+      doc.text(`${targetCountry.toUpperCase()} E Q U I V A L E N T`, 156, 165, { align: 'center' });
+      doc.setFontSize(45);
+      doc.setTextColor(255, 255, 255);
+      const eqGradeStr = equivalents ? String(equivalents.numeric[targetCountry.toLowerCase()] || equivalents[targetCountry]) : '';
+      doc.text(eqGradeStr, 156, 185, { align: 'center' });
+      
+      // Badge inside Right Box
+      doc.setFillColor(...avanzaGreen);
+      doc.roundedRect(131, 195, 50, 8, 4, 4, 'F');
+      doc.setFontSize(8);
+      doc.setTextColor(255, 255, 255);
+      doc.text("C O N V E R T E D   S U C C E S S", 156, 200, { align: 'center' });
+      
+      // UNIVERSITIES TABLE SECTION
+      doc.setFont("helvetica", "B");
+      doc.setFontSize(10);
+      doc.setTextColor(...avanzaGreen);
+      doc.text("U N I V E R S I T I E S   Y O U   Q U A L I F Y   F O R", 14, 225);
+      doc.line(100, 224, 196, 224);
       
       // Table
       doc.setTextColor(0, 0, 0);
       autoTable(doc, {
-        startY: 110,
-        head: [['University Name', 'City', 'Level', 'Tuition']],
-        body: matchedUnis.map(u => [u.name, u.city, u.programme_level, u.tuition_range]),
-        headStyles: { fillColor: [206, 43, 55] },
-        styles: { fontSize: 10 }
+        startY: 232,
+        head: [['UNIVERSITY', 'QS WORLD RANK', 'CITY', 'LEVEL', 'TUITION']],
+        body: matchedUnis.map(u => [u.name, u.qs_ranking || 'N/A', u.city, u.programme_level, u.tuition_range]),
+        headStyles: { fillColor: darkGreen, textColor: 255, fontSize: 8, fontStyle: 'bold' },
+        styles: { fontSize: 9, cellPadding: 4 },
+        alternateRowStyles: { fillColor: [250, 250, 250] },
+        didDrawCell: function(data) {
+          // Add custom badge styling logic here if needed (e.g. green pill for FREE)
+        }
       });
       
-      // Footer
-      const finalY = doc.lastAutoTable ? doc.lastAutoTable.finalY : 160;
-      doc.setFontSize(10);
-      doc.text("Your report includes a free 1:1 consultation with the Avanza Founders.", 105, finalY + 20, { align: 'center' });
-      doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 105, finalY + 26, { align: 'center' });
+      let finalY = doc.lastAutoTable ? doc.lastAutoTable.finalY : 240;
+      
+      // Check if we need a new page for the footer block
+      if (finalY > 240) {
+        doc.addPage();
+        finalY = 20;
+      }
+      
+      // CALENDLY BLOCK
+      finalY += 15;
+      doc.setFillColor(...darkGreen);
+      doc.roundedRect(14, finalY, 182, 35, 4, 4, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFont("helvetica", "B");
+      doc.setFontSize(14);
+      doc.text("Your free 1:1 session with the founders", 20, finalY + 12);
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(9);
+      doc.setTextColor(200, 200, 200);
+      doc.text("Included with your report — book a time that suits you.", 20, finalY + 18);
+      
+      doc.setFont("helvetica", "B");
+      doc.setFontSize(9);
+      doc.setTextColor(255, 255, 255);
+      doc.text("Pallab Mondal", 20, finalY + 26);
+      doc.setFont("helvetica", "normal");
+      doc.text("  ·  Co-founder, Country Manager", 45, finalY + 26);
+      doc.setFont("helvetica", "B");
+      doc.text("Md Rifatul Haque", 20, finalY + 31);
+      doc.setFont("helvetica", "normal");
+      doc.text("  ·  Co-founder, System & AI", 48, finalY + 31);
+      
+      // Button inside block
+      doc.setFillColor(...avanzaGreen);
+      doc.roundedRect(130, finalY + 10, 60, 15, 3, 3, 'F');
+      doc.setFont("helvetica", "B");
+      doc.setFontSize(11);
+      doc.setTextColor(255, 255, 255);
+      doc.text("Book your session →", 160, finalY + 18, { align: 'center' });
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(8);
+      doc.text("calendly.com/avanza", 160, finalY + 22, { align: 'center' });
+      
+      // FOOTER
+      doc.setFontSize(7);
+      doc.setTextColor(...textMuted);
+      doc.text("This is a preliminary, AI-assisted evaluation provided for guidance only. Equivalences are indicative and may vary.", 105, 285, { align: 'center' });
+      
+      doc.setFillColor(...darkGreen);
+      doc.rect(0, 290, 210, 7, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.text("AVANZA  ·  Degree recognition, simplified", 14, 294);
+      doc.text(`avanza.it.com  ·  Generated ${new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}`, 196, 294, { align: 'right' });
 
       doc.save(`Avanza_Match_Report_${userName ? userName.replace(/ /g, '_') : 'User'}.pdf`);
     } catch (err) {
-      console.error(err);
+      console.error("PDF generation error:", err);
       alert("Error generating PDF.");
     }
   };
@@ -437,6 +579,7 @@ const GradeConverter = () => {
                       <div>
                         <h4 style={{ fontSize: '1.2rem', marginBottom: '0.25rem' }}>{uni.name}</h4>
                         <div style={{ display: 'flex', gap: '1rem', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+                          <span style={{ display: 'inline-block', background: '#f0f0f0', padding: '0.2rem 0.5rem', borderRadius: '4px', fontWeight: 'bold' }}>QS: {uni.qs_ranking || 'N/A'}</span>
                           <span style={{ display: 'flex', alignItems: 'center', gap: '0.2rem' }}><MapPin size={14}/> {uni.city}</span>
                           <span>Level: {uni.programme_level}</span>
                           <span>Tuition: {uni.tuition_range}</span>
