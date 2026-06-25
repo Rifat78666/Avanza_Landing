@@ -153,17 +153,16 @@ select.input-field {
   .header-logo-container {
     position: absolute !important;
     left: 50% !important;
-    top: 50% !important;
-    transform: translate(-50%, -50%) !important;
-    width: 100% !important;
+    transform: translateX(-50%) !important;
+    top: 0 !important;
+    height: 100% !important;
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
   }
   .header-logo {
-    height: 45px !important;
-    transform: scale(2.8) !important;
-    transform-origin: center center !important;
+    height: 55px !important;
+    transform: none !important;
   }
   header nav {
     gap: 0.5rem !important;

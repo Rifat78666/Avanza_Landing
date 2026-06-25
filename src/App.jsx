@@ -287,8 +287,8 @@ function AppContent() {
               {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
           )}
-        <div className="header-logo-container" style={{ cursor: isMarketingMode ? 'default' : 'pointer', display: 'flex', alignItems: 'center', height: '80px' }} onClick={() => !isMarketingMode && navigate('/')}>
-          <img src="/avanza_logo.png" alt="AVANZA" className="header-logo" style={{ height: '45px', objectFit: 'contain', transform: 'scale(2.2)', transformOrigin: 'left center' }} />
+        <div className="header-logo-container" style={{ cursor: isMarketingMode ? 'default' : 'pointer', display: 'flex', alignItems: 'center', height: '100%', padding: '0.2rem 0' }} onClick={() => !isMarketingMode && navigate('/')}>
+          <img src="/avanza_logo_cropped.png" alt="AVANZA" className="header-logo" style={{ height: '45px', objectFit: 'contain', transform: 'scale(1.8)', transformOrigin: 'left center' }} />
         </div>
         {!isMarketingMode && (
           <nav className="header-nav-container" style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
