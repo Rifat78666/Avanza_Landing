@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import rankingsData from '../../data/university_rankings_sample.json';
 import { Trophy, ArrowLeft, Search, MapPin, Star, GraduationCap, ChevronDown, ChevronUp, HelpCircle } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate , useLocation} from 'react-router-dom';
 
 const UniversityRankings = () => {
+  const location = useLocation();
+  const themeColor = location.state?.themeColor || '#009246';
+  const themeBg = location.state?.themeBg || 'rgba(0, 146, 70, 0.05)';
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [expandedId, setExpandedId] = useState(null);
@@ -54,8 +57,8 @@ const UniversityRankings = () => {
 
       <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
-          <div style={{ background: 'rgba(0, 146, 70, 0.1)', padding: '1rem', borderRadius: '50%' }}>
-            <Trophy size={40} color="#009246" />
+          <div style={{ background: themeBg, padding: '1rem', borderRadius: '50%' }}>
+            <Trophy size={40} color={themeColor} />
           </div>
         </div>
         <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>University Rankings</h1>
@@ -83,37 +86,37 @@ const UniversityRankings = () => {
           </div>
         ) : (
           filtered.map((uni) => (
-            <div key={uni.rank} className="card" style={{ padding: '2rem', borderLeft: '4px solid #CE2B37' }}>
+            <div key={uni.rank} className="card" style={{ padding: '2rem', borderLeft: `4px solid ${themeColor}` }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem' }}>
                 <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
-                  <div style={{ fontSize: '2.5rem', fontWeight: '900', color: '#009246', minWidth: '80px' }}>
+                  <div style={{ fontSize: '2.5rem', fontWeight: '900', color: themeColor, minWidth: '80px' }}>
                     #{uni.rank}
                   </div>
                   <div>
                     <h2 style={{ fontSize: '1.8rem', margin: '0 0 0.5rem 0' }}>{uni.name}</h2>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-secondary)' }}>
-                      <MapPin size={18} color="#CE2B37" />
+                      <MapPin size={18} color={themeColor} />
                       <span>{uni.country}</span>
                     </div>
                   </div>
                 </div>
-                <div style={{ background: 'rgba(0, 146, 70, 0.1)', padding: '0.8rem 1.5rem', borderRadius: '12px', textAlign: 'center' }}>
+                <div style={{ background: themeBg, padding: '0.8rem 1.5rem', borderRadius: '12px', textAlign: 'center' }}>
                   <div style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '0.2rem' }}>Overall Score</div>
-                  <div style={{ fontSize: '1.8rem', fontWeight: 'bold', color: '#009246' }}>{uni.score}</div>
+                  <div style={{ fontSize: '1.8rem', fontWeight: 'bold', color: themeColor }}>{uni.score}</div>
                 </div>
               </div>
 
               <div style={{ display: 'flex', gap: '2rem', marginTop: '2rem', paddingBottom: '1.5rem', borderBottom: '1px solid var(--border-color)', flexWrap: 'wrap' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <Star size={18} color="#009246" />
+                  <Star size={18} color={themeColor} />
                   <span style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>Research: <strong style={{ color: '#fff' }}>{uni.metrics.research}</strong></span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <Star size={18} color="#009246" />
+                  <Star size={18} color={themeColor} />
                   <span style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>Employability: <strong style={{ color: '#fff' }}>{uni.metrics.employability}</strong></span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <Star size={18} color="#009246" />
+                  <Star size={18} color={themeColor} />
                   <span style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>Global: <strong style={{ color: '#fff' }}>{uni.metrics.globalEngagement}</strong></span>
                 </div>
               </div>
@@ -121,7 +124,7 @@ const UniversityRankings = () => {
               <div style={{ marginTop: '1.5rem' }}>
                 <button 
                   onClick={() => toggleExpand(uni.rank)}
-                  style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', border: 'none', color: '#009246', fontWeight: 'bold', fontSize: '1.1rem', cursor: 'pointer', padding: '0' }}
+                  style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', border: 'none', color: themeColor, fontWeight: 'bold', fontSize: '1.1rem', cursor: 'pointer', padding: '0' }}
                 >
                   <GraduationCap size={20} />
                   {expandedId === uni.rank ? 'Hide Admission Criteria' : 'View Admission Criteria'}
@@ -131,7 +134,7 @@ const UniversityRankings = () => {
                 {expandedId === uni.rank && (
                   <div style={{ marginTop: '1.5rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', animation: 'fadeIn 0.3s ease' }}>
                     <div style={{ background: 'var(--surface-color)', padding: '1.5rem', borderRadius: '12px', border: '1px solid var(--border-color)' }}>
-                      <h4 style={{ color: '#CE2B37', marginBottom: '1rem', fontSize: '1.1rem', borderBottom: '1px solid rgba(206, 43, 55, 0.2)', paddingBottom: '0.5rem' }}>Bachelor's Programs</h4>
+                      <h4 style={{ color: themeColor, marginBottom: '1rem', fontSize: '1.1rem', borderBottom: '1px solid rgba(206, 43, 55, 0.2)', paddingBottom: '0.5rem' }}>Bachelor's Programs</h4>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                         <div>
                           <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '0.2rem' }}>Minimum GPA</div>
@@ -149,7 +152,7 @@ const UniversityRankings = () => {
                     </div>
                     
                     <div style={{ background: 'var(--surface-color)', padding: '1.5rem', borderRadius: '12px', border: '1px solid var(--border-color)' }}>
-                      <h4 style={{ color: '#009246', marginBottom: '1rem', fontSize: '1.1rem', borderBottom: '1px solid rgba(0, 146, 70, 0.2)', paddingBottom: '0.5rem' }}>Master's Programs</h4>
+                      <h4 style={{ color: themeColor, marginBottom: '1rem', fontSize: '1.1rem', borderBottom: '1px solid rgba(0, 146, 70, 0.2)', paddingBottom: '0.5rem' }}>Master's Programs</h4>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                         <div>
                           <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '0.2rem' }}>Minimum GPA</div>
@@ -176,7 +179,7 @@ const UniversityRankings = () => {
       {/* FAQ Section */}
       <div style={{ marginTop: '4rem', borderTop: '1px solid var(--border-color)', paddingTop: '4rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2rem' }}>
-          <HelpCircle size={32} color="#009246" />
+          <HelpCircle size={32} color={themeColor} />
           <h2 style={{ fontSize: '2rem' }}>Frequently Asked Questions</h2>
         </div>
         

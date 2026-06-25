@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate , useLocation} from 'react-router-dom';
 import alboTables from '../../data/albo_profession_table.json';
 import { ShieldCheck, ArrowRight, FileText, Clock, ArrowLeft } from 'lucide-react';
 
 const AlboCheck = () => {
+  const location = useLocation();
+  const themeColor = location.state?.themeColor || '#009246';
+  const themeBg = location.state?.themeBg || 'rgba(0, 146, 70, 0.05)';
   const navigate = useNavigate();
   const [profession, setProfession] = useState(Object.keys(alboTables)[0]);
   const [result, setResult] = useState(null);

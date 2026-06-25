@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import rulesData from '../../data/decreto_flussi_rules.json';
 import { PlaneTakeoff, ArrowRight, AlertTriangle, ArrowLeft } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate , useLocation} from 'react-router-dom';
 
 const DecretoFlussiChecker = () => {
+  const location = useLocation();
+  const themeColor = location.state?.themeColor || '#009246';
+  const themeBg = location.state?.themeBg || 'rgba(0, 146, 70, 0.05)';
   const navigate = useNavigate();
   const [nationality, setNationality] = useState(rulesData.nationalities[0]);
   const [location, setLocation] = useState(rulesData.locations[0]);

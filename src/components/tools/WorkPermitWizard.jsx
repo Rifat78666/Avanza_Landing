@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import permitRules from '../../data/work_permit_rules.json';
 import { Briefcase, ArrowRight, CheckCircle2, Clock, ArrowLeft } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate , useLocation} from 'react-router-dom';
 
 const WorkPermitWizard = () => {
+  const location = useLocation();
+  const themeColor = location.state?.themeColor || '#009246';
+  const themeBg = location.state?.themeBg || 'rgba(0, 146, 70, 0.05)';
   const navigate = useNavigate();
   const [nationality, setNationality] = useState(permitRules.nationalities[0]);
   const [residenceStatus, setResidenceStatus] = useState(permitRules.residence_status[0]);

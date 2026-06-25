@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import reqs from '../../data/university_requirements_table.json';
 import { GraduationCap, ArrowLeft, Search, MapPin, Award, BookOpen, Clock, ExternalLink, HelpCircle, ChevronDown } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate , useLocation} from 'react-router-dom';
 
 const UniversityRequirements = () => {
+  const location = useLocation();
+  const themeColor = location.state?.themeColor || '#009246';
+  const themeBg = location.state?.themeBg || 'rgba(0, 146, 70, 0.05)';
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -50,8 +53,8 @@ const UniversityRequirements = () => {
 
       <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
-          <div style={{ background: 'rgba(0, 146, 70, 0.1)', padding: '1rem', borderRadius: '50%' }}>
-            <GraduationCap size={40} color="#009246" />
+          <div style={{ background: themeBg, padding: '1rem', borderRadius: '50%' }}>
+            <GraduationCap size={40} color={themeColor} />
           </div>
         </div>
         <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>University Entry Requirements</h1>
@@ -79,9 +82,9 @@ const UniversityRequirements = () => {
           </div>
         ) : (
           filteredReqs.map((req, idx) => (
-            <div key={idx} className="card" style={{ padding: '2rem', borderTop: '4px solid #CE2B37' }}>
+            <div key={idx} className="card" style={{ padding: '2rem', borderTop: `4px solid ${themeColor}` }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '1rem' }}>
-                <MapPin size={28} color="#CE2B37" />
+                <MapPin size={28} color={themeColor} />
                 <h2 style={{ fontSize: '1.8rem', margin: 0 }}>{req.country}</h2>
               </div>
               
@@ -110,8 +113,8 @@ const UniversityRequirements = () => {
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                  <div style={{ background: 'rgba(0, 146, 70, 0.05)', border: '1px solid rgba(0, 146, 70, 0.2)', padding: '1.5rem', borderRadius: '12px' }}>
-                    <h4 style={{ color: '#009246', marginBottom: '0.5rem', fontSize: '1.1rem' }}>General Access Requirements</h4>
+                  <div style={{ background: themeBg, border: '1px solid rgba(0, 146, 70, 0.2)', padding: '1.5rem', borderRadius: '12px' }}>
+                    <h4 style={{ color: themeColor, marginBottom: '0.5rem', fontSize: '1.1rem' }}>General Access Requirements</h4>
                     <p style={{ lineHeight: '1.6' }}>{req.accessRequirements}</p>
                   </div>
                   
@@ -126,7 +129,7 @@ const UniversityRequirements = () => {
                   </div>
 
                   {req.link && (
-                    <a href={req.link} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: '#009246', fontWeight: 'bold', marginTop: '0.5rem' }}>
+                    <a href={req.link} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: themeColor, fontWeight: 'bold', marginTop: '0.5rem' }}>
                       Official Source <ExternalLink size={16} />
                     </a>
                   )}
@@ -140,7 +143,7 @@ const UniversityRequirements = () => {
       {/* FAQ Section */}
       <div style={{ marginTop: '4rem', borderTop: '1px solid var(--border-color)', paddingTop: '4rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2rem' }}>
-          <HelpCircle size={32} color="#009246" />
+          <HelpCircle size={32} color={themeColor} />
           <h2 style={{ fontSize: '2rem' }}>Frequently Asked Questions</h2>
         </div>
         

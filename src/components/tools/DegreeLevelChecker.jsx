@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import degreeMapping from '../../data/degree_name_mapping.json';
 import { GraduationCap, ArrowRight, CheckCircle2, Clock, ArrowLeft } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate , useLocation} from 'react-router-dom';
 
 const DegreeLevelChecker = () => {
+  const location = useLocation();
+  const themeColor = location.state?.themeColor || '#009246';
+  const themeBg = location.state?.themeBg || 'rgba(0, 146, 70, 0.05)';
   const navigate = useNavigate();
   const [country, setCountry] = useState(Object.keys(degreeMapping)[0]);
   const [degree, setDegree] = useState(Object.keys(degreeMapping[Object.keys(degreeMapping)[0]].degrees)[0]);

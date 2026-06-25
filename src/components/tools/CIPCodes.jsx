@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import cipData from '../../data/cip_codes_sample.json';
 import { BookOpen, ArrowLeft, Search } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate , useLocation} from 'react-router-dom';
 
 const CIPCodes = () => {
+  const location = useLocation();
+  const themeColor = location.state?.themeColor || '#009246';
+  const themeBg = location.state?.themeBg || 'rgba(0, 146, 70, 0.05)';
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
 

@@ -4,7 +4,9 @@ import { ArrowLeft, FileText, Download, CheckCircle, ChevronDown } from 'lucide-
 
 const CourseEvaluation = () => {
   const navigate = useNavigate();
-  const location = useLocation();
+    const location = useLocation();
+  const themeColor = location.state?.themeColor || '#009246';
+  const themeBg = location.state?.themeBg || 'rgba(0, 146, 70, 0.05)';
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     student_name: '',
@@ -180,8 +182,8 @@ const CourseEvaluation = () => {
 
         <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
-            <div style={{ background: 'rgba(0, 146, 70, 0.1)', padding: '1rem', borderRadius: '50%' }}>
-              <FileText size={40} color="#009246" />
+            <div style={{ background: themeBg, padding: '1rem', borderRadius: '50%' }}>
+              <FileText size={40} color={themeColor} />
             </div>
           </div>
           <h2 className="s-grad" style={{ fontSize: '2.5rem', marginBottom: '1rem', paddingBottom: '0.2rem' }}>Course by Course Evaluation</h2>
@@ -190,17 +192,17 @@ const CourseEvaluation = () => {
           </p>
         </div>
 
-        <div className="card" style={{ padding: '2rem', borderTop: '4px solid #009246' }}>
+        <div className="card" style={{ padding: '2rem', borderTop: `4px solid ${themeColor}` }}>
           {aiProcessing ? (
             <div style={{ textAlign: 'center', padding: '4rem 2rem' }}>
               <div style={{ position: 'relative', width: '120px', height: '120px', margin: '0 auto 2rem auto' }}>
                 <div style={{ 
                   position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
-                  border: '4px solid rgba(0, 146, 70, 0.2)', borderRadius: '50%', borderTopColor: '#009246',
+                  border: '4px solid rgba(0, 146, 70, 0.2)', borderRadius: '50%', borderTopColor: themeColor,
                   animation: 'spin 1.5s linear infinite'
                 }}></div>
                 <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-                  <FileText size={40} color="#009246" />
+                  <FileText size={40} color={themeColor} />
                 </div>
               </div>
               <style>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
@@ -212,7 +214,7 @@ const CourseEvaluation = () => {
           ) : aiSuccess ? (
             <div style={{ textAlign: 'center', padding: '4rem 2rem' }}>
               <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.5rem' }}>
-                <CheckCircle size={80} color="#009246" />
+                <CheckCircle size={80} color={themeColor} />
               </div>
               <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>Evaluation Complete!</h2>
               <p style={{ color: 'var(--text-secondary)', fontSize: '1.2rem', marginBottom: '2rem' }}>
@@ -220,7 +222,7 @@ const CourseEvaluation = () => {
               </p>
               <button 
                 onClick={() => navigate('/tools')}
-                style={{ background: '#009246', color: 'white', padding: '1rem 2rem', border: 'none', borderRadius: '8px', fontSize: '1.1rem', fontWeight: 'bold', cursor: 'pointer' }}
+                style={{ background: themeColor, color: 'white', padding: '1rem 2rem', border: 'none', borderRadius: '8px', fontSize: '1.1rem', fontWeight: 'bold', cursor: 'pointer' }}
               >
                 Return to Tools
               </button>
@@ -342,7 +344,7 @@ const CourseEvaluation = () => {
                   disabled={isProcessing}
                   style={{ 
                     display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', 
-                    width: '100%', padding: '1.2rem', background: '#009246', color: 'white', 
+                    width: '100%', padding: '1.2rem', background: themeColor, color: 'white', 
                     border: 'none', borderRadius: '8px', fontSize: '1.2rem', fontWeight: 'bold', 
                     cursor: isProcessing ? 'not-allowed' : 'pointer', opacity: isProcessing ? 0.7 : 1
                   }}
@@ -354,8 +356,8 @@ const CourseEvaluation = () => {
           ) : (
             <div style={{ textAlign: 'center', padding: '2rem' }}>
               <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
-                <div style={{ background: 'rgba(0, 146, 70, 0.1)', padding: '1rem', borderRadius: '50%' }}>
-                  <FileText size={50} color="#009246" />
+                <div style={{ background: themeBg, padding: '1rem', borderRadius: '50%' }}>
+                  <FileText size={50} color={themeColor} />
                 </div>
               </div>
               <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Request Ready</h2>
@@ -365,12 +367,12 @@ const CourseEvaluation = () => {
               
               <div style={{ background: 'var(--bg-color)', padding: '2rem', borderRadius: '12px', border: '1px solid var(--border-color)', marginBottom: '2rem' }}>
                 <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>Evaluation Processing Fee</h3>
-                <div style={{ fontSize: '3rem', fontWeight: 'bold', color: '#009246', marginBottom: '1rem' }}>€10</div>
+                <div style={{ fontSize: '3rem', fontWeight: 'bold', color: themeColor, marginBottom: '1rem' }}>€10</div>
                 <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'inline-flex', flexDirection: 'column', gap: '0.75rem', textAlign: 'left' }}>
-                  <li style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}><CheckCircle size={18} color="#009246" /> Institution Verification</li>
-                  <li style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}><CheckCircle size={18} color="#009246" /> Qualification Framework Mapping</li>
-                  <li style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}><CheckCircle size={18} color="#009246" /> Grade Scale Conversion</li>
-                  <li style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}><CheckCircle size={18} color="#009246" /> Official PDF Report</li>
+                  <li style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}><CheckCircle size={18} color={themeColor} /> Institution Verification</li>
+                  <li style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}><CheckCircle size={18} color={themeColor} /> Qualification Framework Mapping</li>
+                  <li style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}><CheckCircle size={18} color={themeColor} /> Grade Scale Conversion</li>
+                  <li style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}><CheckCircle size={18} color={themeColor} /> Official PDF Report</li>
                 </ul>
               </div>
 
@@ -379,7 +381,7 @@ const CourseEvaluation = () => {
                 disabled={isProcessing}
                 style={{ 
                   display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', 
-                  width: '100%', padding: '1.2rem', background: '#009246', color: 'white', 
+                  width: '100%', padding: '1.2rem', background: themeColor, color: 'white', 
                   border: 'none', borderRadius: '8px', fontSize: '1.2rem', fontWeight: 'bold', 
                   cursor: isProcessing ? 'not-allowed' : 'pointer', opacity: isProcessing ? 0.7 : 1 
                 }}

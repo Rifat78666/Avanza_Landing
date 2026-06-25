@@ -16,7 +16,9 @@ const GradeConverter = () => {
   const [userEmail, setUserEmail] = useState('');
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
-  const location = useLocation();
+    const location = useLocation();
+  const themeColor = location.state?.themeColor || '#009246';
+  const themeBg = location.state?.themeBg || 'rgba(0, 146, 70, 0.05)';
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -499,8 +501,8 @@ const GradeConverter = () => {
 
         <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
-            <div style={{ background: 'rgba(0, 146, 70, 0.1)', padding: '1rem', borderRadius: '50%' }}>
-              <Calculator size={40} color="#009246" />
+            <div style={{ background: themeBg, padding: '1rem', borderRadius: '50%' }}>
+              <Calculator size={40} color={themeColor} />
             </div>
           </div>
           <h2 className="s-grad" style={{ fontSize: '2.5rem', marginBottom: '1rem', paddingBottom: '0.2rem' }}>Grade Converter & University Match</h2>
@@ -510,12 +512,12 @@ const GradeConverter = () => {
         </div>
 
       {step < 5 && (
-        <div className="card" style={{ padding: '2rem', maxWidth: '600px', margin: '0 auto', borderTop: '4px solid #CE2B37' }}>
+        <div className="card" style={{ padding: '2rem', maxWidth: '600px', margin: '0 auto', borderTop: `4px solid ${themeColor}` }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '1rem' }}>
-            <span style={{ color: step >= 1 ? '#009246' : 'var(--text-secondary)', fontWeight: step === 1 ? 'bold' : 'normal' }}>1. Origin</span>
-            <span style={{ color: step >= 2 ? '#009246' : 'var(--text-secondary)', fontWeight: step === 2 ? 'bold' : 'normal' }}>2. System</span>
-            <span style={{ color: step >= 3 ? '#009246' : 'var(--text-secondary)', fontWeight: step === 3 ? 'bold' : 'normal' }}>3. Grade</span>
-            <span style={{ color: step >= 4 ? '#009246' : 'var(--text-secondary)', fontWeight: step === 4 ? 'bold' : 'normal' }}>4. Target</span>
+            <span style={{ color: step >= 1 ? themeColor : 'var(--text-secondary)', fontWeight: step === 1 ? 'bold' : 'normal' }}>1. Origin</span>
+            <span style={{ color: step >= 2 ? themeColor : 'var(--text-secondary)', fontWeight: step === 2 ? 'bold' : 'normal' }}>2. System</span>
+            <span style={{ color: step >= 3 ? themeColor : 'var(--text-secondary)', fontWeight: step === 3 ? 'bold' : 'normal' }}>3. Grade</span>
+            <span style={{ color: step >= 4 ? themeColor : 'var(--text-secondary)', fontWeight: step === 4 ? 'bold' : 'normal' }}>4. Target</span>
           </div>
 
           {step === 1 && (
@@ -527,7 +529,7 @@ const GradeConverter = () => {
                     key={c}
                     onClick={() => { setSourceCountry(c); setGradingSystem(''); }}
                     className="input-field"
-                    style={{ textAlign: 'left', padding: '1rem', border: sourceCountry === c ? '2px solid #009246' : '1px solid var(--border-color)', background: sourceCountry === c ? 'rgba(0, 146, 70, 0.05)' : 'transparent', cursor: 'pointer', fontSize: '1.1rem', borderRadius: '8px' }}
+                    style={{ textAlign: 'left', padding: '1rem', border: sourceCountry === c ? `2px solid ${themeColor}` : '1px solid var(--border-color)', background: sourceCountry === c ? themeBg : 'transparent', cursor: 'pointer', fontSize: '1.1rem', borderRadius: '8px' }}
                   >
                     {c}
                   </button>
@@ -545,7 +547,7 @@ const GradeConverter = () => {
                     key={sys}
                     onClick={() => setGradingSystem(sys)}
                     className="input-field"
-                    style={{ textAlign: 'left', padding: '1rem', border: gradingSystem === sys ? '2px solid #009246' : '1px solid var(--border-color)', background: gradingSystem === sys ? 'rgba(0, 146, 70, 0.05)' : 'transparent', cursor: 'pointer', fontSize: '1.1rem', borderRadius: '8px' }}
+                    style={{ textAlign: 'left', padding: '1rem', border: gradingSystem === sys ? `2px solid ${themeColor}` : '1px solid var(--border-color)', background: gradingSystem === sys ? themeBg : 'transparent', cursor: 'pointer', fontSize: '1.1rem', borderRadius: '8px' }}
                   >
                     {sys}
                   </button>
@@ -577,7 +579,7 @@ const GradeConverter = () => {
                     key={tc}
                     onClick={() => setTargetCountry(tc)}
                     className="input-field"
-                    style={{ textAlign: 'left', padding: '1rem', border: targetCountry === tc ? '2px solid #009246' : '1px solid var(--border-color)', background: targetCountry === tc ? 'rgba(0, 146, 70, 0.05)' : 'transparent', cursor: 'pointer', fontSize: '1.1rem', borderRadius: '8px' }}
+                    style={{ textAlign: 'left', padding: '1rem', border: targetCountry === tc ? `2px solid ${themeColor}` : '1px solid var(--border-color)', background: targetCountry === tc ? themeBg : 'transparent', cursor: 'pointer', fontSize: '1.1rem', borderRadius: '8px' }}
                   >
                     {tc}
                   </button>
@@ -595,7 +597,7 @@ const GradeConverter = () => {
             </button>
             <button 
               onClick={handleNext}
-              style={{ padding: '0.75rem 1.5rem', background: '#009246', border: 'none', color: '#fff', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold' }}
+              style={{ padding: '0.75rem 1.5rem', background: themeColor, border: 'none', color: '#fff', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold' }}
             >
               {step === 4 ? 'Calculate & Match' : 'Next'}
             </button>
@@ -604,9 +606,9 @@ const GradeConverter = () => {
       )}
 
       {step === 5 && (
-        <div className="card" style={{ padding: '3rem 2rem', maxWidth: '600px', margin: '0 auto', borderTop: '4px solid #CE2B37', textAlign: 'center', animation: 'fadeIn 0.5s ease' }}>
-          <div style={{ background: 'rgba(206, 43, 55, 0.1)', padding: '1.5rem', borderRadius: '50%', display: 'inline-block', marginBottom: '1.5rem' }}>
-            <User size={40} color="#CE2B37" />
+        <div className="card" style={{ padding: '3rem 2rem', maxWidth: '600px', margin: '0 auto', borderTop: `4px solid ${themeColor}`, textAlign: 'center', animation: 'fadeIn 0.5s ease' }}>
+          <div style={{ background: themeBg, padding: '1.5rem', borderRadius: '50%', display: 'inline-block', marginBottom: '1.5rem' }}>
+            <User size={40} color={themeColor} />
           </div>
           <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Your matches are ready.</h2>
           <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem', fontSize: '1.1rem' }}>
@@ -640,7 +642,7 @@ const GradeConverter = () => {
           
           <button 
             onClick={handleNext}
-            style={{ width: '100%', padding: '1.2rem', background: '#009246', border: 'none', color: '#fff', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold', fontSize: '1.2rem' }}
+            style={{ width: '100%', padding: '1.2rem', background: themeColor, border: 'none', color: '#fff', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold', fontSize: '1.2rem' }}
           >
             Process My Results
           </button>
@@ -651,9 +653,9 @@ const GradeConverter = () => {
         <div style={{ animation: 'fadeIn 0.5s ease', position: 'relative' }}>
           
           {isUnlocked && (
-            <div className="card" style={{ padding: '2rem', marginBottom: '2rem', borderTop: '4px solid #009246', textAlign: 'center', animation: 'fadeIn 0.5s ease' }}>
+            <div className="card" style={{ padding: '2rem', marginBottom: '2rem', borderTop: `4px solid ${themeColor}`, textAlign: 'center', animation: 'fadeIn 0.5s ease' }}>
               <h2 style={{ marginBottom: '1rem' }}>Your {targetCountry} Grade Equivalent</h2>
-              <div style={{ fontSize: '3.5rem', fontWeight: '900', color: '#009246', marginBottom: '0.5rem' }}>
+              <div style={{ fontSize: '3.5rem', fontWeight: '900', color: themeColor, marginBottom: '0.5rem' }}>
                 {equivalents[targetCountry]}
               </div>
               <p style={{ color: 'var(--text-secondary)' }}>Converted from your {gradingSystem} score of {grade} in {sourceCountry}.</p>
@@ -662,7 +664,7 @@ const GradeConverter = () => {
 
           <div style={{ marginBottom: '2rem' }}>
             <h3 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '1.5rem', marginBottom: '1rem', opacity: isUnlocked ? 1 : 0.4 }}>
-              <GraduationCap size={24} color="#CE2B37" />
+              <GraduationCap size={24} color={themeColor} />
               University Matches
             </h3>
             
@@ -683,7 +685,7 @@ const GradeConverter = () => {
                           <span>Tuition: {uni.tuition_range}</span>
                         </div>
                       </div>
-                      <CheckCircle size={24} color="#009246" />
+                      <CheckCircle size={24} color={themeColor} />
                     </div>
                   ))}
                 </div>
@@ -708,8 +710,8 @@ const GradeConverter = () => {
 
           {!isUnlocked && (
             <div style={{ position: 'absolute', top: '0', bottom: '0', left: '0', right: '0', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', zIndex: 10 }}>
-              <div style={{ background: 'var(--surface-color)', padding: '2rem', borderRadius: '12px', border: '2px solid #CE2B37', textAlign: 'center', boxShadow: '0 20px 40px rgba(0,0,0, 0.4)', maxWidth: '500px', width: '90%' }}>
-                <Lock size={40} color="#CE2B37" style={{ marginBottom: '1rem' }} />
+              <div style={{ background: 'var(--surface-color)', padding: '2rem', borderRadius: '12px', border: `2px solid ${themeColor}`, textAlign: 'center', boxShadow: '0 20px 40px rgba(0,0,0, 0.4)', maxWidth: '500px', width: '90%' }}>
+                <Lock size={40} color={themeColor} style={{ marginBottom: '1rem' }} />
                 <h3 style={{ marginBottom: '1rem', fontSize: '1.8rem' }}>Unlock Your Full Report</h3>
                 <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem', fontSize: '1.1rem', lineHeight: '1.5' }}>
                   Pay €4.99 to instantly unlock your exact {targetCountry} grade equivalent, your full list of eligible universities, your personalized PDF report, and a 1:1 consultation.
@@ -717,14 +719,14 @@ const GradeConverter = () => {
                 <button 
                   onClick={handleLivePayment}
                   disabled={isProcessing}
-                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', width: '100%', padding: '1.2rem', background: isProcessing ? '#888' : '#009246', color: 'white', border: 'none', borderRadius: '8px', fontSize: '1.2rem', fontWeight: 'bold', cursor: isProcessing ? 'not-allowed' : 'pointer', transition: 'transform 0.1s ease' }}
+                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', width: '100%', padding: '1.2rem', background: isProcessing ? '#888' : themeColor, color: 'white', border: 'none', borderRadius: '8px', fontSize: '1.2rem', fontWeight: 'bold', cursor: isProcessing ? 'not-allowed' : 'pointer', transition: 'transform 0.1s ease' }}
                   onMouseEnter={(e) => { if(!isProcessing) e.currentTarget.style.transform = 'scale(1.02)' }}
                   onMouseLeave={(e) => { if(!isProcessing) e.currentTarget.style.transform = 'scale(1)' }}
                 >
                   <Euro size={22} /> {isProcessing ? 'Redirecting to checkout...' : 'Pay €4.99 to Unlock'}
                 </button>
                 {isProcessing && (
-                  <p style={{ marginTop: '1rem', color: '#009246', fontWeight: 'bold', fontSize: '0.95rem', animation: 'fadeIn 0.5s ease' }}>
+                  <p style={{ marginTop: '1rem', color: themeColor, fontWeight: 'bold', fontSize: '0.95rem', animation: 'fadeIn 0.5s ease' }}>
                     Please wait while we prepare your secure checkout. Do not refresh or go back. You will be redirected automatically.
                   </p>
                 )}
@@ -735,15 +737,15 @@ const GradeConverter = () => {
 
           {isUnlocked && (
             <div style={{ marginTop: '4rem', animation: 'fadeIn 0.5s ease', borderTop: '1px solid var(--border-color)', paddingTop: '3rem' }}>
-              <div style={{ textAlign: 'center', marginBottom: '3rem', background: 'rgba(0, 146, 70, 0.05)', padding: '2rem', borderRadius: '12px', border: '1px solid rgba(0, 146, 70, 0.2)' }}>
-                <FileText size={48} color="#009246" style={{ marginBottom: '1rem' }} />
+              <div style={{ textAlign: 'center', marginBottom: '3rem', background: themeBg, padding: '2rem', borderRadius: '12px', border: '1px solid rgba(0, 146, 70, 0.2)' }}>
+                <FileText size={48} color={themeColor} style={{ marginBottom: '1rem' }} />
                 <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Download Official Report</h2>
                 <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', margin: '0 auto 2rem auto', fontSize: '1.1rem' }}>
                   Keep a permanent record of your grade conversion and eligible universities. This PDF report is ready for download.
                 </p>
                 <button 
                   onClick={generatePDF}
-                  style={{ padding: '1rem 2rem', background: '#009246', color: 'white', border: 'none', borderRadius: '8px', fontSize: '1.2rem', fontWeight: 'bold', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', transition: 'transform 0.1s' }}
+                  style={{ padding: '1rem 2rem', background: themeColor, color: 'white', border: 'none', borderRadius: '8px', fontSize: '1.2rem', fontWeight: 'bold', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', transition: 'transform 0.1s' }}
                   onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
                   onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
                 >
@@ -759,10 +761,10 @@ const GradeConverter = () => {
               </div>
 
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', marginBottom: '3rem' }}>
-                <div className="card" style={{ padding: '2rem', textAlign: 'center', borderTop: '4px solid #009246' }}>
-                  <img src="/pallab.png" alt="Pallab Mondal" style={{ width: '80px', height: '80px', borderRadius: '50%', objectFit: 'cover', margin: '0 auto 1rem auto', display: 'block', border: '3px solid #009246' }} />
+                <div className="card" style={{ padding: '2rem', textAlign: 'center', borderTop: `4px solid ${themeColor}` }}>
+                  <img src="/pallab.png" alt="Pallab Mondal" style={{ width: '80px', height: '80px', borderRadius: '50%', objectFit: 'cover', margin: '0 auto 1rem auto', display: 'block', border: `3px solid ${themeColor}` }} />
                   <h3 style={{ marginBottom: '0.5rem' }}>Pallab Mondal</h3>
-                  <p style={{ color: '#009246', fontWeight: 'bold', marginBottom: '0.5rem' }}>Co-founder, Country Manager</p>
+                  <p style={{ color: themeColor, fontWeight: 'bold', marginBottom: '0.5rem' }}>Co-founder, Country Manager</p>
                   <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '0.5rem', lineHeight: '1.4' }}>
                     Master's in Artificial Intelligence for Science and Technology (Joint Programme)<br />
                     University of Milan || University of Milano-Bicocca || University of Pavia
@@ -773,10 +775,10 @@ const GradeConverter = () => {
                   </div>
                 </div>
 
-                <div className="card" style={{ padding: '2rem', textAlign: 'center', borderTop: '4px solid #CE2B37' }}>
-                  <img src="/rifat.png" alt="Md Rifatul Haque" style={{ width: '80px', height: '80px', borderRadius: '50%', objectFit: 'cover', margin: '0 auto 1rem auto', display: 'block', border: '3px solid #CE2B37' }} />
+                <div className="card" style={{ padding: '2rem', textAlign: 'center', borderTop: `4px solid ${themeColor}` }}>
+                  <img src="/rifat.png" alt="Md Rifatul Haque" style={{ width: '80px', height: '80px', borderRadius: '50%', objectFit: 'cover', margin: '0 auto 1rem auto', display: 'block', border: `3px solid ${themeColor}` }} />
                   <h3 style={{ marginBottom: '0.5rem' }}>Md Rifatul Haque</h3>
-                  <p style={{ color: '#CE2B37', fontWeight: 'bold', marginBottom: '0.5rem' }}>Co-founder, System & AI</p>
+                  <p style={{ color: themeColor, fontWeight: 'bold', marginBottom: '0.5rem' }}>Co-founder, System & AI</p>
                   <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '0.5rem', lineHeight: '1.4' }}>
                     Master's in Artificial Intelligence for Science and Technology (Joint Programme)<br />
                     University of Milan || University of Milano-Bicocca || University of Pavia
@@ -788,8 +790,8 @@ const GradeConverter = () => {
                 </div>
               </div>
 
-              <div className="card" style={{ padding: '3rem', textAlign: 'center', background: 'rgba(0, 146, 70, 0.05)', border: '1px solid rgba(0, 146, 70, 0.2)' }}>
-                <Calendar size={48} color="#009246" style={{ margin: '0 auto 1rem auto' }} />
+              <div className="card" style={{ padding: '3rem', textAlign: 'center', background: themeBg, border: '1px solid rgba(0, 146, 70, 0.2)' }}>
+                <Calendar size={48} color={themeColor} style={{ margin: '0 auto 1rem auto' }} />
                 <h3 style={{ fontSize: '1.8rem', marginBottom: '1rem' }}>Book a 30-min 1:1 Session</h3>
                 <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem', maxWidth: '500px', margin: '0 auto 2rem auto' }}>
                   Get personalized guidance on your university applications and visa process — €0 extra, included with your report unlock.
@@ -797,7 +799,7 @@ const GradeConverter = () => {
                 <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
                   <button 
                     onClick={() => window.open('https://calendly.com/pallabm472/30min', '_blank')}
-                    style={{ padding: '1rem 2rem', background: '#009246', color: 'white', border: 'none', borderRadius: '8px', fontSize: '1.1rem', fontWeight: 'bold', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', transition: 'transform 0.1s' }}
+                    style={{ padding: '1rem 2rem', background: themeColor, color: 'white', border: 'none', borderRadius: '8px', fontSize: '1.1rem', fontWeight: 'bold', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', transition: 'transform 0.1s' }}
                     onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
                     onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
                   >
@@ -805,7 +807,7 @@ const GradeConverter = () => {
                   </button>
                   <button 
                     onClick={() => window.open('https://calendly.com/rifatulhaque200/30min', '_blank')}
-                    style={{ padding: '1rem 2rem', background: '#CE2B37', color: 'white', border: 'none', borderRadius: '8px', fontSize: '1.1rem', fontWeight: 'bold', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', transition: 'transform 0.1s' }}
+                    style={{ padding: '1rem 2rem', background: themeColor, color: 'white', border: 'none', borderRadius: '8px', fontSize: '1.1rem', fontWeight: 'bold', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', transition: 'transform 0.1s' }}
                     onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
                     onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
                   >

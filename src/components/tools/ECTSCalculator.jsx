@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { BookOpen, ArrowRight, ArrowLeft } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate , useLocation} from 'react-router-dom';
 
 const ECTSCalculator = () => {
+  const location = useLocation();
+  const themeColor = location.state?.themeColor || '#009246';
+  const themeBg = location.state?.themeBg || 'rgba(0, 146, 70, 0.05)';
   const navigate = useNavigate();
   const [country, setCountry] = useState('Generic');
   const [degreeLevel, setDegreeLevel] = useState('Bachelor');
@@ -74,7 +77,7 @@ const ECTSCalculator = () => {
           <p style={{ fontSize: '1.2rem', marginBottom: '2rem' }}>Convert your university credits to the European Credit Transfer and Accumulation System (ECTS).</p>
           <button 
             onClick={() => document.getElementById('ects-calc-start').scrollIntoView({ behavior: 'smooth' })}
-            style={{ padding: '0.8rem 2.5rem', background: '#ffffff', color: '#009246', border: 'none', borderRadius: '30px', fontSize: '1.1rem', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 4px 14px rgba(0,0,0,0.2)', transition: 'transform 0.2s' }}
+            style={{ padding: '0.8rem 2.5rem', background: '#ffffff', color: themeColor, border: 'none', borderRadius: '30px', fontSize: '1.1rem', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 4px 14px rgba(0,0,0,0.2)', transition: 'transform 0.2s' }}
             onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
             onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
           >
