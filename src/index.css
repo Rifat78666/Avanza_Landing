@@ -162,9 +162,8 @@ select.input-field {
   }
   .header-logo {
     content: url('/avanza_logo_cropped.png') !important;
-    height: 35px !important;
-    transform: scale(2.2) !important;
-    transform-origin: center center !important;
+    height: 55px !important;
+    transform: none !important;
   }
   header nav {
     gap: 0.5rem !important;
