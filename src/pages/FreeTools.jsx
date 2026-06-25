@@ -163,9 +163,22 @@ const FreeTools = () => {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '4rem' }}>
         {tools.map((section, idx) => (
           <div key={idx}>
-            <h2 style={{ fontSize: '1.5rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem', marginBottom: '1.5rem' }}>
-              {section.category}
-            </h2>
+            <div style={{ borderBottom: '2px solid var(--border-color)', paddingBottom: '1rem', marginBottom: '2.5rem' }}>
+              <h2 style={{ 
+                fontSize: '2.2rem', 
+                fontWeight: '900',
+                margin: 0,
+                backgroundImage: 'linear-gradient(90deg, #009246 0%, #8a5a40 50%, #CE2B37 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+                color: 'transparent',
+                display: 'inline-block',
+                letterSpacing: '-0.03em'
+              }}>
+                {section.category}
+              </h2>
+            </div>
             <div style={{ 
               display: 'grid', 
               gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', 
