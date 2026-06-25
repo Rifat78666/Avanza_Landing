@@ -317,57 +317,143 @@ const GradeConverter = () => {
       
       let finalY = doc.lastAutoTable ? doc.lastAutoTable.finalY : 240;
       
-      // Check if we need a new page for the footer block
-      if (finalY > 240) {
+      // Ensure there is enough space for the massive founder block (need ~90 units)
+      if (finalY > 190) {
         doc.addPage();
         finalY = 20;
+      } else {
+        finalY += 15;
       }
       
-      // CALENDLY BLOCK
-      finalY += 15;
+      // CALENDLY BLOCK / FOUNDER PROFILES
       doc.setFillColor(...darkGreen);
-      doc.roundedRect(14, finalY, 182, 35, 4, 4, 'F');
+      doc.roundedRect(14, finalY, 182, 25, 3, 3, 'F');
       doc.setTextColor(255, 255, 255);
       doc.setFont("helvetica", "B");
       doc.setFontSize(14);
-      doc.text("Your free 1:1 session with the founders", 20, finalY + 12);
+      doc.text("Your free 1:1 session with the founders", 20, finalY + 10);
       doc.setFont("helvetica", "normal");
       doc.setFontSize(9);
       doc.setTextColor(200, 200, 200);
-      doc.text("Included with your report - book a time that suits you.", 20, finalY + 18);
+      doc.text("Included with your report - book a time that suits you.", 20, finalY + 16);
       
-      doc.setFont("helvetica", "B");
-      doc.setFontSize(9);
-      doc.setTextColor(255, 255, 255);
-      doc.text("Pallab Mondal", 20, finalY + 26);
-      doc.setFont("helvetica", "normal");
-      doc.text("  ·  Co-founder, Country Manager", 45, finalY + 26);
-      doc.setFont("helvetica", "B");
-      doc.text("Md Rifatul Haque", 20, finalY + 31);
-      doc.setFont("helvetica", "normal");
-      doc.text("  ·  Co-founder, System & AI", 48, finalY + 31);
-      
-      // Button inside block
       doc.setFillColor(...avanzaGreen);
-      doc.roundedRect(130, finalY + 10, 60, 15, 3, 3, 'F');
+      doc.roundedRect(140, finalY + 5, 50, 15, 2, 2, 'F');
       doc.setFont("helvetica", "B");
-      doc.setFontSize(11);
+      doc.setFontSize(10);
       doc.setTextColor(255, 255, 255);
-      doc.text("Book your session >", 160, finalY + 18, { align: 'center' });
+      doc.text("Book your session >", 165, finalY + 11, { align: 'center' });
       doc.setFont("helvetica", "normal");
-      doc.setFontSize(8);
-      doc.text("calendly.com/avanza", 160, finalY + 22, { align: 'center' });
-      
-      // FOOTER
       doc.setFontSize(7);
-      doc.setTextColor(...textMuted);
-      doc.text("This is a preliminary, AI-assisted evaluation provided for guidance only. Equivalences are indicative and may vary.", 105, 285, { align: 'center' });
+      doc.text("calendly.com/avanza", 165, finalY + 16, { align: 'center' });
       
-      doc.setFillColor(...darkGreen);
-      doc.rect(0, 290, 210, 7, 'F');
-      doc.setTextColor(255, 255, 255);
-      doc.text("AVANZA  ·  Degree recognition, simplified", 14, 294);
-      doc.text(`avanza.it.com  ·  Generated ${new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}`, 196, 294, { align: 'right' });
+      finalY += 35;
+      
+      // FOUNDER PROFILES
+      try {
+        const pallabImg = new Image();
+        pallabImg.src = '/pallab.png';
+        const rifatImg = new Image();
+        rifatImg.src = '/rifat.png';
+        const uniLogos = new Image();
+        uniLogos.src = '/avanza_university_strip_white.png';
+        
+        await Promise.all([
+          new Promise(r => { pallabImg.onload = r; pallabImg.onerror = r; }),
+          new Promise(r => { rifatImg.onload = r; rifatImg.onerror = r; }),
+          new Promise(r => { uniLogos.onload = r; uniLogos.onerror = r; })
+        ]);
+        
+        // Pallab
+        doc.addImage(pallabImg, 'PNG', 45, finalY, 25, 25);
+        // Rifat
+        doc.addImage(rifatImg, 'PNG', 140, finalY, 25, 25);
+        
+        finalY += 34;
+        
+        // Names
+        doc.setFont("helvetica", "B");
+        doc.setFontSize(11);
+        doc.setTextColor(...textColor);
+        doc.text("Pallab Mondal", 57, finalY, { align: 'center' });
+        doc.text("Md Rifatul Haque", 152, finalY, { align: 'center' });
+        
+        finalY += 6;
+        
+        // Roles
+        doc.setFont("helvetica", "B");
+        doc.setFontSize(9);
+        doc.setTextColor(...avanzaGreen);
+        doc.text("CEO", 57, finalY, { align: 'center' });
+        doc.setTextColor(200, 30, 30); // Red
+        doc.text("CEO", 152, finalY, { align: 'center' });
+        
+        finalY += 6;
+        
+        // Degrees
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(8);
+        doc.setTextColor(...textMuted);
+        doc.text("Master's in Artificial Intelligence for", 57, finalY, { align: 'center' });
+        doc.text("Master's in Artificial Intelligence for", 152, finalY, { align: 'center' });
+        finalY += 4;
+        doc.text("Science and Technology", 57, finalY, { align: 'center' });
+        doc.text("Science and Technology", 152, finalY, { align: 'center' });
+        finalY += 4;
+        doc.text("(Joint Programme)", 57, finalY, { align: 'center' });
+        doc.text("(Joint Programme)", 152, finalY, { align: 'center' });
+        
+        finalY += 6;
+        
+        // Emails
+        doc.text("pallabm472@gmail.com", 57, finalY, { align: 'center' });
+        doc.text("rifatulhaque200@gmail.com", 152, finalY, { align: 'center' });
+        
+        finalY += 4;
+        
+        // Separate Calendly Links as Green Buttons
+        doc.setFillColor(...avanzaGreen);
+        
+        // Pallab Box
+        doc.roundedRect(37, finalY, 40, 8, 2, 2, 'F');
+        doc.link(37, finalY, 40, 8, { url: "https://calendly.com/pallabm472/30min" });
+        
+        // Rifat Box
+        doc.roundedRect(132, finalY, 40, 8, 2, 2, 'F');
+        doc.link(132, finalY, 40, 8, { url: "https://calendly.com/rifatulhaque200/30min" });
+        
+        doc.setFont("helvetica", "B");
+        doc.setFontSize(8);
+        doc.setTextColor(255, 255, 255);
+        
+        doc.text("Book 1:1 with Pallab >", 57, finalY + 5.5, { align: 'center' });
+        doc.text("Book 1:1 with Rifat >", 152, finalY + 5.5, { align: 'center' });
+        
+        finalY += 12;
+        
+        // Uni Logos
+        doc.addImage(uniLogos, 'PNG', 20, finalY, 74, 15);
+        doc.addImage(uniLogos, 'PNG', 115, finalY, 74, 15);
+        
+      } catch (e) {
+        console.error("Failed to load founder images", e);
+      }
+      
+      // FOOTER ON EVERY PAGE
+      const dateString = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+      const pageCount = doc.internal.getNumberOfPages();
+      for (let i = 1; i <= pageCount; i++) {
+        doc.setPage(i);
+        doc.setFontSize(7);
+        doc.setTextColor(...textMuted);
+        doc.text("This is a preliminary, AI-assisted evaluation provided for guidance only. Equivalences are indicative and may vary.", 105, 285, { align: 'center' });
+        
+        doc.setFillColor(...darkGreen);
+        doc.rect(0, 290, 210, 7, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.text("AVANZA  ·  Degree recognition, simplified", 14, 294);
+        doc.text(`avanza.it.com  ·  Generated ${dateString}`, 196, 294, { align: 'right' });
+      }
 
       doc.save(`Avanza_Match_Report_${userName ? userName.replace(/ /g, '_') : 'User'}.pdf`);
     } catch (err) {

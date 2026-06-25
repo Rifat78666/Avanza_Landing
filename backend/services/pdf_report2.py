@@ -284,7 +284,7 @@ def generate_course_evaluation_pdf(candidate_name, institution, target_country, 
     public_dir = os.path.join(os.path.dirname(__file__), '..', '..', 'public')
     pallab_path = os.path.join(public_dir, 'pallab.png')
     rifat_path = os.path.join(public_dir, 'rifat.png')
-    unis_path = os.path.join(public_dir, 'university_logos.png')
+    unis_path = os.path.join(public_dir, 'avanza_university_strip_white.png')
     
     if os.path.exists(pallab_path) and os.path.exists(rifat_path):
         pdf.image(pallab_path, x=45, y=final_y, w=25, h=25)
