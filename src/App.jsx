@@ -7,6 +7,7 @@ import AuthModal from './components/AuthModal';
 
 import { useLanguage } from './LanguageContext';
 import { useStytch, useStytchUser } from '@stytch/react';
+import { Analytics } from "@vercel/analytics/react";
 
 // Pages and Routes
 import LandingPage from './pages/LandingPage';
@@ -597,6 +598,7 @@ function App() {
   return (
     <Router>
       <AppContent />
+      <Analytics />
     </Router>
   );
 }
