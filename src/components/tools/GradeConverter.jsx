@@ -494,7 +494,7 @@ const GradeConverter = () => {
       <div id="calculator-start" className="container" style={{ maxWidth: '900px', margin: '0 auto', paddingTop: '2rem', paddingBottom: '4rem' }}>
         <button 
           onClick={() => navigate('/tools')} 
-          style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', marginBottom: '1.5rem', fontWeight: 'bold' }}
+          style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', border: 'none', color: '#4a4a4a', cursor: 'pointer', marginBottom: '1.5rem', fontWeight: 'bold' }}
         >
           <ArrowLeft size={18} /> Back to Tools
         </button>
@@ -506,18 +506,18 @@ const GradeConverter = () => {
             </div>
           </div>
           <h2 className="s-grad" style={{ fontSize: '2.5rem', marginBottom: '1rem', paddingBottom: '0.2rem' }}>Grade Converter & University Match</h2>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '1.2rem', maxWidth: '600px', margin: '0 auto' }}>
+          <p style={{ color: '#4a4a4a', fontSize: '1.2rem', maxWidth: '600px', margin: '0 auto' }}>
             Convert your grades to European standards and instantly see which universities you qualify for.
           </p>
         </div>
 
       {step < 5 && (
-        <div className="card" style={{ padding: '2rem', maxWidth: '600px', margin: '0 auto', borderTop: `4px solid ${themeColor}` }}>
+        <div className="card" style={{ padding: '2rem', maxWidth: '600px', margin: '0 auto', borderTop: `4px solid ${themeColor}`, background: themeBg, color: '#1a1a1a' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '1rem' }}>
-            <span style={{ color: step >= 1 ? themeColor : 'var(--text-secondary)', fontWeight: step === 1 ? 'bold' : 'normal' }}>1. Origin</span>
-            <span style={{ color: step >= 2 ? themeColor : 'var(--text-secondary)', fontWeight: step === 2 ? 'bold' : 'normal' }}>2. System</span>
-            <span style={{ color: step >= 3 ? themeColor : 'var(--text-secondary)', fontWeight: step === 3 ? 'bold' : 'normal' }}>3. Grade</span>
-            <span style={{ color: step >= 4 ? themeColor : 'var(--text-secondary)', fontWeight: step === 4 ? 'bold' : 'normal' }}>4. Target</span>
+            <span style={{ color: step >= 1 ? themeColor : '#4a4a4a', fontWeight: step === 1 ? 'bold' : 'normal' }}>1. Origin</span>
+            <span style={{ color: step >= 2 ? themeColor : '#4a4a4a', fontWeight: step === 2 ? 'bold' : 'normal' }}>2. System</span>
+            <span style={{ color: step >= 3 ? themeColor : '#4a4a4a', fontWeight: step === 3 ? 'bold' : 'normal' }}>3. Grade</span>
+            <span style={{ color: step >= 4 ? themeColor : '#4a4a4a', fontWeight: step === 4 ? 'bold' : 'normal' }}>4. Target</span>
           </div>
 
           {step === 1 && (
@@ -529,7 +529,7 @@ const GradeConverter = () => {
                     key={c}
                     onClick={() => { setSourceCountry(c); setGradingSystem(''); }}
                     className="input-field"
-                    style={{ textAlign: 'left', padding: '1rem', border: sourceCountry === c ? `2px solid ${themeColor}` : '1px solid var(--border-color)', background: sourceCountry === c ? themeBg : 'transparent', cursor: 'pointer', fontSize: '1.1rem', borderRadius: '8px' }}
+                    style={{ textAlign: 'left', padding: '1rem', border: sourceCountry === c ? `2px solid ${themeColor}` : '1px solid var(--border-color)', background: sourceCountry === c ? '#ffffff' : 'rgba(255,255,255,0.6)', cursor: 'pointer', fontSize: '1.1rem', borderRadius: '8px', color: '#1a1a1a' }}
                   >
                     {c}
                   </button>
@@ -547,7 +547,7 @@ const GradeConverter = () => {
                     key={sys}
                     onClick={() => setGradingSystem(sys)}
                     className="input-field"
-                    style={{ textAlign: 'left', padding: '1rem', border: gradingSystem === sys ? `2px solid ${themeColor}` : '1px solid var(--border-color)', background: gradingSystem === sys ? themeBg : 'transparent', cursor: 'pointer', fontSize: '1.1rem', borderRadius: '8px' }}
+                    style={{ textAlign: 'left', padding: '1rem', border: gradingSystem === sys ? `2px solid ${themeColor}` : '1px solid var(--border-color)', background: gradingSystem === sys ? '#ffffff' : 'rgba(255,255,255,0.6)', cursor: 'pointer', fontSize: '1.1rem', borderRadius: '8px', color: '#1a1a1a' }}
                   >
                     {sys}
                   </button>
@@ -579,7 +579,7 @@ const GradeConverter = () => {
                     key={tc}
                     onClick={() => setTargetCountry(tc)}
                     className="input-field"
-                    style={{ textAlign: 'left', padding: '1rem', border: targetCountry === tc ? `2px solid ${themeColor}` : '1px solid var(--border-color)', background: targetCountry === tc ? themeBg : 'transparent', cursor: 'pointer', fontSize: '1.1rem', borderRadius: '8px' }}
+                    style={{ textAlign: 'left', padding: '1rem', border: targetCountry === tc ? `2px solid ${themeColor}` : '1px solid var(--border-color)', background: targetCountry === tc ? '#ffffff' : 'rgba(255,255,255,0.6)', cursor: 'pointer', fontSize: '1.1rem', borderRadius: '8px', color: '#1a1a1a' }}
                   >
                     {tc}
                   </button>
@@ -591,7 +591,7 @@ const GradeConverter = () => {
           <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '2rem' }}>
             <button 
               onClick={() => setStep(step - 1)} 
-              style={{ padding: '0.75rem 1.5rem', background: 'transparent', border: '1px solid var(--border-color)', color: 'var(--text-secondary)', borderRadius: '8px', cursor: 'pointer', visibility: step === 1 ? 'hidden' : 'visible' }}
+              style={{ padding: '0.75rem 1.5rem', background: 'transparent', border: '1px solid var(--border-color)', color: '#4a4a4a', borderRadius: '8px', cursor: 'pointer', visibility: step === 1 ? 'hidden' : 'visible' }}
             >
               Back
             </button>
@@ -606,12 +606,12 @@ const GradeConverter = () => {
       )}
 
       {step === 5 && (
-        <div className="card" style={{ padding: '3rem 2rem', maxWidth: '600px', margin: '0 auto', borderTop: `4px solid ${themeColor}`, textAlign: 'center', animation: 'fadeIn 0.5s ease' }}>
+        <div className="card" style={{ padding: '3rem 2rem', maxWidth: '600px', margin: '0 auto', borderTop: `4px solid ${themeColor}`, textAlign: 'center', background: themeBg, color: '#1a1a1a', animation: 'fadeIn 0.5s ease' }}>
           <div style={{ background: themeBg, padding: '1.5rem', borderRadius: '50%', display: 'inline-block', marginBottom: '1.5rem' }}>
             <User size={40} color={themeColor} />
           </div>
           <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Your matches are ready.</h2>
-          <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem', fontSize: '1.1rem' }}>
+          <p style={{ color: '#4a4a4a', marginBottom: '2rem', fontSize: '1.1rem' }}>
             We've mapped your {gradingSystem} grade to {targetCountry} standards and found your eligible universities. Enter your details to link your results to your profile.
           </p>
           
@@ -653,12 +653,12 @@ const GradeConverter = () => {
         <div style={{ animation: 'fadeIn 0.5s ease', position: 'relative' }}>
           
           {isUnlocked && (
-            <div className="card" style={{ padding: '2rem', marginBottom: '2rem', borderTop: `4px solid ${themeColor}`, textAlign: 'center', animation: 'fadeIn 0.5s ease' }}>
+            <div className="card" style={{ padding: '2rem', marginBottom: '2rem', borderTop: `4px solid ${themeColor}`, textAlign: 'center', background: themeBg, color: '#1a1a1a', animation: 'fadeIn 0.5s ease' }}>
               <h2 style={{ marginBottom: '1rem' }}>Your {targetCountry} Grade Equivalent</h2>
               <div style={{ fontSize: '3.5rem', fontWeight: '900', color: themeColor, marginBottom: '0.5rem' }}>
                 {equivalents[targetCountry]}
               </div>
-              <p style={{ color: 'var(--text-secondary)' }}>Converted from your {gradingSystem} score of {grade} in {sourceCountry}.</p>
+              <p style={{ color: '#4a4a4a' }}>Converted from your {gradingSystem} score of {grade} in {sourceCountry}.</p>
             </div>
           )}
 
@@ -670,7 +670,7 @@ const GradeConverter = () => {
             
             {isUnlocked ? (
               <>
-                <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
+                <p style={{ color: '#4a4a4a', marginBottom: '1.5rem' }}>
                   Based on your equivalent grade, you qualify for admission at <strong>{matchedUnis.length}</strong> universities in {targetCountry}.
                 </p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -678,7 +678,7 @@ const GradeConverter = () => {
                     <div key={idx} className="card" style={{ padding: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                       <div>
                         <h4 style={{ fontSize: '1.2rem', marginBottom: '0.25rem' }}>{uni.name}</h4>
-                        <div style={{ display: 'flex', gap: '1rem', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+                        <div style={{ display: 'flex', gap: '1rem', color: '#4a4a4a', fontSize: '0.9rem' }}>
                           <span style={{ display: 'inline-block', background: '#f0f0f0', padding: '0.2rem 0.5rem', borderRadius: '4px', fontWeight: 'bold' }}>QS: {uni.qs_ranking || 'N/A'}</span>
                           <span style={{ display: 'flex', alignItems: 'center', gap: '0.2rem' }}><MapPin size={14}/> {uni.city}</span>
                           <span>Level: {uni.programme_level}</span>
@@ -694,13 +694,13 @@ const GradeConverter = () => {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <div className="card" style={{ padding: '1.5rem', filter: 'blur(5px)', opacity: 0.3 }}>
                   <h4 style={{ fontSize: '1.2rem', marginBottom: '0.25rem' }}>University of Milan (Example)</h4>
-                  <div style={{ display: 'flex', gap: '1rem', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+                  <div style={{ display: 'flex', gap: '1rem', color: '#4a4a4a', fontSize: '0.9rem' }}>
                     <span>Level: Master</span>
                   </div>
                 </div>
                 <div className="card" style={{ padding: '1.5rem', filter: 'blur(5px)', opacity: 0.1 }}>
                   <h4 style={{ fontSize: '1.2rem', marginBottom: '0.25rem' }}>Politecnico di Torino (Example)</h4>
-                  <div style={{ display: 'flex', gap: '1rem', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+                  <div style={{ display: 'flex', gap: '1rem', color: '#4a4a4a', fontSize: '0.9rem' }}>
                     <span>Level: Both</span>
                   </div>
                 </div>
@@ -713,7 +713,7 @@ const GradeConverter = () => {
               <div style={{ background: 'var(--surface-color)', padding: '2rem', borderRadius: '12px', border: `2px solid ${themeColor}`, textAlign: 'center', boxShadow: '0 20px 40px rgba(0,0,0, 0.4)', maxWidth: '500px', width: '90%' }}>
                 <Lock size={40} color={themeColor} style={{ marginBottom: '1rem' }} />
                 <h3 style={{ marginBottom: '1rem', fontSize: '1.8rem' }}>Unlock Your Full Report</h3>
-                <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem', fontSize: '1.1rem', lineHeight: '1.5' }}>
+                <p style={{ color: '#4a4a4a', marginBottom: '1.5rem', fontSize: '1.1rem', lineHeight: '1.5' }}>
                   Pay €4.99 to instantly unlock your exact {targetCountry} grade equivalent, your full list of eligible universities, your personalized PDF report, and a 1:1 consultation.
                 </p>
                 <button 
@@ -740,7 +740,7 @@ const GradeConverter = () => {
               <div style={{ textAlign: 'center', marginBottom: '3rem', background: themeBg, padding: '2rem', borderRadius: '12px', border: '1px solid rgba(0, 146, 70, 0.2)' }}>
                 <FileText size={48} color={themeColor} style={{ marginBottom: '1rem' }} />
                 <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Download Official Report</h2>
-                <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', margin: '0 auto 2rem auto', fontSize: '1.1rem' }}>
+                <p style={{ color: '#4a4a4a', maxWidth: '600px', margin: '0 auto 2rem auto', fontSize: '1.1rem' }}>
                   Keep a permanent record of your grade conversion and eligible universities. This PDF report is ready for download.
                 </p>
                 <button 
@@ -755,35 +755,35 @@ const GradeConverter = () => {
 
               <div style={{ textAlign: 'center', marginBottom: '2rem', marginTop: '4rem' }}>
                 <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Talk to an Expert</h2>
-                <p style={{ color: 'var(--text-secondary)', maxWidth: '700px', margin: '0 auto', lineHeight: '1.6' }}>
+                <p style={{ color: '#4a4a4a', maxWidth: '700px', margin: '0 auto', lineHeight: '1.6' }}>
                   Our founders have navigated this exact process themselves. Book your included 1:1 consultation with them today.
                 </p>
               </div>
 
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', marginBottom: '3rem' }}>
-                <div className="card" style={{ padding: '2rem', textAlign: 'center', borderTop: `4px solid ${themeColor}` }}>
+                <div className="card" style={{ padding: '2rem', textAlign: 'center', borderTop: `4px solid ${themeColor}`, background: themeBg, color: '#1a1a1a' }}>
                   <img src="/pallab.png" alt="Pallab Mondal" style={{ width: '80px', height: '80px', borderRadius: '50%', objectFit: 'cover', margin: '0 auto 1rem auto', display: 'block', border: `3px solid ${themeColor}` }} />
                   <h3 style={{ marginBottom: '0.5rem' }}>Pallab Mondal</h3>
                   <p style={{ color: themeColor, fontWeight: 'bold', marginBottom: '0.5rem' }}>Co-founder, Country Manager</p>
-                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '0.5rem', lineHeight: '1.4' }}>
+                  <p style={{ color: '#4a4a4a', fontSize: '0.9rem', marginBottom: '0.5rem', lineHeight: '1.4' }}>
                     Master's in Artificial Intelligence for Science and Technology (Joint Programme)<br />
                     University of Milan || University of Milano-Bicocca || University of Pavia
                   </p>
-                  <a href="mailto:pallabm472@gmail.com" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', color: 'var(--text-secondary)' }}><Mail size={16}/> pallabm472@gmail.com</a>
+                  <a href="mailto:pallabm472@gmail.com" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', color: '#4a4a4a' }}><Mail size={16}/> pallabm472@gmail.com</a>
                   <div style={{ marginTop: '1.5rem', marginBottom: '0.5rem', display: 'flex', justifyContent: 'center' }}>
                     <img src="/avanza_university_strip_white.png" alt="University of Milan, Bicocca, Pavia" style={{ width: '100%', maxWidth: '350px', height: 'auto', objectFit: 'contain', mixBlendMode: 'multiply' }} onError={(e) => e.target.style.display = 'none'} />
                   </div>
                 </div>
 
-                <div className="card" style={{ padding: '2rem', textAlign: 'center', borderTop: `4px solid ${themeColor}` }}>
+                <div className="card" style={{ padding: '2rem', textAlign: 'center', borderTop: `4px solid ${themeColor}`, background: themeBg, color: '#1a1a1a' }}>
                   <img src="/rifat.png" alt="Md Rifatul Haque" style={{ width: '80px', height: '80px', borderRadius: '50%', objectFit: 'cover', margin: '0 auto 1rem auto', display: 'block', border: `3px solid ${themeColor}` }} />
                   <h3 style={{ marginBottom: '0.5rem' }}>Md Rifatul Haque</h3>
                   <p style={{ color: themeColor, fontWeight: 'bold', marginBottom: '0.5rem' }}>Co-founder, System & AI</p>
-                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '0.5rem', lineHeight: '1.4' }}>
+                  <p style={{ color: '#4a4a4a', fontSize: '0.9rem', marginBottom: '0.5rem', lineHeight: '1.4' }}>
                     Master's in Artificial Intelligence for Science and Technology (Joint Programme)<br />
                     University of Milan || University of Milano-Bicocca || University of Pavia
                   </p>
-                  <a href="mailto:rifatulhaque200@gmail.com" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', color: 'var(--text-secondary)' }}><Mail size={16}/> rifatulhaque200@gmail.com</a>
+                  <a href="mailto:rifatulhaque200@gmail.com" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', color: '#4a4a4a' }}><Mail size={16}/> rifatulhaque200@gmail.com</a>
                   <div style={{ marginTop: '1.5rem', marginBottom: '0.5rem', display: 'flex', justifyContent: 'center' }}>
                     <img src="/avanza_university_strip_white.png" alt="University of Milan, Bicocca, Pavia" style={{ width: '100%', maxWidth: '350px', height: 'auto', objectFit: 'contain', mixBlendMode: 'multiply' }} onError={(e) => e.target.style.display = 'none'} />
                   </div>
@@ -793,7 +793,7 @@ const GradeConverter = () => {
               <div className="card" style={{ padding: '3rem', textAlign: 'center', background: themeBg, border: '1px solid rgba(0, 146, 70, 0.2)' }}>
                 <Calendar size={48} color={themeColor} style={{ margin: '0 auto 1rem auto' }} />
                 <h3 style={{ fontSize: '1.8rem', marginBottom: '1rem' }}>Book a 30-min 1:1 Session</h3>
-                <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem', maxWidth: '500px', margin: '0 auto 2rem auto' }}>
+                <p style={{ color: '#4a4a4a', marginBottom: '2rem', maxWidth: '500px', margin: '0 auto 2rem auto' }}>
                   Get personalized guidance on your university applications and visa process — €0 extra, included with your report unlock.
                 </p>
                 <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>

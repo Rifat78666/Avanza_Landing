@@ -44,7 +44,7 @@ const CIPCodes = () => {
 <div className="container" style={{ maxWidth: '800px', margin: '0 auto', paddingTop: '2rem' }}>
       <button 
         onClick={() => navigate('/tools')} 
-        style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', marginBottom: '1.5rem', fontWeight: 'bold' }}
+        style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', border: 'none', color: '#4a4a4a', cursor: 'pointer', marginBottom: '1.5rem', fontWeight: 'bold' }}
       >
         <ArrowLeft size={18} /> Back to Tools
       </button>
@@ -54,7 +54,7 @@ const CIPCodes = () => {
           <BookOpen size={24} color="var(--accent-color)" />
           CIP Codes Search
         </h2>
-        <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
+        <p style={{ color: '#4a4a4a', marginBottom: '1.5rem' }}>
           Search the US Classification of Instructional Programs (CIP) database.
         </p>
 
@@ -67,7 +67,7 @@ const CIPCodes = () => {
             placeholder="Search by code or keyword..." 
             style={{ width: '100%', paddingLeft: '2.5rem' }} 
           />
-          <Search size={18} style={{ position: 'absolute', left: '0.8rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-secondary)' }} />
+          <Search size={18} style={{ position: 'absolute', left: '0.8rem', top: '50%', transform: 'translateY(-50%)', color: '#4a4a4a' }} />
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -77,10 +77,10 @@ const CIPCodes = () => {
                 <span style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{item.title}</span>
                 <span style={{ backgroundColor: 'rgba(200, 241, 53, 0.1)', color: 'var(--accent-color)', padding: '0.25rem 0.5rem', borderRadius: '4px', fontSize: '0.85rem', fontWeight: 'bold' }}>{item.code}</span>
               </div>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: '1.5' }}>{item.description}</p>
+              <p style={{ color: '#4a4a4a', fontSize: '0.9rem', lineHeight: '1.5' }}>{item.description}</p>
             </div>
           )) : (
-            <p style={{ textAlign: 'center', color: 'var(--text-secondary)', padding: '2rem 0' }}>No CIP codes found matching your search.</p>
+            <p style={{ textAlign: 'center', color: '#4a4a4a', padding: '2rem 0' }}>No CIP codes found matching your search.</p>
           )}
         </div>
       </div>

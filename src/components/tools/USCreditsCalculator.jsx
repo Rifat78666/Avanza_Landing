@@ -55,7 +55,7 @@ const USCreditsCalculator = () => {
 <div className="container" style={{ maxWidth: '800px', margin: '0 auto', paddingTop: '2rem' }}>
       <button 
         onClick={() => navigate('/tools')} 
-        style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', marginBottom: '1.5rem', fontWeight: 'bold' }}
+        style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', border: 'none', color: '#4a4a4a', cursor: 'pointer', marginBottom: '1.5rem', fontWeight: 'bold' }}
       >
         <ArrowLeft size={18} /> Back to Tools
       </button>
@@ -65,7 +65,7 @@ const USCreditsCalculator = () => {
           <Calculator size={24} color="var(--accent-color)" />
           U.S. Credits Calculator
         </h2>
-        <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
+        <p style={{ color: '#4a4a4a', marginBottom: '1.5rem' }}>
           Convert your university credits to United States Semester Hours.
         </p>
 
@@ -95,7 +95,7 @@ const USCreditsCalculator = () => {
               <>
                 <h3 style={{ marginBottom: '1rem', color: 'var(--accent-color)' }}>Result:</h3>
                 <div style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>
-                  {result.usCredits} <span style={{ fontSize: '1rem', color: 'var(--text-secondary)' }}>U.S. Semester Hours</span>
+                  {result.usCredits} <span style={{ fontSize: '1rem', color: '#4a4a4a' }}>U.S. Semester Hours</span>
                 </div>
               </>
             )}

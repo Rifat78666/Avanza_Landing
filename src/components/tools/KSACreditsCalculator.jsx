@@ -55,7 +55,7 @@ const KSACreditsCalculator = () => {
 <div className="container" style={{ maxWidth: '800px', margin: '0 auto', paddingTop: '2rem' }}>
       <button 
         onClick={() => navigate('/tools')} 
-        style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', marginBottom: '1.5rem', fontWeight: 'bold' }}
+        style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', border: 'none', color: '#4a4a4a', cursor: 'pointer', marginBottom: '1.5rem', fontWeight: 'bold' }}
       >
         <ArrowLeft size={18} /> Back to Tools
       </button>
@@ -65,7 +65,7 @@ const KSACreditsCalculator = () => {
           <Calculator size={24} color="var(--accent-color)" />
           KSA Credits Calculator
         </h2>
-        <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
+        <p style={{ color: '#4a4a4a', marginBottom: '1.5rem' }}>
           Convert your university credits to Saudi Arabian credit standards.
         </p>
 
@@ -96,9 +96,9 @@ const KSACreditsCalculator = () => {
               <>
                 <h3 style={{ marginBottom: '1rem', color: 'var(--accent-color)' }}>Result:</h3>
                 <div style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
-                  {result.ksaCredits} <span style={{ fontSize: '1rem', color: 'var(--text-secondary)' }}>KSA Credits</span>
+                  {result.ksaCredits} <span style={{ fontSize: '1rem', color: '#4a4a4a' }}>KSA Credits</span>
                 </div>
-                <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>{result.notes}</p>
+                <p style={{ color: '#4a4a4a', fontSize: '0.9rem' }}>{result.notes}</p>
               </>
             )}
           </div>

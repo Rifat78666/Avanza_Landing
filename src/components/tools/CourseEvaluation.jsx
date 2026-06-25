@@ -175,7 +175,7 @@ const CourseEvaluation = () => {
       <div className="container" style={{ maxWidth: '800px', margin: '0 auto', paddingTop: '2rem', paddingBottom: '4rem' }}>
         <button 
           onClick={() => navigate('/tools')} 
-          style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', marginBottom: '1.5rem', fontWeight: 'bold' }}
+          style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', border: 'none', color: '#4a4a4a', cursor: 'pointer', marginBottom: '1.5rem', fontWeight: 'bold' }}
         >
           <ArrowLeft size={18} /> Back to Tools
         </button>
@@ -187,12 +187,12 @@ const CourseEvaluation = () => {
             </div>
           </div>
           <h2 className="s-grad" style={{ fontSize: '2.5rem', marginBottom: '1rem', paddingBottom: '0.2rem' }}>Course by Course Evaluation</h2>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '1.2rem', maxWidth: '600px', margin: '0 auto' }}>
+          <p style={{ color: '#4a4a4a', fontSize: '1.2rem', maxWidth: '600px', margin: '0 auto' }}>
             A complete course-by-course evaluation — verification, credit and grade conversion, framework mapping, and GPA — delivered as one official PDF report.
           </p>
         </div>
 
-        <div className="card" style={{ padding: '2rem', borderTop: `4px solid ${themeColor}` }}>
+        <div className="card" style={{ padding: '2rem', borderTop: `4px solid ${themeColor}`, background: themeBg, color: '#1a1a1a' }}>
           {aiProcessing ? (
             <div style={{ textAlign: 'center', padding: '4rem 2rem' }}>
               <div style={{ position: 'relative', width: '120px', height: '120px', margin: '0 auto 2rem auto' }}>
@@ -207,7 +207,7 @@ const CourseEvaluation = () => {
               </div>
               <style>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
               <h2 style={{ fontSize: '2rem', marginBottom: '1rem', background: 'linear-gradient(90deg, #009246, #00c653)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>AI is Reading Your Transcript...</h2>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '1.2rem', maxWidth: '500px', margin: '0 auto' }}>
+              <p style={{ color: '#4a4a4a', fontSize: '1.2rem', maxWidth: '500px', margin: '0 auto' }}>
                 Our AI is currently analyzing your subjects, converting your credits, and mapping your grades to European standards. This takes about 10-20 seconds.
               </p>
             </div>
@@ -217,7 +217,7 @@ const CourseEvaluation = () => {
                 <CheckCircle size={80} color={themeColor} />
               </div>
               <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>Evaluation Complete!</h2>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '1.2rem', marginBottom: '2rem' }}>
+              <p style={{ color: '#4a4a4a', fontSize: '1.2rem', marginBottom: '2rem' }}>
                 Your transcript has been successfully evaluated. The PDF report should download automatically. A copy has also been sent to your email.
               </p>
               <button 
@@ -319,7 +319,7 @@ const CourseEvaluation = () => {
                       <option value="France">France</option>
                       <option value="Spain">Spain</option>
                     </select>
-                    <div style={{ position: 'absolute', right: '1rem', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: 'var(--text-secondary)' }}>
+                    <div style={{ position: 'absolute', right: '1rem', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: '#4a4a4a' }}>
                       <ChevronDown size={20} />
                     </div>
                   </div>
@@ -328,7 +328,7 @@ const CourseEvaluation = () => {
 
               <div style={{ border: '2px dashed var(--border-color)', padding: '2rem', borderRadius: '8px', textAlign: 'center', backgroundColor: 'var(--bg-color)' }}>
                 <label style={{ display: 'block', marginBottom: '1rem', fontWeight: 'bold', fontSize: '1.1rem' }}>Upload Transcript</label>
-                <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>Upload your official transcript (PDF, JPG, or PNG) so our AI can evaluate your courses.</p>
+                <p style={{ color: '#4a4a4a', marginBottom: '1.5rem' }}>Upload your official transcript (PDF, JPG, or PNG) so our AI can evaluate your courses.</p>
                 <input 
                   type="file" 
                   accept=".pdf,image/*"
@@ -361,7 +361,7 @@ const CourseEvaluation = () => {
                 </div>
               </div>
               <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Request Ready</h2>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '1.2rem', marginBottom: '2rem' }}>
+              <p style={{ color: '#4a4a4a', fontSize: '1.2rem', marginBottom: '2rem' }}>
                 Your request for a course by course evaluation of <strong>{formData.degree_title}</strong> from <strong>{formData.university}</strong> to the standards of <strong>{formData.target_country}</strong> is ready.
               </p>
               
@@ -391,7 +391,7 @@ const CourseEvaluation = () => {
               
               <button 
                 onClick={() => setStep(1)}
-                style={{ background: 'transparent', border: 'none', color: 'var(--text-secondary)', marginTop: '1rem', cursor: 'pointer', textDecoration: 'underline' }}
+                style={{ background: 'transparent', border: 'none', color: '#4a4a4a', marginTop: '1rem', cursor: 'pointer', textDecoration: 'underline' }}
               >
                 Go back to edit details
               </button>

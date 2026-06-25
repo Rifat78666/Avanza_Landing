@@ -50,7 +50,7 @@ const UniversityRankings = () => {
 <div className="container" style={{ maxWidth: '1000px', margin: '0 auto', paddingTop: '2rem', paddingBottom: '4rem' }}>
       <button 
         onClick={() => navigate('/tools')} 
-        style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', marginBottom: '1.5rem', fontWeight: 'bold' }}
+        style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', border: 'none', color: '#4a4a4a', cursor: 'pointer', marginBottom: '1.5rem', fontWeight: 'bold' }}
       >
         <ArrowLeft size={18} /> Back to Tools
       </button>
@@ -62,13 +62,13 @@ const UniversityRankings = () => {
           </div>
         </div>
         <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>University Rankings</h1>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '1.2rem', maxWidth: '600px', margin: '0 auto' }}>
+        <p style={{ color: '#4a4a4a', fontSize: '1.2rem', maxWidth: '600px', margin: '0 auto' }}>
           Explore top university rankings worldwide with GPA requirements, admission criteria, and scores.
         </p>
       </div>
 
       <div style={{ position: 'relative', maxWidth: '600px', margin: '0 auto 3rem auto' }}>
-        <Search size={20} style={{ position: 'absolute', left: '1.2rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-secondary)' }} />
+        <Search size={20} style={{ position: 'absolute', left: '1.2rem', top: '50%', transform: 'translateY(-50%)', color: '#4a4a4a' }} />
         <input 
           type="text" 
           value={search} 
@@ -82,7 +82,7 @@ const UniversityRankings = () => {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', marginBottom: '4rem' }}>
         {filtered.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '3rem', background: 'var(--surface-color)', borderRadius: '16px' }}>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem' }}>No universities found matching your search.</p>
+            <p style={{ color: '#4a4a4a', fontSize: '1.1rem' }}>No universities found matching your search.</p>
           </div>
         ) : (
           filtered.map((uni) => (
@@ -94,14 +94,14 @@ const UniversityRankings = () => {
                   </div>
                   <div>
                     <h2 style={{ fontSize: '1.8rem', margin: '0 0 0.5rem 0' }}>{uni.name}</h2>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-secondary)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#4a4a4a' }}>
                       <MapPin size={18} color={themeColor} />
                       <span>{uni.country}</span>
                     </div>
                   </div>
                 </div>
                 <div style={{ background: themeBg, padding: '0.8rem 1.5rem', borderRadius: '12px', textAlign: 'center' }}>
-                  <div style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '0.2rem' }}>Overall Score</div>
+                  <div style={{ fontSize: '0.9rem', color: '#4a4a4a', textTransform: 'uppercase', marginBottom: '0.2rem' }}>Overall Score</div>
                   <div style={{ fontSize: '1.8rem', fontWeight: 'bold', color: themeColor }}>{uni.score}</div>
                 </div>
               </div>
@@ -109,15 +109,15 @@ const UniversityRankings = () => {
               <div style={{ display: 'flex', gap: '2rem', marginTop: '2rem', paddingBottom: '1.5rem', borderBottom: '1px solid var(--border-color)', flexWrap: 'wrap' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <Star size={18} color={themeColor} />
-                  <span style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>Research: <strong style={{ color: '#fff' }}>{uni.metrics.research}</strong></span>
+                  <span style={{ color: '#4a4a4a', fontSize: '0.95rem' }}>Research: <strong style={{ color: '#fff' }}>{uni.metrics.research}</strong></span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <Star size={18} color={themeColor} />
-                  <span style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>Employability: <strong style={{ color: '#fff' }}>{uni.metrics.employability}</strong></span>
+                  <span style={{ color: '#4a4a4a', fontSize: '0.95rem' }}>Employability: <strong style={{ color: '#fff' }}>{uni.metrics.employability}</strong></span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <Star size={18} color={themeColor} />
-                  <span style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>Global: <strong style={{ color: '#fff' }}>{uni.metrics.globalEngagement}</strong></span>
+                  <span style={{ color: '#4a4a4a', fontSize: '0.95rem' }}>Global: <strong style={{ color: '#fff' }}>{uni.metrics.globalEngagement}</strong></span>
                 </div>
               </div>
 
@@ -137,15 +137,15 @@ const UniversityRankings = () => {
                       <h4 style={{ color: themeColor, marginBottom: '1rem', fontSize: '1.1rem', borderBottom: '1px solid rgba(206, 43, 55, 0.2)', paddingBottom: '0.5rem' }}>Bachelor's Programs</h4>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                         <div>
-                          <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '0.2rem' }}>Minimum GPA</div>
+                          <div style={{ fontSize: '0.85rem', color: '#4a4a4a', textTransform: 'uppercase', marginBottom: '0.2rem' }}>Minimum GPA</div>
                           <div style={{ fontWeight: 'bold' }}>{uni.admission.bachelor.gpa}</div>
                         </div>
                         <div>
-                          <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '0.2rem' }}>Standardized Tests</div>
+                          <div style={{ fontSize: '0.85rem', color: '#4a4a4a', textTransform: 'uppercase', marginBottom: '0.2rem' }}>Standardized Tests</div>
                           <div>{uni.admission.bachelor.tests}</div>
                         </div>
                         <div>
-                          <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '0.2rem' }}>English Proficiency</div>
+                          <div style={{ fontSize: '0.85rem', color: '#4a4a4a', textTransform: 'uppercase', marginBottom: '0.2rem' }}>English Proficiency</div>
                           <div>{uni.admission.bachelor.english}</div>
                         </div>
                       </div>
@@ -155,15 +155,15 @@ const UniversityRankings = () => {
                       <h4 style={{ color: themeColor, marginBottom: '1rem', fontSize: '1.1rem', borderBottom: '1px solid rgba(0, 146, 70, 0.2)', paddingBottom: '0.5rem' }}>Master's Programs</h4>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                         <div>
-                          <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '0.2rem' }}>Minimum GPA</div>
+                          <div style={{ fontSize: '0.85rem', color: '#4a4a4a', textTransform: 'uppercase', marginBottom: '0.2rem' }}>Minimum GPA</div>
                           <div style={{ fontWeight: 'bold' }}>{uni.admission.master.gpa}</div>
                         </div>
                         <div>
-                          <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '0.2rem' }}>Standardized Tests</div>
+                          <div style={{ fontSize: '0.85rem', color: '#4a4a4a', textTransform: 'uppercase', marginBottom: '0.2rem' }}>Standardized Tests</div>
                           <div>{uni.admission.master.tests}</div>
                         </div>
                         <div>
-                          <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '0.2rem' }}>English Proficiency</div>
+                          <div style={{ fontSize: '0.85rem', color: '#4a4a4a', textTransform: 'uppercase', marginBottom: '0.2rem' }}>English Proficiency</div>
                           <div>{uni.admission.master.english}</div>
                         </div>
                       </div>
@@ -189,7 +189,7 @@ const UniversityRankings = () => {
               What do university rankings measure?
               <ChevronDown size={20} color="var(--text-secondary)" />
             </summary>
-            <div style={{ padding: '0 1.5rem 1.5rem 1.5rem', color: 'var(--text-secondary)', lineHeight: '1.6' }}>
+            <div style={{ padding: '0 1.5rem 1.5rem 1.5rem', color: '#4a4a4a', lineHeight: '1.6' }}>
               University rankings evaluate institutions across multiple dimensions including research output and quality, teaching quality, employability of graduates, international outlook, and sustainability.
             </div>
           </details>
@@ -199,7 +199,7 @@ const UniversityRankings = () => {
               How are university scores calculated?
               <ChevronDown size={20} color="var(--text-secondary)" />
             </summary>
-            <div style={{ padding: '0 1.5rem 1.5rem 1.5rem', color: 'var(--text-secondary)', lineHeight: '1.6' }}>
+            <div style={{ padding: '0 1.5rem 1.5rem 1.5rem', color: '#4a4a4a', lineHeight: '1.6' }}>
               University scores are calculated based on performance across multiple categories and indicators. Each indicator is scored out of 100, and the overall score represents the university's performance across all evaluated dimensions.
             </div>
           </details>
@@ -209,7 +209,7 @@ const UniversityRankings = () => {
               How do I find admission requirements?
               <ChevronDown size={20} color="var(--text-secondary)" />
             </summary>
-            <div style={{ padding: '0 1.5rem 1.5rem 1.5rem', color: 'var(--text-secondary)', lineHeight: '1.6' }}>
+            <div style={{ padding: '0 1.5rem 1.5rem 1.5rem', color: '#4a4a4a', lineHeight: '1.6' }}>
               Each university page includes detailed admission criteria organized by degree level (Bachelor, Master). Requirements typically include standardized test scores (SAT, ACT, GRE, GMAT), English proficiency tests (TOEFL, IELTS), and minimum GPA requirements. Click on "View Admission Criteria" to see full details.
             </div>
           </details>

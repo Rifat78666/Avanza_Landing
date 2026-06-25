@@ -89,7 +89,7 @@ const ECTSCalculator = () => {
       <div id="ects-calc-start" className="container" style={{ maxWidth: '800px', margin: '0 auto', paddingTop: '2rem' }}>
         <button 
           onClick={() => navigate('/tools')} 
-          style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', marginBottom: '1.5rem', fontWeight: 'bold' }}
+          style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', border: 'none', color: '#4a4a4a', cursor: 'pointer', marginBottom: '1.5rem', fontWeight: 'bold' }}
         >
           <ArrowLeft size={18} /> Back to Tools
         </button>
@@ -152,11 +152,11 @@ const ECTSCalculator = () => {
               <h3 style={{ marginBottom: '1rem', color: 'var(--accent-color)' }}>Your Results:</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ color: 'var(--text-secondary)' }}>Your ECTS Equivalent:</span>
-                  <span style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{result.ects} <span style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', fontWeight: 'normal' }}>ECTS</span></span>
+                  <span style={{ color: '#4a4a4a' }}>Your ECTS Equivalent:</span>
+                  <span style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{result.ects} <span style={{ fontSize: '0.9rem', color: '#4a4a4a', fontWeight: 'normal' }}>ECTS</span></span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ color: 'var(--text-secondary)' }}>Standard for your degree in Italy:</span>
+                  <span style={{ color: '#4a4a4a' }}>Standard for your degree in Italy:</span>
                   <span style={{ fontWeight: 'bold' }}>{result.required} ECTS</span>
                 </div>
                 <div style={{ marginTop: '0.5rem', padding: '0.75rem', backgroundColor: result.meetsStandard ? 'rgba(200, 241, 53, 0.1)' : 'rgba(255, 85, 85, 0.1)', borderLeft: `3px solid ${result.meetsStandard ? '#C8F135' : '#FF5555'}`, color: result.meetsStandard ? '#C8F135' : '#FF5555' }}>

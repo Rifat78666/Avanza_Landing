@@ -63,7 +63,7 @@ const DecretoFlussiChecker = () => {
 <div className="container" style={{ maxWidth: '800px', margin: '0 auto', paddingTop: '2rem' }}>
       <button 
         onClick={() => navigate('/tools')} 
-        style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', marginBottom: '1.5rem', fontWeight: 'bold' }}
+        style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', border: 'none', color: '#4a4a4a', cursor: 'pointer', marginBottom: '1.5rem', fontWeight: 'bold' }}
       >
         <ArrowLeft size={18} /> Back to Tools
       </button>
@@ -73,11 +73,11 @@ const DecretoFlussiChecker = () => {
         <PlaneTakeoff size={24} color="var(--accent-color)" />
         Decreto Flussi Eligibility Checker
       </h2>
-      <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
+      <p style={{ color: '#4a4a4a', marginBottom: '1.5rem' }}>
         Check if you are eligible to apply for an Italian work visa under the annual Decreto Flussi quotas.
       </p>
 
-      <div style={{ padding: '1rem', backgroundColor: 'rgba(255, 204, 0, 0.1)', borderLeft: '3px solid #FFCC00', marginBottom: '1.5rem', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+      <div style={{ padding: '1rem', backgroundColor: 'rgba(255, 204, 0, 0.1)', borderLeft: '3px solid #FFCC00', marginBottom: '1.5rem', fontSize: '0.9rem', color: '#4a4a4a' }}>
         <AlertTriangle size={16} style={{ display: 'inline', marginRight: '0.5rem', color: '#FFCC00' }} />
         <strong>Disclaimer:</strong> Immigration rules change frequently. This tool uses general 2024/2025 guidelines. Always consult official sources or generate a full roadmap.
       </div>
@@ -120,7 +120,7 @@ const DecretoFlussiChecker = () => {
               {result.message}
             </div>
             
-            <div style={{ color: 'var(--text-secondary)', lineHeight: '1.6' }}>
+            <div style={{ color: '#4a4a4a', lineHeight: '1.6' }}>
               {result.explanation}
             </div>
 

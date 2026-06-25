@@ -63,7 +63,7 @@ const WorkPermitWizard = () => {
 <div className="container" style={{ maxWidth: '800px', margin: '0 auto', paddingTop: '2rem' }}>
       <button 
         onClick={() => navigate('/tools')} 
-        style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', marginBottom: '1.5rem', fontWeight: 'bold' }}
+        style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', border: 'none', color: '#4a4a4a', cursor: 'pointer', marginBottom: '1.5rem', fontWeight: 'bold' }}
       >
         <ArrowLeft size={18} /> Back to Tools
       </button>
@@ -73,7 +73,7 @@ const WorkPermitWizard = () => {
         <Briefcase size={24} color="var(--accent-color)" />
         Italy Work Permit Wizard
       </h2>
-      <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
+      <p style={{ color: '#4a4a4a', marginBottom: '1.5rem' }}>
         Discover exactly which 'Permesso di Soggiorno' (Residence Permit) you need to work legally in Italy based on your current status.
       </p>
 
@@ -114,13 +114,13 @@ const WorkPermitWizard = () => {
           
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <div>
-              <span style={{ color: 'var(--text-secondary)', display: 'block', fontSize: '0.85rem', marginBottom: '0.2rem' }}>Permit Type:</span>
+              <span style={{ color: '#4a4a4a', display: 'block', fontSize: '0.85rem', marginBottom: '0.2rem' }}>Permit Type:</span>
               <span style={{ fontWeight: 'bold', fontSize: '1.2rem', color: '#fff' }}>{result.permit_name}</span>
             </div>
             
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <Clock size={18} color="var(--text-secondary)" />
-              <span style={{ color: 'var(--text-secondary)' }}>Estimated Timeline:</span>
+              <span style={{ color: '#4a4a4a' }}>Estimated Timeline:</span>
               <span style={{ fontWeight: '600' }}>{result.timeline}</span>
             </div>
 
@@ -130,7 +130,7 @@ const WorkPermitWizard = () => {
                 {result.steps.map((step, idx) => (
                   <li key={idx} style={{ display: 'flex', gap: '0.5rem', alignItems: 'flex-start' }}>
                     <CheckCircle2 size={16} color="var(--accent-color)" style={{ marginTop: '0.2rem', flexShrink: 0 }} />
-                    <span style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>{step}</span>
+                    <span style={{ color: '#4a4a4a', fontSize: '0.95rem' }}>{step}</span>
                   </li>
                 ))}
               </ul>

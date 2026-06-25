@@ -45,7 +45,7 @@ const AlboCheck = () => {
 <div className="container" style={{ maxWidth: '800px', margin: '0 auto', paddingTop: '2rem' }}>
       <button 
         onClick={() => navigate('/tools')} 
-        style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', marginBottom: '1.5rem', fontWeight: 'bold' }}
+        style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', border: 'none', color: '#4a4a4a', cursor: 'pointer', marginBottom: '1.5rem', fontWeight: 'bold' }}
       >
         <ArrowLeft size={18} /> Back to Tools
       </button>
@@ -55,7 +55,7 @@ const AlboCheck = () => {
         <ShieldCheck size={24} color="var(--accent-color)" />
         Albo Check (Professional Orders)
       </h2>
-      <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
+      <p style={{ color: '#4a4a4a', marginBottom: '1.5rem' }}>
         Find out which Italian Professional Order you need to join and the key documents required.
       </p>
 
@@ -88,23 +88,23 @@ const AlboCheck = () => {
           
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <div>
-              <span style={{ color: 'var(--text-secondary)', display: 'block', fontSize: '0.85rem', marginBottom: '0.2rem' }}>Professional Order (Albo):</span>
+              <span style={{ color: '#4a4a4a', display: 'block', fontSize: '0.85rem', marginBottom: '0.2rem' }}>Professional Order (Albo):</span>
               <span style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{result.albo}</span>
             </div>
             
             <div>
-              <span style={{ color: 'var(--text-secondary)', display: 'block', fontSize: '0.85rem', marginBottom: '0.2rem' }}>Responsible Ministry:</span>
+              <span style={{ color: '#4a4a4a', display: 'block', fontSize: '0.85rem', marginBottom: '0.2rem' }}>Responsible Ministry:</span>
               <span>{result.ministry}</span>
             </div>
             
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <Clock size={18} color="var(--text-secondary)" />
-              <span style={{ color: 'var(--text-secondary)' }}>Estimated Timeline:</span>
+              <span style={{ color: '#4a4a4a' }}>Estimated Timeline:</span>
               <span style={{ fontWeight: '600' }}>{result.estimated_months}</span>
             </div>
 
             <div style={{ marginTop: '0.5rem' }}>
-              <span style={{ color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+              <span style={{ color: '#4a4a4a', display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
                 <FileText size={18} />
                 Key Documents Required:
               </span>

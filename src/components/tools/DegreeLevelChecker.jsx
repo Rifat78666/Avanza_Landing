@@ -53,7 +53,7 @@ const DegreeLevelChecker = () => {
 <div className="container" style={{ maxWidth: '800px', margin: '0 auto', paddingTop: '2rem' }}>
       <button 
         onClick={() => navigate('/tools')} 
-        style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', marginBottom: '1.5rem', fontWeight: 'bold' }}
+        style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'transparent', border: 'none', color: '#4a4a4a', cursor: 'pointer', marginBottom: '1.5rem', fontWeight: 'bold' }}
       >
         <ArrowLeft size={18} /> Back to Tools
       </button>
@@ -63,7 +63,7 @@ const DegreeLevelChecker = () => {
         <GraduationCap size={24} color="var(--accent-color)" />
         Italian Degree Level Checker
       </h2>
-      <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
+      <p style={{ color: '#4a4a4a', marginBottom: '1.5rem' }}>
         Find out exactly what your foreign degree translates to in the Italian university system.
       </p>
 
@@ -97,19 +97,19 @@ const DegreeLevelChecker = () => {
           
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <div>
-              <span style={{ color: 'var(--text-secondary)', display: 'block', fontSize: '0.85rem', marginBottom: '0.2rem' }}>Italian Equivalent Laurea:</span>
+              <span style={{ color: '#4a4a4a', display: 'block', fontSize: '0.85rem', marginBottom: '0.2rem' }}>Italian Equivalent Laurea:</span>
               <span style={{ fontWeight: 'bold', fontSize: '1.2rem', color: '#fff' }}>{result.italian_equiv}</span>
             </div>
             
             <div style={{ display: 'flex', gap: '2rem' }}>
               <div>
-                <span style={{ color: 'var(--text-secondary)', display: 'block', fontSize: '0.85rem', marginBottom: '0.2rem' }}>EQF Level:</span>
+                <span style={{ color: '#4a4a4a', display: 'block', fontSize: '0.85rem', marginBottom: '0.2rem' }}>EQF Level:</span>
                 <span style={{ fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
                   <CheckCircle2 size={16} color="var(--accent-color)" /> Level {result.eqf}
                 </span>
               </div>
               <div>
-                <span style={{ color: 'var(--text-secondary)', display: 'block', fontSize: '0.85rem', marginBottom: '0.2rem' }}>ECTS Expectation:</span>
+                <span style={{ color: '#4a4a4a', display: 'block', fontSize: '0.85rem', marginBottom: '0.2rem' }}>ECTS Expectation:</span>
                 <span style={{ fontWeight: 'bold' }}>~{result.ects_min} Credits</span>
               </div>
             </div>
@@ -118,24 +118,24 @@ const DegreeLevelChecker = () => {
               <span style={{ fontWeight: 'bold', color: 'var(--text-primary)', marginBottom: '0.5rem', display: 'block' }}>Recognition Pathway</span>
               <ul style={{ listStyleType: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.5rem', fontSize: '0.9rem' }}>
                 <li style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span style={{ color: 'var(--text-secondary)' }}>Processing Ministry:</span>
+                  <span style={{ color: '#4a4a4a' }}>Processing Ministry:</span>
                   <span>{result.ministry}</span>
                 </li>
                 <li style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span style={{ color: 'var(--text-secondary)' }}>CIMEA Dichiarazione:</span>
+                  <span style={{ color: '#4a4a4a' }}>CIMEA Dichiarazione:</span>
                   <span style={{ color: result.cimea_needed ? '#FF5555' : '#C8F135' }}>
                     {result.cimea_needed ? "Typically Required" : "Not strictly required"}
                   </span>
                 </li>
                 <li style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span style={{ color: 'var(--text-secondary)' }}>Albo (Professional Order):</span>
+                  <span style={{ color: '#4a4a4a' }}>Albo (Professional Order):</span>
                   <span>{result.albo_required ? result.albo_name : "Not Required"}</span>
                 </li>
               </ul>
             </div>
             
             {result.note && (
-              <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontStyle: 'italic', marginTop: '0.5rem' }}>
+              <div style={{ fontSize: '0.85rem', color: '#4a4a4a', fontStyle: 'italic', marginTop: '0.5rem' }}>
                 *Note: {result.note}
               </div>
             )}
