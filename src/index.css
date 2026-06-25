@@ -155,10 +155,15 @@ select.input-field {
     left: 50% !important;
     top: 50% !important;
     transform: translate(-50%, -50%) !important;
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
   }
   .header-logo {
-    height: 95px !important;
-    transform: none !important;
+    height: 45px !important;
+    transform: scale(2.8) !important;
+    transform-origin: center center !important;
   }
   header nav {
     gap: 0.5rem !important;
