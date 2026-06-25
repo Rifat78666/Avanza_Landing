@@ -5,8 +5,8 @@ import { useNavigate , useLocation} from 'react-router-dom';
 
 const KSACreditsCalculator = () => {
   const location = useLocation();
-  const themeColor = location.state?.themeColor || '#009246';
-  const themeBg = location.state?.themeBg || 'rgba(0, 146, 70, 0.05)';
+  const themeColor = '#009246';
+  const themeBg = '#e0f2f1';
   const navigate = useNavigate();
   const [systemIndex, setSystemIndex] = useState(0);
   const [credits, setCredits] = useState('');

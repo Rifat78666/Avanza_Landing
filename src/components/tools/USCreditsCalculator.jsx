@@ -4,8 +4,8 @@ import { useNavigate , useLocation} from 'react-router-dom';
 
 const USCreditsCalculator = () => {
   const location = useLocation();
-  const themeColor = location.state?.themeColor || '#009246';
-  const themeBg = location.state?.themeBg || 'rgba(0, 146, 70, 0.05)';
+  const themeColor = '#8a7d3b';
+  const themeBg = '#fff5c2';
   const navigate = useNavigate();
   const [credits, setCredits] = useState('');
   const [system, setSystem] = useState('ects');

@@ -5,8 +5,8 @@ import { useNavigate , useLocation} from 'react-router-dom';
 
 const DecretoFlussiChecker = () => {
   const routerLocation = useLocation();
-  const themeColor = routerLocation.state?.themeColor || '#009246';
-  const themeBg = routerLocation.state?.themeBg || 'rgba(0, 146, 70, 0.05)';
+  const themeColor = '#6b4c8a';
+  const themeBg = '#f3e8ff';
   const navigate = useNavigate();
   const [nationality, setNationality] = useState(rulesData.nationalities[0]);
   const [location, setLocation] = useState(rulesData.locations[0]);

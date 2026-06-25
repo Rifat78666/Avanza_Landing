@@ -5,8 +5,8 @@ import { useNavigate , useLocation} from 'react-router-dom';
 
 const CIPCodes = () => {
   const location = useLocation();
-  const themeColor = location.state?.themeColor || '#009246';
-  const themeBg = location.state?.themeBg || 'rgba(0, 146, 70, 0.05)';
+  const themeColor = '#4a5b8a';
+  const themeBg = '#e0e7ff';
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
 

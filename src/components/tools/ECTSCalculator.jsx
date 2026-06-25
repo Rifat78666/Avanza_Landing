@@ -4,8 +4,8 @@ import { useNavigate , useLocation} from 'react-router-dom';
 
 const ECTSCalculator = () => {
   const location = useLocation();
-  const themeColor = location.state?.themeColor || '#009246';
-  const themeBg = location.state?.themeBg || 'rgba(0, 146, 70, 0.05)';
+  const themeColor = '#4a5b8a';
+  const themeBg = '#e0e7ff';
   const navigate = useNavigate();
   const [country, setCountry] = useState('Generic');
   const [degreeLevel, setDegreeLevel] = useState('Bachelor');

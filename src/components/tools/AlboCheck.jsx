@@ -5,8 +5,8 @@ import { ShieldCheck, ArrowRight, FileText, Clock, ArrowLeft } from 'lucide-reac
 
 const AlboCheck = () => {
   const location = useLocation();
-  const themeColor = location.state?.themeColor || '#009246';
-  const themeBg = location.state?.themeBg || 'rgba(0, 146, 70, 0.05)';
+  const themeColor = '#8a7d3b';
+  const themeBg = '#fff5c2';
   const navigate = useNavigate();
   const [profession, setProfession] = useState(Object.keys(alboTables)[0]);
   const [result, setResult] = useState(null);

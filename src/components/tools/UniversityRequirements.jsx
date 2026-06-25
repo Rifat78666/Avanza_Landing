@@ -5,8 +5,8 @@ import { useNavigate , useLocation} from 'react-router-dom';
 
 const UniversityRequirements = () => {
   const location = useLocation();
-  const themeColor = location.state?.themeColor || '#009246';
-  const themeBg = location.state?.themeBg || 'rgba(0, 146, 70, 0.05)';
+  const themeColor = '#6b4c8a';
+  const themeBg = '#f3e8ff';
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
 

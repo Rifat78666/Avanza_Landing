@@ -5,8 +5,8 @@ import { ArrowLeft, FileText, Download, CheckCircle, ChevronDown } from 'lucide-
 const CourseEvaluation = () => {
   const navigate = useNavigate();
     const location = useLocation();
-  const themeColor = location.state?.themeColor || '#009246';
-  const themeBg = location.state?.themeBg || 'rgba(0, 146, 70, 0.05)';
+  const themeColor = '#009246';
+  const themeBg = '#e0f2f1';
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     student_name: '',

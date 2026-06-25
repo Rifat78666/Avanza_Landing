@@ -17,8 +17,8 @@ const GradeConverter = () => {
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
     const location = useLocation();
-  const themeColor = location.state?.themeColor || '#009246';
-  const themeBg = location.state?.themeBg || 'rgba(0, 146, 70, 0.05)';
+  const themeColor = '#6b4c8a';
+  const themeBg = '#f3e8ff';
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
