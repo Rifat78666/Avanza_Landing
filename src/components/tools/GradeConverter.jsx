@@ -163,7 +163,7 @@ const GradeConverter = () => {
     }
   };
 
-  const generatePDF = () => {
+  const generatePDF = async () => {
     try {
       const doc = new jsPDF();
       
@@ -177,20 +177,31 @@ const GradeConverter = () => {
       doc.setFillColor(...darkGreen);
       doc.rect(0, 0, 210, 40, 'F');
       
-      // Play icon (simple triangle)
-      doc.setFillColor(...avanzaGreen);
-      doc.roundedRect(14, 12, 12, 12, 2, 2, 'F');
-      doc.setFillColor(255, 255, 255);
-      doc.triangle(18, 15, 18, 21, 23, 18, 'F');
+      // Logo
+      try {
+        const img = new Image();
+        img.src = '/favicon.png';
+        await new Promise((resolve, reject) => {
+          img.onload = resolve;
+          img.onerror = reject;
+        });
+        doc.addImage(img, 'PNG', 14, 10, 16, 16);
+      } catch (e) {
+        // Fallback if logo fails to load
+        doc.setFillColor(...avanzaGreen);
+        doc.roundedRect(14, 12, 12, 12, 2, 2, 'F');
+        doc.setFillColor(255, 255, 255);
+        doc.triangle(18, 15, 18, 21, 23, 18, 'F');
+      }
       
       // Header Text
       doc.setTextColor(255, 255, 255);
       doc.setFont("helvetica", "B");
       doc.setFontSize(22);
-      doc.text("AVANZA", 30, 20);
+      doc.text("AVANZA", 34, 18);
       doc.setFont("helvetica", "normal");
       doc.setFontSize(8);
-      doc.text("M O V E\nF O R W A R D", 30, 25);
+      doc.text("M O V E  F O R W A R D", 34, 23);
       
       doc.setFontSize(9);
       doc.text("O F F I C I A L  R E P O R T", 196, 20, { align: 'right' });

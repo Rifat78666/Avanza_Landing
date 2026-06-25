@@ -12,19 +12,24 @@ class CourseEvaluationPDF(FPDF):
         self.set_fill_color(*dark_green)
         self.rect(0, 0, 210, 40, 'F')
         
-        # Play icon mock
-        self.set_fill_color(*avanza_green)
-        self.set_line_width(0)
-        self.rect(14, 12, 12, 12, 'F', round_corners=True, corner_radius=2)
+        # Logo
+        import os
+        logo_path = os.path.join(os.path.dirname(__file__), '..', '..', 'public', 'favicon.png')
+        if os.path.exists(logo_path):
+            self.image(logo_path, x=14, y=10, w=16)
+        else:
+            self.set_fill_color(*avanza_green)
+            self.set_line_width(0)
+            self.rect(14, 12, 12, 12, 'F', round_corners=True, corner_radius=2)
         
         # Header text
         self.set_text_color(255, 255, 255)
         self.set_font("helvetica", "B", 22)
-        self.set_xy(30, 16)
+        self.set_xy(34, 12)
         self.cell(0, 10, "AVANZA", new_x=XPos.RIGHT, new_y=YPos.TOP)
         self.set_font("helvetica", "", 8)
-        self.set_xy(30, 24)
-        self.multi_cell(0, 3, "M O V E\nF O R W A R D", new_x=XPos.RIGHT, new_y=YPos.TOP)
+        self.set_xy(34, 20)
+        self.cell(0, 5, "M O V E  F O R W A R D", new_x=XPos.RIGHT, new_y=YPos.TOP)
         
         self.set_font("helvetica", "", 9)
         self.set_xy(10, 18)
