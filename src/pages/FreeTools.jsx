@@ -186,10 +186,11 @@ const FreeTools = () => {
             }}>
               {section.items.map((tool, toolIdx) => {
                 const palettes = [
-                  { bg: '#23252b', text: '#ffffff', subtext: '#a0a3b1', iconBg: '#34363f', pillBg: '#34363f', iconColor: '#ffffff' },
-                  { bg: '#b4beff', text: '#1a1a1a', subtext: '#4a4d66', iconBg: '#ffffff', pillBg: '#ffffff', iconColor: '#4a4d66' },
-                  { bg: '#f5e4d1', text: '#1a1a1a', subtext: '#66594d', iconBg: '#ffffff', pillBg: '#ffffff', iconColor: '#66594d' },
-                  { bg: '#e0f2f1', text: '#1a1a1a', subtext: '#4d6664', iconBg: '#ffffff', pillBg: '#ffffff', iconColor: '#009246' },
+                  { bg: '#f3e8ff', text: '#1a1a1a', subtext: '#594a66', iconBg: '#ffffff', pillBg: '#ffffff', iconColor: '#6b4c8a' }, // Soft Lavender
+                  { bg: '#e0e7ff', text: '#1a1a1a', subtext: '#4a4d66', iconBg: '#ffffff', pillBg: '#ffffff', iconColor: '#4a5b8a' }, // Soft Periwinkle
+                  { bg: '#fff5c2', text: '#1a1a1a', subtext: '#665c33', iconBg: '#ffffff', pillBg: '#ffffff', iconColor: '#8a7d3b' }, // Soft Lemon
+                  { bg: '#e0f2f1', text: '#1a1a1a', subtext: '#4d6664', iconBg: '#ffffff', pillBg: '#ffffff', iconColor: '#009246' }, // Soft Mint
+                  { bg: '#ffecd6', text: '#1a1a1a', subtext: '#66594d', iconBg: '#ffffff', pillBg: '#ffffff', iconColor: '#8a643b' }, // Soft Peach
                 ];
                 const theme = palettes[toolIdx % palettes.length];
 
