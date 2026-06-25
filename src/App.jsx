@@ -269,7 +269,8 @@ function AppContent() {
         width: '100%',
         backgroundColor: 'var(--bg-color)',
         borderBottom: '1px solid var(--border-color)',
-        zIndex: 100
+        zIndex: 100,
+        minHeight: '70px'
       }}>
         <div className="container" style={{ 
           display: 'flex', 
