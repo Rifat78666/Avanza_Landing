@@ -224,7 +224,7 @@ const FreeTools = () => {
                     <div style={{ 
                       padding: '1.2rem', 
                       backgroundColor: theme.iconBg, 
-                      borderRadius: '24px',
+                      borderRadius: '50%',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
