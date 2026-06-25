@@ -269,14 +269,14 @@ function AppContent() {
         width: '100%',
         backgroundColor: 'var(--bg-color)',
         borderBottom: '1px solid var(--border-color)',
-        zIndex: 100,
-        minHeight: '70px'
+        zIndex: 100
       }}>
         <div className="container" style={{ 
           display: 'flex', 
-          justifyContent: 'space-between', 
+          justifyContent: isMarketingMode ? 'center' : 'space-between', 
           padding: '0.5rem 1.5rem', 
-          alignItems: 'center'
+          alignItems: 'center',
+          minHeight: '70px'
         }}>
           {!isMarketingMode && (
             <button 
