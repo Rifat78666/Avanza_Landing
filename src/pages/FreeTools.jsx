@@ -182,7 +182,9 @@ const FreeTools = () => {
                     padding: '1.5rem',
                     transition: 'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease',
                     cursor: 'pointer',
-                    border: '1px solid var(--border-color)'
+                    border: '1px solid var(--border-color)',
+                    borderRadius: '24px',
+                    overflow: 'hidden'
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = 'translateY(-4px)';
