@@ -196,42 +196,90 @@ def generate_sample_pdf(output_path):
         
     pdf.ln(10)
     
-    # Calendly Block
+    # Calendly & Founders Block
+    if pdf.get_y() > 190:
+        pdf.add_page()
+        
     final_y = pdf.get_y()
     pdf.set_fill_color(*dark_green)
-    pdf.rect(14, final_y, 182, 35, 'F', round_corners=True, corner_radius=4)
+    pdf.rect(14, final_y, 182, 25, 'F', round_corners=True, corner_radius=3)
     pdf.set_text_color(255, 255, 255)
     pdf.set_font("helvetica", "B", 14)
-    pdf.set_xy(20, final_y + 8)
+    pdf.set_xy(20, final_y + 6)
     pdf.cell(0, 8, "Your free 1:1 session with the founders", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
     pdf.set_font("helvetica", "", 9)
     pdf.set_text_color(200, 200, 200)
     pdf.set_x(20)
     pdf.cell(0, 5, "Included with your report - book a time that suits you.", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
     
-    pdf.set_font("helvetica", "B", 9)
-    pdf.set_text_color(255, 255, 255)
-    pdf.set_x(20)
-    pdf.cell(25, 6, "Pallab Mondal", new_x=XPos.RIGHT, new_y=YPos.TOP)
-    pdf.set_font("helvetica", "", 9)
-    pdf.cell(0, 6, "  ·  Co-founder, Country Manager", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
-    
-    pdf.set_font("helvetica", "B", 9)
-    pdf.set_x(20)
-    pdf.cell(28, 6, "Md Rifatul Haque", new_x=XPos.RIGHT, new_y=YPos.TOP)
-    pdf.set_font("helvetica", "", 9)
-    pdf.cell(0, 6, "  ·  Co-founder, System & AI", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
-    
     # Button inside block
     pdf.set_fill_color(*avanza_green)
-    pdf.rect(140, final_y + 10, 50, 15, 'F', round_corners=True, corner_radius=3)
-    pdf.set_font("helvetica", "B", 11)
+    pdf.rect(140, final_y + 5, 50, 15, 'F', round_corners=True, corner_radius=2)
+    pdf.set_font("helvetica", "B", 10)
     pdf.set_text_color(255, 255, 255)
-    pdf.set_xy(140, final_y + 13)
+    pdf.set_xy(140, final_y + 8)
     pdf.cell(50, 5, "Book your session >", align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
-    pdf.set_font("helvetica", "", 8)
-    pdf.set_xy(140, final_y + 18)
+    pdf.set_font("helvetica", "", 7)
+    pdf.set_xy(140, final_y + 13)
     pdf.cell(50, 5, "calendly.com/avanza", align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+    
+    final_y += 35
+    
+    # FOUNDER PROFILES
+    import os
+    public_dir = os.path.join(os.path.dirname(__file__), '..', 'public')
+    pallab_path = os.path.join(public_dir, 'pallab.png')
+    rifat_path = os.path.join(public_dir, 'rifat.png')
+    unis_path = os.path.join(public_dir, 'university_logos.png')
+    
+    if os.path.exists(pallab_path) and os.path.exists(rifat_path) and os.path.exists(unis_path):
+        pdf.image(pallab_path, x=45, y=final_y, w=25)
+        pdf.image(rifat_path, x=140, y=final_y, w=25)
+        final_y += 30
+        
+        # Names
+        pdf.set_font("helvetica", "B", 11)
+        pdf.set_text_color(*text_color)
+        pdf.set_xy(14, final_y)
+        pdf.cell(87, 5, "Pallab Mondal", align='C')
+        pdf.set_xy(109, final_y)
+        pdf.cell(87, 5, "Md Rifatul Haque", align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+        final_y += 6
+        
+        # Roles
+        pdf.set_font("helvetica", "B", 9)
+        pdf.set_text_color(*avanza_green)
+        pdf.set_xy(14, final_y)
+        pdf.cell(87, 5, "Co-founder, Country Manager", align='C')
+        pdf.set_text_color(200, 30, 30)
+        pdf.set_xy(109, final_y)
+        pdf.cell(87, 5, "Co-founder, System & AI", align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+        final_y += 6
+        
+        # Degrees
+        pdf.set_font("helvetica", "", 8)
+        pdf.set_text_color(*text_muted)
+        pdf.set_xy(14, final_y)
+        pdf.cell(87, 4, "Master's in Artificial Intelligence for Science and", align='C')
+        pdf.set_xy(109, final_y)
+        pdf.cell(87, 4, "Master's in Artificial Intelligence for Science and", align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+        final_y += 4
+        pdf.set_xy(14, final_y)
+        pdf.cell(87, 4, "Technology (Joint Programme)", align='C')
+        pdf.set_xy(109, final_y)
+        pdf.cell(87, 4, "Technology (Joint Programme)", align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+        final_y += 6
+        
+        # Emails
+        pdf.set_xy(14, final_y)
+        pdf.cell(87, 4, "pallabm472@gmail.com", align='C')
+        pdf.set_xy(109, final_y)
+        pdf.cell(87, 4, "rifatulhaque200@gmail.com", align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+        final_y += 8
+        
+        # Uni Logos
+        pdf.image(unis_path, x=20, y=final_y, w=74)
+        pdf.image(unis_path, x=115, y=final_y, w=74)
     
     pdf.output(output_path)
 
