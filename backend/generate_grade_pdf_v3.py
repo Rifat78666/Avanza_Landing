@@ -205,23 +205,12 @@ def generate_sample_pdf(output_path):
     pdf.rect(14, final_y, 182, 25, 'F', round_corners=True, corner_radius=3)
     pdf.set_text_color(255, 255, 255)
     pdf.set_font("helvetica", "B", 14)
-    pdf.set_xy(20, final_y + 6)
-    pdf.cell(0, 8, "Your free 1:1 session with the founders", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+    pdf.set_xy(14, final_y + 7)
+    pdf.cell(182, 8, "Your free 1:1 session with the founders", align='C')
     pdf.set_font("helvetica", "", 9)
     pdf.set_text_color(200, 200, 200)
-    pdf.set_x(20)
-    pdf.cell(0, 5, "Included with your report - book a time that suits you.", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
-    
-    # Button inside block
-    pdf.set_fill_color(*avanza_green)
-    pdf.rect(140, final_y + 5, 50, 15, 'F', round_corners=True, corner_radius=2)
-    pdf.set_font("helvetica", "B", 10)
-    pdf.set_text_color(255, 255, 255)
-    pdf.set_xy(140, final_y + 8)
-    pdf.cell(50, 5, "Book your session >", align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
-    pdf.set_font("helvetica", "", 7)
-    pdf.set_xy(140, final_y + 13)
-    pdf.cell(50, 5, "calendly.com/avanza", align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+    pdf.set_xy(14, final_y + 13)
+    pdf.cell(182, 5, "Included with your report - book a time that suits you.", align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
     
     final_y += 35
     
@@ -230,7 +219,7 @@ def generate_sample_pdf(output_path):
     public_dir = os.path.join(os.path.dirname(__file__), '..', 'public')
     pallab_path = os.path.join(public_dir, 'pallab.png')
     rifat_path = os.path.join(public_dir, 'rifat.png')
-    unis_path = os.path.join(public_dir, 'avanza_university_strip_white.png')
+    unis_path = os.path.join(public_dir, 'university_logos.png')
     
     if os.path.exists(pallab_path) and os.path.exists(rifat_path):
         pdf.image(pallab_path, x=45, y=final_y, w=25, h=25)
@@ -289,32 +278,31 @@ def generate_sample_pdf(output_path):
         pdf.set_fill_color(*avanza_green)
         
         # Pallab Button
-        pdf.rect(37, final_y, 40, 8, 'F', round_corners=True, corner_radius=2)
-        pdf.link(37, final_y, 40, 8, pallab_link)
+        pdf.rect(32.5, final_y, 50, 9, 'F', round_corners=True, corner_radius=2)
+        pdf.link(32.5, final_y, 50, 9, pallab_link)
         
         # Rifat Button
-        pdf.rect(132, final_y, 40, 8, 'F', round_corners=True, corner_radius=2)
-        pdf.link(132, final_y, 40, 8, rifat_link)
+        pdf.rect(127.5, final_y, 50, 9, 'F', round_corners=True, corner_radius=2)
+        pdf.link(127.5, final_y, 50, 9, rifat_link)
         
-        pdf.set_font("helvetica", "B", 8)
+        pdf.set_font("helvetica", "B", 9)
         pdf.set_text_color(255, 255, 255)
         
-        pdf.set_xy(37, final_y + 2)
-        pdf.cell(40, 4, "Book 1:1 with Pallab >", align='C')
+        pdf.set_xy(32.5, final_y + 2.5)
+        pdf.cell(50, 4, "Book 1:1 with Pallab", align='C')
         
-        pdf.set_xy(132, final_y + 2)
-        pdf.cell(40, 4, "Book 1:1 with Rifat >", align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+        pdf.set_xy(127.5, final_y + 2.5)
+        pdf.cell(50, 4, "Book 1:1 with Rifat", align='C', new_x=XPos.LMARGIN, new_y=YPos.NEXT)
         
-        final_y += 12
+        final_y += 15
         
-        # Uni Logos
+        # Uni Logos - Centered
         if os.path.exists(unis_path):
-            pdf.image(unis_path, x=20, y=final_y, w=74)
-            pdf.image(unis_path, x=115, y=final_y, w=74)
+            pdf.image(unis_path, x=45, y=final_y, w=120)
     
     pdf.output(output_path)
 
 if __name__ == "__main__":
-    output_path = r"C:\Users\rifat\.gemini\antigravity-ide\brain\250e62fd-5827-4f04-a08c-21d7cbaca58f\New_Grade_Conversion_v6.pdf"
+    output_path = r"C:\Users\rifat\.gemini\antigravity-ide\brain\250e62fd-5827-4f04-a08c-21d7cbaca58f\New_Grade_Conversion_v7.pdf"
     generate_sample_pdf(output_path)
     print("Report 1 Python Mock Generated!")

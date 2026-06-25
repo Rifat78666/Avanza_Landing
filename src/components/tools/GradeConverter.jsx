@@ -331,21 +331,11 @@ const GradeConverter = () => {
       doc.setTextColor(255, 255, 255);
       doc.setFont("helvetica", "B");
       doc.setFontSize(14);
-      doc.text("Your free 1:1 session with the founders", 20, finalY + 10);
+      doc.text("Your free 1:1 session with the founders", 105, finalY + 11, { align: 'center' });
       doc.setFont("helvetica", "normal");
       doc.setFontSize(9);
       doc.setTextColor(200, 200, 200);
-      doc.text("Included with your report - book a time that suits you.", 20, finalY + 16);
-      
-      doc.setFillColor(...avanzaGreen);
-      doc.roundedRect(140, finalY + 5, 50, 15, 2, 2, 'F');
-      doc.setFont("helvetica", "B");
-      doc.setFontSize(10);
-      doc.setTextColor(255, 255, 255);
-      doc.text("Book your session >", 165, finalY + 11, { align: 'center' });
-      doc.setFont("helvetica", "normal");
-      doc.setFontSize(7);
-      doc.text("calendly.com/avanza", 165, finalY + 16, { align: 'center' });
+      doc.text("Included with your report - book a time that suits you.", 105, finalY + 17, { align: 'center' });
       
       finalY += 35;
       
@@ -356,7 +346,7 @@ const GradeConverter = () => {
         const rifatImg = new Image();
         rifatImg.src = '/rifat.png';
         const uniLogos = new Image();
-        uniLogos.src = '/avanza_university_strip_white.png';
+        uniLogos.src = '/university_logos.png';
         
         await Promise.all([
           new Promise(r => { pallabImg.onload = r; pallabImg.onerror = r; }),
@@ -375,8 +365,8 @@ const GradeConverter = () => {
         doc.setFont("helvetica", "B");
         doc.setFontSize(11);
         doc.setTextColor(...textColor);
-        doc.text("Pallab Mondal", 57, finalY, { align: 'center' });
-        doc.text("Md Rifatul Haque", 152, finalY, { align: 'center' });
+        doc.text("Pallab Mondal", 57.5, finalY, { align: 'center' });
+        doc.text("Md Rifatul Haque", 152.5, finalY, { align: 'center' });
         
         finalY += 6;
         
@@ -384,9 +374,9 @@ const GradeConverter = () => {
         doc.setFont("helvetica", "B");
         doc.setFontSize(9);
         doc.setTextColor(...avanzaGreen);
-        doc.text("CEO", 57, finalY, { align: 'center' });
+        doc.text("CEO", 57.5, finalY, { align: 'center' });
         doc.setTextColor(200, 30, 30); // Red
-        doc.text("CEO", 152, finalY, { align: 'center' });
+        doc.text("CEO", 152.5, finalY, { align: 'center' });
         
         finalY += 6;
         
@@ -394,46 +384,46 @@ const GradeConverter = () => {
         doc.setFont("helvetica", "normal");
         doc.setFontSize(8);
         doc.setTextColor(...textMuted);
-        doc.text("Master's in Artificial Intelligence for", 57, finalY, { align: 'center' });
-        doc.text("Master's in Artificial Intelligence for", 152, finalY, { align: 'center' });
+        doc.text("Master's in Artificial Intelligence for", 57.5, finalY, { align: 'center' });
+        doc.text("Master's in Artificial Intelligence for", 152.5, finalY, { align: 'center' });
         finalY += 4;
-        doc.text("Science and Technology", 57, finalY, { align: 'center' });
-        doc.text("Science and Technology", 152, finalY, { align: 'center' });
+        doc.text("Science and Technology", 57.5, finalY, { align: 'center' });
+        doc.text("Science and Technology", 152.5, finalY, { align: 'center' });
         finalY += 4;
-        doc.text("(Joint Programme)", 57, finalY, { align: 'center' });
-        doc.text("(Joint Programme)", 152, finalY, { align: 'center' });
+        doc.text("(Joint Programme)", 57.5, finalY, { align: 'center' });
+        doc.text("(Joint Programme)", 152.5, finalY, { align: 'center' });
         
         finalY += 6;
         
         // Emails
-        doc.text("pallabm472@gmail.com", 57, finalY, { align: 'center' });
-        doc.text("rifatulhaque200@gmail.com", 152, finalY, { align: 'center' });
+        doc.text("pallabm472@gmail.com", 57.5, finalY, { align: 'center' });
+        doc.text("rifatulhaque200@gmail.com", 152.5, finalY, { align: 'center' });
         
         finalY += 4;
         
         // Separate Calendly Links as Green Buttons
         doc.setFillColor(...avanzaGreen);
         
-        // Pallab Box
-        doc.roundedRect(37, finalY, 40, 8, 2, 2, 'F');
-        doc.link(37, finalY, 40, 8, { url: "https://calendly.com/pallabm472/30min" });
+        // Pallab Box (Wider)
+        doc.roundedRect(32.5, finalY, 50, 9, 2, 2, 'F');
+        doc.link(32.5, finalY, 50, 9, { url: "https://calendly.com/pallabm472/30min" });
         
-        // Rifat Box
-        doc.roundedRect(132, finalY, 40, 8, 2, 2, 'F');
-        doc.link(132, finalY, 40, 8, { url: "https://calendly.com/rifatulhaque200/30min" });
+        // Rifat Box (Wider)
+        doc.roundedRect(127.5, finalY, 50, 9, 2, 2, 'F');
+        doc.link(127.5, finalY, 50, 9, { url: "https://calendly.com/rifatulhaque200/30min" });
         
         doc.setFont("helvetica", "B");
-        doc.setFontSize(8);
+        doc.setFontSize(9);
         doc.setTextColor(255, 255, 255);
         
-        doc.text("Book 1:1 with Pallab >", 57, finalY + 5.5, { align: 'center' });
-        doc.text("Book 1:1 with Rifat >", 152, finalY + 5.5, { align: 'center' });
+        doc.text("Book 1:1 with Pallab", 57.5, finalY + 6, { align: 'center' });
+        doc.text("Book 1:1 with Rifat", 152.5, finalY + 6, { align: 'center' });
         
-        finalY += 12;
+        finalY += 15;
         
-        // Uni Logos
-        doc.addImage(uniLogos, 'PNG', 20, finalY, 74, 15);
-        doc.addImage(uniLogos, 'PNG', 115, finalY, 74, 15);
+        // Uni Logos - Centered
+        // Width 120, centered at 105 => x = 45
+        doc.addImage(uniLogos, 'PNG', 45, finalY, 120, 25);
         
       } catch (e) {
         console.error("Failed to load founder images", e);
